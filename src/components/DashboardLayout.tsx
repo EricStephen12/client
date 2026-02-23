@@ -14,9 +14,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     const navItems = [
         { name: 'Overview', href: '/dashboard' },
-        { name: 'Ad Library', href: '/dashboard/ad-library' },
-        { name: 'Private Analysis', href: '/dashboard/analyze' },
-        { name: 'Content Social', href: '/dashboard/content-generator' },
+        { name: 'Intelligence Studio', href: '/dashboard/analyze' },
         { name: 'Settings', href: '/dashboard/settings' },
     ];
 

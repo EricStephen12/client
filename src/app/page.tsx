@@ -1,10 +1,33 @@
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { createClient } from '@/utils/supabase/client';
 import CursorEffect from '@/components/CursorEffect';
 import MagneticButton from '@/components/MagneticButton';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function LandingPage() {
+  const [url, setUrl] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsLoggedIn(!!user);
+    };
+    checkUser();
+  }, [supabase]);
+
+  const handleDirectAnalyze = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!url) return;
+    router.push(`/dashboard/analyze?url=${encodeURIComponent(url)}`);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 text-gray-900 selection:bg-purple-600 selection:text-white overflow-x-hidden">
       <CursorEffect />
@@ -19,8 +42,8 @@ export default function LandingPage() {
             <Link href="/login" className="hidden md:block text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1">
               Sign In
             </Link>
-            <Link href="/signup" className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:from-purple-700 hover:to-blue-700 border-0 transition-all shadow-lg hover:shadow-xl">
-              Join List
+            <Link href={isLoggedIn ? "/dashboard/analyze" : "/signup"} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:from-purple-700 hover:to-blue-700 border-0 transition-all shadow-lg hover:shadow-xl">
+              {isLoggedIn ? "Enter Studio" : "Join List"}
             </Link>
           </div>
         </div>
@@ -37,27 +60,41 @@ export default function LandingPage() {
 
           <RevealOnScroll delay={200}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-medium leading-[0.95] mb-8 tracking-tight text-balance">
-              Reverse Engineer <br />
-              <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Viral Success.</span>
+              Stop <br />
+              <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Guessing.</span>
             </h1>
           </RevealOnScroll>
 
           <RevealOnScroll delay={300}>
             <p className="text-xl font-light leading-relaxed max-w-md mb-12 text-gray-700">
-              Stop guessing. We analyze 50,000+ winning ads to extract the high-retention DNA. You get the scripts, the storyboards, and the assets in seconds.
+              Weaponize the math of winning creative. We deconstruct the retention DNA of viral TikToks so you can scale what works.
             </p>
           </RevealOnScroll>
 
           <RevealOnScroll delay={400}>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <MagneticButton href="/signup" variant="primary">
-                Start Free Trial
-              </MagneticButton>
-              <MagneticButton href="/login" variant="secondary">
-                See Examples
-                <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-              </MagneticButton>
-            </div>
+            <form onSubmit={handleDirectAnalyze} className="max-w-md mb-12 flex flex-col gap-4">
+              <div className="relative group p-2 bg-white rounded-2xl border border-purple-100 shadow-xl focus-within:ring-2 focus-within:ring-purple-600/20 transition-all">
+                <input
+                  type="text"
+                  placeholder="Paste TikTok URL..."
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  className="w-full bg-transparent border-none focus:ring-0 text-sm font-medium px-4 py-2"
+                />
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  type="submit"
+                  className="bg-gray-900 text-white px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl"
+                >
+                  Scan Reference
+                </button>
+                <MagneticButton href={isLoggedIn ? "/dashboard/analyze" : "/signup"} variant="secondary">
+                  {isLoggedIn ? "View Portfolio" : "Start Free Trial"}
+                  <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+                </MagneticButton>
+              </div>
+            </form>
           </RevealOnScroll>
         </div>
 
@@ -111,12 +148,12 @@ export default function LandingPage() {
         <div className="p-12 lg:p-24 flex flex-col justify-center">
           <RevealOnScroll delay={200}>
             <p className="text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-md">
-              We've decoded the algorithmic triggers that make users stop scrolling. Our AI doesn't just "write"—it engineers high-converting social media manifestations.
+              ROAS is a choice. We deconstruct the viral math of winning ads so you can scale with certainty.
             </p>
           </RevealOnScroll>
 
           <ul className="space-y-6">
-            {['Algorithmic Hook Extraction', 'High-Retention Pacing', 'Cognitive Bias Loops'].map((item, i) => (
+            {['Algorithmic Hook Arbitrage', 'High-Retention DNA Extraction', 'Psychological Trigger Mapping'].map((item, i) => (
               <RevealOnScroll key={i} delay={300 + (i * 100)}>
                 <li className="flex items-center gap-6 group cursor-pointer">
                   <span className="text-xs font-mono border-2 border-purple-600 w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white transition-all">{i + 1}</span>
@@ -139,9 +176,9 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-16 relative">
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-purple-100 -z-10"></div>
             {[
-              { step: "Analyze", desc: "Inject any competitor URL or video. Our AI dissections the hook, pacing, and visual triggers." },
-              { step: "Engine", desc: "Our creative brain remixes the winning pattern for your unique brand DNA." },
-              { step: "Synthesize", desc: "Real-time generation of scripts, storyboard visuals, and AI assets." }
+              { step: "Deconstruct", desc: "Paste any winning URL. Isolate the hook rate, visual pacing, and Schwartz DNA." },
+              { step: "Bridge", desc: "Map the competitor's 'Secret Sauce' onto your product's unique selling proposition." },
+              { step: "Weaponize", desc: "Generate full-stack, boardroom-ready scripts designed for maximum ROAS." }
             ].map((p, i) => (
               <RevealOnScroll key={i} delay={i * 200} className="bg-white p-8 border border-purple-100 relative shadow-sm hover:shadow-xl transition-all">
                 <span className="absolute -top-4 left-8 bg-purple-600 text-white text-[10px] font-bold px-4 py-1 uppercase tracking-widest">{i + 1}</span>
@@ -154,13 +191,12 @@ export default function LandingPage() {
       </section>
 
       {/* Feature Grid - Brutalist */}
-      <section className="grid grid-cols-1 md:grid-cols-3 border-b border-purple-200">
+      <section className="grid grid-cols-1 md:grid-cols-2 border-b border-purple-200">
         {[
-          { title: "Ad Library", subtitle: "Winning Manifestations", img: "https://images.unsplash.com/photo-1596462502278-27bfdd403348" },
-          { title: "Visual Storyboard", subtitle: "AI Director", img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113" },
-          { title: "Agency Toolkit", subtitle: "Scale Infrastructure", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe" }
+          { title: "Retention DNA", subtitle: "Math-Based Creative", img: "https://images.unsplash.com/photo-1596462502278-27bfdd403348" },
+          { title: "Hook Engineering", subtitle: "Algorithmic Arbitrage", img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113" },
         ].map((feature, i) => (
-          <div key={i} className={`group border-b md:border-b-0 border-purple-200 ${i !== 2 ? 'md:border-r border-purple-200' : ''} h-[80vh] relative overflow-hidden`}>
+          <div key={i} className={`group border-b md:border-b-0 border-purple-200 ${i !== 1 ? 'md:border-r border-purple-200' : ''} h-[80vh] relative overflow-hidden`}>
             <Image
               src={feature.img}
               alt={feature.title}
@@ -194,7 +230,7 @@ export default function LandingPage() {
               {[
                 { l: "Input", r: "Any High-Performing Competitor Video" },
                 { l: "Process", r: "Neural Analysis of 50+ Hook Variations" },
-                { l: "Output", r: "Full Script Manifest + AI Visuals" },
+                { l: "Output", r: "Psychology Breakdown + Replica Script" },
                 { l: "Conversion", r: "Engineered to Stop the Scroll" }
               ].map((row, i) => (
                 <div key={i} className="grid grid-cols-2 border-b border-purple-200 last:border-b-0 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300 group">
