@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
 import { createClient } from '@/utils/supabase/client';
 import DashboardLayout from '@/components/DashboardLayout';
+import { API_URL } from '@/utils/api';
 
 export default function AnalyzePage() {
     return (
@@ -59,7 +60,7 @@ function AnalyzeContent() {
 
                 setIsAnalyzing(true);
                 try {
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/analyze-video-url`, {
+                    const res = await fetch(`${API_URL}/api/analyze-video-url`, {
                         method: 'POST',
                         body: JSON.stringify({ videoUrl: queryUrl, userId: currentUserId }),
                         headers: { 'Content-Type': 'application/json' },
@@ -105,7 +106,7 @@ function AnalyzeContent() {
     const loadSession = async (id: string) => {
         setIsSending(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${id}`);
+            const res = await fetch(`${API_URL}/api/lounge-session/${id}`);
             if (res.ok) {
                 const data = await res.json();
                 setResult({ analysis: data.dna });
@@ -123,7 +124,7 @@ function AnalyzeContent() {
     const saveSessionState = async (updatedMessages: any[]) => {
         if (!userId || !result) return;
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/save-lounge-session`, {
+            const res = await fetch(`${API_URL}/api/save-lounge-session`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -147,7 +148,7 @@ function AnalyzeContent() {
         setIsChatMode(true);
         setIsSending(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/creative-director-chat`, {
+            const res = await fetch(`${API_URL}/api/creative-director-chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -183,7 +184,7 @@ function AnalyzeContent() {
         setIsSending(true);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/creative-director-chat`, {
+            const res = await fetch(`${API_URL}/api/creative-director-chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -212,7 +213,7 @@ function AnalyzeContent() {
     const generateFinalScript = async () => {
         setIsSending(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/generate-final-script`, {
+            const res = await fetch(`${API_URL}/api/generate-final-script`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -260,7 +261,7 @@ function AnalyzeContent() {
         if (userId) formData.append('userId', userId);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
+            const res = await fetch(`${API_URL}/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
                 method: 'POST',
                 body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId }),
                 headers: activeTab === 'url' ? { 'Content-Type': 'application/json' } : {},
