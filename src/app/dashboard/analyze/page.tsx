@@ -1,11 +1,26 @@
 'use client';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
 import { createClient } from '@/utils/supabase/client';
 import DashboardLayout from '@/components/DashboardLayout';
 
 export default function AnalyzePage() {
+    return (
+        <Suspense fallback={
+            <DashboardLayout>
+                <div className="max-w-6xl mx-auto pt-12 text-center">
+                    <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+                    <p className="font-serif text-xl italic text-gray-400">Loading Studio...</p>
+                </div>
+            </DashboardLayout>
+        }>
+            <AnalyzeContent />
+        </Suspense>
+    );
+}
+
+function AnalyzeContent() {
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -263,7 +278,6 @@ export default function AnalyzePage() {
         }
     };
 
-    const [selectedRec, setSelectedRec] = useState<string | null>(null);
 
     return (
         <DashboardLayout>
@@ -370,7 +384,7 @@ export default function AnalyzePage() {
                             </div>
                         ) : (
                             /* Result Dashboard */
-                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 animate-fade-in">
+                            <div className="max-w-3xl mx-auto space-y-12 animate-fade-in">
                                 {/* Strategic Breakdown */}
                                 <div className="space-y-8">
                                     <div className="p-10 bg-gray-900 rounded-[3rem] shadow-2xl relative overflow-hidden group border border-white/5">
@@ -412,24 +426,6 @@ export default function AnalyzePage() {
                                         Enter Strategy Lounge
                                         <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
                                     </button>
-                                </div>
-
-                                {/* Reference Vault */}
-                                <div className="space-y-6">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <h3 className="font-serif text-2xl italic">Reference Vault</h3>
-                                        <span className="text-[9px] font-black uppercase tracking-widest text-purple-600/40">Similar DNA Winners</span>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-6">
-                                        {result.recommendations?.slice(0, 4).map((rec: any) => (
-                                            <div key={rec.id} onClick={() => setSelectedRec(rec.videoUrl)} className="aspect-[9/16] bg-gray-100 rounded-3xl overflow-hidden cursor-pointer group hover:shadow-2xl transition-all border border-purple-50/50">
-                                                <img src={rec.thumbnail} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
-                                                <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/60 to-transparent translate-y-full group-hover:translate-y-0 transition-transform">
-                                                    <p className="text-[9px] font-black text-white uppercase tracking-widest">View DNA</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
                                 </div>
                             </div>
                         )}
@@ -509,18 +505,6 @@ export default function AnalyzePage() {
                 )}
             </div>
 
-            {/* Rec Modal */}
-            {selectedRec && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4" onClick={() => setSelectedRec(null)}>
-                    <div className="relative w-full max-w-sm h-[80vh] bg-black rounded-3xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
-                        <iframe
-                            src={`https://www.tiktok.com/embed/v2/${selectedRec.split('/video/')[1]?.split('?')[0] || selectedRec}`}
-                            className="w-full h-full border-0"
-                            allow="autoplay; encrypted-media;"
-                        ></iframe>
-                    </div>
-                </div>
-            )}
 
             <style jsx>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 4px; }

@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     try {
         // Verify the webhook signature
-        const eventData = paddle.webhooks.unmarshal(body, process.env.PADDLE_WEBHOOK_SECRET, signature);
+        const eventData = await paddle.webhooks.unmarshal(body, process.env.PADDLE_WEBHOOK_SECRET, signature);
 
         // Initialize Supabase Admin Client (to bypass RLS for updates)
         const supabaseAdmin = createServerClient(
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
             process.env.SUPABASE_SERVICE_ROLE_KEY!
         );
 
-        const { eventType, data } = eventData;
+        const { eventType, data } = eventData as any;
         let userId = data.customData?.userId; // Expecting userId in customData from checkout
 
         // If userId not in customData (e.g. renewal), try to find by customer_id in DB
