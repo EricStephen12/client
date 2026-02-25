@@ -281,12 +281,12 @@ function AnalyzeContent() {
 
     return (
         <DashboardLayout>
-            <div className="max-w-6xl mx-auto animate-fade-in-up pb-20 -mt-8 space-y-8">
+            <div className="max-w-6xl mx-auto animate-fade-in-up pb-20 -mt-4 md:-mt-8 space-y-6 md:space-y-8">
                 {/* Header */}
-                <div className="mb-8 flex justify-between items-end border-b border-purple-50 pb-8">
+                <div className="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-purple-50 pb-6 md:pb-8">
                     <div>
                         <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 mb-2 block">Intelligence Studio</span>
-                        <h2 className="text-4xl lg:text-5xl font-serif text-gray-900 leading-tight tracking-tighter">
+                        <h2 className="text-3xl lg:text-5xl font-serif text-gray-900 leading-tight tracking-tighter">
                             {isChatMode ? 'Strategy ' : 'Viral '}
                             <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                                 {isChatMode ? 'Lounge.' : 'Analyzer.'}
@@ -297,17 +297,17 @@ function AnalyzeContent() {
                         {isChatMode && (
                             <button
                                 onClick={() => setIsChatMode(false)}
-                                className="mb-2 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-purple-600 transition-colors"
+                                className="text-xs font-black uppercase tracking-widest text-gray-400 hover:text-purple-600 transition-colors"
                             >
-                                ← Back to Analysis
+                                ← Back
                             </button>
                         )}
                         {!isChatMode && result && (
                             <button
                                 onClick={() => { setIsChatMode(false); setResult(null); setSessionId(null); setUrl(''); setFile(null); }}
-                                className="mb-2 px-6 py-2 bg-gray-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105"
+                                className="px-4 md:px-6 py-2 bg-gray-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105"
                             >
-                                + New Deconstruction
+                                + New Scan
                             </button>
                         )}
                     </div>
@@ -317,41 +317,41 @@ function AnalyzeContent() {
                     <>
                         {/* Input Phase */}
                         {!result ? (
-                            <div className="max-w-4xl mx-auto space-y-12">
+                            <div className="max-w-4xl mx-auto space-y-6 md:space-y-12">
                                 {/* Tab Switcher */}
-                                <div className="flex gap-4">
+                                <div className="flex gap-3">
                                     <button
                                         onClick={() => setActiveTab('url')}
-                                        className={`px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all ${activeTab === 'url' ? 'bg-gray-900 text-white shadow-xl' : 'bg-white text-gray-400 border border-gray-100'}`}
+                                        className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all ${activeTab === 'url' ? 'bg-gray-900 text-white shadow-xl' : 'bg-white text-gray-400 border border-gray-100'}`}
                                     >
                                         Competitor Scan
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('upload')}
-                                        className={`px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all ${activeTab === 'upload' ? 'bg-gray-900 text-white shadow-xl' : 'bg-white text-gray-400 border border-gray-100'}`}
+                                        className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all ${activeTab === 'upload' ? 'bg-gray-900 text-white shadow-xl' : 'bg-white text-gray-400 border border-gray-100'}`}
                                     >
                                         Audit My Draft
                                     </button>
                                 </div>
 
                                 {activeTab === 'url' ? (
-                                    <div className="p-12 bg-white rounded-[3rem] border border-purple-50 shadow-sm space-y-6">
-                                        <h3 className="font-serif text-3xl text-gray-900 italic">Paste Viral Blueprint</h3>
+                                    <div className="p-6 md:p-12 bg-white rounded-[2rem] md:rounded-[3rem] border border-purple-50 shadow-sm space-y-4 md:space-y-6">
+                                        <h3 className="font-serif text-2xl md:text-3xl text-gray-900 italic">Paste Viral Blueprint</h3>
                                         <input
                                             type="text"
                                             placeholder="https://www.tiktok.com/@creator/video/..."
                                             value={url}
                                             onChange={(e) => setUrl(e.target.value)}
-                                            className="w-full p-6 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-purple-600 transition-all font-medium text-lg"
+                                            className="w-full p-4 md:p-6 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-purple-600 transition-all font-medium text-sm md:text-lg"
                                         />
                                         <button
                                             onClick={handleAnalyze}
                                             disabled={isAnalyzing || !url}
-                                            className="w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:shadow-2xl transition-all disabled:opacity-50"
+                                            className="w-full py-5 md:py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
                                         >
                                             {isAnalyzing ? 'Locating Viral DNA...' : 'Scan Masterclass'}
                                         </button>
-                                        <div className="flex items-center gap-2 mt-4 ml-1">
+                                        <div className="flex items-center gap-2 ml-1">
                                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                             <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Viral Sweet Spot: 15-60s Recommended</span>
                                         </div>
@@ -359,14 +359,14 @@ function AnalyzeContent() {
                                 ) : (
                                     <div
                                         {...getRootProps()}
-                                        className="h-[400px] bg-white border-2 border-dashed border-purple-100 rounded-[3rem] flex flex-col items-center justify-center cursor-pointer hover:border-purple-400 transition-all"
+                                        className="h-[280px] md:h-[400px] bg-white border-2 border-dashed border-purple-100 rounded-[2rem] md:rounded-[3rem] flex flex-col items-center justify-center cursor-pointer hover:border-purple-400 transition-all"
                                     >
                                         <input {...getInputProps()} />
-                                        <div className="text-center p-8 space-y-4">
-                                            <div className="w-20 h-20 bg-purple-50 rounded-3xl flex items-center justify-center mx-auto text-purple-300">
-                                                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                                        <div className="text-center p-6 md:p-8 space-y-4">
+                                            <div className="w-16 h-16 md:w-20 md:h-20 bg-purple-50 rounded-3xl flex items-center justify-center mx-auto text-purple-300">
+                                                <svg className="w-8 h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
                                             </div>
-                                            <p className="text-gray-900 font-bold text-xl font-serif">Audit My mp4</p>
+                                            <p className="text-gray-900 font-bold text-lg md:text-xl font-serif">Audit My mp4</p>
                                             <div className="flex items-center justify-center gap-2 mt-2">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Sweet Spot: 15-60s</span>
@@ -376,51 +376,48 @@ function AnalyzeContent() {
                                 )}
 
                                 {isAnalyzing && (
-                                    <div className="text-center p-12 bg-gray-900 rounded-[3rem] text-white animate-pulse">
+                                    <div className="text-center p-8 md:p-12 bg-gray-900 rounded-[2rem] md:rounded-[3rem] text-white animate-pulse">
                                         <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                                        <h3 className="font-serif text-2xl italic">AI Creative Director is Watching...</h3>
+                                        <h3 className="font-serif text-xl md:text-2xl italic">AI Creative Director is Watching...</h3>
                                     </div>
                                 )}
                             </div>
                         ) : (
                             /* Result Dashboard */
-                            <div className="max-w-3xl mx-auto space-y-12 animate-fade-in">
+                            <div className="max-w-3xl mx-auto space-y-6 md:space-y-12 animate-fade-in">
                                 {/* Strategic Breakdown */}
-                                <div className="space-y-8">
-                                    <div className="p-10 bg-gray-900 rounded-[3rem] shadow-2xl relative overflow-hidden group border border-white/5">
+                                <div className="space-y-4 md:space-y-8">
+                                    <div className="p-6 md:p-10 bg-gray-900 rounded-[2rem] md:rounded-[3rem] shadow-2xl relative overflow-hidden group border border-white/5">
                                         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10"></div>
-                                        <div className="relative z-10 grid grid-cols-3 gap-8">
+                                        <div className="relative z-10 grid grid-cols-3 gap-4 md:gap-8">
                                             <div className="text-center">
-                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-3">Hook</h3>
-                                                <div className="text-4xl font-serif italic text-purple-400">{result.analysis.metrics?.hook_power || 8}/10</div>
+                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-2 md:mb-3">Hook</h3>
+                                                <div className="text-3xl md:text-4xl font-serif italic text-purple-400">{result.analysis.metrics?.hook_power || 8}/10</div>
                                             </div>
                                             <div className="text-center">
-                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-3">Retention</h3>
-                                                <div className="text-4xl font-serif italic text-blue-400">{result.analysis.metrics?.retention_score || 7}/10</div>
+                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-2 md:mb-3">Retention</h3>
+                                                <div className="text-3xl md:text-4xl font-serif italic text-blue-400">{result.analysis.metrics?.retention_score || 7}/10</div>
                                             </div>
                                             <div className="text-center">
-                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-3">CTA</h3>
-                                                <div className="text-4xl font-serif italic text-green-400">{result.analysis.metrics?.conversion_trigger || 6}/10</div>
+                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-2 md:mb-3">CTA</h3>
+                                                <div className="text-3xl md:text-4xl font-serif italic text-green-400">{result.analysis.metrics?.conversion_trigger || 6}/10</div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="p-8 bg-purple-50 rounded-3xl italic relative overflow-hidden group">
-                                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                                            <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 13.1216 16 12.017 16H10.017V14H12.017C14.2261 14 16.017 15.7909 16.017 18V21H14.017ZM17.017 21V18C17.017 15.2386 14.7784 13 12.017 13H10.017V11H12.017C15.883 11 19.017 14.134 19.017 18V21H17.017ZM4.017 21L4.017 11H2.017V21H4.017ZM4.017 9V3H2.017V9H4.017Z" /></svg>
-                                        </div>
+                                    <div className="p-6 md:p-8 bg-purple-50 rounded-2xl md:rounded-3xl italic relative overflow-hidden group">
                                         <h4 className="text-[10px] font-black uppercase tracking-widest text-purple-400 mb-2">The Big Idea</h4>
-                                        <p className="text-gray-900 text-xl font-serif leading-relaxed">"{result.analysis.big_idea}"</p>
+                                        <p className="text-gray-900 text-lg md:text-xl font-serif leading-relaxed">"{result.analysis.big_idea}"</p>
                                     </div>
 
-                                    <div className="p-8 bg-white border border-purple-100 rounded-3xl space-y-4 shadow-sm">
+                                    <div className="p-6 md:p-8 bg-white border border-purple-100 rounded-2xl md:rounded-3xl space-y-4 shadow-sm">
                                         <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">The Secret Sauce</h4>
-                                        <p className="text-gray-900 font-serif italic text-lg leading-relaxed">"{result.analysis.hook_analysis.critique}"</p>
+                                        <p className="text-gray-900 font-serif italic text-base md:text-lg leading-relaxed">"{result.analysis.hook_analysis.critique}"</p>
                                     </div>
 
                                     <button
                                         onClick={startChat}
-                                        className="w-full py-8 bg-gray-900 text-white rounded-3xl font-black uppercase tracking-[0.4em] text-xs hover:scale-[1.02] active:scale-95 transition-all shadow-xl flex items-center justify-center gap-6 group"
+                                        className="w-full py-6 md:py-8 bg-gray-900 text-white rounded-2xl md:rounded-3xl font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-xs hover:scale-[1.02] active:scale-95 transition-all shadow-xl flex items-center justify-center gap-4 md:gap-6 group"
                                     >
                                         <span className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(168,85,247,0.5)]" />
                                         Enter Strategy Lounge
@@ -432,11 +429,11 @@ function AnalyzeContent() {
                     </>
                 ) : (
                     /* CHAT MODE: ChatGPT Style Lounge */
-                    <div className="max-w-4xl mx-auto space-y-6 animate-fade-in h-[70vh] flex flex-col">
-                        <div className="flex-1 overflow-y-auto space-y-6 pr-4 custom-scrollbar">
+                    <div className="max-w-4xl mx-auto space-y-4 animate-fade-in flex flex-col" style={{ height: 'calc(100dvh - 220px)', minHeight: '400px' }}>
+                        <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-2 md:pr-4 custom-scrollbar">
                             {messages.map((msg, idx) => (
                                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[85%] p-6 rounded-[2rem] shadow-sm ${msg.type === 'script'
+                                    <div className={`max-w-[90%] md:max-w-[85%] p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm ${msg.type === 'script'
                                         ? 'bg-gray-900 text-white border-4 border-purple-500/30'
                                         : msg.role === 'user'
                                             ? 'bg-gray-900 text-white rounded-tr-none'
@@ -454,7 +451,7 @@ function AnalyzeContent() {
                             ))}
                             {isSending && (
                                 <div className="flex justify-start">
-                                    <div className="bg-white p-6 rounded-[2rem] rounded-tl-none border border-purple-100 shadow-sm flex gap-1.5">
+                                    <div className="bg-white p-4 md:p-6 rounded-[2rem] rounded-tl-none border border-purple-100 shadow-sm flex gap-1.5">
                                         <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" />
                                         <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce delay-75" />
                                         <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce delay-150" />
@@ -463,41 +460,39 @@ function AnalyzeContent() {
                             )}
                         </div>
 
-                        {/* ChatGPT Input Bar */}
-                        <div className="relative group p-2 bg-white rounded-[2rem] border border-purple-100 shadow-xl focus-within:ring-2 focus-within:ring-purple-600/20 transition-all">
-                            <div className="flex gap-2 p-2">
+                        {/* Mobile-first Input Bar */}
+                        <div className="relative group bg-white rounded-2xl md:rounded-[2rem] border border-purple-100 shadow-xl focus-within:ring-2 focus-within:ring-purple-600/20 transition-all">
+                            <div className="flex gap-2 p-2 md:p-3">
                                 <input
                                     type="text"
                                     value={chatInput}
                                     onChange={(e) => setChatInput(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                                    placeholder="Discuss the secret sauce with your Director..."
-                                    className="flex-1 bg-transparent border-none focus:ring-0 text-sm font-medium px-4"
+                                    placeholder="Message your Director..."
+                                    className="flex-1 bg-transparent border-none focus:ring-0 text-sm font-medium px-3 py-2"
                                 />
-                                <div className="flex items-center gap-2">
-                                    {/* Forge Script Action */}
+                                <div className="flex items-center gap-1.5 md:gap-2">
                                     <button
                                         onClick={generateFinalScript}
                                         disabled={isSending || messages.length < 1}
-                                        title="Forge Script Masterpiece"
-                                        className="p-3 bg-purple-50 text-purple-600 rounded-xl hover:bg-purple-100 transition-colors disabled:opacity-30"
+                                        title="Forge Script"
+                                        className="p-2.5 md:p-3 bg-purple-50 text-purple-600 rounded-xl hover:bg-purple-100 transition-colors disabled:opacity-30"
                                     >
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
+                                        <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
                                     </button>
-
                                     <button
                                         onClick={sendMessage}
                                         disabled={isSending || !chatInput.trim()}
-                                        className="p-3 bg-gray-900 text-white rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg disabled:opacity-50"
+                                        className="p-2.5 md:p-3 bg-gray-900 text-white rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg disabled:opacity-50"
                                     >
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                                        <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                     </button>
                                 </div>
                             </div>
-                            <div className="absolute -bottom-8 left-6 flex items-center gap-2">
+                            <div className="px-4 pb-2 flex items-center gap-2">
                                 <div className={`w-1.5 h-1.5 rounded-full ${isRoastMode ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`} />
                                 <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
-                                    {isRoastMode ? 'Roast Mode Active' : 'Director Lounge Active'}
+                                    {isRoastMode ? 'Roast Mode' : 'Director Lounge'}
                                 </span>
                             </div>
                         </div>
