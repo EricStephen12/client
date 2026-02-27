@@ -15,20 +15,31 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const userId = (session?.user as any)?.id;
 
     useEffect(() => {
-        if (userId) {
-            const fetchSessions = async () => {
-                try {
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/user-sessions?userId=${userId}`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        setSessions(data);
-                    }
-                } catch (err) {
-                    console.error('Fetch sessions failed', err);
+        const fetchSessions = async () => {
+            if (!userId) return;
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/user-sessions?userId=${userId}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setSessions(data);
                 }
-            };
+            } catch (err) {
+                console.error('Fetch sessions failed', err);
+            }
+        };
+
+        if (userId) {
             fetchSessions();
         }
+
+        // Listen for internal state updates to refresh sidebar
+        const handleSessionUpdate = () => {
+            console.log('🔄 Session update event received, refreshing sidebar...');
+            fetchSessions();
+        };
+
+        window.addEventListener('session-updated', handleSessionUpdate);
+        return () => window.removeEventListener('session-updated', handleSessionUpdate);
     }, [userId]);
 
     const navItems = [
@@ -161,11 +172,11 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 </div>
 
                 {/* History Section */}
-                {sessions && sessions.length > 0 && (
-                    <div className="space-y-4">
-                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-purple-600/40 mb-2 block">Recent History</span>
-                        <div className="space-y-2">
-                            {sessions.slice(0, 8).map((session: any) => {
+                <div className="space-y-4">
+                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-purple-600/40 mb-2 block">Recent History</span>
+                    <div className="space-y-2">
+                        {sessions && sessions.length > 0 ? (
+                            sessions.slice(0, 8).map((session: any) => {
                                 const isActive = currentSessionId === session.id;
                                 return (
                                     <Link
@@ -181,10 +192,14 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                         {session.title || 'Untitled Session'}
                                     </Link>
                                 );
-                            })}
-                        </div>
+                            })
+                        ) : (
+                            <div className="px-4 py-3 text-[10px] text-gray-300 font-medium uppercase tracking-widest border border-dashed border-gray-100 rounded-xl italic">
+                                No sessions yet
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
             </div>
 
             <div className="p-8 border-t border-purple-50 space-y-6 flex-shrink-0">

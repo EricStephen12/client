@@ -110,14 +110,16 @@ function AnalyzeContent() {
     });
 
 
-    const saveSessionState = async (updatedMessages: any[]) => {
-        if (!userId || !result) return;
+    const saveSessionState = async (updatedMessages: any[], currentId?: string | null) => {
+        const idToUse = currentId || sessionId;
+        if (!userId || !result) return null;
+
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/save-lounge-session`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    sessionId,
+                    sessionId: idToUse,
                     userId,
                     videoUrl: url || file?.name || 'Uploaded Video',
                     dna: result.analysis,
@@ -126,11 +128,15 @@ function AnalyzeContent() {
             });
             if (res.ok) {
                 const data = await res.json();
-                if (!sessionId) setSessionId(data.id);
+                if (data.id && !sessionId) setSessionId(data.id);
+                // Trigger Sidebar Refresh
+                window.dispatchEvent(new CustomEvent('session-updated'));
+                return data.id as string;
             }
         } catch (err) {
             console.error('Save session failed', err);
         }
+        return idToUse;
     };
 
     const startChat = async () => {
@@ -154,7 +160,8 @@ function AnalyzeContent() {
             setMessages([initialMsg]);
 
             // Initial Save
-            await saveSessionState([initialMsg]);
+            const savedId = await saveSessionState([initialMsg]);
+            if (savedId) setSessionId(savedId);
         } catch (err) {
             console.error(err);
             setMessages([{ role: 'assistant', content: `I've deconstructed the DNA. What's the one thing you want your customers to feel when they see your product?` }]);
@@ -191,7 +198,8 @@ function AnalyzeContent() {
             setMessages(finalMessages);
 
             // Auto-save progress
-            await saveSessionState(finalMessages);
+            const savedId = await saveSessionState(finalMessages);
+            if (savedId) setSessionId(savedId);
         } catch (err) {
             console.error(err);
         } finally {
@@ -224,7 +232,8 @@ function AnalyzeContent() {
 
             const updatedMessages = [...messages, scriptMsg];
             setMessages(updatedMessages);
-            await saveSessionState(updatedMessages);
+            const savedId = await saveSessionState(updatedMessages);
+            if (savedId) setSessionId(savedId);
 
         } catch (err) {
             console.error(err);
@@ -260,6 +269,11 @@ function AnalyzeContent() {
 
             const data = await res.json();
             setResult(data);
+
+            // AUTO-SAVE: Persistence on Scan (Don't wait for chat)
+            if (userId && data.analysis) {
+                await saveSessionState([], null);
+            }
         } catch (err) {
             console.error(err);
             alert('Failed to analyze video. Please try again.');
