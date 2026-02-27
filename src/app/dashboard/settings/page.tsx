@@ -22,15 +22,14 @@ function SettingsContent() {
 
     // 2. Logic Definitions
     const getPlanDisplay = () => {
-        const planType = profile?.plan_type || (session?.user as any)?.subscription_tier || 'free';
+        const sessionPlan = (session?.user as any)?.subscription_tier;
+        const planType = profile?.plan_type || sessionPlan || 'free';
 
         const planNames: Record<string, string> = {
             'free': 'No paid plan. Upgrade bro',
             'pro': 'Pro Member',
             'agency': 'Agency Plan'
         };
-
-        if (isSyncing && !profile && planType === 'free') return 'Syncing...';
 
         return planNames[planType] || 'No paid plan. Upgrade bro';
     };
@@ -168,7 +167,7 @@ function SettingsContent() {
                 <div className="md:col-span-2 p-10 rounded-[2.5rem] border border-purple-100 bg-purple-50/50 flex items-center justify-between gap-8">
                     <div>
                         <p className="text-lg font-serif text-purple-900">
-                            Current Plan: <span className="italic">{isSyncing && !profile ? 'Syncing...' : getPlanDisplay()}</span>
+                            Current Plan: <span className="italic">{getPlanDisplay()}</span>
                         </p>
                         {getSubscriptionStatus() && (
                             <p className="text-xs text-purple-600/60 font-medium uppercase tracking-widest mt-1">
@@ -180,7 +179,7 @@ function SettingsContent() {
                         href="/dashboard/upgrade"
                         className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white"
                     >
-                        {profile?.plan_type === 'free' ? 'Upgrade Plan' : 'Manage Billing'}
+                        {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Billing'}
                     </Link>
                 </div>
             </div>
