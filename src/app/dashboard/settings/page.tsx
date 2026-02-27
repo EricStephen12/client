@@ -1,44 +1,51 @@
 'use client';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function SettingsPage() {
-    const [profile, setProfile] = useState<any>(null);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [isSaving, setIsSaving] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    return <SettingsContent />;
+}
+
+function SettingsContent() {
     const { data: session, status } = useSession();
     const router = useRouter();
 
-    useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.push('/login');
-            return;
-        }
+    // 1. All State Definitions
+    const [profile, setProfile] = useState<any>(null);
+    const [name, setName] = useState(session?.user?.name || '');
+    const [email, setEmail] = useState(session?.user?.email || '');
+    const [isSaving, setIsSaving] = useState(false);
+    const [isSyncing, setIsSyncing] = useState(false);
 
-        if (status === 'authenticated') {
-            const fetchUserData = async () => {
-                try {
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        setProfile(data);
-                        setName(data.name || '');
-                        setEmail(data.email || '');
-                    }
-                } catch (err) {
-                    console.error('Fetch user data failed', err);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-            fetchUserData();
+    // 2. Logic Definitions
+    const getPlanDisplay = () => {
+        const planType = profile?.plan_type || (session?.user as any)?.subscription_tier || 'free';
+
+        const planNames: Record<string, string> = {
+            'free': 'No paid plan. Upgrade bro',
+            'pro': 'Pro Member',
+            'agency': 'Agency Plan'
+        };
+
+        if (isSyncing && !profile && planType === 'free') return 'Syncing...';
+
+        return planNames[planType] || 'No paid plan. Upgrade bro';
+    };
+
+    const getSubscriptionStatus = () => {
+        if (!profile) return null;
+        const status = profile.subscription_status;
+        const isPaid = profile.plan_type === 'pro' || profile.plan_type === 'agency';
+        if (!isPaid || status === 'inactive') return null;
+        if (profile.next_billing_date) {
+            const date = new Date(profile.next_billing_date);
+            return `Next Billing: ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
         }
-    }, [status, router]);
+        return status === 'active' ? 'Active Subscription' : null;
+    };
 
     const handleSave = async () => {
         setIsSaving(true);
@@ -53,7 +60,6 @@ export default function SettingsPage() {
                 const data = await res.json();
                 setProfile(data);
                 setName(data.name || '');
-                // Show success
                 setTimeout(() => setIsSaving(false), 800);
             } else {
                 throw new Error('Update failed');
@@ -64,48 +70,35 @@ export default function SettingsPage() {
         }
     };
 
-    const getPlanDisplay = () => {
-        if (!profile) return 'Free Plan';
-
-        const planType = profile.plan_type || 'free';
-        const planNames: Record<string, string> = {
-            'free': 'Free Plan',
-            'pro': 'Pro Member',
-            'agency': 'Agency Plan'
-        };
-
-        return planNames[planType] || 'Free Plan';
-    };
-
-    const getSubscriptionStatus = () => {
-        if (!profile) return null;
-
-        const status = profile.subscription_status;
-        const isPaid = profile.plan_type === 'pro' || profile.plan_type === 'agency';
-
-        if (!isPaid || status === 'inactive') {
-            return null;
+    // 3. Lifecycle Hooks
+    useEffect(() => {
+        // Only redirect if we are SURE we aren't loading and have no session
+        if (status === 'unauthenticated') {
+            router.push('/login');
+            return;
         }
 
-        // If we have a next billing date, show it
-        if (profile.next_billing_date) {
-            const date = new Date(profile.next_billing_date);
-            return `Next Billing: ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+        if (status === 'authenticated' && !profile && !isSyncing) {
+            const fetchUserData = async () => {
+                setIsSyncing(true);
+                try {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        setProfile(data);
+                        if (!name) setName(data.name || '');
+                        if (!email) setEmail(data.email || '');
+                    }
+                } catch (err) {
+                    console.error('Fetch user data failed', err);
+                } finally {
+                    setIsSyncing(false);
+                }
+            };
+            fetchUserData();
         }
+    }, [status, router, profile, isSyncing]);
 
-        return status === 'active' ? 'Active Subscription' : null;
-    };
-
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-[60vh]">
-                <div className="text-center space-y-4">
-                    <div className="w-12 h-12 border-2 border-purple-100 border-t-purple-600 rounded-full animate-spin mx-auto"></div>
-                    <p className="text-gray-400 text-sm font-medium">Loading settings...</p>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="max-w-4xl space-y-16 pb-20 mt-8">
@@ -175,7 +168,7 @@ export default function SettingsPage() {
                 <div className="md:col-span-2 p-10 rounded-[2.5rem] border border-purple-100 bg-purple-50/50 flex items-center justify-between gap-8">
                     <div>
                         <p className="text-lg font-serif text-purple-900">
-                            Current Plan: <span className="italic">{getPlanDisplay()}</span>
+                            Current Plan: <span className="italic">{isSyncing && !profile ? 'Syncing...' : getPlanDisplay()}</span>
                         </p>
                         {getSubscriptionStatus() && (
                             <p className="text-xs text-purple-600/60 font-medium uppercase tracking-widest mt-1">

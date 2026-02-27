@@ -30,8 +30,43 @@ function AnalyzeContent() {
 
     const searchParams = useSearchParams();
 
+    // 1. All State Definitions
+    const [isChatMode, setIsChatMode] = useState(false);
+    const [messages, setMessages] = useState<any[]>([]);
+    const [chatInput, setChatInput] = useState('');
+    const [isSending, setIsSending] = useState(false);
+    const [sessionId, setSessionId] = useState<string | null>(null);
+    const [isRoastMode, setIsRoastMode] = useState(false);
+
+    // 2. Logic Definitions
+    const loadSession = async (id: string) => {
+        setIsSending(true);
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${id}`);
+            if (res.ok) {
+                const data = await res.json();
+                setResult({ analysis: data.dna });
+                setMessages(data.messages);
+                setSessionId(data.id);
+                setIsChatMode(true);
+            }
+        } catch (err) {
+            console.error('Load session failed', err);
+        } finally {
+            setIsSending(false);
+        }
+    };
+
+    // 3. Lifecycle Hooks
     useEffect(() => {
         const queryUrl = searchParams.get('url');
+        const querySessionId = searchParams.get('sessionId');
+
+        if (querySessionId && !sessionId && !isAnalyzing) {
+            loadSession(querySessionId);
+            return;
+        }
+
         if (queryUrl && !result && !isAnalyzing) {
             setUrl(queryUrl);
             setActiveTab('url');
@@ -56,7 +91,7 @@ function AnalyzeContent() {
             };
             triggerInitialScan();
         }
-    }, [searchParams, userId]);
+    }, [searchParams, userId, sessionId]);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
@@ -74,31 +109,6 @@ function AnalyzeContent() {
         maxSize: 50 * 1024 * 1024 // 50MB
     });
 
-    const [isChatMode, setIsChatMode] = useState(false);
-    const [messages, setMessages] = useState<any[]>([]);
-    const [chatInput, setChatInput] = useState('');
-    const [isSending, setIsSending] = useState(false);
-    const [sessionId, setSessionId] = useState<string | null>(null);
-    const [isRoastMode, setIsRoastMode] = useState(false);
-
-
-    const loadSession = async (id: string) => {
-        setIsSending(true);
-        try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${id}`);
-            if (res.ok) {
-                const data = await res.json();
-                setResult({ analysis: data.dna });
-                setMessages(data.messages);
-                setSessionId(data.id);
-                setIsChatMode(true);
-            }
-        } catch (err) {
-            console.error('Load session failed', err);
-        } finally {
-            setIsSending(false);
-        }
-    };
 
     const saveSessionState = async (updatedMessages: any[]) => {
         if (!userId || !result) return;

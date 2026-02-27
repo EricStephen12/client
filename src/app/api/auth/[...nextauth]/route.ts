@@ -41,19 +41,30 @@ export const authOptions = {
                     name: user.name,
                     email: user.email,
                     image: user.image,
+                    subscription_tier: user.subscription_tier || 'free'
                 };
             }
         })
         // You can add more providers here (Email, GitHub, etc.)
     ],
     callbacks: {
-        async session({ session, user }: any) {
+        async jwt({ token, user }: any) {
+            if (user) {
+                token.id = user.id;
+                token.subscription_tier = (user as any).subscription_tier;
+            }
+            return token;
+        },
+        async session({ session, token }: any) {
             if (session.user) {
-                session.user.id = user.id;
-                // Optionally fetch extra profile data from the DB
+                (session.user as any).id = token.id;
+                (session.user as any).subscription_tier = token.subscription_tier;
             }
             return session;
         },
+    },
+    session: {
+        strategy: "jwt" as const,
     },
     pages: {
         signIn: '/login',

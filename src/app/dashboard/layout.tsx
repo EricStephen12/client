@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { ReactNode, useState, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ReactNode, useState, useEffect, Suspense } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
@@ -11,6 +11,25 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const { data: session, status } = useSession();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [sessions, setSessions] = useState<any[]>([]);
+    const userId = (session?.user as any)?.id;
+
+    useEffect(() => {
+        if (userId) {
+            const fetchSessions = async () => {
+                try {
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/user-sessions?userId=${userId}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        setSessions(data);
+                    }
+                } catch (err) {
+                    console.error('Fetch sessions failed', err);
+                }
+            };
+            fetchSessions();
+        }
+    }, [userId]);
 
     const navItems = [
         { name: 'Overview', href: '/dashboard' },
@@ -47,13 +66,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
             {/* Premium Sidebar (Desktop) */}
             <aside className="w-72 border-r border-purple-50 hidden lg:flex flex-col sticky top-0 h-screen bg-white shadow-[20px_0_40px_-20px_rgba(168,85,247,0.05)]">
-                <SidebarContent
-                    pathname={pathname}
-                    navItems={navItems}
-                    handleLogout={handleLogout}
-                    isLoggingOut={isLoggingOut}
-                    profile={profile}
-                />
+                <Suspense fallback={<div className="p-8 w-full h-full bg-white animate-pulse" />}>
+                    <SidebarContent
+                        pathname={pathname}
+                        navItems={navItems}
+                        handleLogout={handleLogout}
+                        isLoggingOut={isLoggingOut}
+                        profile={profile}
+                        sessions={sessions}
+                    />
+                </Suspense>
             </aside>
 
             {/* Mobile Menu Overlay */}
@@ -66,14 +88,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
-                        <SidebarContent
-                            pathname={pathname}
-                            navItems={navItems}
-                            handleLogout={handleLogout}
-                            isLoggingOut={isLoggingOut}
-                            onClose={() => setIsMobileMenuOpen(false)}
-                            profile={profile}
-                        />
+                        <Suspense fallback={<div className="p-8 w-full h-full bg-white animate-pulse" />}>
+                            <SidebarContent
+                                pathname={pathname}
+                                navItems={navItems}
+                                handleLogout={handleLogout}
+                                isLoggingOut={isLoggingOut}
+                                onClose={() => setIsMobileMenuOpen(false)}
+                                profile={profile}
+                                sessions={sessions}
+                            />
+                        </Suspense>
                     </aside>
                 </div>
             )}
@@ -100,37 +125,69 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     );
 }
 
-function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClose, profile }: any) {
+function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClose, profile, sessions }: any) {
+    const searchParams = useSearchParams();
+    const currentSessionId = searchParams.get('sessionId');
+
     return (
-        <div className="flex flex-col h-full">
-            <div className="p-8 border-b border-purple-50">
+        <div className="flex flex-col h-full overflow-hidden">
+            <div className="p-8 border-b border-purple-50 flex-shrink-0">
                 <Link href="/" className="text-3xl font-serif font-bold tracking-tighter hover:opacity-70 transition-opacity">
                     Socially.
                 </Link>
             </div>
 
-            <nav className="flex-1 flex flex-col p-8 space-y-4">
-                <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-purple-600/40 mb-2">Workspace</span>
-                {navItems.map((item: any) => {
-                    const isActive = pathname === item.href;
-                    return (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            onClick={onClose}
-                            className={`group flex items-center gap-3 px-4 py-3 text-xs tracking-[0.1em] uppercase transition-all duration-300 rounded-xl ${isActive
-                                ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold shadow-lg shadow-purple-200'
-                                : 'font-medium text-gray-500 hover:bg-purple-50 hover:text-purple-600'
-                                }`}
-                        >
-                            <span className={`w-1.5 h-1.5 rounded-full transition-all ${isActive ? 'bg-white' : 'bg-gray-300 group-hover:bg-purple-400'}`}></span>
-                            {item.name}
-                        </Link>
-                    );
-                })}
-            </nav>
+            <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col p-8 space-y-8">
+                {/* Navigation Section */}
+                <div className="space-y-4">
+                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-purple-600/40 mb-2 block">Workspace</span>
+                    {navItems.map((item: any) => {
+                        const isActive = pathname === item.href;
+                        return (
+                            <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={onClose}
+                                className={`group flex items-center gap-3 px-4 py-3 text-xs tracking-[0.1em] uppercase transition-all duration-300 rounded-xl ${isActive
+                                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold shadow-lg shadow-purple-200'
+                                    : 'font-medium text-gray-500 hover:bg-purple-50 hover:text-purple-600'
+                                    }`}
+                            >
+                                <span className={`w-1.5 h-1.5 rounded-full transition-all ${isActive ? 'bg-white' : 'bg-gray-300 group-hover:bg-purple-400'}`}></span>
+                                {item.name}
+                            </Link>
+                        );
+                    })}
+                </div>
 
-            <div className="p-8 border-t border-purple-50 space-y-6">
+                {/* History Section */}
+                {sessions && sessions.length > 0 && (
+                    <div className="space-y-4">
+                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-purple-600/40 mb-2 block">Recent History</span>
+                        <div className="space-y-2">
+                            {sessions.slice(0, 8).map((session: any) => {
+                                const isActive = currentSessionId === session.id;
+                                return (
+                                    <Link
+                                        key={session.id}
+                                        href={`/dashboard/analyze?sessionId=${session.id}`}
+                                        onClick={onClose}
+                                        className={`block px-4 py-3 text-[10px] tracking-wider uppercase truncate rounded-xl transition-all ${isActive
+                                            ? 'bg-purple-50 text-purple-600 font-bold border border-purple-100'
+                                            : 'text-gray-400 font-medium hover:text-purple-400 hover:bg-purple-50/50'
+                                            }`}
+                                        title={session.title}
+                                    >
+                                        {session.title || 'Untitled Session'}
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            <div className="p-8 border-t border-purple-50 space-y-6 flex-shrink-0">
                 {profile ? (
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 text-white flex items-center justify-center font-serif italic text-lg shadow-md">
@@ -138,7 +195,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-xs font-bold uppercase tracking-widest truncate text-gray-900">{profile.full_name || 'Creator'}</p>
-                            <p className="text-[10px] text-purple-600 font-medium uppercase tracking-wider">{profile.plan_type || 'Free'} Plan</p>
+                            <p className="text-[10px] text-purple-600 font-medium uppercase tracking-wider">{profile.plan_type === 'free' || !profile.plan_type ? 'No Paid Plan. Upgrade Bro' : `${profile.plan_type} Plan`}</p>
                         </div>
                     </div>
                 ) : (
