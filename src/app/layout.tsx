@@ -4,7 +4,7 @@ import PaddleLoader from "@/components/PaddleLoader";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "Socially | Viral Scripts for Dropshippers",
+  title: "Viral TikTok Ad Scripts for Dropshippers | Socially",
   description: "Generate winning TikTok ad scripts and social content in seconds.",
 };
 

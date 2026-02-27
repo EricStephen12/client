@@ -51,9 +51,8 @@ export default function LandingPage() {
           </RevealOnScroll>
 
           <RevealOnScroll delay={200}>
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-medium leading-[0.95] mb-8 tracking-tight text-balance">
-              Stop <br />
-              <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Guessing.</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium leading-tight mb-8 tracking-tight text-balance">
+              Get instant viral TikTok ad scripts and social content that drive sales and grow your dropshipping business in Nigeria and beyond!
             </h1>
           </RevealOnScroll>
 
@@ -238,14 +237,32 @@ export default function LandingPage() {
       {/* Footer - Massive */}
       <footer className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white pt-32 pb-12 px-6 border-t-4 border-purple-600">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 mb-32">
+          <div className="grid md:grid-cols-3 gap-12 mb-32">
             <div>
               <RevealOnScroll>
-                <h2 className="text-[15vw] leading-[0.8] font-serif tracking-tighter opacity-20">
+                <h2 className="text-[10vw] leading-[0.8] font-serif tracking-tighter opacity-20">
                   GENERATE.
                 </h2>
               </RevealOnScroll>
             </div>
+
+            <div className="space-y-6">
+              <RevealOnScroll delay={200}>
+                <h3 className="text-xs font-bold tracking-[0.3em] uppercase mb-6 text-purple-400">Direct Contact</h3>
+                <div className="space-y-4 text-sm font-light opacity-80">
+                  <p className="flex items-center gap-3">
+                    <span className="text-purple-400 font-bold">P:</span> +1-555-555-5555
+                  </p>
+                  <a href="https://wa.me/15555555555" target="_blank" className="flex items-center gap-3 hover:text-green-400 transition-colors">
+                    <span className="text-green-400 font-bold">W:</span> WhatsApp Support
+                  </a>
+                  <p className="flex items-center gap-3">
+                    <span className="text-purple-400 font-bold">A:</span> 123 Main St, Anytown, USA
+                  </p>
+                </div>
+              </RevealOnScroll>
+            </div>
+
             <div className="flex flex-col justify-end items-start md:items-end">
               <RevealOnScroll delay={300} className="w-full text-left md:text-right">
                 <Link href="/signup" className="text-4xl md:text-6xl font-serif hover:italic transition-all underline decoration-1 underline-offset-8 mb-8 inline-block">
