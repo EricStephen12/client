@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode, useState, useEffect } from 'react';
 import { useSession, signOut } from 'next-auth/react';
+import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
@@ -17,11 +18,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         { name: 'Settings', href: '/dashboard/settings' },
     ];
 
-    useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.push('/login');
-        }
-    }, [status, router]);
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
@@ -34,6 +30,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         image: session.user.image,
         plan_type: (session.user as any).subscription_tier || 'Free'
     } : null;
+
+    if (status === 'loading') {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-white text-gray-900">
+                <div className="text-center space-y-4">
+                    <div className="w-12 h-12 border-2 border-purple-100 border-t-purple-600 rounded-full animate-spin mx-auto"></div>
+                    <p className="text-gray-400 font-serif italic text-lg">Authenticating Mastermind...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 text-gray-900 font-sans selection:bg-purple-600 selection:text-white">
@@ -157,7 +164,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
 }
 
 // Minimal Reveal wrapper if not already imported or available
-function RevealOnScroll({ children }: { children: ReactNode }) {
+function RevealOnScrollWrapper({ children }: { children: ReactNode }) {
     return (
         <div className="animate-fade-in-up">
             {children}

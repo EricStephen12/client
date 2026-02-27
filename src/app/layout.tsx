@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import PaddleLoader from "@/components/PaddleLoader";
+import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Socially | Viral Scripts for Dropshippers",
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased text-slate-900 bg-[#FAFAF9]">
-        {children}
+        <Providers>
+          {children}
+        </Providers>
         <PaddleLoader />
       </body>
     </html>

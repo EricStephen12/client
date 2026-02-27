@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,11 +8,6 @@ import Image from 'next/image';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function LoginPage() {
-    // Initialize Supabase Client with Cookie Support
-    const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -25,23 +20,23 @@ export default function LoginPage() {
         setError(null);
 
         try {
-            const { error } = await supabase.auth.signInWithPassword({
+            const res = await signIn('credentials', {
                 email,
                 password,
+                redirect: false,
             });
 
-            if (error) throw error;
+            if (res?.error) {
+                setError("Invalid email or password");
+                return;
+            }
 
-            // Critical: Refresh router to update server components with new auth state
+            // Successfully logged in
             router.refresh();
-
-            // Wait a moment for cookie to propagate before redirecting
-            setTimeout(() => {
-                router.replace('/dashboard');
-            }, 500);
+            router.replace('/dashboard');
 
         } catch (err: any) {
-            setError(err.message);
+            setError("Something went wrong. Please try again.");
         } finally {
             setLoading(false);
         }

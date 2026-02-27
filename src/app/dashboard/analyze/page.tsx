@@ -2,18 +2,15 @@
 import { useState, useCallback, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
-import { createClient } from '@/utils/supabase/client';
-import DashboardLayout from '@/components/DashboardLayout';
+import { useSession } from 'next-auth/react';
 
 export default function AnalyzePage() {
     return (
         <Suspense fallback={
-            <DashboardLayout>
-                <div className="max-w-6xl mx-auto pt-12 text-center">
-                    <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                    <p className="font-serif text-xl italic text-gray-400">Loading Studio...</p>
-                </div>
-            </DashboardLayout>
+            <div className="max-w-6xl mx-auto pt-12 text-center">
+                <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+                <p className="font-serif text-xl italic text-gray-400">Loading Studio...</p>
+            </div>
         }>
             <AnalyzeContent />
         </Suspense>
@@ -25,19 +22,11 @@ function AnalyzeContent() {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState<any>(null);
-    const [userId, setUserId] = useState<string | null>(null);
     const [url, setUrl] = useState('');
     const [activeTab, setActiveTab] = useState<'upload' | 'url'>('url');
 
-    const supabase = createClient();
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) setUserId(user.id);
-        };
-        fetchUser();
-    }, [supabase]);
+    const { data: session } = useSession();
+    const userId = (session?.user as any)?.id;
 
     const searchParams = useSearchParams();
 
@@ -46,22 +35,13 @@ function AnalyzeContent() {
         if (queryUrl && !result && !isAnalyzing) {
             setUrl(queryUrl);
             setActiveTab('url');
-            // We need a small delay or check for userId if we want to save it immediately,
-            // but the handleAnalyze function handles missing userId anyway (it just won't save).
-            // Let's trigger it.
-            const triggerInitialScan = async () => {
-                // Wait for userId if it's coming
-                let currentUserId = userId;
-                if (!currentUserId) {
-                    const { data: { user } } = await supabase.auth.getUser();
-                    currentUserId = user?.id || null;
-                }
 
+            const triggerInitialScan = async () => {
                 setIsAnalyzing(true);
                 try {
                     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/analyze-video-url`, {
                         method: 'POST',
-                        body: JSON.stringify({ videoUrl: queryUrl, userId: currentUserId }),
+                        body: JSON.stringify({ videoUrl: queryUrl, userId }),
                         headers: { 'Content-Type': 'application/json' },
                     });
                     if (res.ok) {
@@ -76,7 +56,7 @@ function AnalyzeContent() {
             };
             triggerInitialScan();
         }
-    }, [searchParams, userId, supabase]);
+    }, [searchParams, userId]);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
@@ -280,7 +260,7 @@ function AnalyzeContent() {
 
 
     return (
-        <DashboardLayout>
+        <>
             <div className="max-w-6xl mx-auto animate-fade-in-up pb-20 -mt-4 md:-mt-8 space-y-6 md:space-y-8">
                 {/* Header */}
                 <div className="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-purple-50 pb-6 md:pb-8">
@@ -507,6 +487,6 @@ function AnalyzeContent() {
                 .custom-scrollbar::-webkit-scrollbar-thumb { background: #e9d5ff; border-radius: 10px; }
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #d8b4fe; }
             `}</style>
-        </DashboardLayout>
+        </>
     );
 }

@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,11 +8,6 @@ import Image from 'next/image';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function SignupPage() {
-    // Initialize Supabase Client with Cookie Support
-    const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -25,14 +20,26 @@ export default function SignupPage() {
         setError(null);
 
         try {
-            const { error } = await supabase.auth.signUp({
-                email,
-                password,
+            // STEP 1: Register user on backend
+            const regRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
             });
 
-            if (error) throw error;
+            const regData = await regRes.json();
+            if (!regRes.ok) throw new Error(regData.error || 'Failed to register');
 
-            // Force refresh to ensure middleware sees the new cookie
+            // STEP 2: Sign in with NextAuth
+            const res = await signIn('credentials', {
+                email,
+                password,
+                redirect: false,
+            });
+
+            if (res?.error) throw new Error('Registration successful, but login failed. Please sign in manually.');
+
+            // Successfully logged in
             router.refresh();
             router.replace('/dashboard');
         } catch (err: any) {

@@ -1,26 +1,18 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { createClient } from '@/utils/supabase/client';
+import { useSession } from 'next-auth/react';
 import CursorEffect from '@/components/CursorEffect';
 import MagneticButton from '@/components/MagneticButton';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function LandingPage() {
   const [url, setUrl] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
-
-  useEffect(() => {
-    const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setIsLoggedIn(!!user);
-    };
-    checkUser();
-  }, [supabase]);
+  const { data: session, status } = useSession();
+  const isLoggedIn = status === 'authenticated';
 
   const handleDirectAnalyze = (e: React.FormEvent) => {
     e.preventDefault();

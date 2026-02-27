@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, Fragment } from 'react';
-import { createClient } from '@/utils/supabase/client';
+import { useSession } from 'next-auth/react';
 import { Dialog, Transition } from '@headlessui/react';
 
 interface ScriptGeneratorModalProps {
@@ -30,18 +30,9 @@ export default function ScriptGeneratorModal({
     const [isLoading, setIsLoading] = useState(false);
     const [script, setScript] = useState<any>(null);
     const [error, setError] = useState('');
-    const [userId, setUserId] = useState<string | null>(null);
 
-
-    // Fetch user on mount
-    useEffect(() => {
-        const fetchUser = async () => {
-            const supabase = createClient();
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) setUserId(user.id);
-        };
-        fetchUser();
-    }, []);
+    const { data: session } = useSession();
+    const userId = (session?.user as any)?.id;
 
     // Reset state when modal opens
     useEffect(() => {
