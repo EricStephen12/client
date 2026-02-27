@@ -51,8 +51,9 @@ export default function LandingPage() {
           </RevealOnScroll>
 
           <RevealOnScroll delay={200}>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium leading-tight mb-8 tracking-tight text-balance">
-              Get instant viral TikTok ad scripts and social content that drive sales and grow your dropshipping business in Nigeria and beyond!
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-medium leading-[0.95] mb-8 tracking-tight text-balance">
+              Stop <br />
+              <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Guessing.</span>
             </h1>
           </RevealOnScroll>
 
