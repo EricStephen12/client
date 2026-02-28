@@ -49,8 +49,8 @@ export default function LoginPage() {
             <div className="flex items-center justify-center p-8 md:p-16 lg:p-24 order-2 md:order-1 border-r border-purple-100 bg-white/50 backdrop-blur-sm">
                 <div className="w-full max-w-sm">
                     <RevealOnScroll>
-                        <Link href="/" className="inline-block text-3xl font-serif font-bold tracking-tighter mb-12 hover:opacity-70 transition-opacity">
-                            Socially.
+                        <Link href="/" className="inline-block text-5xl font-signature mb-12 hover:opacity-70 transition-opacity">
+                            Eixora.
                         </Link>
                     </RevealOnScroll>
 

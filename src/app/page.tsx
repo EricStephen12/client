@@ -27,8 +27,8 @@ export default function LandingPage() {
       {/* Navigation - Minimalist & Bordered */}
       <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b border-purple-200 transition-all duration-300">
         <div className="w-full px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="text-3xl font-serif font-bold tracking-tighter hover:opacity-70 transition-opacity">
-            Socially.
+          <Link href="/" className="text-4xl font-signature hover:opacity-70 transition-opacity">
+            Eixora.
           </Link>
           <div className="flex items-center gap-12">
             <Link href="/login" className="hidden md:block text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1">
@@ -52,8 +52,8 @@ export default function LandingPage() {
 
           <RevealOnScroll delay={200}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-medium leading-[0.95] mb-8 tracking-tight text-balance">
-              Stop <br />
-              <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Guessing.</span>
+              Decode <br />
+              <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">what wins.</span>
             </h1>
           </RevealOnScroll>
 
@@ -185,8 +185,8 @@ export default function LandingPage() {
       {/* Feature Grid - Brutalist */}
       <section className="grid grid-cols-1 md:grid-cols-2 border-b border-purple-200">
         {[
-          { title: "Retention DNA", subtitle: "Math-Based Creative", img: "https://images.unsplash.com/photo-1596462502278-27bfdd403348" },
-          { title: "Hook Engineering", subtitle: "Algorithmic Arbitrage", img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113" },
+          { title: "Retention DNA", subtitle: "Math-Based Creative", img: "/retention-dna.png" },
+          { title: "Hook Engineering", subtitle: "Algorithmic Arbitrage", img: "/hook-engineering.png" },
         ].map((feature, i) => (
           <div key={i} className={`group border-b md:border-b-0 border-purple-200 ${i !== 1 ? 'md:border-r border-purple-200' : ''} h-[80vh] relative overflow-hidden`}>
             <Image
@@ -247,21 +247,30 @@ export default function LandingPage() {
               </RevealOnScroll>
             </div>
 
-            <div className="space-y-6">
+            {/* Mobile Contact & Legal - Visible only on mobile */}
+            <div className="space-y-6 md:hidden">
               <RevealOnScroll delay={200}>
-                <h3 className="text-xs font-bold tracking-[0.3em] uppercase mb-6 text-purple-400">Direct Contact</h3>
+                <h3 className="text-xs font-bold tracking-[0.3em] uppercase mb-6 text-purple-400">Support</h3>
                 <div className="space-y-4 text-sm font-light opacity-80">
-                  <p className="flex items-center gap-3">
-                    <span className="text-purple-400 font-bold">P:</span> +1-555-555-5555
-                  </p>
-                  <a href="https://wa.me/15555555555" target="_blank" className="flex items-center gap-3 hover:text-green-400 transition-colors">
-                    <span className="text-green-400 font-bold">W:</span> WhatsApp Support
+                  <a href="mailto:support@eixora.com" className="flex items-center gap-3">
+                    <span className="text-purple-400 font-bold">E:</span> support@eixora.com
                   </a>
-                  <p className="flex items-center gap-3">
-                    <span className="text-purple-400 font-bold">A:</span> 123 Main St, Anytown, USA
-                  </p>
+                  <a href="https://wa.me/2348000000000" target="_blank" className="flex items-center gap-3 text-green-400">
+                    <span className="font-bold">W:</span> WhatsApp Support
+                  </a>
+                </div>
+
+                <h3 className="text-xs font-bold tracking-[0.3em] uppercase mt-12 mb-6 text-purple-400">Legal</h3>
+                <div className="flex flex-col gap-4 text-xs font-light opacity-60">
+                  <Link href="/privacy" className="hover:text-purple-400 transition-colors underline decoration-purple-200/30 underline-offset-4">Privacy Policy</Link>
+                  <Link href="/terms" className="hover:text-purple-400 transition-colors underline decoration-purple-200/30 underline-offset-4">Terms & Conditions</Link>
+                  <Link href="/refund" className="hover:text-purple-400 transition-colors underline decoration-purple-200/30 underline-offset-4">Refund Policy</Link>
                 </div>
               </RevealOnScroll>
+            </div>
+
+            <div className="hidden md:block">
+              {/* Empty middle column for spacing on desktop to keep it minimal */}
             </div>
 
             <div className="flex flex-col justify-end items-start md:items-end">
@@ -270,19 +279,29 @@ export default function LandingPage() {
                   Launch Engine &rarr;
                 </Link>
                 <p className="text-sm opacity-50 max-w-md ml-auto">
-                  Join the elite agents using Socially to dominate the attention economy. <br />
+                  Join the elite agents using EIXORA to dominate the attention economy. <br />
                   Limited access. Professional grade.
                 </p>
               </RevealOnScroll>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/20">
-            <p className="text-xs tracking-[0.2em] uppercase opacity-50">&copy; 2026 EXRICX. ALL RIGHTS RESERVED.</p>
-            <div className="flex gap-8 mt-4 md:mt-0">
-              <Link href="#" className="text-xs tracking-[0.2em] uppercase hover:underline">Instagram</Link>
-              <Link href="#" className="text-xs tracking-[0.2em] uppercase hover:underline">Twitter</Link>
-              <Link href="#" className="text-xs tracking-[0.2em] uppercase hover:underline">TikTok</Link>
+          <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/20 gap-8">
+            {/* Desktop Legal Links - Visible only on desktop */}
+            <div className="hidden md:flex flex-wrap items-center justify-start gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
+              <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
+              <Link href="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
+              <a href="mailto:support@eixora.com" className="hover:text-white transition-colors">Support: support@eixora.com</a>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="flex gap-8">
+                <Link href="#" className="text-[10px] tracking-[0.2em] uppercase opacity-50 hover:opacity-100 transition-opacity">Instagram</Link>
+                <Link href="#" className="text-[10px] tracking-[0.2em] uppercase opacity-50 hover:opacity-100 transition-opacity">Twitter</Link>
+                <Link href="#" className="text-[10px] tracking-[0.2em] uppercase opacity-50 hover:opacity-100 transition-opacity">TikTok</Link>
+              </div>
+              <p className="text-xs tracking-[0.2em] uppercase opacity-50">&copy; 2026 EXRICX. ALL RIGHTS RESERVED.</p>
             </div>
           </div>
         </div>

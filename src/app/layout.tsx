@@ -4,8 +4,11 @@ import PaddleLoader from "@/components/PaddleLoader";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "Viral TikTok Ad Scripts for Dropshippers | Socially",
+  title: "Viral TikTok Ad Scripts for Dropshippers | EIXORA",
   description: "Generate winning TikTok ad scripts and social content in seconds.",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({

@@ -74,7 +74,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             {/* Main Content */}
             <main className="flex-1 overflow-auto">
                 <header className="flex lg:hidden items-center justify-between p-6 border-b border-purple-50 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-                    <Link href="/" className="text-2xl font-serif font-bold tracking-tighter">Socially.</Link>
+                    <Link href="/" className="text-3xl font-signature">Eixora.</Link>
                     <button
                         onClick={() => setIsMobileMenuOpen(true)}
                         className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors"
@@ -97,8 +97,8 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
     return (
         <div className="flex flex-col h-full">
             <div className="p-8 border-b border-purple-50">
-                <Link href="/" className="text-3xl font-serif font-bold tracking-tighter hover:opacity-70 transition-opacity">
-                    Socially.
+                <Link href="/" className="text-4xl font-signature hover:opacity-70 transition-opacity">
+                    Eixora.
                 </Link>
             </div>
 
