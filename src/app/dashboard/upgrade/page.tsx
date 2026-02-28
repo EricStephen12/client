@@ -7,8 +7,8 @@ export default function UpgradePage() {
     const userEmail = session?.user?.email || '';
     const userId = (session?.user as any)?.id || '';
 
-    const handleCheckout = (priceId: string) => {
-        if (!priceId) return;
+    const handleCheckout = () => {
+        const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_FOUNDING || 'pri_founding_monthly_placeholder';
         // @ts-ignore
         if (window.Paddle) {
             // @ts-ignore
@@ -25,106 +25,80 @@ export default function UpgradePage() {
         }
     };
 
-    const plans = [
-        {
-            name: 'Free',
-            price: '$0',
-            priceId: '',
-            features: ['3 AI Scripts / Month', 'Standard Viral Library', 'Community Access'],
-            cta: 'Current Plan',
-            popular: false,
-            color: 'gray'
-        },
-        {
-            name: 'Pro',
-            price: '$49',
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO || 'pri_pro_monthly_placeholder',
-            features: ['Unlimited AI Scripts', 'Advanced Private Analysis', 'Custom Brand DNA', 'High-Res Asset Curator'],
-            cta: 'Upgrade to Pro',
-            popular: true,
-            color: 'purple'
-        },
-        {
-            name: 'Agency',
-            price: '$149',
-            priceId: process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_AGENCY || 'pri_agency_monthly_placeholder',
-            priceSuffix: '/team',
-            features: ['Team Workspaces', 'Bulk Scraper API', 'Priority AI Rendering', 'Dedicated Strategist'],
-            cta: 'Go Agency',
-            popular: false,
-            color: 'blue'
-        }
-    ];
-
     return (
-        <div className="space-y-16 pb-20 mt-8">
-            <div className="text-center space-y-4">
+        <div className="max-w-4xl mx-auto py-20 px-6">
+            <div className="text-center space-y-8 mb-20">
                 <RevealOnScroll>
-                    <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Monetization Bridge</span>
+                    <span className="text-xs font-bold tracking-[0.5em] uppercase text-purple-600 block">The Elite Bridge</span>
                 </RevealOnScroll>
                 <RevealOnScroll delay={100}>
-                    <h2 className="text-5xl lg:text-7xl font-serif font-medium tracking-tighter text-gray-900 leading-tight">
-                        Unlock <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Viral Power.</span>
-                    </h2>
+                    <h2 className="text-6xl md:text-8xl font-serif tracking-tighter italic">Founding <br />Architect.</h2>
                 </RevealOnScroll>
                 <RevealOnScroll delay={200}>
-                    <p className="text-gray-500 max-w-2xl mx-auto font-medium opacity-80">
-                        Choose the layer of intelligence your dropshipping empire needs. Scale faster with agency-grade creative engineering.
+                    <p className="text-gray-500 max-w-xl mx-auto font-light text-lg">
+                        Unlock the full spectrum of viral intelligence. Join the founding 100 at our lifetime legacy rate.
                     </p>
                 </RevealOnScroll>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                {plans.map((plan, i) => (
-                    <RevealOnScroll key={plan.name} delay={300 + (i * 100)}>
-                        <div className={`relative group p-10 rounded-[3rem] border transition-all duration-500 flex flex-col h-full ${plan.popular
-                            ? 'bg-white border-purple-200 shadow-[0_40px_100px_-20px_rgba(168,85,247,0.15)] ring-4 ring-purple-50'
-                            : 'bg-gray-50/50 border-gray-100'
-                            }`}>
-                            {plan.popular && (
-                                <div className="absolute top-8 right-8 px-3 py-1 bg-gradient-to-r from-purple-600 to-blue-600 text-[10px] text-white font-black uppercase tracking-widest rounded-full">
-                                    Most Choice
-                                </div>
-                            )}
+            <RevealOnScroll delay={300}>
+                <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                    <div className="relative bg-white border border-purple-100 p-12 md:p-20 rounded-xl shadow-2xl overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8">
+                            <span className="text-[10px] font-black tracking-[0.3em] uppercase bg-purple-600 text-white px-4 py-1.5 rounded-full shadow-lg">LIFETIME RATE</span>
+                        </div>
 
-                            <div className="mb-10">
-                                <h3 className="text-xl font-serif mb-6 text-gray-900">{plan.name}</h3>
-                                <div className="flex items-baseline gap-1">
-                                    <span className="text-5xl font-serif font-medium tracking-tighter">{plan.price}</span>
-                                    <span className="text-gray-400 font-bold text-xs uppercase tracking-widest">/ month{plan.priceSuffix}</span>
+                        <div className="flex flex-col md:flex-row gap-16 items-center">
+                            <div className="flex-1 w-full">
+                                <div className="flex items-baseline gap-2 mb-8">
+                                    <span className="text-7xl md:text-8xl font-serif">$9.99</span>
+                                    <span className="text-gray-400 font-light italic text-xl">/month</span>
                                 </div>
+                                <h3 className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 mb-12">Full Access • Founding Status</h3>
+
+                                <ul className="space-y-6 mb-12">
+                                    {[
+                                        'Unlimited Viral DNA Extractions',
+                                        'Infinite AI Script Generation',
+                                        'Deep Psychology Trigger Mapping',
+                                        'Direct Creative Director Mentality',
+                                        'Priority Feature Reservation'
+                                    ].map(feature => (
+                                        <li key={feature} className="flex gap-4 text-sm font-light text-gray-600 group/item">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-600 group-hover/item:w-6 transition-all"></div>
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <button
+                                    onClick={handleCheckout}
+                                    className="w-full py-6 bg-black text-white text-xs font-black uppercase tracking-[0.4em] hover:bg-purple-900 transition-all transform hover:-translate-y-1 rounded-sm shadow-xl"
+                                >
+                                    Claim Founding Spot
+                                </button>
+                                <p className="mt-8 text-[10px] text-center uppercase tracking-widest opacity-40">Only 100 spots at this rate &bull; No hidden fees</p>
                             </div>
 
-                            <ul className="space-y-4 mb-12 flex-1">
-                                {plan.features.map(feature => (
-                                    <li key={feature} className="flex gap-3 text-sm font-medium text-gray-500">
-                                        <svg className={`w-5 h-5 shrink-0 ${plan.popular ? 'text-purple-600' : 'text-gray-300'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" /></svg>
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
+                            <div className="hidden lg:block w-px h-64 bg-gradient-to-b from-transparent via-purple-100 to-transparent"></div>
 
-                            <button
-                                onClick={() => handleCheckout(plan.priceId)}
-                                disabled={plan.name === 'Free'}
-                                className={`w-full py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] transition-all shadow-lg hover:-translate-y-1 ${plan.popular
-                                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-purple-200'
-                                    : 'bg-white border border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed'
-                                    }`}
-                            >
-                                {plan.cta}
-                            </button>
+                            <div className="hidden lg:block flex-1 text-left">
+                                <p className="font-serif italic text-3xl mb-8 leading-tight">"In the attention economy, precision beats volume."</p>
+                                <div className="space-y-6 text-sm font-light text-gray-500 opacity-80 leading-relaxed">
+                                    <p>As a founding member, you aren't just buying software. You're securing the algorithmic edge before it goes mainstream.</p>
+                                    <p>Your rate is locked forever. Your influence starts today.</p>
+                                </div>
+                            </div>
                         </div>
-                    </RevealOnScroll>
-                ))}
-            </div>
+                    </div>
+                </div>
+            </RevealOnScroll>
 
-            <div className="text-center pt-8">
-                <RevealOnScroll delay={700}>
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                        Secure transactions powered by <span className="text-gray-900">Paddle</span>. No hidden fees.
-                    </p>
-                </RevealOnScroll>
+            <div className="text-center mt-20 opacity-40">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em]">
+                    Powered by <span className="text-black">Paddle</span> &bull; Secure Encrypted Payments
+                </p>
             </div>
         </div>
     );

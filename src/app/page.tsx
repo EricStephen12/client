@@ -31,7 +31,10 @@ export default function LandingPage() {
             Eixora.
           </Link>
           <div className="flex items-center gap-12">
-            <Link href="/login" className="hidden md:block text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1">
+            <Link href="/pricing" className="hidden md:block text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1 decoration-purple-400">
+              Pricing
+            </Link>
+            <Link href="/login" className="hidden md:block text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1 decoration-purple-400">
               Sign In
             </Link>
             <Link href={isLoggedIn ? "/dashboard/analyze" : "/signup"} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:from-purple-700 hover:to-blue-700 border-0 transition-all shadow-lg hover:shadow-xl">
@@ -210,7 +213,7 @@ export default function LandingPage() {
       </section>
 
       {/* The Math - Editorial Table Style */}
-      <section className="py-32 px-6">
+      <section className="py-32 px-6 border-b border-purple-200">
         <div className="max-w-4xl mx-auto">
           <RevealOnScroll className="text-center mb-24">
             <h2 className="text-5xl font-serif mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent italic">The Retention Engine</h2>
@@ -225,7 +228,7 @@ export default function LandingPage() {
                 { l: "Output", r: "Psychology Breakdown + Replica Script" },
                 { l: "Conversion", r: "Engineered to Stop the Scroll" }
               ].map((row, i) => (
-                <div key={i} className="grid grid-cols-2 border-b border-purple-200 last:border-b-0 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300 group">
+                <div key={i} className="grid grid-cols-2 border-b border-purple-200 last:border-b-0 hover:bg-gradient-to-r hover:bg-purple-600 hover:text-white transition-all duration-300 group">
                   <div className="p-8 border-r border-purple-200 font-serif text-xl italic">{row.l}</div>
                   <div className="p-8 text-sm uppercase tracking-widest flex items-center">{row.r}</div>
                 </div>
@@ -234,6 +237,7 @@ export default function LandingPage() {
           </RevealOnScroll>
         </div>
       </section>
+
 
       {/* Footer - Massive */}
       <footer className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white pt-32 pb-12 px-6 border-t-4 border-purple-600">
@@ -262,6 +266,7 @@ export default function LandingPage() {
 
                 <h3 className="text-xs font-bold tracking-[0.3em] uppercase mt-12 mb-6 text-purple-400">Legal</h3>
                 <div className="flex flex-col gap-4 text-xs font-light opacity-60">
+                  <Link href="/pricing" className="hover:text-purple-400 transition-colors underline decoration-purple-200/30 underline-offset-4">Pricing</Link>
                   <Link href="/privacy" className="hover:text-purple-400 transition-colors underline decoration-purple-200/30 underline-offset-4">Privacy Policy</Link>
                   <Link href="/terms" className="hover:text-purple-400 transition-colors underline decoration-purple-200/30 underline-offset-4">Terms & Conditions</Link>
                   <Link href="/refund" className="hover:text-purple-400 transition-colors underline decoration-purple-200/30 underline-offset-4">Refund Policy</Link>
@@ -289,6 +294,7 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/20 gap-8">
             {/* Desktop Legal Links - Visible only on desktop */}
             <div className="hidden md:flex flex-wrap items-center justify-start gap-8 text-[10px] tracking-[0.2em] uppercase opacity-50">
+              <Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link>
               <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
               <Link href="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
