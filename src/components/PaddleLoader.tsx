@@ -5,25 +5,27 @@ import Script from 'next/script';
 export default function PaddleLoader() {
     return (
         <Script
-            src="https://cdn.paddle.com/paddle/paddle.js"
+            src="https://cdn.paddle.com/paddle/v2/paddle.js"
             strategy="afterInteractive"
             onLoad={() => {
                 // @ts-ignore
                 if (window.Paddle) {
-                    const vendorId = Number(process.env.NEXT_PUBLIC_PADDLE_VENDOR_ID);
+                    const clientToken = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
 
-                    // Skip Paddle setup in development if no valid vendor ID is set
-                    if (!vendorId || vendorId === 1234567) {
+                    // Skip Paddle setup in development if no valid client token is set
+                    if (!clientToken || clientToken === 'your_client_token_here') {
                         if (process.env.NODE_ENV === 'development') {
-                            console.warn('⚠️ Paddle: No valid vendor ID set. Skipping Paddle initialization in development mode.');
+                            console.warn('⚠️ Paddle: No valid client token set. Skipping Paddle initialization in development mode.');
                             return;
                         }
                     }
 
                     // @ts-ignore
-                    window.Paddle.Setup({
-                        vendor: vendorId,
-                        debug: process.env.NODE_ENV === 'development'
+                    window.Paddle.Initialize({
+                        token: clientToken, // In V2, this is the Client-side Token
+                        eventCallback: function (data: any) {
+                            console.log('Paddle Event:', data);
+                        }
                     });
                 }
             }}

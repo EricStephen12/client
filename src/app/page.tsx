@@ -256,11 +256,8 @@ export default function LandingPage() {
               <RevealOnScroll delay={200}>
                 <h3 className="text-xs font-bold tracking-[0.3em] uppercase mb-6 text-purple-400">Support</h3>
                 <div className="space-y-4 text-sm font-light opacity-80">
-                  <a href="mailto:support@eixora.com" className="flex items-center gap-3">
-                    <span className="text-purple-400 font-bold">E:</span> support@eixora.com
-                  </a>
-                  <a href="https://wa.me/2348000000000" target="_blank" className="flex items-center gap-3 text-green-400">
-                    <span className="font-bold">W:</span> WhatsApp Support
+                  <a href="mailto:eixoraservicecenter@gmail.com" className="flex items-center gap-3">
+                    <span className="text-purple-400 font-bold">E:</span> eixoraservicecenter@gmail.com
                   </a>
                 </div>
 
@@ -298,7 +295,7 @@ export default function LandingPage() {
               <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
               <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
               <Link href="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
-              <a href="mailto:support@eixora.com" className="hover:text-white transition-colors">Support: support@eixora.com</a>
+              <a href="mailto:eixoraservicecenter@gmail.com" className="hover:text-white transition-colors">Support: eixoraservicecenter@gmail.com</a>
             </div>
 
             <div className="flex flex-col md:flex-row items-center gap-8">

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import CheckoutButton from "@/components/CheckoutButton";
 
 export default function PricingPage() {
+    const priceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO || 'pri_01j7p3v1z5v5v5v5v5v5v5v5v5'; // Fallback or placeholder
     return (
         <div className="min-h-screen bg-[#FAFAF9] text-[#1c1917] font-sans selection:bg-purple-100">
             {/* Navigation */}
@@ -85,12 +87,12 @@ export default function PricingPage() {
                                         ))}
                                     </div>
 
-                                    <Link
-                                        href="/signup"
+                                    <CheckoutButton
+                                        priceId={priceId}
                                         className="block w-full py-8 bg-black text-white text-xs font-bold tracking-[0.5em] uppercase hover:bg-purple-900 transition-all transform hover:-translate-y-1 rounded-sm shadow-2xl text-center"
                                     >
                                         Secure Founding Spot
-                                    </Link>
+                                    </CheckoutButton>
 
                                     <div className="mt-12 text-center">
                                         <p className="text-[10px] uppercase tracking-[0.3em] opacity-40 leading-loose">
@@ -113,7 +115,7 @@ export default function PricingPage() {
                         <Link href="/privacy" className="hover:opacity-100 transition-opacity">Privacy</Link>
                         <Link href="/terms" className="hover:opacity-100 transition-opacity">Terms</Link>
                         <Link href="/refund" className="hover:opacity-100 transition-opacity">Refunds</Link>
-                        <a href="mailto:support@eixora.com" className="hover:opacity-100 transition-opacity">Support</a>
+                        <a href="mailto:eixoraservicecenter@gmail.com" className="hover:opacity-100 transition-opacity">Support</a>
                     </div>
                     <p className="text-[10px] tracking-[0.3em] uppercase opacity-20">&copy; 2026 EXRICX</p>
                 </div>

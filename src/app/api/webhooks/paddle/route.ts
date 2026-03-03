@@ -44,8 +44,9 @@ export async function POST(req: NextRequest) {
                 let subscriptionTier = 'free';
 
                 const priceId = items[0]?.price?.id;
-                if (priceId === process.env.PADDLE_PRICE_ID_PRO) subscriptionTier = 'pro';
-                else if (priceId === process.env.PADDLE_PRICE_ID_AGENCY) subscriptionTier = 'agency';
+                if (priceId === process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO) subscriptionTier = 'pro';
+                else if (priceId === process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_AGENCY) subscriptionTier = 'agency';
+                // Fallback for case-insensitive checks or if IDs change
                 else if (items[0]?.price?.description?.toLowerCase().includes('pro')) subscriptionTier = 'pro';
                 else if (items[0]?.price?.description?.toLowerCase().includes('agency')) subscriptionTier = 'agency';
 
@@ -53,7 +54,8 @@ export async function POST(req: NextRequest) {
                     UPDATE users 
                     SET subscription_tier = ${subscriptionTier},
                         subscription_status = ${data.status},
-                        paddle_customer_id = ${data.customerId}
+                        paddle_customer_id = ${data.customerId},
+                        updated_at = NOW()
                     WHERE id = ${userId}
                 `;
                 break;

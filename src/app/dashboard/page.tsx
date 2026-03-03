@@ -39,9 +39,16 @@ export default function DashboardPage() {
                     <span className="text-[10px] font-black uppercase tracking-[0.5em] text-purple-600">Mission Control</span>
                 </RevealOnScroll>
                 <RevealOnScroll delay={100}>
-                    <h2 className="text-4xl sm:text-6xl md:text-8xl font-serif font-medium tracking-tighter text-gray-900 leading-[0.9]">
-                        {loading ? 'Initializing...' : `Welcome, ${firstName}.`}
-                    </h2>
+                    <div className="flex items-center gap-4">
+                        <h2 className="text-4xl sm:text-6xl md:text-8xl font-serif font-medium tracking-tighter text-gray-900 leading-[0.9]">
+                            {loading ? 'Initializing...' : `Welcome, ${firstName}.`}
+                        </h2>
+                        {profile?.plan_type && profile.plan_type !== 'free' && (
+                            <span className="bg-purple-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mt-4">
+                                PRO
+                            </span>
+                        )}
+                    </div>
                 </RevealOnScroll>
             </div>
 
