@@ -55,14 +55,14 @@ export default function LandingPage() {
 
           <RevealOnScroll delay={200}>
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-medium leading-[0.95] mb-8 tracking-tight text-balance">
-              Decode <br />
-              <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">what wins.</span>
+              Turn Viral Ads <br />
+              <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Into Your Own.</span>
             </h1>
           </RevealOnScroll>
 
           <RevealOnScroll delay={300}>
             <p className="text-xl font-light leading-relaxed max-w-md mb-12 text-gray-700">
-              Weaponize the math of winning creative. We deconstruct the retention DNA of viral TikToks so you can scale what works.
+              Stop guessing what works. We break down any viral video and give you the exact plan to do the same thing for your own product.
             </p>
           </RevealOnScroll>
 
@@ -119,14 +119,14 @@ export default function LandingPage() {
       {/* Marquee - "Ticker" */}
       <section className="py-4 border-b border-purple-200 overflow-hidden whitespace-nowrap bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white">
         <div className="inline-block animate-marquee">
-          <span className="text-4xl font-serif italic mx-8 uppercase">Intelligence</span>
-          <span className="text-xs tracking-[0.3em] uppercase mx-8">Driven by Data</span>
-          <span className="text-4xl font-serif italic mx-8 uppercase">Psychology</span>
-          <span className="text-xs tracking-[0.3em] uppercase mx-8">Driven by Data</span>
-          <span className="text-4xl font-serif italic mx-8 uppercase">Conversion</span>
-          <span className="text-xs tracking-[0.3em] uppercase mx-8">Driven by Data</span>
-          <span className="text-4xl font-serif italic mx-8 uppercase">Retention</span>
-          <span className="text-xs tracking-[0.3em] uppercase mx-8">Driven by Data</span>
+          <span className="text-4xl font-serif italic mx-8 uppercase">Neural DNA</span>
+          <span className="text-xs tracking-[0.3em] uppercase mx-8">Autonomous Extraction</span>
+          <span className="text-4xl font-serif italic mx-8 uppercase">Structural Arbitrage</span>
+          <span className="text-xs tracking-[0.3em] uppercase mx-8">Algorithmic Efficiency</span>
+          <span className="text-4xl font-serif italic mx-8 uppercase">Conversion Math</span>
+          <span className="text-xs tracking-[0.3em] uppercase mx-8">Objective Certainty</span>
+          <span className="text-4xl font-serif italic mx-8 uppercase">Retention Logic</span>
+          <span className="text-xs tracking-[0.3em] uppercase mx-8">Neuro-Psychology</span>
         </div>
       </section>
 
@@ -135,15 +135,15 @@ export default function LandingPage() {
         <div className="p-12 lg:p-24 border-b lg:border-b-0 lg:border-r border-purple-200 flex items-center bg-gradient-to-br from-purple-50 to-transparent">
           <RevealOnScroll>
             <h2 className="text-6xl md:text-8xl font-serif leading-none tracking-tight">
-              SCIENTIFIC <br />
-              <span className="text-transparent stroke-text">CREATIVE.</span>
+              KNOW WHY <br />
+              <span className="text-transparent stroke-text">THEY WATCH.</span>
             </h2>
           </RevealOnScroll>
         </div>
         <div className="p-12 lg:p-24 flex flex-col justify-center">
           <RevealOnScroll delay={200}>
             <p className="text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-md">
-              ROAS is a choice. We deconstruct the viral math of winning ads so you can scale with certainty.
+              Successful ads aren't luck. We show you exactly how to capture attention and turn it into sales.
             </p>
           </RevealOnScroll>
 
@@ -152,7 +152,7 @@ export default function LandingPage() {
               <RevealOnScroll key={i} delay={300 + (i * 100)}>
                 <li className="flex items-center gap-6 group cursor-pointer">
                   <span className="text-xs font-mono border-2 border-purple-600 w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white transition-all">{i + 1}</span>
-                  <span className="text-xl font-serif italic decoration-1 underline-offset-4 group-hover:underline">{item}</span>
+                  <span className="text-xl font-serif italic decoration-1 underline-offset-4 group-hover:underline">{['Instantly Scan Any Video', 'See Exactly Why It Works', 'Get Your Custom Ad Script'][i]}</span>
                 </li>
               </RevealOnScroll>
             ))}
@@ -164,16 +164,16 @@ export default function LandingPage() {
       <section className="py-32 px-6 border-b border-purple-200 bg-white">
         <div className="max-w-6xl mx-auto">
           <RevealOnScroll className="text-center mb-24">
-            <h2 className="text-5xl md:text-7xl font-serif mb-6 italic">The Production Pipeline</h2>
-            <p className="text-xs tracking-[0.4em] uppercase text-purple-600">From URL to Viral Asset in 60 Seconds</p>
+            <h2 className="text-5xl md:text-7xl font-serif mb-6 italic">How It Works</h2>
+            <p className="text-xs tracking-[0.4em] uppercase text-purple-600">From Video to Winner in 60 Seconds</p>
           </RevealOnScroll>
 
           <div className="grid md:grid-cols-3 gap-16 relative">
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-purple-100 -z-10"></div>
             {[
-              { step: "Deconstruct", desc: "Paste any winning URL. Isolate the hook rate, visual pacing, and Schwartz DNA." },
-              { step: "Bridge", desc: "Map the competitor's 'Secret Sauce' onto your product's unique selling proposition." },
-              { step: "Weaponize", desc: "Generate full-stack, boardroom-ready scripts designed for maximum ROAS." }
+              { step: "Analyze", desc: "Paste any viral link. We show you why people are stopping and staying." },
+              { step: "Adapt", desc: "We take the winning moves from that video and apply them to your product." },
+              { step: "Launch", desc: "Get a full script and plan so you can film your next winning ad today." }
             ].map((p, i) => (
               <RevealOnScroll key={i} delay={i * 200} className="bg-white p-8 border border-purple-100 relative shadow-sm hover:shadow-xl transition-all">
                 <span className="absolute -top-4 left-8 bg-purple-600 text-white text-[10px] font-bold px-4 py-1 uppercase tracking-widest">{i + 1}</span>
@@ -188,8 +188,8 @@ export default function LandingPage() {
       {/* Feature Grid - Brutalist */}
       <section className="grid grid-cols-1 md:grid-cols-2 border-b border-purple-200">
         {[
-          { title: "Retention DNA", subtitle: "Math-Based Creative", img: "/retention-dna.png" },
-          { title: "Hook Engineering", subtitle: "Algorithmic Arbitrage", img: "/hook-engineering.png" },
+          { title: "Ad Analysis", subtitle: "Data-Driven Creative", img: "/retention-dna.png" },
+          { title: "Viral Scripts", subtitle: "Engineered to Sell", img: "/hook-engineering.png" },
         ].map((feature, i) => (
           <div key={i} className={`group border-b md:border-b-0 border-purple-200 ${i !== 1 ? 'md:border-r border-purple-200' : ''} h-[80vh] relative overflow-hidden`}>
             <Image
@@ -216,17 +216,17 @@ export default function LandingPage() {
       <section className="py-32 px-6 border-b border-purple-200">
         <div className="max-w-4xl mx-auto">
           <RevealOnScroll className="text-center mb-24">
-            <h2 className="text-5xl font-serif mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent italic">The Retention Engine</h2>
-            <p className="text-xs tracking-[0.3em] uppercase text-purple-600">Engineered for Human Attention</p>
+            <h2 className="text-5xl font-serif mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent italic">The Ad Blueprint</h2>
+            <p className="text-xs tracking-[0.3em] uppercase text-purple-600">Built for Results</p>
           </RevealOnScroll>
 
           <RevealOnScroll>
             <div className="border-2 border-purple-600 rounded-lg overflow-hidden shadow-xl">
               {[
-                { l: "Input", r: "Any High-Performing Competitor Video" },
-                { l: "Process", r: "Neural Analysis of 50+ Hook Variations" },
-                { l: "Output", r: "Psychology Breakdown + Replica Script" },
-                { l: "Conversion", r: "Engineered to Stop the Scroll" }
+                { l: "Input", r: "Any Viral TikTok You Love" },
+                { l: "Result", r: "Full Breakdown of the Hook & Moves" },
+                { l: "Blueprint", r: "A Clear Plan for Your Brand" },
+                { l: "Goal", r: "Ads That People Actually Watch" }
               ].map((row, i) => (
                 <div key={i} className="grid grid-cols-2 border-b border-purple-200 last:border-b-0 hover:bg-gradient-to-r hover:bg-purple-600 hover:text-white transition-all duration-300 group">
                   <div className="p-8 border-r border-purple-200 font-serif text-xl italic">{row.l}</div>
@@ -246,7 +246,7 @@ export default function LandingPage() {
             <div>
               <RevealOnScroll>
                 <h2 className="text-[10vw] leading-[0.8] font-serif tracking-tighter opacity-20">
-                  GENERATE.
+                  START.
                 </h2>
               </RevealOnScroll>
             </div>
