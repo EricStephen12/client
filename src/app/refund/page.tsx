@@ -19,15 +19,15 @@ export default function RefundPolicy() {
             <main className="max-w-3xl mx-auto px-6 pt-40 pb-32">
                 <RevealOnScroll>
                     <h1 className="text-5xl md:text-7xl font-serif mb-12 tracking-tight">Refund Policy</h1>
-                    <p className="text-sm text-gray-500 mb-16 uppercase tracking-widest font-medium">Last Updated: February 28, 2026</p>
+                    <p className="text-sm text-gray-500 mb-16 uppercase tracking-widest font-medium">Last Updated: March 10, 2026</p>
                 </RevealOnScroll>
 
                 <article className="prose prose-stone max-w-none space-y-12 text-gray-700 leading-relaxed font-light">
                     <RevealOnScroll delay={100}>
                         <section>
-                            <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">1. No-Refund Policy for Digital Products</h2>
+                            <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">1. 30-Day Money Back Guarantee</h2>
                             <p>
-                                Due to the nature of digital products and the immediate delivery of credits and analysis reports, EIXORA generally does not offer refunds once a purchase has been made and credits have been added to your account.
+                                We stand by the quality of EIXORA. If you are a new subscriber and are not satisfied with our service within the first 30 days of your initial purchase, you are eligible for a full refund. This guarantee applies to your first subscription payment only and does not apply to subsequent renewals.
                             </p>
                         </section>
                     </RevealOnScroll>
@@ -71,7 +71,7 @@ export default function RefundPolicy() {
             </main>
 
             <footer className="border-t border-purple-100 py-12 text-center text-[10px] uppercase tracking-[0.3em] opacity-40">
-                &copy; 2026 EXRICX. All rights reserved.
+                &copy; 2026 EIXORA BY EXRICX. All rights reserved.
             </footer>
         </div>
     );

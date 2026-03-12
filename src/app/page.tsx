@@ -304,7 +304,7 @@ export default function LandingPage() {
                                 <Link href="#" className="text-[10px] tracking-[0.2em] uppercase opacity-50 hover:opacity-100 transition-opacity">Twitter</Link>
                                 <Link href="#" className="text-[10px] tracking-[0.2em] uppercase opacity-50 hover:opacity-100 transition-opacity">TikTok</Link>
                             </div>
-                            <p className="text-xs tracking-[0.2em] uppercase opacity-50">&copy; 2026 EIXORA. ALL RIGHTS RESERVED.</p>
+                            <p className="text-xs tracking-[0.2em] uppercase opacity-50">&copy; 2026 EIXORA BY EXRICX. ALL RIGHTS RESERVED.</p>
                         </div>
                     </div>
                 </div>
