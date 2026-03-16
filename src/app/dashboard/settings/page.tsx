@@ -10,11 +10,22 @@ export default function SettingsPage() {
 }
 
 function SettingsContent() {
-    const { data: session, status } = useSession();
-    const router = useRouter();
-
     // 1. All State Definitions
+    const { data: session, status, update } = useSession();
     const [profile, setProfile] = useState<any>(null);
+
+    // ... handle session update when profile loads
+    useEffect(() => {
+        if (profile?.plan_type && session?.user) {
+            const currentSessionTier = (session.user as any).subscription_tier;
+            if (profile.plan_type !== currentSessionTier) {
+                console.log(`🔄 Syncing session: ${currentSessionTier} -> ${profile.plan_type}`);
+                update({ subscription_tier: profile.plan_type });
+            }
+        }
+    }, [profile?.plan_type, session?.user, update]);
+
+    const router = useRouter();
     const [name, setName] = useState(session?.user?.name || '');
     const [email, setEmail] = useState(session?.user?.email || '');
     const [isSaving, setIsSaving] = useState(false);
@@ -176,12 +187,23 @@ function SettingsContent() {
                                 </p>
                             )}
                         </div>
-                        <Link
-                            href="/dashboard/upgrade"
-                            className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white"
-                        >
-                            {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Billing'}
-                        </Link>
+                        <div className="flex flex-col gap-2">
+                            <a
+                                href={((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type)
+                                    ? '/dashboard/upgrade'
+                                    : 'https://gumroad.com/library'}
+                                target={((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' ? '_self' : '_blank'}
+                                rel="noopener noreferrer"
+                                className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white text-center"
+                            >
+                                {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Billing'}
+                            </a>
+                            {((session?.user as any)?.subscription_tier || profile?.plan_type) !== 'free' && (
+                                <p className="text-[9px] text-gray-400 font-medium uppercase tracking-tighter text-right">
+                                    Manage/Cancel in your <span className="text-purple-600">Gumroad Library</span>
+                                </p>
+                            )}
+                        </div>
                     </div>
 
                     {profile?.plan_type === 'free' && (

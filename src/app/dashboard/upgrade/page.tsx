@@ -14,6 +14,8 @@ export default function UpgradePage() {
         window.open(url, '_blank');
     };
 
+    const currentTier = (session?.user as any)?.subscription_tier || 'free';
+
     return (
         <div className="max-w-6xl mx-auto py-20 px-6">
             <div className="text-center mb-20 space-y-6">
@@ -29,9 +31,14 @@ export default function UpgradePage() {
             <div className="grid md:grid-cols-2 gap-8 items-stretch">
                 {/* Founding Card */}
                 <RevealOnScroll delay={100}>
-                    <div className="bg-white border border-purple-100 p-12 rounded-xl shadow-sm hover:shadow-xl transition-all h-full flex flex-col">
+                    <div className={`bg-white border p-12 rounded-xl transition-all h-full flex flex-col relative ${currentTier === 'founding' ? 'border-purple-600 shadow-xl ring-1 ring-purple-600' : 'border-purple-100 shadow-sm hover:shadow-xl'}`}>
+                        {currentTier === 'founding' && (
+                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black px-6 py-2 rounded-full tracking-[0.3em] shadow-lg">
+                                CURRENT PLAN
+                            </div>
+                        )}
                         <div className="mb-8">
-                            <span className="text-[10px] font-black tracking-[0.3em] uppercase bg-purple-600 text-white px-4 py-1.5 rounded-full inline-block mb-6">FOUNDING PLAN</span>
+                            <span className="text-[10px] font-black tracking-[0.3em] uppercase bg-purple-600 text-white px-4 py-1.5 rounded-full inline-block mb-6 text-center">FOUNDING PLAN</span>
                             <div className="flex items-baseline gap-2">
                                 <span className="text-6xl font-serif">$9.99</span>
                                 <span className="text-gray-400 font-light italic text-xl">/month</span>
@@ -57,16 +64,22 @@ export default function UpgradePage() {
 
                         <button
                             onClick={() => handleCheckout(foundingUrl)}
-                            className="w-full py-6 bg-black text-white text-[10px] font-black uppercase tracking-[0.4em] hover:bg-purple-900 transition-all rounded-sm shadow-xl"
+                            disabled={currentTier === 'founding' || currentTier === 'agency'}
+                            className={`w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-sm shadow-xl ${currentTier === 'founding' || currentTier === 'agency' ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-black text-white hover:bg-purple-900'}`}
                         >
-                            Claim Founding Spot
+                            {currentTier === 'founding' ? 'Founding Member' : currentTier === 'agency' ? 'Included in Agency' : 'Claim Founding Spot'}
                         </button>
                     </div>
                 </RevealOnScroll>
 
                 {/* Agency Card */}
                 <RevealOnScroll delay={200}>
-                    <div className="bg-white border-2 border-purple-600 p-12 rounded-xl shadow-2xl h-full flex flex-col relative overflow-hidden">
+                    <div className={`bg-white border-2 p-12 rounded-xl h-full flex flex-col relative overflow-hidden transition-all ${currentTier === 'agency' ? 'border-blue-600 shadow-[0_30px_60px_-15px_rgba(59,130,246,0.3)] ring-1 ring-blue-600' : 'border-purple-600 shadow-2xl'}`}>
+                        {currentTier === 'agency' && (
+                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-6 py-2 rounded-full tracking-[0.3em] shadow-lg">
+                                CURRENT PLAN
+                            </div>
+                        )}
                         <div className="absolute top-0 right-0 p-6">
                             <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-purple-600">AGENCY SCALE</span>
                         </div>
@@ -97,9 +110,10 @@ export default function UpgradePage() {
 
                         <button
                             onClick={() => handleCheckout(agencyUrl)}
-                            className="w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[10px] font-black uppercase tracking-[0.4em] hover:scale-[1.02] transition-all rounded-sm shadow-2xl"
+                            disabled={currentTier === 'agency'}
+                            className={`w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-sm shadow-2xl ${currentTier === 'agency' ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:scale-[1.02]'}`}
                         >
-                            Upgrade to Agency
+                            {currentTier === 'agency' ? 'Agency Member' : 'Upgrade to Agency'}
                         </button>
                     </div>
                 </RevealOnScroll>

@@ -48,10 +48,13 @@ export const authOptions = {
         // You can add more providers here (Email, GitHub, etc.)
     ],
     callbacks: {
-        async jwt({ token, user }: any) {
+        async jwt({ token, user, trigger, session }: any) {
             if (user) {
                 token.id = user.id;
                 token.subscription_tier = (user as any).subscription_tier;
+            }
+            if (trigger === "update" && session?.subscription_tier) {
+                token.subscription_tier = session.subscription_tier;
             }
             return token;
         },
