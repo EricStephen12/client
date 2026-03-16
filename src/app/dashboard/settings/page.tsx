@@ -110,8 +110,60 @@ function SettingsContent() {
     }, [status, router, profile, isSyncing]);
 
 
+    const [showCancelModal, setShowCancelModal] = useState(false);
+
     return (
         <div className="max-w-4xl space-y-16 pb-20 mt-8">
+            {/* Cancellation Modal */}
+            {showCancelModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+                    <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-md" onClick={() => setShowCancelModal(false)}></div>
+                    <RevealOnScroll>
+                        <div className="relative bg-white w-full max-w-lg rounded-[3rem] p-12 overflow-hidden shadow-2xl border border-purple-100">
+                            <div className="absolute top-0 right-0 p-8">
+                                <button onClick={() => setShowCancelModal(false)} className="text-gray-400 hover:text-purple-600 transition-colors">
+                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+
+                            <div className="space-y-8">
+                                <div className="space-y-4">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-600">Membership Management</span>
+                                    <h3 className="text-4xl font-serif italic text-gray-900 leading-tight">We'll miss you, <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">{name.split(' ')[0] || 'Member'}.</span></h3>
+                                    <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                                        You're about to end your access toViral DNA Scans and AI Intelligence. Is there anything we can do to change your mind?
+                                    </p>
+                                </div>
+
+                                <div className="bg-purple-50 p-6 rounded-2xl space-y-3">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-purple-900">How to cancel:</p>
+                                    <p className="text-xs text-purple-600/80 font-medium leading-relaxed">
+                                        Click the button below to open your <span className="font-bold">Gumroad Library</span>. Just click "Cancel" next to Eixora. It takes less than 5 seconds.
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-col gap-4 pt-4">
+                                    <a
+                                        href="https://gumroad.com/library"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full py-5 bg-black text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-xl text-center hover:bg-purple-900 transition-all shadow-xl"
+                                    >
+                                        Continue to Gumroad
+                                    </a>
+                                    <button
+                                        onClick={() => setShowCancelModal(false)}
+                                        className="w-full py-5 border border-gray-100 text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 rounded-xl hover:bg-gray-50 transition-all"
+                                    >
+                                        Wait, keep my plan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </RevealOnScroll>
+                </div>
+            )}
+
             <div className="space-y-4">
                 <RevealOnScroll>
                     <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Workspace Management</span>
@@ -175,8 +227,8 @@ function SettingsContent() {
                     </p>
                 </div>
 
-                <div className="md:col-span-2 p-10 rounded-[2.5rem] border border-purple-100 bg-purple-50/50">
-                    <div className="flex items-center justify-between gap-8 mb-6">
+                <div className="md:col-span-2 p-10 rounded-[2.5rem] border border-purple-100 bg-purple-50/50 relative overflow-hidden group">
+                    <div className="flex items-center justify-between gap-8 mb-6 relative z-10">
                         <div>
                             <p className="text-lg font-serif text-purple-900">
                                 Current Plan: <span className="italic">{getPlanDisplay()}</span>
@@ -199,15 +251,18 @@ function SettingsContent() {
                                 {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Billing'}
                             </a>
                             {((session?.user as any)?.subscription_tier || profile?.plan_type) !== 'free' && (
-                                <p className="text-[9px] text-gray-400 font-medium uppercase tracking-tighter text-right">
-                                    Manage/Cancel in your <span className="text-purple-600">Gumroad Library</span>
-                                </p>
+                                <button
+                                    onClick={() => setShowCancelModal(true)}
+                                    className="text-[9px] text-gray-400 font-medium uppercase tracking-widest text-right hover:text-red-500 transition-colors"
+                                >
+                                    Cancel Membership
+                                </button>
                             )}
                         </div>
                     </div>
 
                     {profile?.plan_type === 'free' && (
-                        <div className="grid grid-cols-2 gap-4 pt-6 border-t border-purple-100">
+                        <div className="grid grid-cols-2 gap-4 pt-6 border-t border-purple-100 relative z-10">
                             <div className="space-y-1">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Monthly Scans</p>
                                 <p className="text-sm font-medium text-purple-900">{profile.monthly_usage?.scans || 0} / 3 Used</p>
