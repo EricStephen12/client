@@ -239,24 +239,31 @@ function SettingsContent() {
                                 </p>
                             )}
                         </div>
-                        <div className="flex flex-col gap-2">
-                            <a
-                                href={((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type)
-                                    ? '/dashboard/upgrade'
-                                    : 'https://gumroad.com/library'}
-                                target={((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' ? '_self' : '_blank'}
-                                rel="noopener noreferrer"
-                                className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white text-center"
+                        <div className="flex flex-col gap-3">
+                            <Link
+                                href="/dashboard/upgrade"
+                                className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white text-center shadow-sm"
                             >
-                                {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Billing'}
-                            </a>
+                                {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Subscription'}
+                            </Link>
+
                             {((session?.user as any)?.subscription_tier || profile?.plan_type) !== 'free' && (
-                                <button
-                                    onClick={() => setShowCancelModal(true)}
-                                    className="text-[9px] text-gray-400 font-medium uppercase tracking-widest text-right hover:text-red-500 transition-colors"
-                                >
-                                    Cancel Membership
-                                </button>
+                                <div className="flex flex-col items-end gap-2 pr-2">
+                                    <a
+                                        href="https://gumroad.com/library"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-[9px] text-gray-400 font-bold uppercase tracking-widest hover:text-purple-600 transition-colors"
+                                    >
+                                        Billing History / Update Card
+                                    </a>
+                                    <button
+                                        onClick={() => setShowCancelModal(true)}
+                                        className="text-[9px] text-gray-400 font-medium uppercase tracking-widest hover:text-red-500 transition-colors"
+                                    >
+                                        Cancel Membership
+                                    </button>
+                                </div>
                             )}
                         </div>
                     </div>
