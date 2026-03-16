@@ -45,7 +45,7 @@ export default function DashboardPage() {
                         </h2>
                         {profile?.plan_type && profile.plan_type !== 'free' && (
                             <span className="bg-purple-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mt-4">
-                                PRO
+                                {profile.plan_type === 'founding' ? 'FOUNDING' : profile.plan_type.toUpperCase()}
                             </span>
                         )}
                     </div>
@@ -76,10 +76,20 @@ export default function DashboardPage() {
             {/* Subtle Vital Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                 {[
-                    { label: 'DNA Scans', value: profile?.total_videos_analyzed || 0 },
-                    { label: 'Script Forge', value: profile?.total_scripts || 0 },
+                    {
+                        label: 'DNA Scans',
+                        value: profile?.plan_type === 'free'
+                            ? `${profile?.monthly_usage?.scans || 0} / 3`
+                            : (profile?.total_videos_analyzed || 0)
+                    },
+                    {
+                        label: 'Script Forge',
+                        value: profile?.plan_type === 'free'
+                            ? `${profile?.monthly_usage?.scripts || 0} / 3`
+                            : (profile?.total_scripts || 0)
+                    },
                     { label: 'Retention Pins', value: profile?.total_pins || 0 },
-                    { label: 'Studio Level', value: profile?.plan_type || 'Free' }
+                    { label: 'Studio Level', value: profile?.plan_type ? (profile.plan_type === 'pro' ? 'Founding' : profile.plan_type.charAt(0).toUpperCase() + profile.plan_type.slice(1)) : 'Free' }
                 ].map((stat, i) => (
                     <RevealOnScroll key={i} delay={300 + (i * 100)}>
                         <div className="p-4 md:p-8 border-t border-purple-100">

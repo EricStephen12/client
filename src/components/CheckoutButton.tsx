@@ -4,12 +4,12 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 interface CheckoutButtonProps {
-    priceId: string;
+    gumroadUrl: string;
     children: React.ReactNode;
     className?: string;
 }
 
-export default function CheckoutButton({ priceId, children, className }: CheckoutButtonProps) {
+export default function CheckoutButton({ gumroadUrl, children, className }: CheckoutButtonProps) {
     const { data: session } = useSession();
     const router = useRouter();
 
@@ -19,33 +19,10 @@ export default function CheckoutButton({ priceId, children, className }: Checkou
             return;
         }
 
-        // @ts-ignore
-        if (window.Paddle) {
-            // @ts-ignore
-            window.Paddle.Checkout.open({
-                settings: {
-                    displayMode: 'overlay',
-                    theme: 'light',
-                    locale: 'en',
-                },
-                items: [
-                    {
-                        priceId: priceId,
-                        quantity: 1,
-                    },
-                ],
-                customData: {
-                    // @ts-ignore
-                    userId: session.user.id,
-                },
-                customer: {
-                    email: session.user.email || '',
-                },
-            });
-        } else {
-            console.error('Paddle not loaded');
-            alert('Payment system is still loading. Please try again in a few seconds.');
-        }
+        // Open Gumroad checkout with user's email pre-filled
+        const email = session.user.email || '';
+        const url = `${gumroadUrl}?email=${encodeURIComponent(email)}`;
+        window.open(url, '_blank');
     };
 
     return (

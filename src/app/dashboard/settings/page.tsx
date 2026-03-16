@@ -27,7 +27,7 @@ function SettingsContent() {
 
         const planNames: Record<string, string> = {
             'free': 'No paid plan. Upgrade bro',
-            'pro': 'Pro Member',
+            'founding': 'Founding Member',
             'agency': 'Agency Plan'
         };
 
@@ -37,7 +37,7 @@ function SettingsContent() {
     const getSubscriptionStatus = () => {
         if (!profile) return null;
         const status = profile.subscription_status;
-        const isPaid = profile.plan_type === 'pro' || profile.plan_type === 'agency';
+        const isPaid = profile.plan_type === 'founding' || profile.plan_type === 'agency';
         if (!isPaid || status === 'inactive') return null;
         if (profile.next_billing_date) {
             const date = new Date(profile.next_billing_date);
@@ -164,23 +164,38 @@ function SettingsContent() {
                     </p>
                 </div>
 
-                <div className="md:col-span-2 p-10 rounded-[2.5rem] border border-purple-100 bg-purple-50/50 flex items-center justify-between gap-8">
-                    <div>
-                        <p className="text-lg font-serif text-purple-900">
-                            Current Plan: <span className="italic">{getPlanDisplay()}</span>
-                        </p>
-                        {getSubscriptionStatus() && (
-                            <p className="text-xs text-purple-600/60 font-medium uppercase tracking-widest mt-1">
-                                {getSubscriptionStatus()}
+                <div className="md:col-span-2 p-10 rounded-[2.5rem] border border-purple-100 bg-purple-50/50">
+                    <div className="flex items-center justify-between gap-8 mb-6">
+                        <div>
+                            <p className="text-lg font-serif text-purple-900">
+                                Current Plan: <span className="italic">{getPlanDisplay()}</span>
                             </p>
-                        )}
+                            {getSubscriptionStatus() && (
+                                <p className="text-xs text-purple-600/60 font-medium uppercase tracking-widest mt-1">
+                                    {getSubscriptionStatus()}
+                                </p>
+                            )}
+                        </div>
+                        <Link
+                            href="/dashboard/upgrade"
+                            className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white"
+                        >
+                            {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Billing'}
+                        </Link>
                     </div>
-                    <Link
-                        href="/dashboard/upgrade"
-                        className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white"
-                    >
-                        {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Billing'}
-                    </Link>
+
+                    {profile?.plan_type === 'free' && (
+                        <div className="grid grid-cols-2 gap-4 pt-6 border-t border-purple-100">
+                            <div className="space-y-1">
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Monthly Scans</p>
+                                <p className="text-sm font-medium text-purple-900">{profile.monthly_usage?.scans || 0} / 3 Used</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Monthly Scripts</p>
+                                <p className="text-sm font-medium text-purple-900">{profile.monthly_usage?.scripts || 0} / 3 Used</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -45,6 +45,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const navItems = [
         { name: 'Overview', href: '/dashboard' },
         { name: 'Intelligence Studio', href: '/dashboard/analyze' },
+        { name: 'Batch Processing', href: '/dashboard/batch' },
         { name: 'Settings', href: '/dashboard/settings' },
     ];
 

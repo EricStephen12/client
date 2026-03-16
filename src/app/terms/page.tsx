@@ -52,7 +52,7 @@ export default function TermsAndConditions() {
                         <section>
                             <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">3. Subscriptions & Billing</h2>
                             <p>
-                                EIXORA is a subscription-based service. By subscribing, you agree to recurring monthly or annual payments as specified in your chosen plan. All payments are processed securely via Paddle, our merchant of record. You may cancel your subscription at any time through your account settings or by contacting support.
+                                EIXORA is a subscription-based service. By subscribing, you agree to recurring monthly or annual payments as specified in your chosen plan. All payments are processed securely via Gumroad, our payment processor. You may cancel your subscription at any time through your account settings or by contacting support.
                             </p>
                         </section>
                     </RevealOnScroll>

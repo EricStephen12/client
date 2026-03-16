@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import PaddleLoader from "@/components/PaddleLoader";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
@@ -22,7 +21,6 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
-        <PaddleLoader />
       </body>
     </html>
   );

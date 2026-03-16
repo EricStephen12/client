@@ -3,8 +3,8 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 import CheckoutButton from "@/components/CheckoutButton";
 
 export default function PricingPage() {
-    const foundingPriceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_PRO || 'pri_01j7p3v1z5v5v5v5v5v5v5v5v5';
-    const agencyPriceId = process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_AGENCY || 'pri_agency_placeholder';
+    const foundingUrl = process.env.NEXT_PUBLIC_GUMROAD_FOUNDING_URL || 'https://eixora.gumroad.com/l/foundingplan';
+    const agencyUrl = process.env.NEXT_PUBLIC_GUMROAD_AGENCY_URL || 'https://eixora.gumroad.com/l/agencyplan';
 
     return (
         <div className="min-h-screen bg-[#FAFAF9] text-[#1c1917] font-sans selection:bg-purple-100">
@@ -41,16 +41,17 @@ export default function PricingPage() {
                                     <span className="text-6xl font-serif tracking-tighter">$9.99</span>
                                     <span className="text-lg font-light opacity-40 italic">/month</span>
                                 </div>
-                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">Lifetime founding rate</p>
+                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">Early adopter pricing — locked in forever</p>
                             </div>
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
-                                    "Unlimited Creative Analysis",
-                                    "Deep Video DNA Extraction",
-                                    "Full-Stack Viral Script Engine",
-                                    "Priority Feature Access",
-                                    "Standard Support"
+                                    "Unlimited Viral DNA Scans",
+                                    "Unlimited AI Script Generation",
+                                    "Strategy Lounge (AI Creative Director)",
+                                    "Private Ad Vault",
+                                    "Session History & Replay",
+                                    "Email Support"
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
                                         <div className="w-1.5 h-1.5 rounded-full bg-purple-600"></div>
@@ -60,7 +61,7 @@ export default function PricingPage() {
                             </ul>
 
                             <CheckoutButton
-                                priceId={foundingPriceId}
+                                gumroadUrl={foundingUrl}
                                 className="block w-full py-6 bg-black text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-purple-900 transition-all rounded-sm shadow-lg text-center"
                             >
                                 Get Started
@@ -81,16 +82,16 @@ export default function PricingPage() {
                                     <span className="text-6xl font-serif tracking-tighter">$29.99</span>
                                     <span className="text-lg font-light opacity-40 italic">/month</span>
                                 </div>
-                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">Scale with confidence</p>
+                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">Scale your ad intelligence</p>
                             </div>
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
                                     "Everything in Founding",
-                                    "Multi-Profile Support",
-                                    "Batch Video Processing",
-                                    "Advanced Trend Forecasting",
-                                    "24/7 Priority Concierge"
+                                    "Batch URL Processing (Analyze Multiple Videos)",
+                                    "Exportable DNA Reports (Download)",
+                                    "Unlimited Session History",
+                                    "Priority Support"
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600 font-medium">
                                         <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
@@ -100,7 +101,7 @@ export default function PricingPage() {
                             </ul>
 
                             <CheckoutButton
-                                priceId={agencyPriceId}
+                                gumroadUrl={agencyUrl}
                                 className="block w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:scale-[1.02] transition-all rounded-sm shadow-xl text-center"
                             >
                                 Secure Agency Access
@@ -111,7 +112,7 @@ export default function PricingPage() {
 
                 <div className="mt-20 text-center opacity-40">
                     <p className="text-[10px] tracking-[0.3em] uppercase leading-loose">
-                        Cancel anytime • No hidden fees • Secured by Paddle
+                        Cancel anytime • No hidden fees • Secured by Gumroad
                     </p>
                 </div>
             </main>

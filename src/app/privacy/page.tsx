@@ -51,7 +51,7 @@ export default function PrivacyPolicy() {
                         <section>
                             <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">3. How We Use Your Data</h2>
                             <p>
-                                We will only use your personal data when the law allows us to. Most commonly, we will use your personal data to provide our services, manage your account, and facilitate payments via Paddle (our secure payment processor).
+                                We will only use your personal data when the law allows us to. Most commonly, we will use your personal data to provide our services, manage your account, and facilitate payments via Gumroad (our secure payment processor).
                             </p>
                         </section>
                     </RevealOnScroll>
