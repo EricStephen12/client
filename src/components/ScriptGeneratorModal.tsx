@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment } from 'react';
 import { useSession } from 'next-auth/react';
 import { Dialog, Transition } from '@headlessui/react';
 
-interface ScriptGeneratorModalProps {
+interface ExtractionModalProps {
     isOpen: boolean;
     onClose: () => void;
     adId?: string;
@@ -12,14 +12,14 @@ interface ScriptGeneratorModalProps {
     initialDescription?: string;
 }
 
-export default function ScriptGeneratorModal({
+export default function ExtractionModal({
     isOpen,
     onClose,
     adId,
     adTitle,
     initialProductName = '',
     initialDescription = ''
-}: ScriptGeneratorModalProps) {
+}: ExtractionModalProps) {
     const [step, setStep] = useState(1);
     const [productName, setProductName] = useState(initialProductName);
     const [description, setDescription] = useState(initialDescription);
@@ -28,7 +28,7 @@ export default function ScriptGeneratorModal({
     const [currentLogIdx, setCurrentLogIdx] = useState(0);
     const [answers, setAnswers] = useState<Record<string, string>>({});
     const [isLoading, setIsLoading] = useState(false);
-    const [script, setScript] = useState<any>(null);
+    const [extraction, setExtraction] = useState<any>(null);
     const [error, setError] = useState('');
 
     const { data: session } = useSession();
@@ -42,7 +42,7 @@ export default function ScriptGeneratorModal({
             setDescription(initialDescription);
             setQuestions([]);
             setAnswers({});
-            setScript(null);
+            setExtraction(null);
             setError('');
 
         }
@@ -116,9 +116,8 @@ export default function ScriptGeneratorModal({
                 }),
             });
 
-            if (!response.ok) throw new Error('Failed to generate script');
             const data = await response.json();
-            setScript(data);
+            setExtraction(data);
 
 
         } catch (err: any) {
@@ -129,7 +128,7 @@ export default function ScriptGeneratorModal({
     };
 
     const handleClose = () => {
-        if (step > 1 && !script) {
+        if (step > 1 && !extraction) {
             if (confirm('Are you sure you want to close? Your progress will be lost.')) {
                 onClose();
             }
@@ -168,8 +167,8 @@ export default function ScriptGeneratorModal({
                                 {/* Header */}
                                 <div className="mb-8 border-b border-purple-100 pb-6 flex justify-between items-start">
                                     <div>
-                                        <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 mb-2 block">AI Copywriter</span>
-                                        <h2 className="text-3xl lg:text-4xl font-serif text-gray-900 mb-3 tracking-tight">Elite Script Flow</h2>
+                                        <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 mb-2 block">AI Creative Director</span>
+                                        <h2 className="text-3xl lg:text-4xl font-serif text-gray-900 mb-3 tracking-tight">Viral DNA Flow</h2>
                                         {adTitle && (
                                             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg shadow-lg">
                                                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
@@ -243,7 +242,7 @@ export default function ScriptGeneratorModal({
                                                         </span>
                                                     </div>
                                                 ) : (
-                                                    adId ? 'Start Strategic Interview' : 'Generate Script'
+                                                    adId ? 'Start Strategic Interview' : 'Extract DNA'
                                                 )}
                                             </button>
                                         </form>
@@ -281,7 +280,7 @@ export default function ScriptGeneratorModal({
                                                 disabled={isLoading}
                                                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl py-5 text-xs font-black uppercase tracking-[0.3em] hover:shadow-xl hover:shadow-purple-200 transition-all shadow-lg disabled:opacity-50"
                                             >
-                                                {isLoading ? 'Writing Final Script...' : 'Generate Viral Script'}
+                                                {isLoading ? 'Extracting Final DNA...' : 'Generate Creative Brief'}
                                             </button>
                                         </div>
                                     )}
@@ -293,10 +292,10 @@ export default function ScriptGeneratorModal({
                                         </div>
                                     )}
 
-                                    {step === 3 && script && (
+                                    {step === 3 && extraction && (
                                         <div className="space-y-8">
                                             {/* Storyboard Table */}
-                                            {script.shot_list && script.shot_list.length > 0 && (
+                                            {extraction.shot_list && extraction.shot_list.length > 0 && (
                                                 <div className="bg-white border border-purple-50 rounded-3xl overflow-hidden shadow-sm">
                                                     <div className="p-8 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-purple-100">
                                                         <h3 className="text-2xl font-serif text-gray-900 mb-2">Production Storyboard</h3>
@@ -312,7 +311,7 @@ export default function ScriptGeneratorModal({
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="divide-y divide-gray-50">
-                                                                {script.shot_list.map((scene: any, idx: number) => (
+                                                                {extraction.shot_list.map((scene: any, idx: number) => (
                                                                     <tr key={idx} className="hover:bg-purple-50/30 transition-colors">
                                                                         <td className="px-6 py-6 text-sm font-bold text-purple-600">#{idx + 1}</td>
                                                                         <td className="px-6 py-6">
@@ -330,67 +329,59 @@ export default function ScriptGeneratorModal({
                                             )}
 
                                             {/* Aesthetic Guide */}
-                                            {script.aesthetic_guide && (
-                                                <div className="p-10 bg-gradient-to-br from-gray-900 to-black text-white rounded-[2.5rem] shadow-2xl space-y-6 relative overflow-hidden border border-white/5">
-                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
-                                                    <div className="relative">
-                                                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-400 block mb-3">Aesthetic DNA</span>
-                                                        <h3 className="text-2xl font-serif italic text-white mb-6">Visual & Tonal Blueprint</h3>
-                                                        <div className="space-y-4 text-white/70 text-sm leading-relaxed font-light">
-                                                            {(typeof script.aesthetic_guide === 'string' ? script.aesthetic_guide.split('\n') : [String(script.aesthetic_guide)]).map((line: string, i: number) => (
-                                                                line && line.trim() && <p key={i}>{line}</p>
-                                                            ))}
-                                                        </div>
+                                            {(typeof extraction.aesthetic_guide === 'string' ? extraction.aesthetic_guide.split('\n') : [String(extraction.aesthetic_guide)]).map((line: string, i: number) => (
+                                                line && line.trim() && <p key={i}>{line}</p>
+                                            ))}
+                                        </div>
                                                     </div>
-                                                </div>
+                            </div>
                                             )}
 
-                                            {/* Summary Cards */}
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
-                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block mb-4">The Hook</span>
-                                                    <p className="text-lg font-serif italic text-gray-900">"{(script.summary || script).hook}"</p>
-                                                </div>
-
-                                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
-                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 block mb-4">The CTA</span>
-                                                    <p className="text-sm font-bold text-gray-900">"{(script.summary || script).cta}"</p>
-                                                </div>
-                                            </div>
-
-                                            {/* Action Buttons - Show directly with results */}
-                                            <div className="space-y-4 pt-6 border-t border-purple-100">
-                                                <button
-                                                    onClick={() => window.location.href = `/dashboard/content-generator?productName=${encodeURIComponent(productName)}&description=${encodeURIComponent(description)}`}
-                                                    className="w-full p-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl flex items-center justify-between hover:scale-[1.02] transition-all group shadow-lg shadow-purple-100"
-                                                >
-                                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Generate Visual Assets</span>
-                                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                                                </button>
-
-                                                <button
-                                                    onClick={() => window.location.href = '/dashboard/analyze'}
-                                                    className="w-full p-5 border border-purple-100 text-gray-900 rounded-2xl flex items-center justify-between hover:bg-purple-50 transition-all group"
-                                                >
-                                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Private Video Scan</span>
-                                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                                                </button>
-
-                                                <button
-                                                    onClick={onClose}
-                                                    className="w-full p-5 text-gray-400 rounded-2xl flex items-center justify-center hover:text-gray-900 transition-colors group"
-                                                >
-                                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] italic">Close and continue</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )}
+                            {/* Summary Cards */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block mb-4">The Hook</span>
+                                    <p className="text-lg font-serif italic text-gray-900">"{(extraction.summary || extraction).hook}"</p>
                                 </div>
-                            </Dialog.Panel>
-                        </Transition.Child>
+                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 block mb-4">The CTA</span>
+                                    <p className="text-sm font-bold text-gray-900">"{(extraction.summary || extraction).cta}"</p>
+                                </div>
+                            </div>
+
+                            {/* Action Buttons - Show directly with results */}
+                            <div className="space-y-4 pt-6 border-t border-purple-100">
+                                <button
+                                    onClick={() => window.location.href = `/dashboard/content-generator?productName=${encodeURIComponent(productName)}&description=${encodeURIComponent(description)}`}
+                                    className="w-full p-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl flex items-center justify-between hover:scale-[1.02] transition-all group shadow-lg shadow-purple-100"
+                                >
+                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Generate Visual Assets</span>
+                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                                </button>
+
+                                <button
+                                    onClick={() => window.location.href = '/dashboard/analyze'}
+                                    className="w-full p-5 border border-purple-100 text-gray-900 rounded-2xl flex items-center justify-between hover:bg-purple-50 transition-all group"
+                                >
+                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Private Video Scan</span>
+                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                                </button>
+
+                                <button
+                                    onClick={onClose}
+                                    className="w-full p-5 text-gray-400 rounded-2xl flex items-center justify-center hover:text-gray-900 transition-colors group"
+                                >
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] italic">Close and continue</span>
+                                </button>
+                            </div>
                     </div>
+                                    )}
                 </div>
-            </Dialog>
-        </Transition>
+            </Dialog.Panel>
+        </Transition.Child>
+                    </div >
+                </div >
+            </Dialog >
+        </Transition >
     );
 }

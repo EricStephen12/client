@@ -207,7 +207,7 @@ function AnalyzeContent() {
         }
     };
 
-    const generateFinalScript = async () => {
+    const generateCreativeBrief = async () => {
         setIsSending(true);
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/generate-final-script`, {
@@ -223,14 +223,14 @@ function AnalyzeContent() {
             if (!res.ok) throw new Error('Generation failed');
             const data = await res.json();
 
-            const scriptMsg = {
+            const briefMsg = {
                 role: 'assistant',
-                type: 'script',
-                content: `🎬 **FORGED SCRIPT: ${data.title}**\n\n**Concept**: ${data.concept}\n\n${data.shot_list.map((s: any) => `**${s.time}**\n🎬 Visual: ${s.visual}\n🎙️ Audio: ${s.audio}\n📝 Overlay: ${s.overlay}`).join('\n\n')}`,
+                type: 'brief',
+                content: `🎬 **CREATIVE BRIEF: ${data.title}**\n\n**Concept**: ${data.concept}\n\n${data.shot_list.map((s: any) => `**${s.time}**\n🎬 Visual: ${s.visual}\n🎙️ Audio: ${s.audio}\n📝 Overlay: ${s.overlay}`).join('\n\n')}`,
                 raw: data
             };
 
-            const updatedMessages = [...messages, scriptMsg];
+            const updatedMessages = [...messages, briefMsg];
             setMessages(updatedMessages);
             const savedId = await saveSessionState(updatedMessages);
             if (savedId) setSessionId(savedId);
@@ -437,19 +437,19 @@ function AnalyzeContent() {
                         <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-2 md:pr-4 custom-scrollbar">
                             {messages.map((msg, idx) => (
                                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[90%] md:max-w-[85%] p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm ${msg.type === 'script'
+                                    <div className={`max-w-[90%] md:max-w-[85%] p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm ${msg.type === 'brief'
                                         ? 'bg-gray-900 text-white border-4 border-purple-500/30'
                                         : msg.role === 'user'
                                             ? 'bg-gray-900 text-white rounded-tr-none'
                                             : 'bg-white text-gray-900 rounded-tl-none border border-purple-100'
                                         }`}>
-                                        {msg.type === 'script' && (
+                                        {msg.type === 'brief' && (
                                             <div className="flex items-center gap-3 mb-4 pb-4 border-b border-white/10">
-                                                <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center font-serif italic text-lg shadow-lg">S</div>
-                                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-400">Viral Masterpiece Forged</span>
+                                                <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center font-serif italic text-lg shadow-lg">B</div>
+                                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-400">Creative Brief Forged</span>
                                             </div>
                                         )}
-                                        <p className={`text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'script' ? 'font-serif text-gray-100' : ''}`}>{msg.content}</p>
+                                        <p className={`text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'brief' ? 'font-serif text-gray-100' : ''}`}>{msg.content}</p>
                                     </div>
                                 </div>
                             ))}
@@ -477,9 +477,9 @@ function AnalyzeContent() {
                                 />
                                 <div className="flex items-center gap-1.5 md:gap-2">
                                     <button
-                                        onClick={generateFinalScript}
+                                        onClick={generateCreativeBrief}
                                         disabled={isSending || messages.length < 1}
-                                        title="Forge Script"
+                                        title="Generate Brief"
                                         className="p-2.5 md:p-3 bg-purple-50 text-purple-600 rounded-xl hover:bg-purple-100 transition-colors disabled:opacity-30"
                                     >
                                         <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
