@@ -28,10 +28,49 @@ export default function UpgradePage() {
                 </RevealOnScroll>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 items-stretch">
+            <div className="grid md:grid-cols-3 gap-6 items-stretch">
+                {/* Free Card */}
+                <RevealOnScroll delay={50}>
+                    <div className={`bg-white border p-10 rounded-xl transition-all h-full flex flex-col relative ${currentTier === 'free' ? 'border-gray-400 shadow-xl ring-1 ring-gray-400' : 'border-gray-200 shadow-sm'}`}>
+                        {currentTier === 'free' && (
+                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gray-600 text-white text-[10px] font-black px-6 py-2 rounded-full tracking-[0.3em] shadow-lg">
+                                CURRENT PLAN
+                            </div>
+                        )}
+                        <div className="mb-8">
+                            <span className="text-[10px] font-black tracking-[0.3em] uppercase bg-gray-200 text-gray-600 px-4 py-1.5 rounded-full inline-block mb-6">FREE PLAN</span>
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-6xl font-serif">$0</span>
+                                <span className="text-gray-400 font-light italic text-xl">/forever</span>
+                            </div>
+                            <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">No credit card required</p>
+                        </div>
+
+                        <ul className="space-y-4 mb-12 flex-grow">
+                            {[
+                                '3 DNA Extractions / Month',
+                                '3 Strategy Lounge Sessions / Month',
+                                'Intelligence Studio'
+                            ].map(feature => (
+                                <li key={feature} className="flex gap-4 text-sm font-light text-gray-600">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 flex-shrink-0"></div>
+                                    {feature}
+                                </li>
+                            ))}
+                        </ul>
+
+                        <button
+                            disabled={true}
+                            className="w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] bg-gray-100 text-gray-400 cursor-not-allowed rounded-sm"
+                        >
+                            {currentTier === 'free' ? 'Current Plan' : 'Free Plan'}
+                        </button>
+                    </div>
+                </RevealOnScroll>
+
                 {/* Founding Card */}
-                <RevealOnScroll delay={100}>
-                    <div className={`bg-white border p-12 rounded-xl transition-all h-full flex flex-col relative ${currentTier === 'founding' ? 'border-purple-600 shadow-xl ring-1 ring-purple-600' : 'border-purple-100 shadow-sm hover:shadow-xl'}`}>
+                <RevealOnScroll delay={150}>
+                    <div className={`bg-white border p-10 rounded-xl transition-all h-full flex flex-col relative ${currentTier === 'founding' ? 'border-purple-600 shadow-xl ring-1 ring-purple-600' : 'border-purple-100 shadow-sm hover:shadow-xl'}`}>
                         {currentTier === 'founding' && (
                             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black px-6 py-2 rounded-full tracking-[0.3em] shadow-lg">
                                 CURRENT PLAN
@@ -48,11 +87,9 @@ export default function UpgradePage() {
 
                         <ul className="space-y-4 mb-12 flex-grow">
                             {[
-                                'Unlimited Viral DNA Scans',
-                                'Unlimited AI Script Generation',
-                                'Strategy Lounge (AI Creative Director)',
-                                'Private Ad Vault',
-                                'Session History & Replay',
+                                'Unlimited DNA Extractions',
+                                'Unlimited Strategy Lounge Sessions',
+                                'Intelligence Studio',
                                 'Email Support'
                             ].map(feature => (
                                 <li key={feature} className="flex gap-4 text-sm font-light text-gray-600">
@@ -73,8 +110,8 @@ export default function UpgradePage() {
                 </RevealOnScroll>
 
                 {/* Agency Card */}
-                <RevealOnScroll delay={200}>
-                    <div className={`bg-white border-2 p-12 rounded-xl h-full flex flex-col relative overflow-hidden transition-all ${currentTier === 'agency' ? 'border-blue-600 shadow-[0_30px_60px_-15px_rgba(59,130,246,0.3)] ring-1 ring-blue-600' : 'border-purple-600 shadow-2xl'}`}>
+                <RevealOnScroll delay={250}>
+                    <div className={`bg-white border-2 p-10 rounded-xl h-full flex flex-col relative overflow-hidden transition-all ${currentTier === 'agency' ? 'border-blue-600 shadow-[0_30px_60px_-15px_rgba(59,130,246,0.3)] ring-1 ring-blue-600' : 'border-purple-600 shadow-2xl'}`}>
                         {currentTier === 'agency' && (
                             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-6 py-2 rounded-full tracking-[0.3em] shadow-lg">
                                 CURRENT PLAN
@@ -96,9 +133,10 @@ export default function UpgradePage() {
                         <ul className="space-y-4 mb-12 flex-grow">
                             {[
                                 'Everything in Founding',
-                                'Batch URL Processing (Analyze Multiple Videos)',
+                                'Competitor Spy',
+                                'Up to 5 Team Members',
+                                'Batch URL Processing (10 Videos at Once)',
                                 'Exportable DNA Reports (Download)',
-                                'Unlimited Session History',
                                 'Priority Support'
                             ].map(feature => (
                                 <li key={feature} className="flex gap-4 text-sm font-medium text-gray-700">

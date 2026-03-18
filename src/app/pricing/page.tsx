@@ -31,10 +31,44 @@ export default function PricingPage() {
                     </RevealOnScroll>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8 items-start">
+                <div className="grid md:grid-cols-3 gap-6 items-start">
+                    {/* Free Tier */}
+                    <RevealOnScroll delay={50}>
+                        <div className="relative bg-white border border-gray-200 p-10 rounded-2xl shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
+                            <div className="mb-8">
+                                <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-gray-200 text-gray-600 px-4 py-1.5 rounded-full mb-6 inline-block">FREE PLAN</span>
+                                <div className="flex items-baseline gap-2 mt-4">
+                                    <span className="text-6xl font-serif tracking-tighter">$0</span>
+                                    <span className="text-lg font-light opacity-40 italic">/forever</span>
+                                </div>
+                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">No credit card required</p>
+                            </div>
+
+                            <ul className="space-y-4 mb-12 flex-grow">
+                                {[
+                                    "3 DNA Extractions / Month",
+                                    "3 Strategy Lounge Sessions / Month",
+                                    "Intelligence Studio",
+                                ].map((feature, i) => (
+                                    <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <Link
+                                href="/signup"
+                                className="block w-full py-6 border-2 border-gray-200 text-gray-600 text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-gray-50 transition-all rounded-sm text-center"
+                            >
+                                Get Started Free
+                            </Link>
+                        </div>
+                    </RevealOnScroll>
+
                     {/* Founding Tier */}
-                    <RevealOnScroll delay={100}>
-                        <div className="relative bg-white border border-purple-100 p-12 rounded-2xl shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
+                    <RevealOnScroll delay={150}>
+                        <div className="relative bg-white border border-purple-100 p-10 rounded-2xl shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
                             <div className="mb-8">
                                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-purple-600 text-white px-4 py-1.5 rounded-full mb-6 inline-block">FOUNDING PLAN</span>
                                 <div className="flex items-baseline gap-2 mt-4">
@@ -46,11 +80,9 @@ export default function PricingPage() {
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
-                                    "Unlimited Viral DNA Scans",
-                                    "Unlimited AI Script Generation",
-                                    "Strategy Lounge (AI Creative Director)",
-                                    "Private Ad Vault",
-                                    "Session History & Replay",
+                                    "Unlimited DNA Extractions",
+                                    "Unlimited Strategy Lounge Sessions",
+                                    "Intelligence Studio",
                                     "Email Support"
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
@@ -70,8 +102,8 @@ export default function PricingPage() {
                     </RevealOnScroll>
 
                     {/* Agency Tier */}
-                    <RevealOnScroll delay={200}>
-                        <div className="relative bg-white border-2 border-purple-600 p-12 rounded-2xl shadow-2xl transition-all overflow-hidden flex flex-col h-full">
+                    <RevealOnScroll delay={250}>
+                        <div className="relative bg-white border-2 border-purple-600 p-10 rounded-2xl shadow-2xl transition-all overflow-hidden flex flex-col h-full">
                             <div className="absolute top-0 right-0 p-6">
                                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-purple-600 underline underline-offset-4">MOST POWERFUL</span>
                             </div>
@@ -88,9 +120,10 @@ export default function PricingPage() {
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
                                     "Everything in Founding",
-                                    "Batch URL Processing (Analyze Multiple Videos)",
+                                    "Competitor Spy",
+                                    "Up to 5 Team Members",
+                                    "Batch URL Processing (10 Videos at Once)",
                                     "Exportable DNA Reports (Download)",
-                                    "Unlimited Session History",
                                     "Priority Support"
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600 font-medium">

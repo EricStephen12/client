@@ -3,8 +3,8 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "Viral TikTok Ad Scripts for Dropshippers | EIXORA",
-  description: "Generate winning TikTok ad scripts and social content in seconds.",
+  title: "EIXORA — AI Ad Intelligence for Dropshippers | Decode Viral TikTok Ads",
+  description: "Reverse-engineer any viral TikTok ad. Extract hooks, pacing, and conversion triggers with AI-powered DNA analysis. Built for e-commerce sellers who scale.",
   icons: {
     icon: "/icon.png",
   },

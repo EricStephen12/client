@@ -11,7 +11,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const { data: session, status } = useSession();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [profileData, setProfileData] = useState<any>(null);
     const [sessions, setSessions] = useState<any[]>([]);
+    const { update } = useSession();
     const userId = (session?.user as any)?.id;
 
     useEffect(() => {
@@ -28,24 +30,48 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
         };
 
+        const fetchLatestProfile = async () => {
+            if (!userId) return;
+            try {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setProfileData(data);
+
+                    // SESSION SYNC: If local session tier doesn't match DB, update it!
+                    const currentTier = (session?.user as any)?.subscription_tier;
+                    const latestTier = data.plan_type || data.subscription_tier || 'free';
+
+                    if (latestTier !== currentTier) {
+                        console.log(`⚡ Syncing Tier: ${currentTier} -> ${latestTier}`);
+                        await update({ subscription_tier: latestTier });
+                    }
+                }
+            } catch (err) {
+                console.error('Tier sync failed', err);
+            }
+        };
+
         if (userId) {
             fetchSessions();
+            fetchLatestProfile(); // Check tier on every layout mount/navigation
         }
 
-        // Listen for internal state updates to refresh sidebar
         const handleSessionUpdate = () => {
             console.log('🔄 Session update event received, refreshing sidebar...');
             fetchSessions();
+            fetchLatestProfile();
         };
 
         window.addEventListener('session-updated', handleSessionUpdate);
         return () => window.removeEventListener('session-updated', handleSessionUpdate);
-    }, [userId]);
+    }, [userId, session, update]);
 
     const navItems = [
         { name: 'Overview', href: '/dashboard' },
         { name: 'Intelligence Studio', href: '/dashboard/analyze' },
-        { name: 'Batch Processing', href: '/dashboard/batch' },
+        { name: 'Batch Process', href: '/dashboard/batch' },
+        { name: 'Competitor Spy', href: '/dashboard/spy' },
         { name: 'Settings', href: '/dashboard/settings' },
     ];
 
@@ -59,7 +85,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         full_name: session.user.name || session.user.email?.split('@')[0] || 'Creator',
         email: session.user.email,
         image: session.user.image,
-        plan_type: (session.user as any).subscription_tier || 'Free'
+        plan_type: (session.user as any).subscription_tier || profileData?.plan_type || 'free'
     } : null;
 
     if (status === 'loading') {
@@ -166,7 +192,12 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                     }`}
                             >
                                 <span className={`w-1.5 h-1.5 rounded-full transition-all ${isActive ? 'bg-white' : 'bg-gray-300 group-hover:bg-purple-400'}`}></span>
-                                {item.name}
+                                <div className="flex items-center justify-between w-full">
+                                    <span>{item.name}</span>
+                                    {item.comingSoon && (
+                                        <span className="text-[8px] font-black bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full tracking-normal lowercase">soon</span>
+                                    )}
+                                </div>
                             </Link>
                         );
                     })}

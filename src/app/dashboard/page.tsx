@@ -83,7 +83,7 @@ export default function DashboardPage() {
                             : (profile?.total_videos_analyzed || 0)
                     },
                     {
-                        label: 'Script Forge',
+                        label: 'Extractions',
                         value: profile?.plan_type === 'free'
                             ? `${profile?.monthly_usage?.scripts || 0} / 3`
                             : (profile?.total_scripts || 0)

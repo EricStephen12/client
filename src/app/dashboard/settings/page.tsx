@@ -275,13 +275,179 @@ function SettingsContent() {
                                 <p className="text-sm font-medium text-purple-900">{profile.monthly_usage?.scans || 0} / 3 Used</p>
                             </div>
                             <div className="space-y-1">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Monthly Scripts</p>
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Monthly Extractions</p>
                                 <p className="text-sm font-medium text-purple-900">{profile.monthly_usage?.scripts || 0} / 3 Used</p>
                             </div>
                         </div>
                     )}
                 </div>
             </div>
+
+
+            {/* Team Management */}
+            <TeamManagement isAgency={profile?.plan_type === 'agency' || (session?.user as any)?.subscription_tier === 'agency'} />
+        </div>
+    );
+}
+
+function TeamManagement({ isAgency }: { isAgency: boolean }) {
+    const [members, setMembers] = useState<any[]>([]);
+    const [inviteEmail, setInviteEmail] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    useEffect(() => {
+        fetchMembers();
+    }, []);
+
+    const fetchMembers = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/team/members`, {
+                credentials: 'include',
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setMembers(data);
+            }
+        } catch (err) {
+            console.error('Fetch team error:', err);
+        }
+    };
+
+    const handleInvite = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!inviteEmail.trim()) return;
+
+        setLoading(true);
+        setError('');
+        setSuccess('');
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/team/invite`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ email: inviteEmail.trim() }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                setError(data.error);
+            } else {
+                setSuccess(`${inviteEmail} has been invited!`);
+                setInviteEmail('');
+                fetchMembers();
+            }
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleRemove = async (memberId: string, email: string) => {
+        if (!confirm(`Remove ${email} from your team?`)) return;
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/team/remove/${memberId}`, {
+                method: 'DELETE',
+                credentials: 'include',
+            });
+            if (res.ok) {
+                fetchMembers();
+            }
+        } catch (err) {
+            console.error('Remove member error:', err);
+        }
+    };
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div className="md:col-span-1 space-y-4">
+                <h3 className="text-lg font-serif text-gray-900 leading-tight">Team Members</h3>
+                <p className="text-sm text-gray-400 font-medium leading-relaxed">
+                    Invite up to 5 team members to your workspace. They'll get full Agency access.
+                </p>
+            </div>
+
+            {!isAgency ? (
+                <div className="md:col-span-2 bg-gray-900 p-10 rounded-[2.5rem] text-center space-y-6">
+                    <div className="w-14 h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center mx-auto">
+                        <span className="text-2xl">👥</span>
+                    </div>
+                    <h4 className="text-white font-serif text-xl italic">Unlock Team Collaboration</h4>
+                    <p className="text-gray-400 text-sm max-w-sm mx-auto">
+                        Add up to 5 team members who get full Agency-level access to EIXORA. Available on the Agency plan.
+                    </p>
+                    <Link
+                        href="/dashboard/upgrade"
+                        className="inline-block px-10 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:scale-105 transition-all shadow-xl"
+                    >
+                        Upgrade to Agency →
+                    </Link>
+                </div>
+            ) : (
+                <div className="md:col-span-2 space-y-6 bg-white p-10 rounded-[2.5rem] border border-purple-100 shadow-[0_20px_50px_-20px_rgba(168,85,247,0.05)]">
+                    {/* Invite Form */}
+                    <form onSubmit={handleInvite} className="flex gap-3">
+                        <input
+                            type="email"
+                            placeholder="teammate@email.com"
+                            value={inviteEmail}
+                            onChange={(e) => setInviteEmail(e.target.value)}
+                            className="flex-1 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-all font-medium"
+                        />
+                        <button
+                            type="submit"
+                            disabled={loading || !inviteEmail.trim()}
+                            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
+                        >
+                            {loading ? 'Inviting...' : 'Invite'}
+                        </button>
+                    </form>
+
+                    {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
+                    {success && <p className="text-xs text-green-600 font-medium">{success}</p>}
+
+                    {/* Member List */}
+                    <div className="space-y-3 pt-4 border-t border-gray-100">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">{members.length} / 5 Members</p>
+
+                        {members.length === 0 ? (
+                            <p className="text-sm text-gray-300 italic font-serif py-4">No team members yet. Invite your first collaborator above.</p>
+                        ) : (
+                            members.map((member: any) => (
+                                <div key={member.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl group hover:bg-purple-50 transition-all">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 text-white flex items-center justify-center text-[10px] font-bold uppercase">
+                                            {(member.member_name || member.member_email)[0]}
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-medium text-gray-900">{member.member_name || member.member_email}</p>
+                                            <p className="text-[10px] text-gray-400">{member.member_email}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-full ${member.status === 'active'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-yellow-100 text-yellow-700'
+                                            }`}>
+                                            {member.status}
+                                        </span>
+                                        <button
+                                            onClick={() => handleRemove(member.id, member.member_email)}
+                                            className="text-gray-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                                        >
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

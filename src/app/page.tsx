@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -7,12 +7,29 @@ import { useSession } from 'next-auth/react';
 import CursorEffect from '@/components/CursorEffect';
 import MagneticButton from '@/components/MagneticButton';
 import RevealOnScroll from '@/components/RevealOnScroll';
+import VideoCarousel from '@/components/VideoCarousel';
 
 export default function LandingPage() {
     const [url, setUrl] = useState('');
     const router = useRouter();
     const { data: session, status } = useSession();
     const isLoggedIn = status === 'authenticated';
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (scrollRef.current) {
+                const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+                if (scrollLeft + clientWidth >= scrollWidth - 10) {
+                    scrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    scrollRef.current.scrollBy({ left: 400, behavior: 'smooth' });
+                }
+            }
+        }, 4000);
+        return () => clearInterval(interval);
+    }, []);
 
     const handleDirectAnalyze = (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,110 +62,100 @@ export default function LandingPage() {
             </nav>
 
             {/* Hero Section - Refined Editorial */}
-            <section className="pt-20 min-h-[90vh] grid md:grid-cols-2 border-b border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50">
+            <section className="pt-20 min-h-[85vh] grid md:grid-cols-2 border-b border-purple-200">
 
-                {/* Left: Clear Value Prop */}
-                <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-20 border-r border-purple-200">
+                {/* Left: Focused Value Prop */}
+                <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 py-16 border-r border-purple-200 bg-white">
                     <RevealOnScroll delay={100}>
-                        <span className="text-xs font-medium tracking-[0.3em] uppercase mb-8 text-purple-600">AI Ad Intelligence Studio</span>
+                        <span className="text-[10px] font-bold tracking-[0.4em] uppercase mb-6 text-purple-600 block">AI Ad Intelligence</span>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={200}>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium leading-[1] mb-8 tracking-tight text-balance">
-                            Stop watching winning ads.{' '}
-                            <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Start making them.</span>
+                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.1] mb-8 tracking-tight">
+                            Stop Guessing. <br />
+                            <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent underline decoration-purple-200 decoration-4 underline-offset-8">Start Scaling.</span>
                         </h1>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={300}>
-                        <p className="text-xl font-light leading-relaxed max-w-md mb-12 text-gray-700">
-                            Stop guessing what works. We break down any viral video and give you the exact plan to do the same thing for your own product.
+                        <p className="text-lg font-light leading-relaxed max-w-sm mb-10 text-gray-600">
+                            Reverse-engineer any viral TikTok ad. Extract the exact hooks and triggers that drive $10k+ days.
                         </p>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={400}>
-                        <form onSubmit={handleDirectAnalyze} className="max-w-md mb-12 flex flex-col gap-4">
-                            <div className="relative group p-2 bg-white rounded-2xl border border-purple-100 shadow-xl focus-within:ring-2 focus-within:ring-purple-600/20 transition-all">
+                        <form onSubmit={handleDirectAnalyze} className="max-w-md flex flex-col gap-4">
+                            <div className="relative group p-1 bg-gray-50 rounded-xl border border-purple-100 focus-within:ring-2 focus-within:ring-purple-600/10 transition-all">
                                 <input
                                     type="text"
-                                    placeholder="Paste TikTok URL..."
+                                    placeholder="Paste Winning TikTok URL..."
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
-                                    className="w-full bg-transparent border-none focus:ring-0 text-sm font-medium px-4 py-2"
+                                    className="w-full bg-transparent border-none focus:ring-0 text-sm font-medium px-4 py-3"
                                 />
                             </div>
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <button
-                                    type="submit"
-                                    className="bg-gray-900 text-white px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl"
-                                >
-                                    Scan Reference
-                                </button>
-                                <MagneticButton href={isLoggedIn ? "/dashboard/analyze" : "/signup"} variant="secondary">
-                                    {isLoggedIn ? "View Portfolio" : "Start Free Trial"}
-                                    <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
-                                </MagneticButton>
-                            </div>
+                            <button
+                                type="submit"
+                                className="bg-gray-900 text-white px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-purple-700 transition-all shadow-lg active:scale-95"
+                            >
+                                Extract DNA &rarr;
+                            </button>
                         </form>
                     </RevealOnScroll>
                 </div>
 
-                {/* Right: Single Focal Image */}
-                <div className="relative h-[50vh] md:h-auto overflow-hidden bg-gradient-to-br from-purple-100 to-blue-100">
-                    <Image
-                        src="/hero-person.jpg"
-                        alt="Professional workspace"
-                        fill
-                        className="object-cover transition-all duration-1000 ease-out scale-105 hover:scale-100"
-                        priority
-                    />
-                    <div className="absolute bottom-8 left-8 right-8 z-10 flex justify-between items-end text-white pointer-events-none drop-shadow-lg">
-                        <RevealOnScroll delay={500}>
-                            <div>
-                                <p className="font-serif text-3xl italic">Volume 01</p>
-                                <p className="text-xs tracking-[0.2em] uppercase opacity-80">Viral Ad Collection</p>
-                            </div>
-                        </RevealOnScroll>
-                        <div className="w-16 h-16 rounded-full border border-white/30 backdrop-blur-md flex items-center justify-center">
-                            <span className="text-[10px] uppercase tracking-widest animate-spin-slow">View</span>
-                        </div>
-                    </div>
+                {/* Right: Localized Hero Video */}
+                <div className="relative h-[70vh] md:h-auto overflow-hidden bg-black flex items-center justify-center">
+                    <video
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover opacity-80"
+                    >
+                        <source src="/hero-video.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                 </div>
             </section>
 
             {/* Marquee - "Ticker" */}
             <section className="py-4 border-b border-purple-200 overflow-hidden whitespace-nowrap bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white">
                 <div className="inline-block animate-marquee">
-                    <span className="text-4xl font-serif italic mx-8 uppercase">Intelligence</span>
+                    <span className="text-4xl font-serif italic mx-8 uppercase">Retention DNA</span>
                     <span className="text-xs tracking-[0.3em] uppercase mx-8">Driven by Data</span>
-                    <span className="text-4xl font-serif italic mx-8 uppercase">Psychology</span>
+                    <span className="text-4xl font-serif italic mx-8 uppercase">Direct Response</span>
                     <span className="text-xs tracking-[0.3em] uppercase mx-8">Driven by Data</span>
-                    <span className="text-4xl font-serif italic mx-8 uppercase">Conversion</span>
+                    <span className="text-4xl font-serif italic mx-8 uppercase">Scaling Logic</span>
                     <span className="text-xs tracking-[0.3em] uppercase mx-8">Driven by Data</span>
-                    <span className="text-4xl font-serif italic mx-8 uppercase">Retention</span>
+                    <span className="text-4xl font-serif italic mx-8 uppercase">Conversion Engine</span>
                     <span className="text-xs tracking-[0.3em] uppercase mx-8">Driven by Data</span>
                 </div>
             </section>
+
+            {/* Video Carousel Section */}
+            <VideoCarousel />
 
             {/* The Manifesto / How It Works */}
             <section className="grid lg:grid-cols-2 border-b border-purple-200">
                 <div className="p-12 lg:p-24 border-b lg:border-b-0 lg:border-r border-purple-200 flex items-center bg-gradient-to-br from-purple-50 to-transparent">
                     <RevealOnScroll>
                         <h2 className="text-6xl md:text-8xl font-serif leading-none tracking-tight">
-                            KNOW WHY <br />
-                            <span className="text-transparent stroke-text">THEY WATCH.</span>
+                            SCALE FAST. <br />
+                            <span className="text-transparent stroke-text">DOMINATE.</span>
                         </h2>
                     </RevealOnScroll>
                 </div>
                 <div className="p-12 lg:p-24 flex flex-col justify-center">
                     <RevealOnScroll delay={200}>
                         <p className="text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-md">
-                            Successful ads aren&apos;t luck. We show you exactly how to capture attention and turn it into sales.
+                            Winning ads follow a pattern. We extract that pattern so you can scale your winners without the guesswork.
                         </p>
                     </RevealOnScroll>
 
                     <ul className="space-y-6">
-                        {['Instantly Scan Any Video', 'See Exactly Why It Works', 'Build Your Winning Ad'].map((item, i) => (
+                        {['Intelligence Gathering', 'Retention Blueprinting', 'Scalable Production'].map((item, i) => (
                             <RevealOnScroll key={i} delay={300 + (i * 100)}>
                                 <li className="flex items-center gap-6 group cursor-pointer">
                                     <span className="text-xs font-mono border-2 border-purple-600 w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white transition-all">{i + 1}</span>
@@ -160,27 +167,50 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Process Section */}
+            {/* Process Section - How It Works */}
             <section className="py-32 px-6 border-b border-purple-200 bg-white">
                 <div className="max-w-6xl mx-auto">
                     <RevealOnScroll className="text-center mb-24">
-                        <h2 className="text-5xl md:text-7xl font-serif mb-6 italic">How It Works</h2>
-                        <p className="text-xs tracking-[0.4em] uppercase text-purple-600">From Video to Winner in 60 Seconds</p>
+                        <h2 className="text-5xl md:text-7xl font-serif mb-6 italic">How EIXORA Works</h2>
+                        <p className="text-xs tracking-[0.4em] uppercase text-purple-600">From Viral Link to Winning Ad in 60 Seconds</p>
                     </RevealOnScroll>
 
-                    <div className="grid md:grid-cols-3 gap-16 relative">
-                        <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-purple-100 -z-10"></div>
-                        {[
-                            { step: "Analyze", desc: "Paste any viral link. We show you why people are stopping and staying." },
-                            { step: "Adapt", desc: "We take the winning moves from that video and apply them to your product." },
-                            { step: "Launch", desc: "Get a full script and plan so you can film your next winning ad today." }
-                        ].map((p, i) => (
-                            <RevealOnScroll key={i} delay={i * 200} className="bg-white p-8 border border-purple-100 relative shadow-sm hover:shadow-xl transition-all">
-                                <span className="absolute -top-4 left-8 bg-purple-600 text-white text-[10px] font-bold px-4 py-1 uppercase tracking-widest">{i + 1}</span>
-                                <h3 className="text-2xl font-serif mb-4 pt-4 italic">{p.step}</h3>
-                                <p className="text-sm text-gray-600 leading-relaxed font-light">{p.desc}</p>
-                            </RevealOnScroll>
-                        ))}
+                    <div className="grid md:grid-cols-2 gap-16 items-center">
+                        <div className="space-y-12">
+                            {[
+                                { step: "Extract", desc: "Paste any viral link. Our AI decodes the hook, pacing, and visual triggers that drive engagement." },
+                                { step: "Analyze", desc: "We extract the 'Retention DNA' and blueprint the exact reasons why the ad is scaling." },
+                                { step: "Deploy", desc: "Get an actionable creative brief with hook variations, pacing notes, and visual direction to replicate the win." }
+                            ].map((p, i) => (
+                                <RevealOnScroll key={i} delay={i * 200} className="relative pl-12">
+                                    <span className="absolute left-0 top-0 text-3xl font-serif italic text-purple-200">0{i + 1}</span>
+                                    <h3 className="text-2xl font-serif mb-3 italic">{p.step}</h3>
+                                    <p className="text-sm text-gray-600 leading-relaxed font-light">{p.desc}</p>
+                                </RevealOnScroll>
+                            ))}
+                        </div>
+
+                        <RevealOnScroll delay={400} className="relative group p-4 bg-gray-50 rounded-3xl border border-purple-100 overflow-hidden shadow-2xl">
+                            <div className="aspect-video relative rounded-2xl overflow-hidden bg-black">
+                                <video
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                    className="object-cover w-full h-full opacity-90 group-hover:scale-105 transition-transform duration-1000"
+                                >
+                                    <source src="/videos/v7.mp4" type="video/mp4" />
+                                </video>
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-transparent transition-all">
+                                    <div className="w-16 h-16 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center border border-white/50 group-hover:scale-110 transition-all">
+                                        <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent translate-x-1"></div>
+                                    </div>
+                                </div>
+                                <div className="absolute top-4 left-4 right-4 flex justify-between items-start pointer-events-none">
+                                    <span className="text-[10px] font-bold tracking-widest bg-purple-600 text-white px-3 py-1 rounded uppercase">Live DNA Extraction</span>
+                                </div>
+                            </div>
+                        </RevealOnScroll>
                     </div>
                 </div>
             </section>
@@ -189,7 +219,7 @@ export default function LandingPage() {
             <section className="grid grid-cols-1 md:grid-cols-2 border-b border-purple-200">
                 {[
                     { title: "Ad Analysis", subtitle: "Data-Driven Creative", img: "/retention-dna.png" },
-                    { title: "Viral Scripts", subtitle: "Engineered to Sell", img: "/hook-engineering.png" },
+                    { title: "Hook Engineering", subtitle: "Engineered to Convert", img: "/hook-engineering.png" },
                 ].map((feature, i) => (
                     <div key={i} className={`group border-b md:border-b-0 border-purple-200 ${i !== 1 ? 'md:border-r border-purple-200' : ''} h-[80vh] relative overflow-hidden`}>
                         <Image
@@ -237,6 +267,108 @@ export default function LandingPage() {
                     </RevealOnScroll>
                 </div>
             </section>
+
+            {/* The Evidence - Luxury Social Proof Carousel */}
+            <section className="py-24 border-b border-purple-100 bg-white overflow-hidden">
+                <div className="px-6 mb-16 max-w-7xl mx-auto">
+                    <RevealOnScroll>
+                        <span className="text-[10px] font-black tracking-[0.4em] uppercase text-purple-600/60 mb-3 block text-center md:text-left">What They're Saying</span>
+                        <h2 className="text-4xl md:text-6xl font-luxury italic mb-4 tracking-tight text-gray-900 line-clamp-2 text-center md:text-left">The Evidence.</h2>
+                        <p className="text-sm font-light text-gray-400 max-w-lg mx-auto md:mx-0 text-center md:text-left">Honest stories from creators who finally found the winning formula.</p>
+                    </RevealOnScroll>
+                </div>
+
+                <div
+                    ref={scrollRef}
+                    className="flex overflow-x-auto pb-12 hide-scrollbar snap-x snap-mandatory px-6 md:px-[calc((100vw-80rem)/2)]"
+                >
+                    {[
+                        {
+                            name: "Cole Baker",
+                            role: "CEO Wave LLC",
+                            quote: "Honestly? I was winging it in Apple Notes like a caveman before. I saw ads for 'AI tools' but they were all trash. I was skeptical of EIXORA too—thought it was just another prompt wrapper. Then I ran the DNA Extraction on my competitor's best ad. It caught the exact pacing shift at 3 seconds that I was missing. My hooks finally have power and I've 3x'd my ROAS in 10 days."
+                        },
+                        {
+                            name: "Yedam Lee",
+                            role: "Re:stage",
+                            quote: "Absolute lifesaver for our team. We aren't 'marketing experts' so we were literally pulling our hair out trying to plan videos. EIXORA's 'Big Idea' analyzer is a savior. It doesn't just tell you what works—it breaks down the psychology of WHY the ad works. Completely solved our biggest creative headache."
+                        },
+                        {
+                            name: "Elina",
+                            role: "Founder",
+                            quote: "The 'Hook Power' grade is the real game changer. I used to guess if my intros were good, now I actually have a score based on viral DNA. The visual suggestions made a massive difference in my retention. I've seen a huge improvement in my clients' videos since we started using the Studio."
+                        },
+                        {
+                            name: "Julian",
+                            role: "Scaling",
+                            quote: "Antes da EIXORA, meu processo era uma bagunça total. Eu perdia horas tentando organizar as ideias. O jogo mudou com o 'Visual DNA'. Agora minhas postagens têm estratégia real por trás. Ferramenta indispensável para quem leva o digital a sério e quer escala de verdade."
+                        },
+                        {
+                            name: "Mike",
+                            role: "Creator",
+                            quote: "The wins are real. My views are finally up because the 'Viral Checklist' actually keeps me on track. EIXORA took the 'ugh' out of planning. I'm actually having fun creating again because I know my strategy is backed by data, not just luck."
+                        }
+                    ].map((t, i) => (
+                        <div key={i} className="min-w-[85vw] md:min-w-[45vw] snap-start pr-12 relative group">
+                            <RevealOnScroll delay={i * 50} className="h-full flex flex-col border-l border-purple-100/50 pl-10 py-8 hover:border-purple-400 transition-all duration-1000 bg-white/50 hover:bg-white rounded-r-3xl relative overflow-visible">
+                                <p className="text-sm md:text-base font-light leading-relaxed text-gray-500 mb-8 whitespace-pre-wrap">"{t.quote}"</p>
+                                {/* Floating Heart Emojis - Inside card so they're visible */}
+                                <div className="absolute bottom-4 right-4 flex flex-col items-center gap-1 pointer-events-none">
+                                    <span className="animate-heart text-xl" style={{ animationDelay: `${i * 0.7}s` }}>❤️</span>
+                                    <span className="animate-heart text-base" style={{ animationDelay: `${i * 0.7 + 1.2}s` }}>🧡</span>
+                                    <span className="animate-heart text-sm" style={{ animationDelay: `${i * 0.7 + 2.1}s` }}>💜</span>
+                                </div>
+                                <div className="mt-auto flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center text-[10px] font-black text-purple-600 uppercase tracking-widest border border-purple-100">
+                                        {t.name[0]}
+                                    </div>
+                                    <div>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-900">{t.name}</h4>
+                                        <p className="text-[9px] text-gray-400 uppercase tracking-widest font-bold mt-0.5">{t.role}</p>
+                                    </div>
+                                </div>
+                            </RevealOnScroll>
+                        </div>
+                    ))}
+                    {/* Spacer */}
+                    <div className="min-w-[20vw] flex-shrink-0"></div>
+                </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section className="py-32 px-6 border-b border-purple-200 bg-white">
+                <div className="max-w-4xl mx-auto">
+                    <RevealOnScroll className="text-center mb-24">
+                        <span className="text-[10px] font-black tracking-[0.5em] uppercase text-purple-600 mb-4 block">Information</span>
+                        <h2 className="text-5xl font-serif italic mb-6">Frequently Asked</h2>
+                    </RevealOnScroll>
+
+                    <div className="space-y-4">
+                        {[
+                            { q: "What exactly is EIXORA?", a: "EIXORA is the first AI-powered 'DNA Extraction' tool for TikTok ad creative. We use intelligence-grade models to decode viral ads and blueprint their mechanics so you can replicate their success with your own product." },
+                            { q: "Does it work for any niche?", a: "Yes. Whether it's home decor, tech, personal care, or coaching—if there is a viral video for it, EIXORA can blueprint it for you." },
+                            { q: "How long does an analysis take?", a: "DNA Extraction usually takes less than 60 seconds per link. You paste the URL, we do the heavy lifting." },
+                            { q: "Can I use EIXORA on mobile?", a: "Absolutely. Our Studio is fully responsive. You can find inspiration on the TikTok app and paste it directly into EIXORA on your phone." },
+                            { q: "What do I get from an extraction?", a: "You get a full Viral DNA report including hook power score, retention analysis, pacing blueprint, psychology breakdown, and actionable creative direction." }
+                        ].map((faq, i) => (
+                            <RevealOnScroll key={i} delay={i * 100}>
+                                <details className="group border border-purple-100 rounded-3xl overflow-hidden bg-white hover:border-purple-300 transition-all duration-300">
+                                    <summary className="flex items-center justify-between p-8 cursor-pointer list-none">
+                                        <h3 className="text-lg font-serif italic text-gray-900">{faq.q}</h3>
+                                        <span className="text-purple-600 group-open:rotate-180 transition-transform duration-300">
+                                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" /></svg>
+                                        </span>
+                                    </summary>
+                                    <div className="px-8 pb-8 text-sm font-light leading-relaxed text-gray-500">
+                                        {faq.a}
+                                    </div>
+                                </details>
+                            </RevealOnScroll>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
 
 
             {/* Footer - Massive */}
@@ -312,3 +444,4 @@ export default function LandingPage() {
         </div>
     );
 }
+

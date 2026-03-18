@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Dancing+Script:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,400..900&family=Dancing+Script:wght@400..700&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -69,6 +69,22 @@ h6 {
   text-wrap: balance;
 }
 
+.glass-card {
+  background: color-mix(in srgb, white 78%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.soft-shadow {
+  box-shadow:
+    0 1px 0 rgba(17, 24, 39, 0.04),
+    0 10px 30px rgba(17, 24, 39, 0.10);
+}
+
+.ring-focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.14);
+}
+
 .editorial-card {
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -109,4 +125,49 @@ h6 {
   to {
     transform: rotate(360deg);
   }
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes heart-float {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-heart {
+  animation: heart-float 3s ease-out infinite;
+}
+
+@keyframes float-slow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
 }

@@ -34,9 +34,9 @@ export default function RefundPolicy() {
 
                     <RevealOnScroll delay={200}>
                         <section>
-                            <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">2. Credit Usage</h2>
+                            <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">2. Service Usage</h2>
                             <p>
-                                Once credits are utilized for ad script generation or video DNA analysis, they are considered consumed. We do not refund credits used for generating content, even if the user is dissatisfied with the generated output, as the underlying AI compute has already been initiated and completed.
+                                Once features are utilized for Viral DNA Extraction or ad intelligence analysis, the underlying AI compute has already been initiated and completed. We do not refund subscription fees based on dissatisfaction with AI-generated outputs, as the compute resources have been consumed.
                             </p>
                         </section>
                     </RevealOnScroll>
@@ -45,7 +45,7 @@ export default function RefundPolicy() {
                         <section>
                             <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">3. Performance Disclaimer</h2>
                             <p>
-                                EIXORA provides AI-generated ad scripts and creative direction based on historical data. We do not guarantee specific marketing results, ROI, or viral success. As results can vary based on numerous external factors (ad spend, platform algorithms, product quality), a lack of sales or engagement does not constitute grounds for a refund.
+                                EIXORA provides AI-generated ad intelligence and creative direction based on historical data. We do not guarantee specific marketing results, ROI, or viral success. As results can vary based on numerous external factors (ad spend, platform algorithms, product quality), a lack of sales or engagement does not constitute grounds for a refund.
                             </p>
                         </section>
                     </RevealOnScroll>
@@ -54,7 +54,7 @@ export default function RefundPolicy() {
                         <section>
                             <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">4. Technical Issues</h2>
                             <p>
-                                In the event of a documented technical failure (e.g., system error resulting in non-delivery of a report despite credits being deducted), please contact support. We will prioritize either re-crediting your account or providing the manual output of your analysis.
+                                In the event of a documented technical failure (e.g., system error resulting in non-delivery of a DNA report), please contact support. We will prioritize resolving the issue and providing your analysis output.
                             </p>
                         </section>
                     </RevealOnScroll>
