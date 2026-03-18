@@ -121,9 +121,7 @@ export default function PricingPage() {
                                 {[
                                     "Everything in Founding",
                                     "Competitor Spy",
-                                    "Up to 5 Team Members",
                                     "Batch URL Processing (10 Videos at Once)",
-                                    "Exportable DNA Reports (Download)",
                                     "Priority Support"
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600 font-medium">

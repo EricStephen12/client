@@ -283,9 +283,6 @@ function SettingsContent() {
                 </div>
             </div>
 
-
-            {/* Team Management */}
-            <TeamManagement isAgency={profile?.plan_type === 'agency' || (session?.user as any)?.subscription_tier === 'agency'} />
         </div>
     );
 }

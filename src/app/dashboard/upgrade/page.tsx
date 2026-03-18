@@ -134,9 +134,7 @@ export default function UpgradePage() {
                             {[
                                 'Everything in Founding',
                                 'Competitor Spy',
-                                'Up to 5 Team Members',
                                 'Batch URL Processing (10 Videos at Once)',
-                                'Exportable DNA Reports (Download)',
                                 'Priority Support'
                             ].map(feature => (
                                 <li key={feature} className="flex gap-4 text-sm font-medium text-gray-700">
