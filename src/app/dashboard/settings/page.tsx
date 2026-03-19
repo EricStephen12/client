@@ -10,6 +10,7 @@ export default function SettingsPage() {
 }
 
 function SettingsContent() {
+
     // 1. All State Definitions
     const { data: session, status, update } = useSession();
     const [profile, setProfile] = useState<any>(null);
