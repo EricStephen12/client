@@ -44,7 +44,6 @@ export default function ExtractionModal({
             setAnswers({});
             setExtraction(null);
             setError('');
-
         }
     }, [isOpen, initialProductName, initialDescription]);
 
@@ -118,7 +117,6 @@ export default function ExtractionModal({
 
             const data = await response.json();
             setExtraction(data);
-
 
         } catch (err: any) {
             setError(err.message || 'Something went wrong.');
@@ -329,59 +327,67 @@ export default function ExtractionModal({
                                             )}
 
                                             {/* Aesthetic Guide */}
-                                            {(typeof extraction.aesthetic_guide === 'string' ? extraction.aesthetic_guide.split('\n') : [String(extraction.aesthetic_guide)]).map((line: string, i: number) => (
-                                                line && line.trim() && <p key={i}>{line}</p>
-                                            ))}
-                                        </div>
+                                            {extraction.aesthetic_guide && (
+                                                <div className="p-10 bg-gradient-to-br from-gray-900 to-black text-white rounded-[2.5rem] shadow-2xl space-y-6 relative overflow-hidden border border-white/5">
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+                                                    <div className="relative">
+                                                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-400 block mb-3">Aesthetic DNA</span>
+                                                        <h3 className="text-2xl font-serif italic text-white mb-6">Visual & Tonal Blueprint</h3>
+                                                        <div className="space-y-4 text-white/70 text-sm leading-relaxed font-light">
+                                                            {(typeof extraction.aesthetic_guide === 'string' ? extraction.aesthetic_guide.split('\n') : [String(extraction.aesthetic_guide)]).map((line: string, i: number) => (
+                                                                line && line.trim() && <p key={i}>{line}</p>
+                                                            ))}
+                                                        </div>
                                                     </div>
-                            </div>
+                                                </div>
                                             )}
 
-                            {/* Summary Cards */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block mb-4">The Hook</span>
-                                    <p className="text-lg font-serif italic text-gray-900">"{(extraction.summary || extraction).hook}"</p>
-                                </div>
-                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 block mb-4">The CTA</span>
-                                    <p className="text-sm font-bold text-gray-900">"{(extraction.summary || extraction).cta}"</p>
-                                </div>
-                            </div>
+                                            {/* Summary Cards */}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
+                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block mb-4">The Hook</span>
+                                                    <p className="text-lg font-serif italic text-gray-900">"{(extraction.summary || extraction).hook}"</p>
+                                                </div>
 
-                            {/* Action Buttons - Show directly with results */}
-                            <div className="space-y-4 pt-6 border-t border-purple-100">
-                                <button
-                                    onClick={() => window.location.href = `/dashboard/content-generator?productName=${encodeURIComponent(productName)}&description=${encodeURIComponent(description)}`}
-                                    className="w-full p-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl flex items-center justify-between hover:scale-[1.02] transition-all group shadow-lg shadow-purple-100"
-                                >
-                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Generate Visual Assets</span>
-                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                                </button>
+                                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
+                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 block mb-4">The CTA</span>
+                                                    <p className="text-sm font-bold text-gray-900">"{(extraction.summary || extraction).cta}"</p>
+                                                </div>
+                                            </div>
 
-                                <button
-                                    onClick={() => window.location.href = '/dashboard/analyze'}
-                                    className="w-full p-5 border border-purple-100 text-gray-900 rounded-2xl flex items-center justify-between hover:bg-purple-50 transition-all group"
-                                >
-                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Private Video Scan</span>
-                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
-                                </button>
+                                            {/* Action Buttons - Show directly with results */}
+                                            <div className="space-y-4 pt-6 border-t border-purple-100">
+                                                <button
+                                                    onClick={() => window.location.href = `/dashboard/content-generator?productName=${encodeURIComponent(productName)}&description=${encodeURIComponent(description)}`}
+                                                    className="w-full p-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl flex items-center justify-between hover:scale-[1.02] transition-all group shadow-lg shadow-purple-100"
+                                                >
+                                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Generate Visual Assets</span>
+                                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                                                </button>
 
-                                <button
-                                    onClick={onClose}
-                                    className="w-full p-5 text-gray-400 rounded-2xl flex items-center justify-center hover:text-gray-900 transition-colors group"
-                                >
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] italic">Close and continue</span>
-                                </button>
-                            </div>
-                    </div>
+                                                <button
+                                                    onClick={() => window.location.href = '/dashboard/analyze'}
+                                                    className="w-full p-5 border border-purple-100 text-gray-900 rounded-2xl flex items-center justify-between hover:bg-purple-50 transition-all group"
+                                                >
+                                                    <span className="text-xs font-black uppercase tracking-[0.2em]">Private Video Scan</span>
+                                                    <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                                                </button>
+
+                                                <button
+                                                    onClick={onClose}
+                                                    className="w-full p-5 text-gray-400 rounded-2xl flex items-center justify-center hover:text-gray-900 transition-colors group"
+                                                >
+                                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] italic">Close and continue</span>
+                                                </button>
+                                            </div>
+                                        </div>
                                     )}
+                                </div>
+                            </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
                 </div>
-            </Dialog.Panel>
-        </Transition.Child>
-                    </div >
-                </div >
-            </Dialog >
-        </Transition >
+            </Dialog>
+        </Transition>
     );
 }
