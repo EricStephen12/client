@@ -82,14 +82,9 @@ export default function BatchPage() {
 
             clearTimeout(timeoutId);
 
-            if (res.status === 403) {
-                setError('Batch processing requires an Agency plan. Please upgrade.');
-                setIsProcessing(false);
-                return;
-            }
-
             if (!res.ok) {
-                addLog('❌ Server responded with an error.');
+                const errorData = await res.json().catch(() => ({}));
+                addLog(`❌ Server error: ${res.status} ${errorData.error || res.statusText}`);
                 throw new Error('Batch analysis failed');
             }
 
