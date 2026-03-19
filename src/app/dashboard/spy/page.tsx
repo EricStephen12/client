@@ -29,8 +29,9 @@ export default function CompetitorSpyPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [results, setResults] = useState<{ username: string; videos: SpyVideo[] } | null>(null);
-    const [planTier, setPlanTier] = useState<string>('free');
-    const [isCheckingPlan, setIsCheckingPlan] = useState(true);
+    const sessionTier = (session?.user as any)?.subscription_tier;
+    const [planTier, setPlanTier] = useState<string>(sessionTier || 'free');
+    const [isCheckingPlan, setIsCheckingPlan] = useState(!sessionTier);
 
     useEffect(() => {
         const checkPlan = async () => {
@@ -40,7 +41,8 @@ export default function CompetitorSpyPage() {
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    setPlanTier(data.plan_type || data.subscription_tier || 'free');
+                    const tier = data.plan_type || data.subscription_tier || 'free';
+                    setPlanTier(tier);
                 }
             } catch (err) {
                 console.error('Plan check failed', err);
@@ -49,7 +51,7 @@ export default function CompetitorSpyPage() {
             }
         };
         checkPlan();
-    }, []);
+    }, [sessionTier]);
 
     const handleSpy = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -95,7 +97,7 @@ export default function CompetitorSpyPage() {
         );
     }
 
-    if (planTier !== 'agency') {
+    if (planTier.toLowerCase() !== 'agency') {
         return (
             <div className="max-w-3xl mx-auto pt-12 space-y-8">
                 <RevealOnScroll>

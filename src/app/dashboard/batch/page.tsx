@@ -13,8 +13,9 @@ export default function BatchPage() {
     const [progress, setProgress] = useState({ current: 0, total: 0 });
     const [results, setResults] = useState<any>(null);
     const [error, setError] = useState('');
-    const [planTier, setPlanTier] = useState<string>('free');
-    const [isCheckingPlan, setIsCheckingPlan] = useState(true);
+    const sessionTier = (session?.user as any)?.subscription_tier;
+    const [planTier, setPlanTier] = useState<string>(sessionTier || 'free');
+    const [isCheckingPlan, setIsCheckingPlan] = useState(!sessionTier);
 
     useEffect(() => {
         const checkPlan = async () => {
@@ -24,7 +25,8 @@ export default function BatchPage() {
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    setPlanTier(data.plan_type || data.subscription_tier || 'free');
+                    const tier = data.plan_type || data.subscription_tier || 'free';
+                    setPlanTier(tier);
                 }
             } catch (err) {
                 console.error('Plan check failed', err);
@@ -33,7 +35,7 @@ export default function BatchPage() {
             }
         };
         checkPlan();
-    }, []);
+    }, [sessionTier]);
 
     const handleBatchAnalyze = async () => {
         setError('');
@@ -116,7 +118,7 @@ export default function BatchPage() {
         );
     }
 
-    if (planTier !== 'agency') {
+    if (planTier.toLowerCase() !== 'agency') {
         return (
             <div className="max-w-3xl mx-auto pt-12 space-y-8">
                 <RevealOnScroll>
