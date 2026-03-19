@@ -60,12 +60,19 @@ export default function BatchPage() {
         setProgress({ current: 0, total: urlList.length });
 
         try {
+            // Use AbortController for manual timeout (5 minutes for heavy batches)
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 min
+
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/batch-analyze`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify({ urls: urlList }),
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
 
             if (res.status === 403) {
                 setError('Batch processing requires an Agency plan. Please upgrade.');
@@ -78,8 +85,13 @@ export default function BatchPage() {
             const data = await res.json();
             setResults(data);
         } catch (err: any) {
-            setError(err.message || 'Something went wrong');
+            if (err.name === 'AbortError') {
+                setError('Analysis timed out. Try a smaller batch (3-5 URLs).');
+            } else {
+                setError(err.message || 'Something went wrong');
+            }
         } finally {
+            setIsProcessing(true); // Wait, this should be false! Fixing below.
             setIsProcessing(false);
         }
     };
