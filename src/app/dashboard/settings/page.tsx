@@ -63,6 +63,7 @@ function SettingsContent() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ name }),
             });
 
@@ -92,7 +93,9 @@ function SettingsContent() {
             const fetchUserData = async () => {
                 setIsSyncing(true);
                 try {
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`);
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
+                        credentials: 'include'
+                    });
                     if (res.ok) {
                         const data = await res.json();
                         setProfile(data);

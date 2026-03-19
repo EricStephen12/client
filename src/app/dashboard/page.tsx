@@ -14,7 +14,9 @@ export default function DashboardPage() {
         if (status === 'authenticated') {
             const fetchStats = async () => {
                 try {
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`);
+                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
+                        credentials: 'include'
+                    });
                     if (res.ok) {
                         const data = await res.json();
                         setProfile(data);

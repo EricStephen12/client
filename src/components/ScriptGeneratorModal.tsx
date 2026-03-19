@@ -77,6 +77,7 @@ export default function ExtractionModal({
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/script-strategy-questions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ adId, productName, description })
             });
             const data = await res.json();
@@ -105,6 +106,7 @@ export default function ExtractionModal({
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/generate-script`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({
                     productName,
                     description,

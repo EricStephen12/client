@@ -20,7 +20,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         const fetchSessions = async () => {
             if (!userId) return;
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/user-sessions?userId=${userId}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/user-sessions?userId=${userId}`, {
+                    credentials: 'include'
+                });
                 if (res.ok) {
                     const data = await res.json();
                     setSessions(data);
@@ -33,7 +35,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         const fetchLatestProfile = async () => {
             if (!userId) return;
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
+                    credentials: 'include'
+                });
                 if (res.ok) {
                     const data = await res.json();
                     setProfileData(data);

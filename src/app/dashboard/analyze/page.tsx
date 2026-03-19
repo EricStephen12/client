@@ -42,7 +42,9 @@ function AnalyzeContent() {
     const loadSession = async (id: string) => {
         setIsSending(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${id}`);
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${id}`, {
+                credentials: 'include'
+            });
             if (res.ok) {
                 const data = await res.json();
                 setResult({ analysis: data.dna });
@@ -78,6 +80,7 @@ function AnalyzeContent() {
                         method: 'POST',
                         body: JSON.stringify({ videoUrl: queryUrl, userId }),
                         headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
                     });
                     if (res.ok) {
                         const data = await res.json();
@@ -118,6 +121,7 @@ function AnalyzeContent() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/save-lounge-session`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({
                     sessionId: idToUse,
                     userId,
@@ -146,6 +150,7 @@ function AnalyzeContent() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/creative-director-chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({
                     messages: [],
                     dna: result.analysis,
@@ -183,6 +188,7 @@ function AnalyzeContent() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/creative-director-chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({
                     messages: newMessages,
                     dna: result.analysis,
@@ -213,6 +219,7 @@ function AnalyzeContent() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/generate-final-script`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({
                     messages,
                     dna: result.analysis,
@@ -263,6 +270,7 @@ function AnalyzeContent() {
                 method: 'POST',
                 body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId }),
                 headers: activeTab === 'url' ? { 'Content-Type': 'application/json' } : {},
+                credentials: 'include',
             });
 
             if (!res.ok) throw new Error('Analysis failed');

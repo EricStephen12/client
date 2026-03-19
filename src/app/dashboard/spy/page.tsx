@@ -35,7 +35,9 @@ export default function CompetitorSpyPage() {
     useEffect(() => {
         const checkPlan = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
+                    credentials: 'include'
+                });
                 if (res.ok) {
                     const data = await res.json();
                     setPlanTier(data.plan_type || data.subscription_tier || 'free');
