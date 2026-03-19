@@ -16,6 +16,11 @@ export default function BatchPage() {
     const sessionTier = (session?.user as any)?.subscription_tier;
     const [planTier, setPlanTier] = useState<string>(sessionTier || 'free');
     const [isCheckingPlan, setIsCheckingPlan] = useState(!sessionTier);
+    const [logs, setLogs] = useState<string[]>([]);
+
+    const addLog = (msg: string) => {
+        setLogs(prev => [`[${new Date().toLocaleTimeString()}] ${msg}`, ...prev].slice(0, 50));
+    };
 
     useEffect(() => {
         const checkPlan = async () => {
@@ -40,6 +45,8 @@ export default function BatchPage() {
     const handleBatchAnalyze = async () => {
         setError('');
         setResults(null);
+        setLogs([]);
+        addLog('🚀 Starting Elite Batch Analysis...');
 
         const urlList = urls
             .split('\n')
@@ -64,6 +71,7 @@ export default function BatchPage() {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 min
 
+            addLog(`🔗 Sent ${urlList.length} URLs to processing engine...`);
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/batch-analyze`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -80,9 +88,13 @@ export default function BatchPage() {
                 return;
             }
 
-            if (!res.ok) throw new Error('Batch analysis failed');
+            if (!res.ok) {
+                addLog('❌ Server responded with an error.');
+                throw new Error('Batch analysis failed');
+            }
 
             const data = await res.json();
+            addLog(`✅ Analysis complete! ${data.completed} succeeded, ${data.failed} failed.`);
             setResults(data);
         } catch (err: any) {
             if (err.name === 'AbortError') {
@@ -91,7 +103,6 @@ export default function BatchPage() {
                 setError(err.message || 'Something went wrong');
             }
         } finally {
-            setIsProcessing(true); // Wait, this should be false! Fixing below.
             setIsProcessing(false);
         }
     };
@@ -217,11 +228,27 @@ export default function BatchPage() {
                         </div>
                     )}
 
-                    {isProcessing && (
-                        <div className="text-center p-12 bg-gray-900 rounded-[2rem] text-white animate-pulse">
-                            <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                            <h3 className="font-serif text-2xl italic">Batch Processing in Progress...</h3>
-                            <p className="text-gray-400 mt-2 text-sm">This may take a few minutes depending on the number of videos.</p>
+                    {logs.length > 0 && (
+                        <div className="bg-gray-900 rounded-[2rem] p-8 space-y-4 shadow-2xl border border-white/5">
+                            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex gap-1.5">
+                                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/50" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/50" />
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Diagnostic Console</span>
+                                </div>
+                                {isProcessing && <div className="w-3 h-3 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />}
+                            </div>
+                            <div className="space-y-2 h-40 overflow-y-auto font-mono text-[11px] custom-scrollbar pr-4">
+                                {logs.map((log, i) => (
+                                    <div key={i} className={`flex gap-3 ${i === 0 ? 'text-purple-400 animate-pulse' : 'text-gray-500'}`}>
+                                        <span className="opacity-30 flex-shrink-0">{logs.length - i}.</span>
+                                        <span className="break-all">{log}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -296,7 +323,10 @@ export default function BatchPage() {
                             )}
 
                             {!r.success && (
-                                <p className="text-sm text-red-500">{r.error}</p>
+                                <div className="bg-red-50/50 rounded-xl p-4 border border-red-100/50">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-red-400 mb-1">Reason for Failure</p>
+                                    <p className="text-sm font-medium text-red-600 italic">"{r.error || 'Unknown extraction error occurred'}"</p>
+                                </div>
                             )}
                         </div>
                     ))}
