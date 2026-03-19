@@ -63,6 +63,7 @@ export default function BatchPage() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/batch-analyze`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ urls: urlList }),
             });
 
@@ -88,6 +89,7 @@ export default function BatchPage() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/export-report`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ analysis, videoUrl }),
             });
 
