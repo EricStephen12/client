@@ -225,23 +225,15 @@ export default function LandingPage() {
                         </div>
 
                         <RevealOnScroll delay={400} className="relative group p-3 md:p-4 bg-gray-50 rounded-3xl border border-purple-100 overflow-hidden shadow-2xl order-1 md:order-2">
-                            <div className="aspect-video relative rounded-2xl overflow-hidden bg-black">
-                                <video
-                                    autoPlay
-                                    muted
-                                    loop
-                                    playsInline
+                            <div className="aspect-video relative rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+                                <img
+                                    src="/demo-recording.webp"
+                                    alt="EIXORA Live Demo"
                                     className="object-cover w-full h-full opacity-90 group-hover:scale-105 transition-transform duration-1000"
-                                >
-                                    <source src="/videos/v7.mp4" type="video/mp4" />
-                                </video>
-                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-transparent transition-all">
-                                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center border border-white/50 group-hover:scale-110 transition-all">
-                                        <div className="w-0 h-0 border-t-[8px] md:border-t-[10px] border-t-transparent border-l-[14px] md:border-l-[18px] border-l-white border-b-[8px] md:border-b-[10px] border-b-transparent translate-x-1"></div>
-                                    </div>
-                                </div>
+                                />
+                                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all"></div>
                                 <div className="absolute top-3 left-3 right-3 flex justify-between items-start pointer-events-none">
-                                    <span className="text-[8px] md:text-[10px] font-bold tracking-widest bg-purple-600 text-white px-2 md:px-3 py-1 rounded uppercase">Live Logic Blueprinting</span>
+                                    <span className="text-[8px] md:text-[10px] font-bold tracking-widest bg-purple-600 text-white px-2 md:px-3 py-1 rounded uppercase">Live Masterclass Scan</span>
                                 </div>
                             </div>
                         </RevealOnScroll>
