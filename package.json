@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/pg-adapter": "^1.11.1",
+    "@clerk/nextjs": "^7.0.6",
     "@headlessui/react": "^2.2.9",
     "@paddle/paddle-node-sdk": "^3.6.0",
     "@supabase/ssr": "^0.8.0",

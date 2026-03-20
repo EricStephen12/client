@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import CursorEffect from '@/components/CursorEffect';
 import MagneticButton from '@/components/MagneticButton';
 import RevealOnScroll from '@/components/RevealOnScroll';
@@ -13,13 +13,9 @@ import FloatingHearts from '@/components/FloatingHearts';
 export default function LandingPage() {
     const [url, setUrl] = useState('');
     const router = useRouter();
-    const { data: session, status } = useSession();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, isLoaded } = useUser();
+    const isLoggedIn = isLoaded && !!user;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-    useEffect(() => {
-        setIsLoggedIn(status === 'authenticated');
-    }, [status]);
 
     const scrollRef = useRef<HTMLDivElement>(null);
 

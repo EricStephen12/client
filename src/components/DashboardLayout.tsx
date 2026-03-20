@@ -2,14 +2,23 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode, useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useUser, useClerk } from '@clerk/nextjs';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
     const router = useRouter();
-    const { data: session, status } = useSession();
+    const { user, isLoaded } = useUser();
+    const { signOut } = useClerk();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const profile = isLoaded && user ? {
+        full_name: user.fullName || user.username || 'Creator',
+        email: user.primaryEmailAddress?.emailAddress,
+        image: user.imageUrl,
+        plan_type: (user.publicMetadata as any).plan_type || 'Free',
+        is_admin: (user.publicMetadata as any).is_admin || false
+    } : null;
 
     const navItems = [
         { name: 'Overview', href: '/dashboard' },
@@ -17,23 +26,18 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         { name: 'Settings', href: '/dashboard/settings' },
     ];
 
-    useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.push('/login');
-        }
-    }, [status, router]);
+    const adminItem = { name: 'Admin Hub', href: '/dashboard/admin' };
+    const displayNavItems = profile?.is_admin
+        ? [...navItems, adminItem]
+        : navItems;
+
+    // Component is protected by middleware, no need for extra useEffect redirect patterns usually,
+    // but we can add a check for isLoaded if needed.
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
         await signOut({ callbackUrl: '/' });
     };
-
-    const profile = session?.user ? {
-        full_name: session.user.name || session.user.email?.split('@')[0] || 'Creator',
-        email: session.user.email,
-        image: session.user.image,
-        plan_type: (session.user as any).subscription_tier || 'Free'
-    } : null;
 
     return (
         <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 text-gray-900 font-sans selection:bg-purple-600 selection:text-white">
@@ -42,7 +46,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <aside className="w-72 border-r border-purple-50 hidden lg:flex flex-col sticky top-0 h-screen bg-white shadow-[20px_0_40px_-20px_rgba(168,85,247,0.05)]">
                 <SidebarContent
                     pathname={pathname}
-                    navItems={navItems}
+                    navItems={displayNavItems}
                     handleLogout={handleLogout}
                     isLoggingOut={isLoggingOut}
                     profile={profile}
@@ -61,7 +65,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                         </div>
                         <SidebarContent
                             pathname={pathname}
-                            navItems={navItems}
+                            navItems={displayNavItems}
                             handleLogout={handleLogout}
                             isLoggingOut={isLoggingOut}
                             onClose={() => setIsMobileMenuOpen(false)}

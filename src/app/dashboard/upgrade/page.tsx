@@ -1,11 +1,11 @@
 'use client';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function UpgradePage() {
-    const { data: session } = useSession();
-    const userEmail = session?.user?.email || '';
+    const { user } = useUser();
+    const userEmail = user?.primaryEmailAddress?.emailAddress || '';
 
     const foundingUrl = process.env.NEXT_PUBLIC_GUMROAD_FOUNDING_URL || 'https://eixora.gumroad.com/l/foundingplan';
     const agencyUrl = process.env.NEXT_PUBLIC_GUMROAD_AGENCY_URL || 'https://eixora.gumroad.com/l/agencyplan';
@@ -15,7 +15,7 @@ export default function UpgradePage() {
         window.open(url, '_blank');
     };
 
-    const currentTier = (session?.user as any)?.subscription_tier || 'free';
+    const currentTier = (user?.publicMetadata as any)?.plan_type || 'free';
 
     return (
         <div className="max-w-6xl mx-auto py-20 px-6">

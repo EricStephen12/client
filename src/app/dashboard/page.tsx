@@ -1,17 +1,17 @@
 'use client';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import { useState, useEffect } from 'react';
 
 export default function DashboardPage() {
-    const { data: session, status } = useSession();
+    const { user, isLoaded } = useUser();
     const [profile, setProfile] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const loading = status === 'loading' || isLoading;
+    const loading = !isLoaded || isLoading;
 
     useEffect(() => {
-        if (status === 'authenticated') {
+        if (isLoaded && user) {
             const fetchStats = async () => {
                 try {
                     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
@@ -29,9 +29,9 @@ export default function DashboardPage() {
             };
             fetchStats();
         }
-    }, [status]);
+    }, [isLoaded, user]);
 
-    const firstName = session?.user?.name?.split(' ')[0] || 'Creator';
+    const firstName = user?.firstName || user?.username || 'Creator';
 
     return (
         <div className="max-w-5xl mx-auto space-y-10 md:space-y-16">

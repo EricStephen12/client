@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, Fragment } from 'react';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import { Dialog, Transition } from '@headlessui/react';
 
 interface ExtractionModalProps {
@@ -31,8 +31,8 @@ export default function ExtractionModal({
     const [extraction, setExtraction] = useState<any>(null);
     const [error, setError] = useState('');
 
-    const { data: session } = useSession();
-    const userId = (session?.user as any)?.id;
+    const { user } = useUser();
+    const userId = user?.id;
 
     // Reset state when modal opens
     useEffect(() => {

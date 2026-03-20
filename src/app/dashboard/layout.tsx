@@ -1,20 +1,19 @@
 'use client';
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ReactNode, useState, useEffect, Suspense } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useUser, useClerk } from '@clerk/nextjs';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
-    const router = useRouter();
-    const { data: session, status } = useSession();
+    const { user, isLoaded } = useUser();
+    const { signOut } = useClerk();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [profileData, setProfileData] = useState<any>(null);
     const [sessions, setSessions] = useState<any[]>([]);
-    const { update } = useSession();
-    const userId = (session?.user as any)?.id;
+    const userId = user?.id;
 
     useEffect(() => {
         const fetchSessions = async () => {
@@ -41,24 +40,15 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 if (res.ok) {
                     const data = await res.json();
                     setProfileData(data);
-
-                    // SESSION SYNC: If local session tier doesn't match DB, update it!
-                    const currentTier = (session?.user as any)?.subscription_tier;
-                    const latestTier = data.plan_type || data.subscription_tier || 'free';
-
-                    if (latestTier !== currentTier) {
-                        console.log(`⚡ Syncing Tier: ${currentTier} -> ${latestTier}`);
-                        await update({ subscription_tier: latestTier });
-                    }
                 }
             } catch (err) {
-                console.error('Tier sync failed', err);
+                console.error('Profile fetch failed', err);
             }
         };
 
         if (userId) {
             fetchSessions();
-            fetchLatestProfile(); // Check tier on every layout mount/navigation
+            fetchLatestProfile();
         }
 
         const handleSessionUpdate = () => {
@@ -69,7 +59,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
         window.addEventListener('session-updated', handleSessionUpdate);
         return () => window.removeEventListener('session-updated', handleSessionUpdate);
-    }, [userId, session, update]);
+    }, [userId]);
 
     const navItems = [
         { name: 'Overview', href: '/dashboard' },
@@ -79,20 +69,25 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         { name: 'Settings', href: '/dashboard/settings' },
     ];
 
+    // Add Admin Hub for admin users
+    const isAdmin = (user?.publicMetadata as any)?.is_admin;
+    if (isAdmin) {
+        navItems.push({ name: 'Admin Hub', href: '/dashboard/admin' });
+    }
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
-        await signOut({ callbackUrl: '/' });
+        await signOut({ redirectUrl: '/' });
     };
 
-    const profile = session?.user ? {
-        full_name: session.user.name || session.user.email?.split('@')[0] || 'Creator',
-        email: session.user.email,
-        image: session.user.image,
-        plan_type: (session.user as any).subscription_tier || profileData?.plan_type || 'free'
+    const profile = isLoaded && user ? {
+        full_name: user.fullName || user.username || 'Creator',
+        email: user.primaryEmailAddress?.emailAddress,
+        image: user.imageUrl,
+        plan_type: (user.publicMetadata as any)?.plan_type || profileData?.plan_type || 'free'
     } : null;
 
-    if (status === 'loading') {
+    if (!isLoaded) {
         return (
             <div className="flex min-h-screen items-center justify-center bg-white text-gray-900">
                 <div className="text-center space-y-4">
@@ -267,15 +262,6 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                     {isLoggingOut ? 'Signing out...' : 'Logout Account'}
                 </button>
             </div>
-        </div>
-    );
-}
-
-// Minimal Reveal wrapper if not already imported or available
-function RevealOnScrollWrapper({ children }: { children: ReactNode }) {
-    return (
-        <div className="animate-fade-in-up">
-            {children}
         </div>
     );
 }

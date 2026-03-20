@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import Link from 'next/link';
 
@@ -24,12 +24,12 @@ interface SpyVideo {
 }
 
 export default function CompetitorSpyPage() {
-    const { data: session } = useSession();
+    const { user } = useUser();
     const [profileUrl, setProfileUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [results, setResults] = useState<{ username: string; videos: SpyVideo[] } | null>(null);
-    const sessionTier = (session?.user as any)?.subscription_tier;
+    const sessionTier = (user?.publicMetadata as any)?.plan_type;
     const [planTier, setPlanTier] = useState<string>(sessionTier || 'free');
     const [isCheckingPlan, setIsCheckingPlan] = useState(!sessionTier);
 

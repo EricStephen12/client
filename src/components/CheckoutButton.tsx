@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
 interface CheckoutButtonProps {
@@ -10,7 +10,7 @@ interface CheckoutButtonProps {
 }
 
 export default function CheckoutButton({ gumroadUrl, children, className }: CheckoutButtonProps) {
-    const { data: session } = useSession();
+    const { user } = useUser();
     const router = useRouter();
 
     const handleCheckout = () => {

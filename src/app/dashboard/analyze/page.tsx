@@ -2,7 +2,7 @@
 import { useState, useCallback, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 
 export default function AnalyzePage() {
     return (
@@ -25,8 +25,8 @@ function AnalyzeContent() {
     const [url, setUrl] = useState('');
     const [activeTab, setActiveTab] = useState<'upload' | 'url'>('url');
 
-    const { data: session } = useSession();
-    const userId = (session?.user as any)?.id;
+    const { user } = useUser();
+    const userId = user?.id;
 
     const searchParams = useSearchParams();
 

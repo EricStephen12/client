@@ -1,19 +1,19 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function BatchPage() {
-    const { data: session } = useSession();
-    const userId = (session?.user as any)?.id;
+    const { user } = useUser();
+    const userId = user?.id;
 
     const [urls, setUrls] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const [progress, setProgress] = useState({ current: 0, total: 0 });
     const [results, setResults] = useState<any>(null);
     const [error, setError] = useState('');
-    const sessionTier = (session?.user as any)?.subscription_tier;
+    const sessionTier = (user?.publicMetadata as any)?.plan_type;
     const [planTier, setPlanTier] = useState<string>(sessionTier || 'free');
     const [isCheckingPlan, setIsCheckingPlan] = useState(!sessionTier);
     const [logs, setLogs] = useState<string[]>([]);

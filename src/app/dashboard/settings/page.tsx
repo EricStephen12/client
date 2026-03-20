@@ -2,7 +2,7 @@
 import RevealOnScroll from '@/components/RevealOnScroll';
 import Link from 'next/link';
 import { useState, useEffect, Suspense } from 'react';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
 export default function SettingsPage() {
@@ -12,29 +12,18 @@ export default function SettingsPage() {
 function SettingsContent() {
 
     // 1. All State Definitions
-    const { data: session, status, update } = useSession();
+    const { user, isLoaded } = useUser();
     const [profile, setProfile] = useState<any>(null);
 
-    // ... handle session update when profile loads
-    useEffect(() => {
-        if (profile?.plan_type && session?.user) {
-            const currentSessionTier = (session.user as any).subscription_tier;
-            if (profile.plan_type !== currentSessionTier) {
-                console.log(`🔄 Syncing session: ${currentSessionTier} -> ${profile.plan_type}`);
-                update({ subscription_tier: profile.plan_type });
-            }
-        }
-    }, [profile?.plan_type, session?.user, update]);
-
     const router = useRouter();
-    const [name, setName] = useState(session?.user?.name || '');
-    const [email, setEmail] = useState(session?.user?.email || '');
+    const [name, setName] = useState(user?.fullName || '');
+    const [email, setEmail] = useState(user?.primaryEmailAddress?.emailAddress || '');
     const [isSaving, setIsSaving] = useState(false);
     const [isSyncing, setIsSyncing] = useState(false);
 
     // 2. Logic Definitions
     const getPlanDisplay = () => {
-        const sessionPlan = (session?.user as any)?.subscription_tier;
+        const sessionPlan = (user?.publicMetadata as any)?.plan_type;
         const planType = profile?.plan_type || sessionPlan || 'free';
 
         const planNames: Record<string, string> = {
@@ -239,10 +228,10 @@ function SettingsContent() {
                                 href="/dashboard/upgrade"
                                 className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white text-center shadow-sm"
                             >
-                                {((session?.user as any)?.subscription_tier || profile?.plan_type) === 'free' || !((session?.user as any)?.subscription_tier || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Subscription'}
+                                {((user?.publicMetadata as any)?.plan_type || profile?.plan_type) === 'free' || !((user?.publicMetadata as any)?.plan_type || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Subscription'}
                             </Link>
 
-                            {((session?.user as any)?.subscription_tier || profile?.plan_type) !== 'free' && (
+                            {((user?.publicMetadata as any)?.plan_type || profile?.plan_type) !== 'free' && (
                                 <div className="flex flex-col items-end gap-2 pr-2">
                                     <a
                                         href="https://gumroad.com/library"
