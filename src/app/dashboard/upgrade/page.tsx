@@ -1,5 +1,6 @@
 'use client';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function UpgradePage() {

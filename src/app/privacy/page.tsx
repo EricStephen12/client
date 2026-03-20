@@ -69,7 +69,7 @@ export default function PrivacyPolicy() {
                         <section>
                             <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">5. Contact Us</h2>
                             <p>
-                                If you have any questions about this privacy policy or our privacy practices, please contact us at: <a href="mailto:eixoraservicecenter@gmail.com" className="text-purple-600 underline">eixoraservicecenter@gmail.com</a>
+                                If you have any questions about this privacy policy or our privacy practices, please contact us at: <a href="mailto:support@eixora.store" className="text-purple-600 underline">support@eixora.store</a>
                             </p>
                         </section>
                     </RevealOnScroll>

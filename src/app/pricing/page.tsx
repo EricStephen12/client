@@ -156,7 +156,7 @@ export default function PricingPage() {
                         <Link href="/privacy" className="hover:opacity-100 transition-opacity">Privacy</Link>
                         <Link href="/terms" className="hover:opacity-100 transition-opacity">Terms</Link>
                         <Link href="/refund" className="hover:opacity-100 transition-opacity">Refunds</Link>
-                        <a href="mailto:eixoraservicecenter@gmail.com" className="hover:opacity-100 transition-opacity">Support</a>
+                        <a href="mailto:support@eixora.store" className="hover:opacity-100 transition-opacity">Support</a>
                     </div>
                     <p className="text-[10px] tracking-[0.3em] uppercase opacity-20">&copy; 2026 EIXORA BY EXRICX</p>
                 </div>
