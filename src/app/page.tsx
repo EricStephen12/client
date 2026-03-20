@@ -164,7 +164,7 @@ export default function LandingPage() {
                     <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Scaling Logic</span>
                     <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Growth Bound</span>
                     <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Conversion Engine</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Winning DNA</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Winning Logic</span>
                 </div>
             </section>
 
@@ -189,7 +189,7 @@ export default function LandingPage() {
                     </RevealOnScroll>
 
                     <ul className="space-y-6">
-                        {['Intelligence Gathering', 'Retention Blueprinting', 'Scalable Production'].map((item, i) => (
+                        {['Strategic Gathering', 'Blueprint Mapping', 'Scalable Production'].map((item, i) => (
                             <RevealOnScroll key={i} delay={300 + (i * 100)}>
                                 <li className="flex items-center gap-6 group cursor-pointer">
                                     <span className="text-xs font-mono border-2 border-purple-600 w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white transition-all">{i + 1}</span>
@@ -249,28 +249,43 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Feature Grid - Intelligence Modules */}
-            <section className="flex flex-col md:grid md:grid-cols-2 border-b border-purple-200">
+            {/* Intelligence Modules - Glassmorphism UI */}
+            <section className="flex flex-col md:grid md:grid-cols-2 border-b border-purple-200 bg-[#0a0a0a] min-h-[60vh] md:min-h-[80vh]">
                 {[
-                    { title: "Ad Analysis", subtitle: "Data-Driven Creative", img: "/retention-dna.png" },
-                    { title: "Hook Engineering", subtitle: "Engineered to Convert", img: "/hook-engineering.png" },
+                    { title: "Logic Mapping", subtitle: "Strategic Blueprinting", gradient: "from-purple-900/40 via-blue-900/20 to-transparent", label: "01" },
+                    { title: "Hook Engineering", subtitle: "Conversion Logic", gradient: "from-blue-900/40 via-indigo-900/20 to-transparent", label: "02" },
                 ].map((feature, i) => (
-                    <div key={i} className={`group border-b md:border-b-0 border-purple-200 ${i !== 1 ? 'md:border-r border-purple-200' : ''} h-[60vh] md:h-[80vh] relative overflow-hidden`}>
-                        <Image
-                            src={feature.img}
-                            alt={feature.title}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-all duration-1000"
-                        />
-                        <div className="absolute inset-0 bg-purple-600/10 group-hover:bg-transparent transition-colors duration-500"></div>
-                        <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 bg-white border-t-2 border-purple-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                            <RevealOnScroll>
-                                <span className="text-[10px] md:text-xs tracking-[0.2em] uppercase block mb-1 md:mb-2">{feature.subtitle}</span>
-                                <h3 className="text-2xl md:text-3xl font-serif">{feature.title}</h3>
-                            </RevealOnScroll>
-                        </div>
-                        <div className="absolute top-4 left-4 md:top-8 md:left-8 text-white drop-shadow-lg">
-                            <span className="text-[10px] font-mono border-2 border-white bg-purple-600/80 backdrop-blur-sm px-2.5 py-1.5 rounded-full">0{i + 1}</span>
+                    <div key={i} className={`group relative flex flex-col items-center justify-center p-12 md:p-24 overflow-hidden border-b md:border-b-0 border-white/5 ${i === 0 ? 'md:border-r' : ''}`}>
+                        {/* Abstract Background Logic Pattern */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-50`}></div>
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-1000"></div>
+
+                        {/* The Glass Card */}
+                        <RevealOnScroll className="relative z-10 w-full max-w-sm">
+                            <div className="backdrop-blur-2xl bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl transition-all duration-700 group-hover:bg-white/10 group-hover:border-white/20 group-hover:-translate-y-2">
+                                <div className="flex justify-between items-start mb-12">
+                                    <span className="text-[10px] font-mono text-purple-400 border border-purple-400/30 px-3 py-1 rounded-full">{feature.label}</span>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>
+                                </div>
+
+                                <span className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-white/40 block mb-4">{feature.subtitle}</span>
+                                <h3 className="text-3xl md:text-4xl font-serif text-white mb-8 italic">{feature.title}</h3>
+
+                                <div className="space-y-3 opacity-40 group-hover:opacity-100 transition-opacity duration-700">
+                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                        <div className="h-full bg-purple-500 w-2/3 group-hover:w-full transition-all duration-1000"></div>
+                                    </div>
+                                    <div className="flex justify-between text-[8px] font-mono text-white/50 uppercase tracking-widest">
+                                        <span>Logic Match</span>
+                                        <span>98.2%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </RevealOnScroll>
+
+                        {/* Background Branding */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[200px] font-serif opacity-[0.02] pointer-events-none select-none tracking-tighter">
+                            {feature.label}
                         </div>
                     </div>
                 ))}
@@ -288,7 +303,7 @@ export default function LandingPage() {
                         <div className="border border-purple-600 rounded-3xl overflow-hidden shadow-xl bg-white">
                             {[
                                 { l: "Input", r: "Any Viral TikTok" },
-                                { l: "Result", r: "Full DNA Breakdown" },
+                                { l: "Result", r: "Full Blueprint Breakdown" },
                                 { l: "Strategy", r: "Actionable Brief" },
                                 { l: "Goal", r: "Retention Dominance" }
                             ].map((row, i) => (
@@ -330,12 +345,12 @@ export default function LandingPage() {
                         {
                             name: "Elina",
                             role: "Founder",
-                            quote: "The 'Hook Power' grade is the real game changer. I used to guess if my intros were good, now I actually have a score based on viral DNA. Visual suggestions made a massive difference."
+                            quote: "The 'Hook Power' grade is the real game changer. I used to guess if my intros were good, now I actually have a score based on viral logic. Visual suggestions made a massive difference."
                         },
                         {
                             name: "Julian",
                             role: "Scaling",
-                            quote: "Antes da EIXORA, meu processo era uma bagunça total. Eu perdia horas tentando organizar as ideias. O jogo mudou com o 'Visual DNA'. Agora minhas postagens têm estratégia real."
+                            quote: "Antes da EIXORA, meu processo era uma bagunça total. Eu perdia horas tentando organizar as ideias. O jogo mudou com o 'Visual Logic'. Agora minhas postagens têm estratégia real."
                         },
                         {
                             name: "Mike",
@@ -400,7 +415,7 @@ export default function LandingPage() {
 
 
             {/* Footer - Massive */}
-            <footer className="bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] text-white pt-20 md:pt-32 pb-12 px-6 border-t border-white/10">
+            <footer className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white pt-20 md:pt-32 pb-12 px-6 border-t-4 border-purple-600">
                 <div className="max-w-[1400px] mx-auto">
                     <div className="flex flex-col md:grid md:grid-cols-3 gap-12 md:gap-32 mb-20 md:mb-32">
                         <div>
