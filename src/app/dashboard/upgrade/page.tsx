@@ -21,9 +21,9 @@ export default function UpgradePage() {
             <div className="text-center mb-20 space-y-6">
                 <RevealOnScroll>
                     <span className="text-xs font-bold tracking-[0.5em] uppercase text-purple-600 block mb-4">Account Elevation</span>
-                    <h2 className="text-5xl md:text-7xl font-serif italic tracking-tight">Upgrade Studio.</h2>
+                    <h2 className="text-5xl md:text-7xl font-serif italic tracking-tight">Free Beta Access.</h2>
                     <p className="text-gray-500 max-w-lg mx-auto font-light text-lg mt-6">
-                        Unlock the full spectrum of viral intelligence. 30 days money back guarantee.
+                        Unlock the full spectrum of viral intelligence. Eixora is currently unlocked for all early adopters during our beta phase.
                     </p>
                 </RevealOnScroll>
             </div>
@@ -99,13 +99,12 @@ export default function UpgradePage() {
                             ))}
                         </ul>
 
-                        <button
-                            onClick={() => handleCheckout(foundingUrl)}
-                            disabled={currentTier === 'founding' || currentTier === 'agency'}
-                            className={`w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-sm shadow-xl ${currentTier === 'founding' || currentTier === 'agency' ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-black text-white hover:bg-purple-900'}`}
+                        <Link
+                            href="/dashboard/analyze"
+                            className="w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-sm shadow-xl bg-black text-white hover:bg-purple-900 text-center"
                         >
-                            {currentTier === 'founding' ? 'Founding Member' : currentTier === 'agency' ? 'Included in Agency' : 'Claim Founding Spot'}
-                        </button>
+                            Start Analyzing Now
+                        </Link>
                     </div>
                 </RevealOnScroll>
 
@@ -144,20 +143,19 @@ export default function UpgradePage() {
                             ))}
                         </ul>
 
-                        <button
-                            onClick={() => handleCheckout(agencyUrl)}
-                            disabled={currentTier === 'agency'}
-                            className={`w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-sm shadow-2xl ${currentTier === 'agency' ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:scale-[1.02]'}`}
+                        <Link
+                            href="/dashboard/analyze"
+                            className="w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-sm shadow-2xl bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:scale-[1.02] text-center"
                         >
-                            {currentTier === 'agency' ? 'Agency Member' : 'Upgrade to Agency'}
-                        </button>
+                            Get Full Agency Access
+                        </Link>
                     </div>
                 </RevealOnScroll>
             </div>
 
             <div className="text-center mt-20 opacity-40">
                 <p className="text-[10px] font-bold uppercase tracking-[0.3em]">
-                    Eixora by EXRICX &bull; Powered by <span className="text-black">Gumroad</span> &bull; 30 Days Money Back Guarantee
+                    Eixora by EXRICX &bull; Early Access Beta &bull; 100% Free for Early Adopters
                 </p>
             </div>
         </div>

@@ -139,22 +139,13 @@ function SettingsContent() {
                                     </p>
                                 </div>
 
-                                <div className="bg-purple-50 p-6 rounded-2xl space-y-3">
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-purple-900">How to cancel:</p>
-                                    <p className="text-xs text-purple-600/80 font-medium leading-relaxed">
-                                        Click the button below to open your <span className="font-bold">Gumroad Library</span>. Just click "Cancel" next to Eixora. It takes less than 5 seconds.
-                                    </p>
+                                <div className="space-y-4 pt-4">
+                                    <div className="p-4 bg-purple-50 rounded-2xl border border-purple-100">
+                                        <p className="text-[10px] font-black uppercase tracking-widest text-purple-600">Free Beta Access</p>
+                                        <p className="text-xs text-gray-500 mt-1">Platform is currently unlocked for all early adopters.</p>
+                                    </div>
                                 </div>
-
                                 <div className="flex flex-col gap-4 pt-4">
-                                    <a
-                                        href="https://gumroad.com/library"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-full py-5 bg-black text-white text-[10px] font-black uppercase tracking-[0.4em] rounded-xl text-center hover:bg-purple-900 transition-all shadow-xl"
-                                    >
-                                        Continue to Gumroad
-                                    </a>
                                     <button
                                         onClick={() => setShowCancelModal(false)}
                                         className="w-full py-5 border border-gray-100 text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 rounded-xl hover:bg-gray-50 transition-all"

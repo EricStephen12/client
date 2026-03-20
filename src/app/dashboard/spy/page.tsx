@@ -97,40 +97,9 @@ export default function CompetitorSpyPage() {
         );
     }
 
-    if (planTier.toLowerCase() !== 'agency') {
-        return (
-            <div className="max-w-3xl mx-auto pt-12 space-y-8">
-                <RevealOnScroll>
-                    <div className="text-center space-y-6">
-                        <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Agency Feature</span>
-                        <h2 className="text-4xl md:text-6xl font-serif italic tracking-tight">
-                            Competitor <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Spy.</span>
-                        </h2>
-                        <p className="text-gray-500 max-w-md mx-auto font-light text-lg">
-                            Scan any TikTok creator's profile and pull their top-performing videos. Available exclusively on the Agency plan.
-                        </p>
-                    </div>
-                </RevealOnScroll>
-
-                <RevealOnScroll delay={100}>
-                    <div className="bg-gray-900 rounded-[2rem] p-12 text-center space-y-6">
-                        <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center mx-auto">
-                            <span className="text-3xl">🕵️</span>
-                        </div>
-                        <h3 className="text-white font-serif text-2xl italic">Unlock Competitor Spy</h3>
-                        <p className="text-gray-400 text-sm max-w-sm mx-auto">
-                            Paste any TikTok profile URL and instantly see their top-performing videos ranked by views. Then extract the DNA of their winners with one click.
-                        </p>
-                        <Link
-                            href="/dashboard/upgrade"
-                            className="inline-block px-10 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:scale-105 transition-all shadow-xl"
-                        >
-                            Upgrade to Agency →
-                        </Link>
-                    </div>
-                </RevealOnScroll>
-            </div>
-        );
+    // All users have access during public launch
+    if (false && planTier.toLowerCase() !== 'agency') {
+        return null;
     }
 
     return (
@@ -138,7 +107,7 @@ export default function CompetitorSpyPage() {
             {/* Header */}
             <div className="space-y-4 pt-6 md:pt-12">
                 <RevealOnScroll>
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-purple-600">Competitor Spy</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-purple-600 italic">Elite Intelligence</span>
                 </RevealOnScroll>
                 <RevealOnScroll delay={100}>
                     <h2 className="text-4xl sm:text-6xl md:text-7xl font-serif font-medium tracking-tighter text-gray-900 leading-[0.9]">

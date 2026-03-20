@@ -24,9 +24,9 @@ export default function PricingPage() {
             <main className="max-w-6xl mx-auto px-6 pt-40 pb-32">
                 <div className="text-center mb-20">
                     <RevealOnScroll>
-                        <h1 className="text-5xl md:text-7xl font-serif mb-6 tracking-tight italic">The Investment.</h1>
+                        <h1 className="text-5xl md:text-7xl font-serif mb-6 tracking-tight italic">Free Beta <span className="text-purple-600">Access.</span></h1>
                         <p className="text-lg md:text-xl font-light opacity-60 max-w-lg mx-auto leading-relaxed">
-                            Upgrade your creative intelligence. 30 days money back guarantee.
+                            Eixora is currently in exclusive early access. All premium Ad DNA tools are unlocked for early adopters.
                         </p>
                     </RevealOnScroll>
                 </div>
@@ -92,12 +92,12 @@ export default function PricingPage() {
                                 ))}
                             </ul>
 
-                            <CheckoutButton
-                                gumroadUrl={foundingUrl}
+                            <Link
+                                href="/signup"
                                 className="block w-full py-6 bg-black text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-purple-900 transition-all rounded-sm shadow-lg text-center"
                             >
-                                Get Started
-                            </CheckoutButton>
+                                Start Free Now
+                            </Link>
                         </div>
                     </RevealOnScroll>
 
@@ -131,19 +131,19 @@ export default function PricingPage() {
                                 ))}
                             </ul>
 
-                            <CheckoutButton
-                                gumroadUrl={agencyUrl}
+                            <Link
+                                href="/signup"
                                 className="block w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:scale-[1.02] transition-all rounded-sm shadow-xl text-center"
                             >
-                                Secure Agency Access
-                            </CheckoutButton>
+                                Get Full Access
+                            </Link>
                         </div>
                     </RevealOnScroll>
                 </div>
 
                 <div className="mt-20 text-center opacity-40">
                     <p className="text-[10px] tracking-[0.3em] uppercase leading-loose">
-                        Cancel anytime • No hidden fees • Secured by Gumroad
+                        Early Access Beta • No Credit Card Required • Completely Free
                     </p>
                 </div>
             </main>

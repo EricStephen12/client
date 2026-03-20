@@ -138,53 +138,20 @@ export default function BatchPage() {
         );
     }
 
-    if (planTier.toLowerCase() !== 'agency') {
-        return (
-            <div className="max-w-3xl mx-auto pt-12 space-y-8">
-                <RevealOnScroll>
-                    <div className="text-center space-y-6">
-                        <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Agency Feature</span>
-                        <h2 className="text-4xl md:text-6xl font-serif italic tracking-tight">
-                            Batch <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Processing.</span>
-                        </h2>
-                        <p className="text-gray-500 max-w-md mx-auto font-light text-lg">
-                            Analyze up to 10 competitor videos at once. Available exclusively on the Agency plan.
-                        </p>
-                    </div>
-                </RevealOnScroll>
-
-                <RevealOnScroll delay={100}>
-                    <div className="bg-gray-900 rounded-[2rem] p-12 text-center space-y-6">
-                        <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center mx-auto">
-                            <svg className="w-8 h-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" />
-                            </svg>
-                        </div>
-                        <h3 className="text-white font-serif text-2xl italic">Unlock Batch Processing</h3>
-                        <p className="text-gray-400 text-sm max-w-sm mx-auto">
-                            Paste multiple TikTok URLs and analyze them all at once. Export full DNA reports for your team.
-                        </p>
-                        <Link
-                            href="/dashboard/upgrade"
-                            className="inline-block px-10 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:scale-105 transition-all shadow-xl"
-                        >
-                            Upgrade to Agency →
-                        </Link>
-                    </div>
-                </RevealOnScroll>
-            </div>
-        );
+    // All users have access during public launch
+    if (false && planTier.toLowerCase() !== 'agency') {
+        return null;
     }
 
     return (
         <div className="max-w-5xl mx-auto space-y-8 pb-20">
             {/* Header */}
             <div className="space-y-4 border-b border-purple-50 pb-8">
-                <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Agency Feature</span>
+                <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Elite Feature</span>
                 <h2 className="text-3xl lg:text-5xl font-serif text-gray-900 leading-tight tracking-tighter">
                     Batch <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Processing.</span>
                 </h2>
-                <p className="text-gray-400 text-sm max-w-lg">Paste up to 10 TikTok URLs (one per line) and analyze them all at once.</p>
+                <p className="text-gray-400 text-sm max-w-lg">Analyze up to 10 TikTok URLs at once for comprehensive Ad DNA intelligence.</p>
             </div>
 
             {/* Input */}

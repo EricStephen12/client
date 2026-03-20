@@ -14,15 +14,8 @@ export default function CheckoutButton({ gumroadUrl, children, className }: Chec
     const router = useRouter();
 
     const handleCheckout = () => {
-        if (!session?.user) {
-            router.push('/login?callbackUrl=/pricing');
-            return;
-        }
-
-        // Open Gumroad checkout with user's email pre-filled
-        const email = session.user.email || '';
-        const url = `${gumroadUrl}?email=${encodeURIComponent(email)}`;
-        window.open(url, '_blank');
+        // Platform is currently FREE for early adopters during Beta
+        router.push('/signup');
     };
 
     return (
