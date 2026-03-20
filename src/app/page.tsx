@@ -158,14 +158,14 @@ export default function LandingPage() {
             {/* Marquee - "Ticker" */}
             <section className="py-4 border-b border-purple-200 overflow-hidden whitespace-nowrap bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white">
                 <div className="inline-block animate-marquee">
-                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Viral Blueprinting</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Alpha Status</span>
-                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Direct Response</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Logic First</span>
-                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Scaling Logic</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Growth Bound</span>
-                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Conversion Engine</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Winning Logic</span>
+                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Decode Virals</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Stop Guessing</span>
+                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Winning Ads</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Scale Fast</span>
+                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">More Sales</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Viral Growth</span>
+                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Proven Logic</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Master the Feed</span>
                 </div>
             </section>
 
