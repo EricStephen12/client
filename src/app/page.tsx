@@ -241,46 +241,70 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Intelligence Modules - Glassmorphism UI */}
-            <section className="flex flex-col md:grid md:grid-cols-2 border-b border-purple-200 bg-[#0a0a0a] min-h-[60vh] md:min-h-[80vh]">
-                {[
-                    { title: "Logic Mapping", subtitle: "Strategic Blueprinting", gradient: "from-purple-900/40 via-blue-900/20 to-transparent", label: "01" },
-                    { title: "Hook Engineering", subtitle: "Conversion Logic", gradient: "from-blue-900/40 via-indigo-900/20 to-transparent", label: "02" },
-                ].map((feature, i) => (
-                    <div key={i} className={`group relative flex flex-col items-center justify-center p-12 md:p-24 overflow-hidden border-b md:border-b-0 border-white/5 ${i === 0 ? 'md:border-r' : ''}`}>
-                        {/* Abstract Background Logic Pattern */}
-                        <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-50`}></div>
-                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-1000"></div>
+            {/* The EIXORA Edge - Tactical Feature Grid */}
+            <section className="py-24 md:py-32 bg-[#0a0a0a] border-b border-white/5 overflow-hidden">
+                <div className="max-w-7xl mx-auto px-6">
+                    <RevealOnScroll className="mb-20 text-center md:text-left">
+                        <span className="text-[10px] font-black tracking-[0.4em] uppercase text-purple-500 mb-4 block">Engine Capabilities</span>
+                        <h2 className="text-4xl md:text-6xl font-serif text-white italic mb-6">The EIXORA Edge.</h2>
+                        <p className="text-sm md:text-base text-white/40 max-w-xl font-light leading-relaxed">
+                            Elite intelligence for direct-response scaling. We decode the mechanics of viral performance so you can replicate the wins.
+                        </p>
+                    </RevealOnScroll>
 
-                        {/* The Glass Card */}
-                        <RevealOnScroll className="relative z-10 w-full max-w-sm">
-                            <div className="backdrop-blur-2xl bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl transition-all duration-700 group-hover:bg-white/10 group-hover:border-white/20 group-hover:-translate-y-2">
-                                <div className="flex justify-between items-start mb-12">
-                                    <span className="text-[10px] font-mono text-purple-400 border border-purple-400/30 px-3 py-1 rounded-full">{feature.label}</span>
-                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>
-                                </div>
-
-                                <span className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-white/40 block mb-4">{feature.subtitle}</span>
-                                <h3 className="text-3xl md:text-4xl font-serif text-white mb-8 italic">{feature.title}</h3>
-
-                                <div className="space-y-3 opacity-40 group-hover:opacity-100 transition-opacity duration-700">
-                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                                        <div className="h-full bg-purple-500 w-2/3 group-hover:w-full transition-all duration-1000"></div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {[
+                            {
+                                title: "Blueprint Dynamics",
+                                desc: "Frame-by-frame pacing and retention logic. See exact transition frequency and audience drop-off triggers.",
+                                icon: (
+                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+                                    </svg>
+                                )
+                            },
+                            {
+                                title: "Hook Engineering",
+                                desc: "10+ AI-driven hook variations generated for every scan. Based on the narrative logic of the original winner.",
+                                icon: (
+                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                )
+                            },
+                            {
+                                title: "Competitor Intel",
+                                desc: "Reverse-engineer any viral ad in under 60 seconds. Paste a URL, get the blueprint, dominate the niche.",
+                                icon: (
+                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                )
+                            },
+                            {
+                                title: "Creative Direction",
+                                desc: "Actionable briefs ready for your editors or creators. Cuts production time by 70% with precise visual direction.",
+                                icon: (
+                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                    </svg>
+                                )
+                            }
+                        ].map((feature, i) => (
+                            <RevealOnScroll key={i} delay={i * 100}>
+                                <div className="group p-8 rounded-3xl bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] hover:border-white/[0.15] transition-all duration-500 h-full">
+                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center text-purple-400 mb-8 group-hover:scale-110 transition-transform duration-500">
+                                        {feature.icon}
                                     </div>
-                                    <div className="flex justify-between text-[8px] font-mono text-white/50 uppercase tracking-widest">
-                                        <span>Logic Match</span>
-                                        <span>98.2%</span>
-                                    </div>
+                                    <h3 className="text-xl font-serif text-white italic mb-4">{feature.title}</h3>
+                                    <p className="text-sm text-white/40 font-light leading-relaxed group-hover:text-white/60 transition-colors">
+                                        {feature.desc}
+                                    </p>
                                 </div>
-                            </div>
-                        </RevealOnScroll>
-
-                        {/* Background Branding */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[200px] font-serif opacity-[0.02] pointer-events-none select-none tracking-tighter">
-                            {feature.label}
-                        </div>
+                            </RevealOnScroll>
+                        ))}
                     </div>
-                ))}
+                </div>
             </section>
 
             {/* The Math - Editorial Table Style */}
