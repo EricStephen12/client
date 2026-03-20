@@ -34,9 +34,9 @@ const FloatingIcon = ({ type, delay = 0 }: { type: string; delay?: number }) => 
 const SOCIAL_PROOF_DATA = [
     {
         id: 1,
-        title: "Viral Hook",
+        title: "Hook Logic",
         results: "Scale Ready",
-        views: "High Energy",
+        views: "Energy Signal",
         video: "/videos/v1.mp4"
     },
     {
@@ -76,9 +76,9 @@ const SOCIAL_PROOF_DATA = [
     },
     {
         id: 7,
-        title: "Winning DNA",
-        results: "Growth Signal",
-        views: "Top Tier",
+        title: "Winning Logic",
+        results: "Growth Found",
+        views: "Tier 1",
         video: "/videos/v7.mp4"
     },
     {
@@ -96,7 +96,7 @@ export default function VideoCarousel() {
             <div className="max-w-7xl mx-auto px-6 mb-8 flex flex-col md:flex-row items-baseline justify-between gap-4">
                 <div>
                     <span className="text-[10px] font-black tracking-[0.5em] uppercase text-purple-600 mb-2 block">Reference Library</span>
-                    <h2 className="text-3xl md:text-4xl font-serif italic text-gray-900 tracking-tight">Viral Intelligence</h2>
+                    <h2 className="text-3xl md:text-4xl font-serif italic text-gray-900 tracking-tight">Viral Logic Studio</h2>
                 </div>
                 <div className="flex items-center gap-2 bg-red-50 px-3 py-1.5 rounded-full border border-red-100">
                     <span className="relative flex h-2 w-2">

@@ -158,13 +158,13 @@ export default function LandingPage() {
             <section className="py-4 border-b border-purple-200 overflow-hidden whitespace-nowrap bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white">
                 <div className="inline-block animate-marquee">
                     <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Viral Blueprinting</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Elite Grade</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Alpha Status</span>
                     <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Direct Response</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Elite Grade</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Logic First</span>
                     <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Scaling Logic</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Elite Grade</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Growth Bound</span>
                     <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Conversion Engine</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Elite Grade</span>
+                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Winning DNA</span>
                 </div>
             </section>
 
@@ -241,7 +241,7 @@ export default function LandingPage() {
                                     </div>
                                 </div>
                                 <div className="absolute top-3 left-3 right-3 flex justify-between items-start pointer-events-none">
-                                    <span className="text-[8px] md:text-[10px] font-bold tracking-widest bg-purple-600 text-white px-2 md:px-3 py-1 rounded uppercase">Live DNA Extraction</span>
+                                    <span className="text-[8px] md:text-[10px] font-bold tracking-widest bg-purple-600 text-white px-2 md:px-3 py-1 rounded uppercase">Live Logic Blueprinting</span>
                                 </div>
                             </div>
                         </RevealOnScroll>
@@ -249,7 +249,7 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Feature Grid - Brutalist */}
+            {/* Feature Grid - Intelligence Modules */}
             <section className="flex flex-col md:grid md:grid-cols-2 border-b border-purple-200">
                 {[
                     { title: "Ad Analysis", subtitle: "Data-Driven Creative", img: "/retention-dna.png" },
@@ -280,7 +280,7 @@ export default function LandingPage() {
             <section className="py-32 px-6 border-b border-purple-200">
                 <div className="max-w-4xl mx-auto">
                     <RevealOnScroll className="text-center mb-24">
-                        <h2 className="text-5xl font-serif mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent italic">The Ad Blueprint</h2>
+                        <h2 className="text-5xl font-serif mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent italic">The Unit Economics</h2>
                         <p className="text-xs tracking-[0.3em] uppercase text-purple-600">Built for Results</p>
                     </RevealOnScroll>
 
@@ -373,11 +373,11 @@ export default function LandingPage() {
 
                     <div className="space-y-4">
                         {[
-                            { q: "What exactly is EIXORA?", a: "EIXORA is the first AI-powered 'DNA Extraction' tool for TikTok ad creative. We decode viral ads and blueprint their mechanics so you can replicate their success with your own product." },
+                            { q: "What exactly is EIXORA?", a: "EIXORA is the first high-end 'Blueprint' tool for TikTok ad creative. We decode viral ads and map their mechanics so you can replicate their success with your own product." },
                             { q: "Does it work for any niche?", a: "Yes. Whether it's home decor, tech, personal care, or coaching—if there is a viral video for it, EIXORA can blueprint it for you." },
-                            { q: "How long does an analysis take?", a: "DNA Extraction usually takes less than 60 seconds. You paste the URL, we do the heavy lifting." },
+                            { q: "How long does blueprinting take?", a: "Blueprint generation usually takes less than 60 seconds. You paste the URL, we do the heavy lifting." },
                             { q: "Can I use EIXORA on mobile?", a: "Absolutely. Our Studio is fully responsive. You can find inspiration on the TikTok app and paste it directly into EIXORA on your phone." },
-                            { q: "What do I get from an extraction?", a: "You get a full Viral DNA report including hook power score, retention analysis, pacing blueprint, and actionable creative direction." }
+                            { q: "What do I get from an analysis?", a: "You get a full Viral Blueprint report including hook power score, retention analysis, pacing map, and actionable creative direction." }
                         ].map((faq, i) => (
                             <RevealOnScroll key={i} delay={i * 100}>
                                 <details className="group border border-purple-100 rounded-2xl overflow-hidden bg-white hover:border-purple-300 transition-all duration-300">
