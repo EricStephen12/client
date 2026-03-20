@@ -36,7 +36,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
-        await signOut({ callbackUrl: '/' });
+        await signOut({ redirectUrl: '/' });
     };
 
     return (
