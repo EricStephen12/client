@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
 import { useUser } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export default function AnalyzePage() {
     return (
@@ -25,8 +26,12 @@ function AnalyzeContent() {
     const [url, setUrl] = useState('');
     const [activeTab, setActiveTab] = useState<'upload' | 'url'>('url');
 
-    const { user } = useUser();
+    const { user, isLoaded } = useUser();
     const userId = user?.id;
+
+    const profile = isLoaded && user ? {
+        plan_type: (user.publicMetadata as any)?.plan_type || 'free'
+    } : null;
 
     const searchParams = useSearchParams();
 
