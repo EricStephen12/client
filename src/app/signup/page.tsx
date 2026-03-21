@@ -1,7 +1,6 @@
 'use client';
 import { SignUp } from '@clerk/nextjs';
 import Link from 'next/link';
-import Image from 'next/image';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function SignupPage() {
@@ -37,19 +36,20 @@ export default function SignupPage() {
                 </div>
             </div>
 
-            {/* Right Column - Image */}
-            <div className="hidden md:block relative bg-gradient-to-br from-purple-100 to-blue-100 order-1 md:order-2 overflow-hidden h-full min-h-screen">
-                <Image
-                    src="/hero-person.jpg"
-                    fill
-                    className="absolute inset-0 w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-[4s] ease-out"
-                    alt="Editorial"
-                    priority
-                />
+            {/* Right Column - Video */}
+            <div className="relative bg-gradient-to-br from-purple-100 to-blue-100 order-1 md:order-2 overflow-hidden h-full min-h-screen">
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover opacity-90"
+                >
+                    <source src="/videos/v1.mp4" type="video/mp4" />
+                </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent"></div>
                 <div className="absolute bottom-12 left-12 right-12 z-20 text-white drop-shadow-2xl">
-                    <p className="text-4xl font-serif italic leading-[0.9] tracking-tight mb-4">&quot;I stopped guessing. <br /> Now I just ship winners.&quot;</p>
-                    <p className="text-[10px] tracking-[0.3em] uppercase opacity-80 font-bold">— Verified Member</p>
+                    <p className="text-4xl font-serif italic leading-[0.9] tracking-tight mb-4">&quot;The Industry Standard for <br /> Ad DNA Intelligence.&quot;</p>
                 </div>
             </div>
 

@@ -135,7 +135,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-xs font-bold uppercase tracking-widest truncate text-gray-900">{profile.full_name || 'Creator'}</p>
-                            <p className="text-[10px] text-purple-600 font-medium uppercase tracking-wider">{profile.plan_type || 'Free'} Plan</p>
+                            <p className="text-[10px] text-purple-600 font-medium uppercase tracking-wider">{profile.plan_type || 'Free'} • {(profile as any).total_scripts || 0} Briefs</p>
                         </div>
                     </div>
                 ) : (

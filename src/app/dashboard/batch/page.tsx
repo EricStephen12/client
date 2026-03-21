@@ -149,9 +149,9 @@ export default function BatchPage() {
             <div className="space-y-4 border-b border-purple-50 pb-8">
                 <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Elite Feature</span>
                 <h2 className="text-3xl lg:text-5xl font-serif text-gray-900 leading-tight tracking-tighter">
-                    Batch <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Processing.</span>
+                    Bulk Video <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Scraping.</span>
                 </h2>
-                <p className="text-gray-400 text-sm max-w-lg">Analyze up to 10 TikTok URLs at once for comprehensive Ad DNA intelligence.</p>
+                <p className="text-gray-400 text-sm max-w-lg">Analyze up to 10 TikTok URLs at once for comprehensive Viral Logic intelligence.</p>
             </div>
 
             {/* Input */}
@@ -279,7 +279,7 @@ export default function BatchPage() {
                                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
-                                        Export DNA Report
+                                        Export Strategy Report
                                     </button>
                                 </>
                             )}

@@ -37,7 +37,7 @@ export default function LoginPage() {
             </div>
 
             {/* Right Column - Video */}
-            <div className="hidden md:block relative bg-gradient-to-br from-purple-100 to-blue-100 order-1 md:order-2 overflow-hidden h-full min-h-screen">
+            <div className="relative bg-gradient-to-br from-purple-100 to-blue-100 order-1 md:order-2 overflow-hidden h-full min-h-screen">
                 <video
                     autoPlay
                     loop
@@ -49,8 +49,7 @@ export default function LoginPage() {
                 </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent"></div>
                 <div className="absolute bottom-12 left-12 right-12 z-20 text-white drop-shadow-2xl">
-                    <p className="text-4xl font-serif italic leading-[0.9] tracking-tight mb-4">&quot;Revenue up 300% <br /> in Q4.&quot;</p>
-                    <p className="text-[10px] tracking-[0.3em] uppercase opacity-80 font-bold">— Verified Member</p>
+                    <p className="text-4xl font-serif italic leading-[0.9] tracking-tight mb-4">&quot;Decoding the DNA of <br /> viral performance.&quot;</p>
                 </div>
             </div>
 

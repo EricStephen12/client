@@ -281,29 +281,29 @@ export default function LandingPage() {
                 >
                     {[
                         {
-                            name: "Cole Baker",
-                            role: "CEO Wave LLC",
-                            quote: "Honestly? I was winging it in Apple Notes like a caveman before. I saw ads for 'AI tools' but they were all trash. My hooks finally have power and I've 3x'd my ROAS in 10 days."
+                            name: "Alex",
+                            role: "Founding Member",
+                            quote: "honestly the 'hook power' logic is a cheat code. i used to spend hours scrolling for ideas, now i just analyze a winner and i'm done in 5 mins."
                         },
                         {
-                            name: "Yedam Lee",
-                            role: "Re:stage",
-                            quote: "Absolute lifesaver for our team. We aren't 'marketing experts' so we were literally pulling our hair out trying to plan videos. EIXORA's analyzer is a savior."
+                            name: "Dante",
+                            role: "Beta Tester",
+                            quote: "this actually breaks down WHY a video works. no more guessing. my last 3 campaigns scaled purely because of the pacing notes here."
                         },
                         {
-                            name: "Elina",
-                            role: "Founder",
-                            quote: "The 'Hook Power' grade is the real game changer. I used to guess if my intros were good, now I actually have a score based on viral logic. Visual suggestions made a massive difference."
+                            name: "Josh",
+                            role: "Early Adopter",
+                            quote: "best tool i've used for ad creative. it doesn't just copy, it explains the triggers. worth every cent for the storyboard alone."
                         },
                         {
-                            name: "Julian",
-                            role: "Scaling",
-                            quote: "Antes da EIXORA, meu processo era uma bagunça total. Eu perdia horas tentando organizar as ideias. O jogo mudou com o 'Visual Logic'. Agora minhas postagens têm estratégia real."
+                            name: "Sarah",
+                            role: "Store Owner",
+                            quote: "Stopped guessing vibes and started shipping data. The Director Briefs keep my editor on point every single time. Total game changer."
                         },
                         {
                             name: "Mike",
                             role: "Creator",
-                            quote: "The wins are real. My views are finally up because the 'Viral Checklist' actually keeps me on track. EIXORA took the 'ugh' out of planning. I'm actually having fun creating again."
+                            quote: "the visual logic is insane. it saw things in my video i didn't even notice. my views are finally moving in the right direction."
                         }
                     ].map((t, i) => (
                         <div key={i} className="min-w-[85vw] sm:min-w-[60vw] md:min-w-[45vw] lg:min-w-[30vw] snap-start pr-6 relative group">

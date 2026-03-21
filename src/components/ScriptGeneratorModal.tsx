@@ -168,11 +168,11 @@ export default function ExtractionModal({
                                 <div className="mb-8 border-b border-purple-100 pb-6 flex justify-between items-start">
                                     <div>
                                         <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 mb-2 block">AI Creative Director</span>
-                                        <h2 className="text-3xl lg:text-4xl font-serif text-gray-900 mb-3 tracking-tight">Viral DNA Flow</h2>
+                                        <h2 className="text-3xl lg:text-4xl font-serif text-gray-900 mb-3 tracking-tight">Intelligence Brief</h2>
                                         {adTitle && (
                                             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg shadow-lg">
                                                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                                                Remixing: "{adTitle}"
+                                                Analyzing Blueprint: "{adTitle}"
                                             </div>
                                         )}
                                     </div>
@@ -280,7 +280,7 @@ export default function ExtractionModal({
                                                 disabled={isLoading}
                                                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl py-5 text-xs font-black uppercase tracking-[0.3em] hover:shadow-xl hover:shadow-purple-200 transition-all shadow-lg disabled:opacity-50"
                                             >
-                                                {isLoading ? 'Extracting Final DNA...' : 'Generate Creative Brief'}
+                                                {isLoading ? 'Extracting Final DNA...' : 'Forge Director Brief'}
                                             </button>
                                         </div>
                                     )}
@@ -298,8 +298,8 @@ export default function ExtractionModal({
                                             {extraction.shot_list && extraction.shot_list.length > 0 && (
                                                 <div className="bg-white border border-purple-50 rounded-3xl overflow-hidden shadow-sm">
                                                     <div className="p-8 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-purple-100">
-                                                        <h3 className="text-2xl font-serif text-gray-900 mb-2">Production Storyboard</h3>
-                                                        <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">Frame-by-frame visual blueprint</p>
+                                                        <h3 className="text-2xl font-serif text-gray-900 mb-2">Director's Blueprint</h3>
+                                                        <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">Frame-by-frame visual intelligence</p>
                                                     </div>
                                                     <div className="overflow-x-auto">
                                                         <table className="w-full">

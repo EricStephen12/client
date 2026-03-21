@@ -97,10 +97,11 @@ export default function CompetitorSpyPage() {
         );
     }
 
-    // All users have access during public launch
-    if (false && planTier.toLowerCase() !== 'agency') {
-        return null;
-    }
+    // Plan gating is handled by the server returning a 403
+    // We just need to handle the error state in handleSpy
+    const isAgency = planTier.toLowerCase() === 'agency';
+    const isFounding = planTier.toLowerCase() === 'founding';
+    const hasAccess = isAgency || isFounding;
 
     return (
         <div className="max-w-6xl mx-auto space-y-10 md:space-y-16">
@@ -116,7 +117,7 @@ export default function CompetitorSpyPage() {
                 </RevealOnScroll>
                 <RevealOnScroll delay={200}>
                     <p className="text-sm text-gray-500 font-light max-w-md leading-relaxed">
-                        Paste any TikTok creator's profile. We'll pull their top-performing videos so you can extract the DNA of their winners.
+                        Paste any TikTok or Instagram profile URL. We'll pull their top-performing videos so you can extract the DNA of their winners.
                     </p>
                 </RevealOnScroll>
             </div>
@@ -128,7 +129,7 @@ export default function CompetitorSpyPage() {
                         <div className="flex-1 relative group p-1 bg-gray-50 rounded-xl border border-purple-100 focus-within:ring-2 focus-within:ring-purple-600/10 transition-all">
                             <input
                                 type="text"
-                                placeholder="Paste TikTok profile URL or @username..."
+                                placeholder="Paste TikTok or Instagram profile URL..."
                                 value={profileUrl}
                                 onChange={(e) => setProfileUrl(e.target.value)}
                                 className="w-full bg-transparent border-none focus:ring-0 text-sm font-medium px-4 py-3"

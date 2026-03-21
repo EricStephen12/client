@@ -46,9 +46,9 @@ export default function PricingPage() {
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
-                                    "3 DNA Extractions / Month",
-                                    "3 Strategy Lounge Sessions / Month",
-                                    "Intelligence Studio",
+                                    "3 Viral Ad Audits / mo",
+                                    "3 AI Ad Strategist chats / mo",
+                                    "Standard Audit Dashboard",
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
                                         <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
@@ -61,7 +61,7 @@ export default function PricingPage() {
                                 href="/signup"
                                 className="block w-full py-6 border-2 border-gray-200 text-gray-600 text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-gray-50 transition-all rounded-sm text-center"
                             >
-                                Get Started Free
+                                Start Free Audit
                             </Link>
                         </div>
                     </RevealOnScroll>
@@ -80,10 +80,10 @@ export default function PricingPage() {
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
-                                    "Unlimited DNA Extractions",
-                                    "Unlimited Strategy Lounge Sessions",
-                                    "Intelligence Studio",
-                                    "Email Support"
+                                    "Unlimited Viral Ad Audits",
+                                    "Unlimited AI Strategist Access",
+                                    "Winning Ad Remix Studio",
+                                    "Priority Email Support"
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
                                         <div className="w-1.5 h-1.5 rounded-full bg-purple-600"></div>
@@ -96,7 +96,7 @@ export default function PricingPage() {
                                 href="/signup"
                                 className="block w-full py-6 bg-black text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-purple-900 transition-all rounded-sm shadow-lg text-center"
                             >
-                                Start Free Now
+                                Secure Founder Rate
                             </Link>
                         </div>
                     </RevealOnScroll>
@@ -120,9 +120,10 @@ export default function PricingPage() {
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
                                     "Everything in Founding",
-                                    "Competitor Spy",
-                                    "Batch URL Processing (10 Videos at Once)",
-                                    "Priority Support"
+                                    "Mass Video Scraping (10+ URLs)",
+                                    "Competitor Profile Spy",
+                                    "Export Strategy Reports (PDF)",
+                                    "Team Workspace (5 Seats)"
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600 font-medium">
                                         <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
@@ -135,7 +136,7 @@ export default function PricingPage() {
                                 href="/signup"
                                 className="block w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:scale-[1.02] transition-all rounded-sm shadow-xl text-center"
                             >
-                                Get Full Access
+                                Scale to Agency
                             </Link>
                         </div>
                     </RevealOnScroll>

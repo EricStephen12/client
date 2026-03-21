@@ -213,7 +213,7 @@ function AnalyzeContent() {
         }
     };
 
-    const generateCreativeBrief = async () => {
+    const forgeDirectorBrief = async () => {
         setIsSending(true);
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/generate-final-script`, {
@@ -233,7 +233,7 @@ function AnalyzeContent() {
             const briefMsg = {
                 role: 'assistant',
                 type: 'brief',
-                content: `🎬 **CREATIVE BRIEF: ${data.title}**\n\n**Concept**: ${data.concept}\n\n${data.shot_list.map((s: any) => `**${s.time}**\n🎬 Visual: ${s.visual}\n🎙️ Audio: ${s.audio}\n📝 Overlay: ${s.overlay}`).join('\n\n')}`,
+                content: `🎬 **DIRECTOR BRIEF: ${data.title}**\n\n**Concept**: ${data.concept}\n\n${data.shot_list.map((s: any) => `**${s.time}**\n🎬 Visual: ${s.visual}\n🎙️ Audio: ${s.audio}\n📝 Overlay: ${s.overlay}`).join('\n\n')}`,
                 raw: data
             };
 
@@ -427,14 +427,26 @@ function AnalyzeContent() {
                                         <p className="text-gray-900 font-serif italic text-base md:text-lg leading-relaxed">"{result.analysis.hook_analysis.critique}"</p>
                                     </div>
 
-                                    <button
-                                        onClick={startChat}
-                                        className="w-full py-6 md:py-8 bg-gray-900 text-white rounded-2xl md:rounded-3xl font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-xs hover:scale-[1.02] active:scale-95 transition-all shadow-xl flex items-center justify-center gap-4 md:gap-6 group"
-                                    >
-                                        <span className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(168,85,247,0.5)]" />
-                                        Enter Strategy Lounge
-                                        <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
-                                    </button>
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        <button
+                                            onClick={startChat}
+                                            className="flex-1 py-6 md:py-8 bg-gray-900 text-white rounded-2xl md:rounded-3xl font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-xs hover:scale-[1.02] active:scale-95 transition-all shadow-xl flex items-center justify-center gap-4 md:gap-6 group"
+                                        >
+                                            <span className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(168,85,247,0.5)]" />
+                                            Enter AI Strategist
+                                            <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
+                                        </button>
+
+                                        {profile?.plan_type === 'agency' && (
+                                            <Link
+                                                href={`/dashboard/report/${sessionId || ''}`}
+                                                className="px-8 py-6 md:py-8 border-2 border-purple-100 text-purple-600 rounded-2xl md:rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:bg-purple-50 transition-all flex items-center justify-center gap-3"
+                                            >
+                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                                Export Report
+                                            </Link>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -485,9 +497,9 @@ function AnalyzeContent() {
                                 />
                                 <div className="flex items-center gap-1.5 md:gap-2">
                                     <button
-                                        onClick={generateCreativeBrief}
+                                        onClick={forgeDirectorBrief}
                                         disabled={isSending || messages.length < 1}
-                                        title="Generate Brief"
+                                        title="Forge Director Brief"
                                         className="p-2.5 md:p-3 bg-purple-50 text-purple-600 rounded-xl hover:bg-purple-100 transition-colors disabled:opacity-30"
                                     >
                                         <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
