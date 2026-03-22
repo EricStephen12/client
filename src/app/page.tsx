@@ -102,7 +102,7 @@ export default function LandingPage() {
             <section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-purple-200 overflow-hidden">
                 <div className="flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-24 py-16 md:py-24 border-b md:border-b-0 md:border-r border-purple-200 bg-white">
                     <RevealOnScroll delay={100}>
-                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-purple-600 block">Viral Intelligence Studio</span>
+                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-purple-600 block">Intelligence Studio</span>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={200}>

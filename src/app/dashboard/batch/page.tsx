@@ -149,9 +149,9 @@ export default function BatchPage() {
             <div className="space-y-4 border-b border-purple-50 pb-8">
                 <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Elite Feature</span>
                 <h2 className="text-3xl lg:text-5xl font-serif text-gray-900 leading-tight tracking-tighter">
-                    Bulk Video <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Scraping.</span>
+                    Batch <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Processing.</span>
                 </h2>
-                <p className="text-gray-400 text-sm max-w-lg">Analyze up to 10 TikTok URLs at once for comprehensive Viral Logic intelligence.</p>
+                <p className="text-gray-400 text-sm max-w-lg">Analyze up to 10 TikTok URLs at once for comprehensive Ad Intelligence.</p>
             </div>
 
             {/* Input */}

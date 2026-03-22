@@ -2,6 +2,7 @@
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
+import CheckoutButton from '@/components/CheckoutButton';
 
 export default function UpgradePage() {
     const { user } = useUser();
@@ -10,10 +11,10 @@ export default function UpgradePage() {
     const foundingUrl = process.env.NEXT_PUBLIC_GUMROAD_FOUNDING_URL || 'https://eixora.gumroad.com/l/foundingplan';
     const agencyUrl = process.env.NEXT_PUBLIC_GUMROAD_AGENCY_URL || 'https://eixora.gumroad.com/l/agencyplan';
 
-    const handleCheckout = (gumroadUrl: string) => {
-        const url = `${gumroadUrl}?email=${encodeURIComponent(userEmail)}`;
-        window.open(url, '_blank');
-    };
+    // const handleCheckout = (gumroadUrl: string) => {
+    //     const url = `${gumroadUrl}?email=${encodeURIComponent(userEmail)}`;
+    //     window.open(url, '_blank');
+    // };
 
     const currentTier = (user?.publicMetadata as any)?.plan_type || 'free';
 
@@ -49,9 +50,9 @@ export default function UpgradePage() {
 
                         <ul className="space-y-4 mb-12 flex-grow">
                             {[
-                                '3 DNA Extractions / Month',
-                                '3 Strategy Lounge Sessions / Month',
-                                'Intelligence Studio'
+                                'Unlimited Intelligence Audits',
+                                'Unlimited Intelligence Studio access',
+                                'Standard Audit Dashboard'
                             ].map(feature => (
                                 <li key={feature} className="flex gap-4 text-sm font-light text-gray-600">
                                     <div className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 flex-shrink-0"></div>
@@ -100,12 +101,12 @@ export default function UpgradePage() {
                             ))}
                         </ul>
 
-                        <Link
-                            href="/dashboard/analyze"
+                        <CheckoutButton
+                            productId={process.env.NEXT_PUBLIC_POLAR_FOUNDING_ID || 'founding_placeholder'}
                             className="w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-sm shadow-xl bg-black text-white hover:bg-purple-900 text-center"
                         >
-                            Start Analyzing Now
-                        </Link>
+                            {currentTier === 'founding' ? 'Current Plan' : 'Elevate to Founding'}
+                        </CheckoutButton>
                     </div>
                 </RevealOnScroll>
 
@@ -133,8 +134,8 @@ export default function UpgradePage() {
                         <ul className="space-y-4 mb-12 flex-grow">
                             {[
                                 'Everything in Founding',
-                                'Competitor Spy',
-                                'Batch URL Processing (10 Videos at Once)',
+                                'Competitor Profile Spy',
+                                'Batch Processing (10 URLs)',
                                 'Priority Support'
                             ].map(feature => (
                                 <li key={feature} className="flex gap-4 text-sm font-medium text-gray-700">
@@ -144,12 +145,12 @@ export default function UpgradePage() {
                             ))}
                         </ul>
 
-                        <Link
-                            href="/dashboard/analyze"
+                        <CheckoutButton
+                            productId={process.env.NEXT_PUBLIC_POLAR_AGENCY_ID || 'agency_placeholder'}
                             className="w-full py-6 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-sm shadow-2xl bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:scale-[1.02] text-center"
                         >
-                            Get Full Agency Access
-                        </Link>
+                            {currentTier === 'agency' ? 'Current Plan' : 'Scale to Agency'}
+                        </CheckoutButton>
                     </div>
                 </RevealOnScroll>
             </div>

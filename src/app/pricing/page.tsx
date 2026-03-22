@@ -26,7 +26,7 @@ export default function PricingPage() {
                     <RevealOnScroll>
                         <h1 className="text-5xl md:text-7xl font-serif mb-6 tracking-tight italic">Free Beta <span className="text-purple-600">Access.</span></h1>
                         <p className="text-lg md:text-xl font-light opacity-60 max-w-lg mx-auto leading-relaxed">
-                            Eixora is currently in exclusive early access. All premium Ad DNA tools are unlocked for early adopters.
+                            Eixora is currently in exclusive early access. All premium Ad Intelligence tools are unlocked for early adopters.
                         </p>
                     </RevealOnScroll>
                 </div>
@@ -46,7 +46,7 @@ export default function PricingPage() {
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
-                                    "3 Viral Ad Audits / mo",
+                                    "3 Intelligence Audits / mo",
                                     "3 AI Ad Strategist chats / mo",
                                     "Standard Audit Dashboard",
                                 ].map((feature, i) => (
@@ -61,7 +61,7 @@ export default function PricingPage() {
                                 href="/signup"
                                 className="block w-full py-6 border-2 border-gray-200 text-gray-600 text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-gray-50 transition-all rounded-sm text-center"
                             >
-                                Start Free Audit
+                                Start Free Intelligence Audit
                             </Link>
                         </div>
                     </RevealOnScroll>
@@ -80,7 +80,7 @@ export default function PricingPage() {
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
-                                    "Unlimited Viral Ad Audits",
+                                    "Unlimited Intelligence Audits",
                                     "Unlimited AI Strategist Access",
                                     "Winning Ad Remix Studio",
                                     "Priority Email Support"
@@ -92,12 +92,12 @@ export default function PricingPage() {
                                 ))}
                             </ul>
 
-                            <Link
-                                href="/signup"
+                            <CheckoutButton
+                                productId={process.env.NEXT_PUBLIC_POLAR_FOUNDING_ID || 'founding_placeholder'}
                                 className="block w-full py-6 bg-black text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-purple-900 transition-all rounded-sm shadow-lg text-center"
                             >
                                 Secure Founder Rate
-                            </Link>
+                            </CheckoutButton>
                         </div>
                     </RevealOnScroll>
 
@@ -120,7 +120,7 @@ export default function PricingPage() {
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
                                     "Everything in Founding",
-                                    "Mass Video Scraping (10+ URLs)",
+                                    "Batch Processing (10+ URLs)",
                                     "Competitor Profile Spy",
                                     "Export Strategy Reports (PDF)",
                                     "Team Workspace (5 Seats)"
@@ -132,12 +132,12 @@ export default function PricingPage() {
                                 ))}
                             </ul>
 
-                            <Link
-                                href="/signup"
+                            <CheckoutButton
+                                productId={process.env.NEXT_PUBLIC_POLAR_AGENCY_ID || 'agency_placeholder'}
                                 className="block w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:scale-[1.02] transition-all rounded-sm shadow-xl text-center"
                             >
                                 Scale to Agency
-                            </Link>
+                            </CheckoutButton>
                         </div>
                     </RevealOnScroll>
                 </div>

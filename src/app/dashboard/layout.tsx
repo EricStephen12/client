@@ -63,8 +63,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     const navItems = [
         { name: 'Overview', href: '/dashboard' },
-        { name: 'Viral Audit Studio', href: '/dashboard/analyze' },
-        { name: 'Bulk Scraping', href: '/dashboard/batch' },
+        { name: 'Intelligence Studio', href: '/dashboard/analyze' },
+        { name: 'Batch Processing', href: '/dashboard/batch' },
         { name: 'Competitor Spy', href: '/dashboard/spy' },
         { name: 'Team Workspace', href: '/dashboard/team' },
         { name: 'Settings', href: '/dashboard/settings' },

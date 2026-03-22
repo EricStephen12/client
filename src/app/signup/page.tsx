@@ -2,8 +2,12 @@
 import { SignUp } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
+import { useSearchParams } from 'next/navigation';
 
 export default function SignupPage() {
+    const searchParams = useSearchParams();
+    const redirectUrl = searchParams.get('redirect') || '/dashboard';
+
     return (
         <div className="min-h-screen grid md:grid-cols-2 bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden text-gray-900">
 
@@ -30,7 +34,7 @@ export default function SignupPage() {
                                 }
                             }}
                             routing="hash"
-                            forceRedirectUrl="/dashboard"
+                            forceRedirectUrl={redirectUrl}
                         />
                     </RevealOnScroll>
                 </div>
