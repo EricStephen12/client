@@ -3,8 +3,9 @@ import { SignUp } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function SignupPage() {
+function SignupContent() {
     const searchParams = useSearchParams();
     const redirectUrl = searchParams.get('redirect') || '/dashboard';
 
@@ -58,5 +59,17 @@ export default function SignupPage() {
             </div>
 
         </div>
+    );
+}
+
+export default function SignupPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        }>
+            <SignupContent />
+        </Suspense>
     );
 }
