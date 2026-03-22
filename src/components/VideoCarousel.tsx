@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 const FloatingIcon = ({ type, delay = 0 }: { type: string; delay?: number }) => (
     <motion.div
@@ -91,6 +92,15 @@ const SOCIAL_PROOF_DATA = [
 ];
 
 export default function VideoCarousel() {
+    const [activeUsers, setActiveUsers] = useState(1842);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveUsers(prev => prev + Math.floor(Math.random() * 3));
+        }, 5000 + Math.random() * 5000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className="py-12 bg-white border-b border-purple-100 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 mb-8 flex flex-col md:flex-row items-baseline justify-between gap-4">
@@ -104,7 +114,7 @@ export default function VideoCarousel() {
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                     </span>
                     <p className="text-[10px] font-black text-red-600 uppercase tracking-[0.1em]">
-                        1,842 media buyers active
+                        {activeUsers.toLocaleString()} media buyers active
                     </p>
                 </div>
             </div>

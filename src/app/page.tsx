@@ -36,6 +36,10 @@ export default function LandingPage() {
     const handleDirectAnalyze = (e: React.FormEvent) => {
         e.preventDefault();
         if (!url) return;
+        if (!isLoggedIn) {
+            router.push(`/signup?redirect=/dashboard/analyze&url=${encodeURIComponent(url)}`);
+            return;
+        }
         router.push(`/dashboard/analyze?url=${encodeURIComponent(url)}`);
     };
 
@@ -143,10 +147,12 @@ export default function LandingPage() {
                         loop
                         playsInline
                         className="absolute inset-0 w-full h-full object-cover opacity-80"
+                        poster="/demo-recording.webp"
                     >
                         <source src="/hero-video.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
+
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                 </div>
             </section>
@@ -242,17 +248,17 @@ export default function LandingPage() {
             <section className="py-32 px-6 border-b border-purple-200">
                 <div className="max-w-4xl mx-auto">
                     <RevealOnScroll className="text-center mb-24">
-                        <h2 className="text-5xl font-serif mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent italic">The Unit Economics</h2>
+                        <h2 className="text-5xl font-serif mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent italic">The Profit Logic</h2>
                         <p className="text-xs tracking-[0.3em] uppercase text-purple-600">Built for Results</p>
                     </RevealOnScroll>
 
                     <RevealOnScroll>
                         <div className="border border-purple-600 rounded-3xl overflow-hidden shadow-xl bg-white">
                             {[
-                                { l: "Input", r: "Any Viral TikTok" },
-                                { l: "Result", r: "Full Blueprint Breakdown" },
-                                { l: "Strategy", r: "Actionable Brief" },
-                                { l: "Goal", r: "Retention Dominance" }
+                                { l: "Input", r: "Any Viral Video" },
+                                { l: "Result", r: "Full Performance Blueprint" },
+                                { l: "Output", r: "Ad Remix Scripts" },
+                                { l: "Goal", r: "Hook Rate Mastery" }
                             ].map((row, i) => (
                                 <div key={i} className="flex flex-col sm:grid sm:grid-cols-2 border-b border-purple-100 last:border-b-0 hover:bg-purple-600 hover:text-white transition-all duration-300 group">
                                     <div className="p-6 sm:p-8 border-b sm:border-b-0 sm:border-r border-purple-100 font-serif text-lg md:text-xl italic bg-purple-50/30 sm:bg-transparent group-hover:bg-transparent">{row.l}</div>
@@ -406,9 +412,9 @@ export default function LandingPage() {
 
                     <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 gap-8 font-mono text-[9px] tracking-widest uppercase opacity-30">
                         <div className="flex gap-8">
-                            <Link href="#" className="hover:text-white transition-opacity">Instagram</Link>
-                            <Link href="#" className="hover:text-white transition-opacity">Twitter</Link>
-                            <Link href="#" className="hover:text-white transition-opacity">TikTok</Link>
+                            <Link href="https://instagram.com/eixora.store" className="hover:text-white transition-opacity">Instagram</Link>
+                            <Link href="https://x.com/eixora_store" className="hover:text-white transition-opacity">Twitter</Link>
+                            <Link href="https://tiktok.com/@eixora.store" className="hover:text-white transition-opacity">TikTok</Link>
                         </div>
                         <p>&copy; 2026 EIXORA BY EXRICX. ALL RIGHTS RESERVED.</p>
                     </div>
