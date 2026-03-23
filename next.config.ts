@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/main/:path*',
-        destination: 'http://localhost:4000/:path*',
+        destination: (process.env.BACKEND_URL || 'http://localhost:4000') + '/:path*',
       },
     ];
   },
