@@ -49,7 +49,7 @@ function AnalyzeContent() {
         setIsSending(true);
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${id}`, {
+            const res = await fetch(`/api/main/api/lounge-session/${id}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -161,7 +161,7 @@ function AnalyzeContent() {
         setIsSending(true);
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/creative-director-chat`, {
+            const res = await fetch(`/api/main/api/creative-director-chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -202,7 +202,7 @@ function AnalyzeContent() {
 
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/creative-director-chat`, {
+            const res = await fetch(`/api/main/api/creative-director-chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -236,7 +236,7 @@ function AnalyzeContent() {
         setIsSending(true);
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/generate-final-script`, {
+            const res = await fetch(`/api/main/api/generate-final-script`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -289,7 +289,7 @@ function AnalyzeContent() {
 
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
+            const res = await fetch(`/api/main/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
                 method: 'POST',
                 body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId }),
                 headers: {

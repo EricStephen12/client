@@ -21,31 +21,32 @@ export default function AdminDashboard() {
             }
 
             try {
-                const token = await getToken();
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
+                try {
+                    const token = await getToken();
+                    const res = await fetch(`/api/main/api/me`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
 
-                if (res.ok) {
-                    const profileData = await res.json();
-                    setProfile(profileData);
+                    if (res.ok) {
+                        const profileData = await res.json();
+                        setProfile(profileData);
 
-                    if (profileData.is_admin || (user?.publicMetadata as any)?.is_admin) {
-                        fetchAdminData();
+                        if (profileData.is_admin || (user?.publicMetadata as any)?.is_admin) {
+                            fetchAdminData();
+                        } else {
+                            router.push('/dashboard');
+                        }
                     } else {
                         router.push('/dashboard');
                     }
-                } else {
+                } catch (err) {
+                    console.error('Access check failed', err);
                     router.push('/dashboard');
                 }
-            } catch (err) {
-                console.error('Access check failed', err);
-                router.push('/dashboard');
-            }
-        };
+            };
 
-        checkAccess();
-    }, [isLoaded, clerkUserId, user, router, getToken]);
+            checkAccess();
+        }, [isLoaded, clerkUserId, user, router, getToken]);
 
     const fetchAdminData = async () => {
         try {

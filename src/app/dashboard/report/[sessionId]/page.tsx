@@ -14,7 +14,7 @@ export default function ReportPage() {
             if (!sessionId) return;
             try {
                 const token = await getToken();
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${sessionId}`, {
+                const res = await fetch(`/api/main/api/lounge-session/${sessionId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {

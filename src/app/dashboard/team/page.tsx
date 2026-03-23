@@ -15,7 +15,7 @@ export default function TeamPage() {
     const fetchMembers = async () => {
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/team/members`, {
+            const res = await fetch(`/api/main/api/team/members`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
@@ -67,7 +67,7 @@ export default function TeamPage() {
         if (!confirm('Remove this member? Their access will be revoked immediately.')) return;
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/team/remove/${id}`, {
+            const res = await fetch(`/api/main/api/team/remove/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
