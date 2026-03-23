@@ -52,10 +52,10 @@ export default function AdminDashboard() {
         try {
             const token = await getToken();
             const [statsRes, usersRes] = await Promise.all([
-                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/admin/stats`, {
+                fetch(`/api/main/api/admin/stats`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }),
-                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/admin/users`, {
+                fetch(`/api/main/api/admin/users`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
             ]);

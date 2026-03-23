@@ -65,7 +65,7 @@ export default function CompetitorSpyPage() {
 
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/competitor-spy`, {
+            const res = await fetch(`/api/main/api/competitor-spy`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

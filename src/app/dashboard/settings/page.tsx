@@ -52,7 +52,7 @@ function SettingsContent() {
         setIsSaving(true);
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
+            const res = await fetch(`/api/main/api/me`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

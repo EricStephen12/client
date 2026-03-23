@@ -84,7 +84,7 @@ function AnalyzeContent() {
                 setIsAnalyzing(true);
                 try {
                     const token = await getToken();
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/analyze-video-url`, {
+                    const res = await fetch(`/api/main/api/analyze-video-url`, {
                         method: 'POST',
                         body: JSON.stringify({ videoUrl: queryUrl, userId }),
                         headers: {
@@ -129,7 +129,7 @@ function AnalyzeContent() {
 
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/save-lounge-session`, {
+            const res = await fetch(`/api/main/api/save-lounge-session`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
