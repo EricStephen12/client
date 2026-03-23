@@ -2,7 +2,7 @@
 import RevealOnScroll from '@/components/RevealOnScroll';
 import Link from 'next/link';
 import { useState, useEffect, Suspense } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
 export default function SettingsPage() {
@@ -13,6 +13,7 @@ function SettingsContent() {
 
     // 1. All State Definitions
     const { user, isLoaded } = useUser();
+    const { getToken, userId: clerkUserId } = useAuth();
     const [profile, setProfile] = useState<any>(null);
 
     const router = useRouter();
@@ -50,10 +51,13 @@ function SettingsContent() {
     const handleSave = async () => {
         setIsSaving(true);
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({ name }),
             });
 
@@ -73,18 +77,19 @@ function SettingsContent() {
 
     // 3. Lifecycle Hooks
     useEffect(() => {
-        // Only redirect if we are SURE we aren't loading and have no session
-        if (status === 'unauthenticated') {
+        // Redirect to login if not logged in
+        if (isLoaded && !clerkUserId) {
             router.push('/login');
             return;
         }
 
-        if (status === 'authenticated' && !profile && !isSyncing) {
+        if (isLoaded && clerkUserId && !profile && !isSyncing) {
             const fetchUserData = async () => {
                 setIsSyncing(true);
                 try {
+                    const token = await getToken();
                     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
-                        credentials: 'include'
+                        headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (res.ok) {
                         const data = await res.json();
@@ -100,7 +105,7 @@ function SettingsContent() {
             };
             fetchUserData();
         }
-    }, [status, router, profile, isSyncing]);
+    }, [isLoaded, clerkUserId, router, profile, isSyncing, getToken]);
 
 
     const [showCancelModal, setShowCancelModal] = useState(false);

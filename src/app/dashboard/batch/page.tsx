@@ -1,11 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function BatchPage() {
     const { user } = useUser();
+    const { getToken } = useAuth();
     const userId = user?.id;
 
     const [urls, setUrls] = useState('');
@@ -25,8 +26,9 @@ export default function BatchPage() {
     useEffect(() => {
         const checkPlan = async () => {
             try {
+                const token = await getToken();
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
-                    credentials: 'include'
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
                     const data = await res.json();
@@ -72,10 +74,13 @@ export default function BatchPage() {
             const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 min
 
             addLog(`🔗 Sent ${urlList.length} URLs to processing engine...`);
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/batch-analyze`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({ urls: urlList }),
                 signal: controller.signal
             });
@@ -104,10 +109,13 @@ export default function BatchPage() {
 
     const handleExportReport = async (analysis: any, videoUrl: string) => {
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/export-report`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({ analysis, videoUrl }),
             });
 

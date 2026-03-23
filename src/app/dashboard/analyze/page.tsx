@@ -2,7 +2,7 @@
 import { useState, useCallback, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 
 export default function AnalyzePage() {
@@ -27,6 +27,7 @@ function AnalyzeContent() {
     const [activeTab, setActiveTab] = useState<'upload' | 'url'>('url');
 
     const { user, isLoaded } = useUser();
+    const { getToken } = useAuth();
     const userId = user?.id;
 
     const profile = isLoaded && user ? {
@@ -47,8 +48,9 @@ function AnalyzeContent() {
     const loadSession = async (id: string) => {
         setIsSending(true);
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${id}`, {
-                credentials: 'include'
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
                 const data = await res.json();
@@ -81,11 +83,14 @@ function AnalyzeContent() {
             const triggerInitialScan = async () => {
                 setIsAnalyzing(true);
                 try {
+                    const token = await getToken();
                     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/analyze-video-url`, {
                         method: 'POST',
                         body: JSON.stringify({ videoUrl: queryUrl, userId }),
-                        headers: { 'Content-Type': 'application/json' },
-                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
                     });
                     if (res.ok) {
                         const data = await res.json();
@@ -123,10 +128,13 @@ function AnalyzeContent() {
         if (!userId || !result) return null;
 
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/save-lounge-session`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     sessionId: idToUse,
                     userId,
@@ -152,10 +160,13 @@ function AnalyzeContent() {
         setIsChatMode(true);
         setIsSending(true);
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/creative-director-chat`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     messages: [],
                     dna: result.analysis,
@@ -190,10 +201,13 @@ function AnalyzeContent() {
         setIsSending(true);
 
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/creative-director-chat`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     messages: newMessages,
                     dna: result.analysis,
@@ -221,10 +235,13 @@ function AnalyzeContent() {
     const forgeDirectorBrief = async () => {
         setIsSending(true);
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/generate-final-script`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     messages,
                     dna: result.analysis,
@@ -271,11 +288,14 @@ function AnalyzeContent() {
         if (userId) formData.append('userId', userId);
 
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
                 method: 'POST',
                 body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId }),
-                headers: activeTab === 'url' ? { 'Content-Type': 'application/json' } : {},
-                credentials: 'include',
+                headers: {
+                    ...(activeTab === 'url' ? { 'Content-Type': 'application/json' } : {}),
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             if (!res.ok) throw new Error('Analysis failed');

@@ -1,11 +1,12 @@
 'use client';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import { useState, useEffect } from 'react';
 
 export default function DashboardPage() {
     const { user, isLoaded } = useUser();
+    const { getToken } = useAuth();
     const [profile, setProfile] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
     const loading = !isLoaded || isLoading;
@@ -14,8 +15,11 @@ export default function DashboardPage() {
         if (isLoaded && user) {
             const fetchStats = async () => {
                 try {
+                    const token = await getToken();
                     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
-                        credentials: 'include'
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
                     });
                     if (res.ok) {
                         const data = await res.json();
@@ -29,7 +33,7 @@ export default function DashboardPage() {
             };
             fetchStats();
         }
-    }, [isLoaded, user]);
+    }, [isLoaded, user, getToken]);
 
     const firstName = user?.firstName || user?.username || 'Creator';
 
