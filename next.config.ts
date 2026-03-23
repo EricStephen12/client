@@ -12,10 +12,11 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
+    const backendUrl = (process.env.BACKEND_URL || 'http://localhost:4000').replace(/\/$/, '');
     return [
       {
         source: '/api/main/:path*',
-        destination: (process.env.BACKEND_URL || 'http://localhost:4000') + '/:path*',
+        destination: `${backendUrl}/:path*`,
       },
     ];
   },
