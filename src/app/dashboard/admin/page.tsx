@@ -1,29 +1,62 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
 export default function AdminDashboard() {
     const { user, isLoaded } = useUser();
+    const { getToken, userId: clerkUserId } = useAuth();
     const router = useRouter();
     const [stats, setStats] = useState<any>(null);
     const [users, setUsers] = useState<any[]>([]);
+    const [profile, setProfile] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (isLoaded && !(user?.publicMetadata as any)?.is_admin) {
-            router.push('/dashboard');
-        }
-        if (isLoaded && (user?.publicMetadata as any)?.is_admin) {
-            fetchAdminData();
-        }
-    }, [isLoaded, user, router]);
+        const checkAccess = async () => {
+            if (!isLoaded) return;
+            if (!clerkUserId) {
+                router.push('/login');
+                return;
+            }
+
+            try {
+                const token = await getToken();
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (res.ok) {
+                    const profileData = await res.json();
+                    setProfile(profileData);
+
+                    if (profileData.is_admin || (user?.publicMetadata as any)?.is_admin) {
+                        fetchAdminData();
+                    } else {
+                        router.push('/dashboard');
+                    }
+                } else {
+                    router.push('/dashboard');
+                }
+            } catch (err) {
+                console.error('Access check failed', err);
+                router.push('/dashboard');
+            }
+        };
+
+        checkAccess();
+    }, [isLoaded, clerkUserId, user, router, getToken]);
 
     const fetchAdminData = async () => {
         try {
+            const token = await getToken();
             const [statsRes, usersRes] = await Promise.all([
-                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/admin/stats`, { credentials: 'include' }),
-                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/admin/users`, { credentials: 'include' })
+                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/admin/stats`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }),
+                fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/admin/users`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
             ]);
 
             if (statsRes.ok && usersRes.ok) {

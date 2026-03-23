@@ -2,13 +2,14 @@
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { ReactNode, useState, useEffect, Suspense } from 'react';
-import { useUser, useClerk } from '@clerk/nextjs';
+import { useUser, useClerk, useAuth } from '@clerk/nextjs';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
     const { user, isLoaded } = useUser();
     const { signOut } = useClerk();
+    const { getToken, userId: clerkUserId } = useAuth();
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [profileData, setProfileData] = useState<any>(null);
@@ -19,8 +20,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         const fetchSessions = async () => {
             if (!userId) return;
             try {
+                const token = await getToken();
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/user-sessions?userId=${userId}`, {
-                    credentials: 'include'
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
                     const data = await res.json();
@@ -34,8 +36,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         const fetchLatestProfile = async () => {
             if (!userId) return;
             try {
+                const token = await getToken();
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
-                    credentials: 'include'
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
                     const data = await res.json();
@@ -71,7 +74,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     ];
 
     // Add Admin Hub for admin users
-    const isAdmin = (user?.publicMetadata as any)?.is_admin;
+    const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin;
     if (isAdmin) {
         navItems.push({ name: 'Admin Hub', href: '/dashboard/admin' });
     }
