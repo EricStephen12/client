@@ -21,32 +21,31 @@ export default function AdminDashboard() {
             }
 
             try {
-                try {
-                    const token = await getToken();
-                    const res = await fetch(`/api/main/api/me`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
+                const token = await getToken();
+                const res = await fetch(`/api/main/api/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
 
-                    if (res.ok) {
-                        const profileData = await res.json();
-                        setProfile(profileData);
+                if (res.ok) {
+                    const profileData = await res.json();
+                    setProfile(profileData);
 
-                        if (profileData.is_admin || (user?.publicMetadata as any)?.is_admin) {
-                            fetchAdminData();
-                        } else {
-                            router.push('/dashboard');
-                        }
+                    if (profileData.is_admin || (user?.publicMetadata as any)?.is_admin) {
+                        fetchAdminData();
                     } else {
                         router.push('/dashboard');
                     }
-                } catch (err) {
-                    console.error('Access check failed', err);
+                } else {
                     router.push('/dashboard');
                 }
-            };
+            } catch (err) {
+                console.error('Access check failed', err);
+                router.push('/dashboard');
+            }
+        };
 
-            checkAccess();
-        }, [isLoaded, clerkUserId, user, router, getToken]);
+        checkAccess();
+    }, [isLoaded, clerkUserId, user, router, getToken]);
 
     const fetchAdminData = async () => {
         try {
