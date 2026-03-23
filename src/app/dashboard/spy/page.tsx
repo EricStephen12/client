@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import Link from 'next/link';
 
@@ -25,6 +25,7 @@ interface SpyVideo {
 
 export default function CompetitorSpyPage() {
     const { user } = useUser();
+    const { getToken } = useAuth();
     const [profileUrl, setProfileUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -36,8 +37,9 @@ export default function CompetitorSpyPage() {
     useEffect(() => {
         const checkPlan = async () => {
             try {
+                const token = await getToken();
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/me`, {
-                    credentials: 'include'
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
                     const data = await res.json();
@@ -62,10 +64,13 @@ export default function CompetitorSpyPage() {
         setResults(null);
 
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/competitor-spy`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({ profileUrl: profileUrl.trim() }),
             });
 

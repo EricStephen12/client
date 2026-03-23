@@ -1,10 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import RevealOnScroll from '@/components/RevealOnScroll';
 
 export default function TeamPage() {
     const { user } = useUser();
+    const { getToken } = useAuth();
     const [email, setEmail] = useState('');
     const [members, setMembers] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -13,8 +14,9 @@ export default function TeamPage() {
 
     const fetchMembers = async () => {
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/team/members`, {
-                credentials: 'include'
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
                 const data = await res.json();
@@ -38,10 +40,13 @@ export default function TeamPage() {
 
         setIsInviting(true);
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/team/invite`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({ email })
             });
             const data = await res.json();
@@ -61,9 +66,10 @@ export default function TeamPage() {
     const handleRemove = async (id: string) => {
         if (!confirm('Remove this member? Their access will be revoked immediately.')) return;
         try {
+            const token = await getToken();
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/team/remove/${id}`, {
                 method: 'DELETE',
-                credentials: 'include'
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) fetchMembers();
         } catch (err) {

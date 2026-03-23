@@ -1,9 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 
 export default function ReportPage() {
     const { sessionId } = useParams();
+    const { getToken } = useAuth();
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -11,8 +13,9 @@ export default function ReportPage() {
         const fetchReport = async () => {
             if (!sessionId) return;
             try {
+                const token = await getToken();
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/lounge-session/${sessionId}`, {
-                    credentials: 'include'
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
                     const json = await res.json();
