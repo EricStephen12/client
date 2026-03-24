@@ -14,6 +14,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [profileData, setProfileData] = useState<any>(null);
     const [sessions, setSessions] = useState<any[]>([]);
+    const [isAdminMaster, setIsAdminMaster] = useState(false);
     const userId = user?.id;
 
     useEffect(() => {
@@ -49,6 +50,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
         };
 
+        // Check for Master Admin session 💎🛡️
+        const masterToken = localStorage.getItem('admin_token');
+        if (masterToken) setIsAdminMaster(true);
+
         if (userId) {
             fetchSessions();
             fetchLatestProfile();
@@ -73,14 +78,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         { name: 'Settings', href: '/dashboard/settings' },
     ];
 
-    // Add Admin Hub for admin users
-    const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin;
+    // Add Admin Hub for admin users (Clerk or Master Secret) 💎🛡️
+    const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin || isAdminMaster;
     if (isAdmin) {
         navItems.push({ name: 'Admin Hub', href: '/dashboard/admin' });
     }
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
+        localStorage.removeItem('admin_token'); // Purge Elite Session 🚀
+        // Also hit server to clear cookie
+        await fetch('/api/main/api/admin/auth/logout', { method: 'POST' });
         await signOut({ redirectUrl: '/' });
     };
 

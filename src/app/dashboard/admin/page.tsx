@@ -15,13 +15,21 @@ export default function AdminDashboard() {
     useEffect(() => {
         const checkAccess = async () => {
             if (!isLoaded) return;
-            if (!clerkUserId) {
-                router.push('/login');
-                return;
-            }
 
             try {
-                const token = await getToken();
+                // 1. Prioritize Master Admin Token if present 💎
+                const masterToken = localStorage.getItem('admin_token');
+                let token = masterToken;
+
+                if (!token) {
+                    token = await getToken();
+                }
+
+                if (!token && !clerkUserId) {
+                    router.push('/admin-login');
+                    return;
+                }
+
                 const res = await fetch(`/api/main/api/me`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -30,13 +38,20 @@ export default function AdminDashboard() {
                     const profileData = await res.json();
                     setProfile(profileData);
 
-                    if (profileData.is_admin || (user?.publicMetadata as any)?.is_admin) {
-                        fetchAdminData();
+                    // Allow access if explicitly admin OR if authenticated as Master Admin 💎
+                    if (profileData.is_admin || profileData.is_master_admin || (user?.publicMetadata as any)?.is_admin) {
+                        fetchAdminData(token);
                     } else {
                         router.push('/dashboard');
                     }
                 } else {
-                    router.push('/dashboard');
+                    // If /api/me fails, try one last time with Master Token specifically
+                    const masterToken = localStorage.getItem('admin_token');
+                    if (masterToken) {
+                        fetchAdminData(masterToken);
+                    } else {
+                        router.push('/admin-login');
+                    }
                 }
             } catch (err) {
                 console.error('Access check failed', err);
@@ -47,9 +62,9 @@ export default function AdminDashboard() {
         checkAccess();
     }, [isLoaded, clerkUserId, user, router, getToken]);
 
-    const fetchAdminData = async () => {
+    const fetchAdminData = async (explicitToken?: string | null) => {
         try {
-            const token = await getToken();
+            const token = explicitToken || await getToken() || localStorage.getItem('admin_token');
             const [statsRes, usersRes] = await Promise.all([
                 fetch(`/api/main/api/admin/stats`, {
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -62,11 +77,15 @@ export default function AdminDashboard() {
             if (statsRes.ok && usersRes.ok) {
                 setStats(await statsRes.json());
                 setUsers(await usersRes.json());
+                setLoading(false);
+            } else if (statsRes.status === 401 || usersRes.status === 401) {
+                router.push('/admin-login');
             }
         } catch (err) {
             console.error('Failed to fetch admin data:', err);
         } finally {
-            setLoading(false);
+            // Only set loading false if we didn't redirect
+            // setLoading(false); 
         }
     };
 
