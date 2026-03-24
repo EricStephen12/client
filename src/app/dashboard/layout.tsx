@@ -15,6 +15,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const [profileData, setProfileData] = useState<any>(null);
     const [sessions, setSessions] = useState<any[]>([]);
     const [isAdminMaster, setIsAdminMaster] = useState(false);
+    const [isSupportOpen, setIsSupportOpen] = useState(false);
     const userId = user?.id;
 
     useEffect(() => {
@@ -123,6 +124,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                         isLoggingOut={isLoggingOut}
                         profile={profile}
                         sessions={sessions}
+                        onOpenSupport={() => setIsSupportOpen(true)}
                     />
                 </Suspense>
             </aside>
@@ -146,6 +148,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                 onClose={() => setIsMobileMenuOpen(false)}
                                 profile={profile}
                                 sessions={sessions}
+                                onOpenSupport={() => setIsSupportOpen(true)}
                             />
                         </Suspense>
                     </aside>
@@ -169,12 +172,115 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                         {children}
                     </RevealOnScroll>
                 </div>
+
+                {/* 📨 ELITE SUPPORT MODAL 🛡️ */}
+                <SupportModal
+                    isOpen={isSupportOpen}
+                    onClose={() => setIsSupportOpen(false)}
+                    userAddress={user?.primaryEmailAddress?.emailAddress}
+                    userId={user?.id}
+                />
+
+                {/* Floating Support Trigger (Mobile) */}
+                <button
+                    onClick={() => setIsSupportOpen(true)}
+                    className="fixed bottom-6 right-6 lg:hidden w-14 h-14 bg-purple-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40"
+                >
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+                </button>
             </main>
         </div>
     );
 }
 
-function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClose, profile, sessions }: any) {
+function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
+    const [subject, setSubject] = useState('');
+    const [message, setMessage] = useState('');
+    const [sending, setSending] = useState(false);
+    const [sent, setSent] = useState(false);
+
+    if (!isOpen) return null;
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        setSending(true);
+        try {
+            const res = await fetch('/api/main/api/support/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userAddress, userId, subject, message })
+            });
+            if (res.ok) setSent(true);
+        } catch (err) {
+            console.error('Support failed', err);
+        } finally {
+            setSending(false);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 pb-20 md:pb-6">
+            <div className="absolute inset-0 bg-purple-950/20 backdrop-blur-md" onClick={onClose}></div>
+            <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-200">
+                <div className="h-2 bg-gradient-to-r from-purple-600 to-blue-600"></div>
+                <div className="p-8">
+                    {sent ? (
+                        <div className="text-center space-y-4 py-12">
+                            <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">✓</div>
+                            <h2 className="text-3xl font-serif italic text-gray-900">Message Transmitted.</h2>
+                            <p className="text-gray-400 text-sm">The Elite Support agents have received your signal. Expect a response in your secure inbox soon.</p>
+                            <button onClick={onClose} className="mt-8 px-8 py-3 bg-purple-600 text-white rounded-xl text-xs font-black uppercase tracking-widest">Close Relay</button>
+                        </div>
+                    ) : (
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="flex justify-between items-center mb-2">
+                                <h2 className="text-3xl font-serif italic text-gray-900 leading-tight">Secure Relay.</h2>
+                                <button type="button" onClick={onClose} className="text-gray-300 hover:text-purple-600 transition-colors">
+                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <p className="text-gray-400 text-sm mb-8">Direct line to Eixora Masterminds. Report issues or request elite feature deployments.</p>
+
+                            <div className="space-y-4">
+                                <div className="group">
+                                    <label className="text-[10px] font-black tracking-widest uppercase text-purple-600 mb-2 block">Subject of Inquiry</label>
+                                    <input
+                                        required
+                                        value={subject}
+                                        onChange={e => setSubject(e.target.value)}
+                                        placeholder="Brief summary..."
+                                        className="w-full bg-purple-50/50 border border-purple-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 transition-all font-medium"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-[10px] font-black tracking-widest uppercase text-purple-600 mb-2 block">Message Details</label>
+                                    <textarea
+                                        required
+                                        value={message}
+                                        onChange={e => setMessage(e.target.value)}
+                                        rows={4}
+                                        placeholder="Explain your situation bro..."
+                                        className="w-full bg-purple-50/50 border border-purple-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 transition-all font-medium resize-none"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={sending}
+                                className="w-full py-4 bg-purple-600 text-white rounded-xl text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-purple-200 hover:bg-purple-700 transition-all disabled:opacity-50"
+                            >
+                                {sending ? 'Transmitting...' : 'Send to Mastermind Hub'}
+                            </button>
+                        </form>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClose, profile, sessions, onOpenSupport }: any) {
     const searchParams = useSearchParams();
     const currentSessionId = searchParams.get('sessionId');
 
@@ -243,6 +349,14 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         )}
                     </div>
                 </div>
+                {/* Elite Support Link 🛡️ */}
+                <button
+                    onClick={() => { onOpenSupport(); onClose?.(); }}
+                    className="w-full group flex items-center gap-3 px-4 py-3 text-xs tracking-[0.1em] uppercase transition-all duration-300 rounded-xl font-medium text-gray-500 hover:bg-purple-50 hover:text-purple-600"
+                >
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400 group-hover:scale-125 transition-transform"></span>
+                    <span>Elite Support</span>
+                </button>
             </div>
 
             <div className="p-8 border-t border-purple-50 space-y-6 flex-shrink-0">

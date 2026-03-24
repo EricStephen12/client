@@ -29,10 +29,10 @@ export default function AdminLoginPage() {
                 // Redirect to Admin Dashboard
                 router.push('/dashboard/admin');
             } else {
-                setError(data.error || 'Invalid Elite Access Key.');
+                setError(data.details || data.error || 'Invalid Elite Access Key.');
             }
-        } catch (err) {
-            setError('Connection failed. Elite Security Protocol engaged.');
+        } catch (err: any) {
+            setError(err.message || 'Connection failed. Elite Security Protocol engaged.');
         } finally {
             setIsLoading(false);
         }
@@ -77,8 +77,8 @@ export default function AdminLoginPage() {
                             type="submit"
                             disabled={isLoading}
                             className={`w-full py-4 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-300 ${isLoading
-                                    ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
-                                    : 'bg-white text-black hover:bg-gray-200 active:scale-[0.98] shadow-[0_0_20px_rgba(255,255,255,0.1)]'
+                                ? 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                                : 'bg-white text-black hover:bg-gray-200 active:scale-[0.98] shadow-[0_0_20px_rgba(255,255,255,0.1)]'
                                 }`}
                         >
                             {isLoading ? 'Decrypting...' : 'Authenticate'}
