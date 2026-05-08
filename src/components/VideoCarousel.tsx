@@ -92,30 +92,12 @@ const SOCIAL_PROOF_DATA = [
 ];
 
 export default function VideoCarousel() {
-    const [activeUsers, setActiveUsers] = useState(1842);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveUsers(prev => prev + Math.floor(Math.random() * 3));
-        }, 5000 + Math.random() * 5000);
-        return () => clearInterval(interval);
-    }, []);
-
     return (
         <div className="py-12 bg-white border-b border-purple-100 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 mb-8 flex flex-col md:flex-row items-baseline justify-between gap-4">
                 <div>
                     <span className="text-[10px] font-black tracking-[0.5em] uppercase text-purple-600 mb-2 block">Reference Library</span>
                     <h2 className="text-3xl md:text-4xl font-serif italic text-gray-900 tracking-tight">Viral Logic Studio</h2>
-                </div>
-                <div className="flex items-center gap-2 bg-red-50 px-3 py-1.5 rounded-full border border-red-100">
-                    <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                    <p className="text-[10px] font-black text-red-600 uppercase tracking-[0.1em]">
-                        {activeUsers.toLocaleString()} media buyers active
-                    </p>
                 </div>
             </div>
 

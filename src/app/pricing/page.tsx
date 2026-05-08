@@ -36,7 +36,7 @@ export default function PricingPage() {
                     <RevealOnScroll delay={50}>
                         <div className="relative bg-white border border-gray-200 p-10 rounded-2xl shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
                             <div className="mb-8">
-                                <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-gray-200 text-gray-600 px-4 py-1.5 rounded-full mb-6 inline-block">FREE PLAN</span>
+                                <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-gray-200 text-gray-600 px-4 py-1.5 rounded-full mb-6 inline-block">FREE ACCESS</span>
                                 <div className="flex items-baseline gap-2 mt-4">
                                     <span className="text-6xl font-serif tracking-tighter">$0</span>
                                     <span className="text-lg font-light opacity-40 italic">/forever</span>
@@ -46,8 +46,8 @@ export default function PricingPage() {
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {[
-                                    "3 Intelligence Audits / mo",
-                                    "3 AI Ad Strategist chats / mo",
+                                    "1 Free Masterclass Scan",
+                                    "AI Creative Director Intro",
                                     "Standard Audit Dashboard",
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
@@ -61,7 +61,7 @@ export default function PricingPage() {
                                 href="/signup"
                                 className="block w-full py-6 border-2 border-gray-200 text-gray-600 text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-gray-50 transition-all rounded-sm text-center"
                             >
-                                Start Free Intelligence Audit
+                                Get Your 1 Free Scan
                             </Link>
                         </div>
                     </RevealOnScroll>
@@ -72,7 +72,7 @@ export default function PricingPage() {
                             <div className="mb-8">
                                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-purple-600 text-white px-4 py-1.5 rounded-full mb-6 inline-block">FOUNDING PLAN</span>
                                 <div className="flex items-baseline gap-2 mt-4">
-                                    <span className="text-6xl font-serif tracking-tighter">$9.99</span>
+                                    <span className="text-6xl font-serif tracking-tighter">$24.99</span>
                                     <span className="text-lg font-light opacity-40 italic">/month</span>
                                 </div>
                                 <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">Early adopter pricing — locked in forever</p>
@@ -83,6 +83,7 @@ export default function PricingPage() {
                                     "Unlimited Intelligence Audits",
                                     "Unlimited AI Strategist Access",
                                     "Winning Ad Remix Studio",
+                                    "Actionable Shooting Briefs",
                                     "Priority Email Support"
                                 ].map((feature, i) => (
                                     <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
@@ -93,7 +94,7 @@ export default function PricingPage() {
                             </ul>
 
                             <CheckoutButton
-                                productId={process.env.NEXT_PUBLIC_POLAR_FOUNDING_ID || 'founding_placeholder'}
+                                productId="founding"
                                 className="block w-full py-6 bg-black text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-purple-900 transition-all rounded-sm shadow-lg text-center"
                             >
                                 Secure Founder Rate
@@ -111,7 +112,7 @@ export default function PricingPage() {
                             <div className="mb-8">
                                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-black text-white px-4 py-1.5 rounded-full mb-6 inline-block">AGENCY PLAN</span>
                                 <div className="flex items-baseline gap-2 mt-4">
-                                    <span className="text-6xl font-serif tracking-tighter">$29.99</span>
+                                    <span className="text-6xl font-serif tracking-tighter">$49.99</span>
                                     <span className="text-lg font-light opacity-40 italic">/month</span>
                                 </div>
                                 <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">Scale your ad intelligence</p>
@@ -133,7 +134,7 @@ export default function PricingPage() {
                             </ul>
 
                             <CheckoutButton
-                                productId={process.env.NEXT_PUBLIC_POLAR_AGENCY_ID || 'agency_placeholder'}
+                                productId="agency"
                                 className="block w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:scale-[1.02] transition-all rounded-sm shadow-xl text-center"
                             >
                                 Scale to Agency

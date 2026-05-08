@@ -112,6 +112,11 @@ h6 {
   color: transparent;
 }
 
+.stroke-text-dark {
+  -webkit-text-stroke: 1.5px #0A0A0A;
+  color: transparent;
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);

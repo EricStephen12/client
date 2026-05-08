@@ -9,6 +9,7 @@ import MagneticButton from '@/components/MagneticButton';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import VideoCarousel from '@/components/VideoCarousel';
 import FloatingHearts from '@/components/FloatingHearts';
+import BlueprintPreview from '@/components/BlueprintPreview';
 
 export default function LandingPage() {
     const [url, setUrl] = useState('');
@@ -102,19 +103,19 @@ export default function LandingPage() {
             <section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-purple-200 overflow-hidden">
                 <div className="flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-24 py-16 md:py-24 border-b md:border-b-0 md:border-r border-purple-200 bg-white">
                     <RevealOnScroll delay={100}>
-                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-purple-600 block">Intelligence Studio</span>
+                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-amber-500 block">Your Creative Partner</span>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={200}>
                         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.2] md:leading-[1.1] mb-6 md:mb-8 tracking-tight">
-                            Stop Guessing. <br className="hidden sm:block" />
-                            <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent underline decoration-purple-200 decoration-4 underline-offset-8">Start Scaling.</span>
+                            Find your <br className="hidden sm:block" />
+                            <span className="italic bg-gradient-to-r from-purple-600 via-rose-500 to-amber-500 bg-clip-text text-transparent underline decoration-amber-200 decoration-4 underline-offset-8">Creative Flow.</span>
                         </h1>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={300}>
-                        <p className="text-base sm:text-lg font-light leading-relaxed max-w-sm mb-8 md:mb-10 text-gray-600">
-                            Reverse-engineer any viral TikTok ad. Extract the exact hooks and triggers that drive $10k+ days.
+                        <p className="text-base sm:text-lg font-light leading-relaxed max-w-sm mb-8 md:mb-10 text-gray-500">
+                            Stop the endless cycle of guessing. Eixora helps you see the viral logic behind every winner, giving you the clarity to shoot with total confidence.
                         </p>
                     </RevealOnScroll>
 
@@ -157,210 +158,151 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Marquee - "Ticker" */}
-            <section className="py-4 border-b border-purple-200 overflow-hidden whitespace-nowrap bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white">
-                <div className="inline-block animate-marquee">
-                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Decode Virals</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Stop Guessing</span>
-                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Winning Ads</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Scale Fast</span>
-                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">More Sales</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Viral Growth</span>
-                    <span className="text-xl sm:text-4xl font-serif italic mx-4 sm:mx-8 uppercase">Proven Logic</span>
-                    <span className="text-[10px] tracking-[0.3em] uppercase mx-4 sm:mx-8">Master the Feed</span>
+            {/* Trust Bar - Social Proof for Business Utility */}
+            <section className="py-12 border-b border-purple-100 bg-[#FAFAF9]">
+                <div className="max-w-7xl mx-auto px-6 text-center">
+                    <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 mb-8">Trusted by Performance Teams at</p>
+                    <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
+                        {/* Use generic but professional looking text-based logos */}
+                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">GrowthOps</span>
+                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">Scale.V1</span>
+                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">Direct.Alpha</span>
+                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">Loom.Creative</span>
+                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">VentureMedia</span>
+                    </div>
                 </div>
             </section>
 
             {/* Video Carousel Section */}
             <VideoCarousel />
 
-            {/* The Manifesto / How It Works */}
-            <section className="flex flex-col lg:grid lg:grid-cols-2 border-b border-purple-200">
-                <div className="p-12 sm:p-16 lg:p-24 border-b lg:border-b-0 lg:border-r border-purple-200 flex items-center bg-gradient-to-br from-purple-50 to-transparent">
-                    <RevealOnScroll>
-                        <h2 className="text-5xl sm:text-6xl md:text-8xl font-serif leading-none tracking-tight">
-                            SCALE FAST. <br />
-                            <span className="text-transparent stroke-text">DOMINATE.</span>
-                        </h2>
-                    </RevealOnScroll>
-                </div>
-                <div className="p-12 lg:p-24 flex flex-col justify-center">
-                    <RevealOnScroll delay={200}>
-                        <p className="text-xl md:text-2xl font-light leading-relaxed mb-12 max-w-md">
-                            Winning ads follow a pattern. We extract that pattern so you can scale your winners without the guesswork.
-                        </p>
-                    </RevealOnScroll>
+            {/* Real Blueprint Preview */}
+            <BlueprintPreview />
 
-                    <ul className="space-y-6">
-                        {['Strategic Gathering', 'Blueprint Mapping', 'Scalable Production'].map((item, i) => (
-                            <RevealOnScroll key={i} delay={300 + (i * 100)}>
-                                <li className="flex items-center gap-6 group cursor-pointer">
-                                    <span className="text-xs font-mono border-2 border-purple-600 w-8 h-8 flex items-center justify-center rounded-full group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-blue-600 group-hover:text-white transition-all">{i + 1}</span>
-                                    <span className="text-xl font-serif italic decoration-1 underline-offset-4 group-hover:underline">{item}</span>
-                                </li>
-                            </RevealOnScroll>
-                        ))}
-                    </ul>
-                </div>
-            </section>
-
-            {/* Process Section - How It Works */}
-            <section className="py-20 md:py-32 px-6 border-b border-purple-200 bg-white">
-                <div className="max-w-6xl mx-auto">
-                    <RevealOnScroll className="text-center mb-16 md:mb-24">
-                        <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif mb-6 italic">How EIXORA Works</h2>
-                        <p className="text-[10px] tracking-[0.4em] uppercase text-purple-600">From Viral Link to Winning Ad in 60 Seconds</p>
-                    </RevealOnScroll>
-
-                    <div className="flex flex-col md:grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-                        <div className="space-y-10 md:space-y-12 order-2 md:order-1">
-                            {[
-                                { step: "Gather", desc: "Paste any viral link. Our engine decodes the hook, pacing, and visual triggers that drive engagement." },
-                                { step: "Deconstruct", desc: "We extract the 'Viral Blueprint' and map the exact reasons why the ad is scaling." },
-                                { step: "Produce", desc: "Get an actionable creative brief with hook variations, pacing notes, and visual direction to repeat the win." }
-                            ].map((p, i) => (
-                                <RevealOnScroll key={i} delay={i * 200} className="relative pl-10 md:pl-12">
-                                    <span className="absolute left-0 top-0 text-2xl md:text-3xl font-serif italic text-purple-200">0{i + 1}</span>
-                                    <h3 className="text-xl md:text-2xl font-serif mb-2 md:mb-3 italic">{p.step}</h3>
-                                    <p className="text-xs md:text-sm text-gray-600 leading-relaxed font-light">{p.desc}</p>
-                                </RevealOnScroll>
-                            ))}
-                        </div>
-
-                        <RevealOnScroll delay={400} className="relative group p-3 md:p-4 bg-gray-50 rounded-3xl border border-purple-100 overflow-hidden shadow-2xl order-1 md:order-2">
-                            <div className="aspect-video relative rounded-2xl overflow-hidden bg-black flex items-center justify-center">
-                                <img
-                                    src="/demo-recording.webp"
-                                    alt="EIXORA Live Demo"
-                                    className="object-cover w-full h-full opacity-90 group-hover:scale-105 transition-transform duration-1000"
-                                />
-                                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all"></div>
-                                <div className="absolute top-3 left-3 right-3 flex justify-between items-start pointer-events-none">
-                                    <span className="text-[8px] md:text-[10px] font-bold tracking-widest bg-purple-600 text-white px-2 md:px-3 py-1 rounded uppercase">Live Masterclass Scan</span>
+            {/* Benefit-Centric Manifesto - Royal Warmth */}
+            <section className="py-32 px-6 bg-white">
+                <div className="max-w-7xl mx-auto">
+                    <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 rounded-[3rem] p-12 md:p-24 text-white relative overflow-hidden group border border-purple-500/20 shadow-2xl">
+                        <div className="absolute top-0 right-0 p-12 opacity-5 font-sans font-bold text-[12vw] pointer-events-none text-amber-200">PARTNER</div>
+                        <div className="max-w-3xl relative z-10">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-400 mb-8 block">Our Vision</span>
+                            <h2 className="text-4xl md:text-7xl font-sans font-bold leading-tight tracking-tight mb-12">
+                                Scale with <br />
+                                <span className="italic text-amber-200/60 font-serif">Total Peace.</span>
+                            </h2>
+                            <p className="text-xl md:text-2xl font-light leading-relaxed text-white/80 mb-16">
+                                We believe creative work should be rewarding, not exhausting. Eixora handles the heavy lifting of analysis so you can stay in your zone of genius—creating content that connects.
+                            </p>
+                            <div className="flex flex-wrap gap-12 border-t border-white/10 pt-12">
+                                <div>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500/40 mb-2">Focus On</p>
+                                    <p className="text-lg font-serif italic text-white">Creative Strategy</p>
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500/40 mb-2">Leave Us The</p>
+                                    <p className="text-lg font-serif italic text-white">Technical Blueprinting</p>
                                 </div>
                             </div>
-                        </RevealOnScroll>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* The Math - Editorial Table Style */}
-            <section className="py-32 px-6 border-b border-purple-200">
-                <div className="max-w-4xl mx-auto">
-                    <RevealOnScroll className="text-center mb-24">
-                        <h2 className="text-5xl font-serif mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent italic">The Profit Logic</h2>
-                        <p className="text-xs tracking-[0.3em] uppercase text-purple-600">Built for Results</p>
-                    </RevealOnScroll>
+            {/* Yorby Principle: Clean Workflow Cards */}
+            <section className="py-32 px-6 bg-slate-50">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-24">
+                        <h2 className="text-4xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 mb-6">Built for High-Growth Teams.</h2>
+                        <p className="text-lg text-slate-500 font-light">The Eixora Protocol: From discovery to production in 60 seconds.</p>
+                    </div>
 
-                    <RevealOnScroll>
-                        <div className="border border-purple-600 rounded-3xl overflow-hidden shadow-xl bg-white">
-                            {[
-                                { l: "Input", r: "Any Viral Video" },
-                                { l: "Result", r: "Full Performance Blueprint" },
-                                { l: "Output", r: "Ad Remix Scripts" },
-                                { l: "Goal", r: "Hook Rate Mastery" }
-                            ].map((row, i) => (
-                                <div key={i} className="flex flex-col sm:grid sm:grid-cols-2 border-b border-purple-100 last:border-b-0 hover:bg-purple-600 hover:text-white transition-all duration-300 group">
-                                    <div className="p-6 sm:p-8 border-b sm:border-b-0 sm:border-r border-purple-100 font-serif text-lg md:text-xl italic bg-purple-50/30 sm:bg-transparent group-hover:bg-transparent">{row.l}</div>
-                                    <div className="p-6 sm:p-8 text-[10px] sm:text-xs uppercase tracking-widest flex items-center font-bold">{row.r}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </RevealOnScroll>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {[
+                            { step: "01", title: "Extract Viral DNA", desc: "Paste any viral TikTok or Reels URL. Our engine deconstructs the hook, pacing, and visual triggers that drive the hold rate." },
+                            { step: "02", title: "Map Technical Brief", desc: "We convert visual data into a structured production blueprint. Direct shooting instructions, script variations, and audio cues." },
+                            { step: "03", title: "Scale with Logic", desc: "Hand the brief to your creators. Stop guessing what will work and start filming ads backed by psychological data." }
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white p-12 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group">
+                                <span className="text-5xl font-sans font-bold text-slate-100 group-hover:text-purple-100 transition-colors block mb-8">{item.step}</span>
+                                <h3 className="text-2xl font-bold text-slate-900 mb-6 group-hover:text-purple-600 transition-colors">{item.title}</h3>
+                                <p className="text-sm text-slate-500 font-light leading-relaxed">{item.desc}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
-            {/* The Evidence - Luxury Social Proof Carousel */}
-            <section className="py-24 border-b border-purple-100 bg-white overflow-hidden relative">
-                <FloatingHearts />
-                <div className="px-6 mb-16 max-w-7xl mx-auto relative z-10">
-                    <RevealOnScroll>
-                        <span className="text-[10px] font-black tracking-[0.4em] uppercase text-purple-600/60 mb-3 block text-center md:text-left">What They're Saying</span>
-                        <h2 className="text-4xl md:text-6xl font-luxury italic mb-4 tracking-tight text-gray-900 line-clamp-2 text-center md:text-left">The Evidence.</h2>
-                        <p className="text-sm font-light text-gray-400 max-w-lg mx-auto md:mx-0 text-center md:text-left">Honest stories from creators who finally found the winning formula.</p>
-                    </RevealOnScroll>
-                </div>
 
-                <div
-                    ref={scrollRef}
-                    className="flex overflow-x-auto pb-8 hide-scrollbar snap-x snap-mandatory px-6"
-                >
-                    {[
-                        {
-                            name: "Alex",
-                            role: "Founding Member",
-                            quote: "honestly the 'hook power' logic is a cheat code. i used to spend hours scrolling for ideas, now i just analyze a winner and i'm done in 5 mins."
-                        },
-                        {
-                            name: "Dante",
-                            role: "Beta Tester",
-                            quote: "this actually breaks down WHY a video works. no more guessing. my last 3 campaigns scaled purely because of the pacing notes here."
-                        },
-                        {
-                            name: "Josh",
-                            role: "Early Adopter",
-                            quote: "best tool i've used for ad creative. it doesn't just copy, it explains the triggers. worth every cent for the storyboard alone."
-                        },
-                        {
-                            name: "Sarah",
-                            role: "Store Owner",
-                            quote: "Stopped guessing vibes and started shipping data. The Director Briefs keep my editor on point every single time. Total game changer."
-                        },
-                        {
-                            name: "Mike",
-                            role: "Creator",
-                            quote: "the visual logic is insane. it saw things in my video i didn't even notice. my views are finally moving in the right direction."
-                        }
-                    ].map((t, i) => (
-                        <div key={i} className="min-w-[85vw] sm:min-w-[60vw] md:min-w-[45vw] lg:min-w-[30vw] snap-start pr-6 relative group">
-                            <RevealOnScroll delay={i * 50} className="h-full flex flex-col border border-purple-100/50 p-6 md:p-8 hover:border-purple-400 transition-all duration-1000 bg-white rounded-3xl relative">
-                                <p className="text-xs md:text-sm font-light leading-relaxed text-gray-500 mb-6 whitespace-pre-wrap italic">"{t.quote}"</p>
-                                <div className="mt-auto flex items-center gap-3">
-                                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center text-[10px] font-black text-purple-600 uppercase tracking-widest border border-purple-100">
-                                        {t.name[0]}
-                                    </div>
-                                    <div>
-                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-900">{t.name}</h4>
-                                        <p className="text-[8px] text-gray-400 uppercase tracking-widest font-bold mt-0.5">{t.role}</p>
+            {/* Yorby Principle: Strategic Social Proof */}
+            <section className="py-32 px-6 bg-white overflow-hidden">
+                <div className="max-w-7xl mx-auto border-t border-slate-100 pt-32">
+                    <div className="flex flex-col lg:grid lg:grid-cols-12 gap-20">
+                        <div className="lg:col-span-5">
+                            <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-8">Performance Driven.</h2>
+                            <p className="text-lg text-slate-500 font-light leading-relaxed mb-12">
+                                Eixora isn't just a tool; it's a member of your creative team. We analyze millions in ad spend daily to keep our "Director's Logic" ahead of the market.
+                            </p>
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold">✓</div>
+                                    <p className="text-slate-700 font-medium tracking-tight">Enterprise-Grade Security</p>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold">✓</div>
+                                    <p className="text-slate-700 font-medium tracking-tight">Dedicated Support for Agencies</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="lg:col-span-7">
+                            <div className="grid grid-cols-2 gap-8">
+                                <div className="bg-slate-50 p-10 rounded-[2rem] border border-slate-100">
+                                    <p className="text-5xl font-sans font-bold text-slate-900 mb-4">42%</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Average Hook Rate Increase</p>
+                                </div>
+                                <div className="bg-slate-50 p-10 rounded-[2rem] border border-slate-100">
+                                    <p className="text-5xl font-sans font-bold text-slate-900 mb-4">12x</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Faster Brief Turnaround</p>
+                                </div>
+                                <div className="bg-slate-900 p-10 rounded-[2rem] text-white col-span-2">
+                                    <p className="text-xl font-serif italic mb-6">"Eixora has completely changed our creative workflow. We no longer wait days for scripts—we get them in 60 seconds."</p>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-8 h-8 bg-blue-500 rounded-full" />
+                                        <div>
+                                            <p className="text-xs font-bold uppercase tracking-widest">Mark J.</p>
+                                            <p className="text-[10px] text-white/40 uppercase tracking-widest">Founder, ScaleAlpha</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </RevealOnScroll>
+                            </div>
                         </div>
-                    ))}
-                    {/* Spacer */}
-                    <div className="min-w-[5vw] flex-shrink-0"></div>
+                    </div>
                 </div>
             </section>
 
-            {/* FAQ Section */}
-            <section className="py-20 md:py-32 px-6 border-b border-purple-200 bg-white">
+            {/* Yorby Principle: Minimalist FAQ */}
+            <section className="py-32 px-6 bg-[#F8FAFC]">
                 <div className="max-w-4xl mx-auto">
-                    <RevealOnScroll className="text-center mb-16 md:mb-24">
-                        <span className="text-[10px] font-black tracking-[0.5em] uppercase text-purple-600 mb-4 block">Information</span>
-                        <h2 className="text-4xl md:text-5xl font-serif italic mb-6">Frequently Asked</h2>
-                    </RevealOnScroll>
-
+                    <div className="text-center mb-24">
+                        <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900">Questions & Answers.</h2>
+                    </div>
                     <div className="space-y-4">
                         {[
-                            { q: "What exactly is EIXORA?", a: "EIXORA is the first high-end 'Blueprint' tool for TikTok ad creative. We decode viral ads and map their mechanics so you can replicate their success with your own product." },
-                            { q: "Does it work for any niche?", a: "Yes. Whether it's home decor, tech, personal care, or coaching—if there is a viral video for it, EIXORA can blueprint it for you." },
-                            { q: "How long does blueprinting take?", a: "Blueprint generation usually takes less than 60 seconds. You paste the URL, we do the heavy lifting." },
-                            { q: "Can I use EIXORA on mobile?", a: "Absolutely. Our Studio is fully responsive. You can find inspiration on the TikTok app and paste it directly into EIXORA on your phone." },
-                            { q: "What do I get from an analysis?", a: "You get a full Viral Blueprint report including hook power score, retention analysis, pacing map, and actionable creative direction." }
+                            { q: "What is the Eixora Protocol?", a: "The Eixora Protocol is our proprietary AI deconstruction method that extracts technical shooting data from viral social ads." },
+                            { q: "Do I need technical skills?", a: "No. Our technical briefs are written for creators and editors of all levels. If you can read, you can shoot." },
+                            { q: "Which platforms are supported?", a: "We are optimized for TikTok and Reels, with YouTube Shorts and Meta support currently in beta." },
+                            { q: "Can I cancel anytime?", a: "Yes. Our monthly plans are contract-free. Scale up or down as your production needs change." }
                         ].map((faq, i) => (
-                            <RevealOnScroll key={i} delay={i * 100}>
-                                <details className="group border border-purple-100 rounded-2xl overflow-hidden bg-white hover:border-purple-300 transition-all duration-300">
-                                    <summary className="flex items-center justify-between p-6 md:p-8 cursor-pointer list-none">
-                                        <h3 className="text-base md:text-lg font-serif italic text-gray-900 pr-4">{faq.q}</h3>
-                                        <span className="text-purple-600 group-open:rotate-180 transition-transform duration-300">
-                                            <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" /></svg>
-                                        </span>
-                                    </summary>
-                                    <div className="px-6 md:px-8 pb-6 md:pb-8 text-xs md:text-sm font-light leading-relaxed text-gray-500">
-                                        {faq.a}
-                                    </div>
-                                </details>
-                            </RevealOnScroll>
+                            <details key={i} className="group bg-white border border-slate-200 rounded-3xl overflow-hidden hover:border-blue-400 transition-all duration-300">
+                                <summary className="flex items-center justify-between p-10 cursor-pointer list-none">
+                                    <h3 className="text-lg font-bold text-slate-900">{faq.q}</h3>
+                                    <span className="text-slate-400 group-open:rotate-180 transition-transform duration-300">
+                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" /></svg>
+                                    </span>
+                                </summary>
+                                <div className="px-10 pb-10 text-slate-500 font-light leading-relaxed">
+                                    {faq.a}
+                                </div>
+                            </details>
                         ))}
                     </div>
                 </div>
@@ -368,14 +310,14 @@ export default function LandingPage() {
 
 
 
-            {/* Footer - Massive */}
-            <footer className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white pt-20 md:pt-32 pb-12 px-6 border-t-4 border-purple-600">
+            {/* Footer - Blended Royal Warmth */}
+            <footer className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 text-white pt-24 md:pt-32 pb-12 px-6 border-t border-purple-500/20">
                 <div className="max-w-[1400px] mx-auto">
-                    <div className="flex flex-col md:grid md:grid-cols-3 gap-12 md:gap-32 mb-20 md:mb-32">
+                    <div className="flex flex-col md:grid md:grid-cols-3 gap-16 md:gap-32 mb-20 md:mb-32">
                         <div>
                             <RevealOnScroll>
-                                <h2 className="text-[15vw] md:text-[8vw] leading-[0.8] font-serif tracking-tighter opacity-10">
-                                    SCALE.
+                                <h2 className="text-[20vw] md:text-[8vw] leading-[0.8] font-serif tracking-tighter opacity-10 text-amber-500">
+                                    FLOW.
                                 </h2>
                             </RevealOnScroll>
                         </div>
@@ -383,44 +325,44 @@ export default function LandingPage() {
                         <div className="space-y-12">
                             <RevealOnScroll delay={200}>
                                 <div>
-                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-6 text-purple-400">Intelligence</h3>
-                                    <div className="flex flex-col gap-4 text-xs font-light opacity-60">
-                                        <Link href="/pricing" className="hover:text-purple-400 transition-colors">Pricing</Link>
-                                        <Link href="/privacy" className="hover:text-purple-400 transition-colors">Privacy Policy</Link>
-                                        <Link href="/terms" className="hover:text-purple-400 transition-colors">Terms & Conditions</Link>
+                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-amber-500/60">The Lounge</h3>
+                                    <div className="flex flex-col gap-6 text-sm font-light opacity-60">
+                                        <Link href="/pricing" className="hover:text-amber-500 transition-colors">Pricing</Link>
+                                        <Link href="/privacy" className="hover:text-amber-500 transition-colors">Privacy</Link>
+                                        <Link href="/terms" className="hover:text-amber-500 transition-colors">Terms</Link>
                                     </div>
                                 </div>
-                                <div className="mt-12">
-                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-6 text-purple-400">Support</h3>
-                                    <a href="mailto:support@eixora.store" className="text-xs font-light opacity-60 hover:text-purple-400 transition-colors">support@eixora.store</a>
+                                <div className="mt-16">
+                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-amber-500/60">Connect</h3>
+                                    <a href="mailto:hello@eixora.store" className="text-sm font-light opacity-60 hover:text-amber-500 transition-colors">hello@eixora.store</a>
                                 </div>
                             </RevealOnScroll>
                         </div>
 
                         <div className="flex flex-col justify-end items-start md:items-end">
                             <RevealOnScroll delay={300} className="w-full text-left md:text-right">
-                                <Link href="/signup" className="text-4xl md:text-6xl font-serif hover:italic transition-all underline decoration-1 underline-offset-8 mb-8 inline-block decoration-purple-500">
-                                    Start Analysis &rarr;
+                                <Link href="/signup" className="text-4xl md:text-6xl font-serif hover:italic transition-all underline decoration-1 underline-offset-8 mb-10 inline-block decoration-amber-600">
+                                    Find Your Flow &rarr;
                                 </Link>
-                                <p className="text-xs md:text-sm opacity-40 max-w-sm md:ml-auto">
-                                    Join the elite agents using EIXORA to dominate. <br className="hidden md:block" />
-                                    Limited access. Professional grade.
+                                <p className="text-sm opacity-40 max-w-sm md:ml-auto leading-relaxed">
+                                    Join the elite creators using Eixora to find clarity in the noise. <br className="hidden md:block" />
+                                    Your partner in every scan.
                                 </p>
                             </RevealOnScroll>
                         </div>
                     </div>
 
-                    <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 gap-8 font-mono text-[9px] tracking-widest uppercase opacity-30">
+                    <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/5 gap-8 font-mono text-[9px] tracking-widest uppercase opacity-30">
                         <div className="flex gap-8">
-                            <Link href="https://instagram.com/eixora.store" className="hover:text-white transition-opacity">Instagram</Link>
-                            <Link href="https://x.com/eixora_store" className="hover:text-white transition-opacity">Twitter</Link>
-                            <Link href="https://tiktok.com/@eixora.store" className="hover:text-white transition-opacity">TikTok</Link>
+                            <Link href="https://instagram.com/eixora.store" className="hover:text-amber-500 transition-opacity">Instagram</Link>
+                            <Link href="https://x.com/eixora_store" className="hover:text-amber-500 transition-opacity">Twitter</Link>
+                            <Link href="https://tiktok.com/@eixora.store" className="hover:text-amber-500 transition-opacity">TikTok</Link>
                         </div>
-                        <p>&copy; 2026 EIXORA BY EXRICX. ALL RIGHTS RESERVED.</p>
+                        <p>&copy; 2026 EIXORA. BORN FOR CREATIVES.</p>
                     </div>
                 </div>
             </footer>
-        </div >
+        </div>
     );
 }
 

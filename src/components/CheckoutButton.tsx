@@ -24,27 +24,21 @@ export default function CheckoutButton({ productId, children, className }: Check
         }
 
         setIsLoading(true);
-        try {
-            const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/checkout/create-session`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ productId })
-            });
+        
+        // Selar Direct Redirect Logic
+        const SELAR_LINKS: Record<string, string> = {
+            founding: 'https://selar.co/m/foundingplan', // Placeholder - User to update
+            agency: 'https://selar.co/m/agencyplan'      // Placeholder - User to update
+        };
 
-            if (res.ok) {
-                const { url } = await res.json();
-                window.location.href = url;
-            } else {
-                console.error('Failed to create session');
-                alert('Connection error. Try again.');
-            }
-        } catch (err) {
-            console.error('Checkout error:', err);
-        } finally {
+        const checkoutUrl = SELAR_LINKS[productId];
+
+        if (checkoutUrl) {
+            // Append user email to Selar link if possible for auto-fill
+            const finalUrl = `${checkoutUrl}?email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`;
+            window.location.href = finalUrl;
+        } else {
+            console.error('Invalid product ID');
             setIsLoading(false);
         }
     };

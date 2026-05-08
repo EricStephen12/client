@@ -232,6 +232,13 @@ function AnalyzeContent() {
         }
     };
 
+    const handleFeedback = async (msgIdx: number, rating: 'up' | 'down') => {
+        const newMessages = [...messages];
+        newMessages[msgIdx] = { ...newMessages[msgIdx], feedback: rating };
+        setMessages(newMessages);
+        await saveSessionState(newMessages);
+    };
+
     const forgeDirectorBrief = async () => {
         setIsSending(true);
         try {
@@ -307,6 +314,12 @@ function AnalyzeContent() {
             if (userId && data.analysis) {
                 await saveSessionState([], null);
             }
+
+            // VISION 2026: Auto-enter Chat Mode so AI can ask for context BEFORE strategy
+            setTimeout(() => {
+                startChat();
+            }, 1000);
+
         } catch (err) {
             console.error(err);
             alert('Failed to analyze video. Please try again.');
@@ -495,6 +508,24 @@ function AnalyzeContent() {
                                             </div>
                                         )}
                                         <p className={`text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'brief' ? 'font-serif text-gray-100' : ''}`}>{msg.content}</p>
+                                        
+                                        {msg.role === 'assistant' && msg.type !== 'brief' && (
+                                            <div className="mt-4 pt-4 border-t border-purple-50 flex gap-4 items-center">
+                                                <button 
+                                                    onClick={() => handleFeedback(idx, 'up')}
+                                                    className={`hover:scale-110 transition-transform ${msg.feedback === 'up' ? 'text-purple-600' : 'text-gray-300'}`}
+                                                >
+                                                    <svg className="w-4 h-4" fill={msg.feedback === 'up' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10h4.708C19.746 10 20.5 10.852 20.5 11.852c0 .324-.078.636-.231.912l-2.455 4.39A2.5 2.5 0 0115.656 18H10V10z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 18H5a2 2 0 01-2-2v-4a2 2 0 012-2h5v8z" /></svg>
+                                                </button>
+                                                <button 
+                                                    onClick={() => handleFeedback(idx, 'down')}
+                                                    className={`hover:scale-110 transition-transform ${msg.feedback === 'down' ? 'text-red-500' : 'text-gray-300'}`}
+                                                >
+                                                    <svg className="w-4 h-4" fill={msg.feedback === 'down' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14H5.292C4.254 14 3.5 13.148 3.5 12.148c0-.324.078-.636.231-.912l2.455-4.39A2.5 2.5 0 018.344 6H14v8z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 6h5a2 2 0 012 2v4a2 2 0 01-2 2h-5V6z" /></svg>
+                                                </button>
+                                                <span className="text-[8px] font-black uppercase tracking-widest text-gray-300">Helpful?</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             ))}
