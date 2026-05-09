@@ -1,39 +1,79 @@
 'use client';
-import RevealOnScroll from '@/components/RevealOnScroll';
-import Link from 'next/link';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser, useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function SettingsPage() {
     return <SettingsContent />;
 }
 
 function SettingsContent() {
-
-    // 1. All State Definitions
     const { user, isLoaded } = useUser();
     const { getToken, userId: clerkUserId } = useAuth();
     const [profile, setProfile] = useState<any>(null);
-
     const router = useRouter();
+    
     const [name, setName] = useState(user?.fullName || '');
     const [email, setEmail] = useState(user?.primaryEmailAddress?.emailAddress || '');
     const [isSaving, setIsSaving] = useState(false);
-    const [isSyncing, setIsSyncing] = useState(false);
+    const [teamEmail, setTeamEmail] = useState('');
+    const [isInviting, setIsInviting] = useState(false);
+    const [teamMembers, setTeamMembers] = useState<any[]>([]);
 
-    // 2. Logic Definitions
+    useEffect(() => {
+        if (profile?.subscription_tier === 'studio' || profile?.subscription_tier === 'agency') {
+            fetchTeam();
+        }
+    }, [profile]);
+
+    const fetchTeam = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/team/list?userId=${user?.id}`);
+            const data = await res.json();
+            if (data.members) setTeamMembers(data.members);
+        } catch (err) {
+            console.error('Failed to fetch team');
+        }
+    };
+
+    const handleInvite = async () => {
+        if (!teamEmail) return;
+        setIsInviting(true);
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/team/invite`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: teamEmail, userId: user?.id })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setTeamEmail('');
+                fetchTeam();
+                alert('Invite sent successfully!');
+            } else {
+                alert(data.error || 'Failed to invite');
+            }
+        } catch (err) {
+            alert('Error sending invite');
+        } finally {
+            setIsInviting(false);
+        }
+    };
+    const [isSyncing, setIsSyncing] = useState(false);
+    const [showCancelModal, setShowCancelModal] = useState(false);
+
     const getPlanDisplay = () => {
         const sessionPlan = (user?.publicMetadata as any)?.plan_type;
         const planType = profile?.plan_type || sessionPlan || 'free';
 
         const planNames: Record<string, string> = {
-            'free': 'No paid plan. Upgrade bro',
+            'free': 'Standard Access',
             'founding': 'Founding Member',
-            'agency': 'Agency Plan'
+            'agency': 'Agency Executive'
         };
 
-        return planNames[planType] || 'No paid plan. Upgrade bro';
+        return planNames[planType] || 'Standard Access';
     };
 
     const getSubscriptionStatus = () => {
@@ -45,7 +85,7 @@ function SettingsContent() {
             const date = new Date(profile.next_billing_date);
             return `Next Billing: ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
         }
-        return status === 'active' ? 'Active Subscription' : null;
+        return status === 'active' ? 'Active Membership' : null;
     };
 
     const handleSave = async () => {
@@ -65,19 +105,21 @@ function SettingsContent() {
                 const data = await res.json();
                 setProfile(data);
                 setName(data.name || '');
-                setTimeout(() => setIsSaving(false), 800);
-            } else {
-                throw new Error('Update failed');
+                // Success feedback
+                const notification = document.createElement('div');
+                notification.className = "fixed bottom-8 right-8 bg-indigo-950 text-white px-8 py-4 rounded-2xl shadow-2xl z-[100] animate-in slide-in-from-right font-bold text-xs uppercase tracking-widest";
+                notification.innerText = "Identity Synchronized";
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
             }
         } catch (error) {
             console.error('Error saving settings:', error);
+        } finally {
             setIsSaving(false);
         }
     };
 
-    // 3. Lifecycle Hooks
     useEffect(() => {
-        // Redirect to login if not logged in
         if (isLoaded && !clerkUserId) {
             router.push('/login');
             return;
@@ -94,8 +136,8 @@ function SettingsContent() {
                     if (res.ok) {
                         const data = await res.json();
                         setProfile(data);
-                        if (!name) setName(data.name || '');
-                        if (!email) setEmail(data.email || '');
+                        setName(data.name || user?.fullName || '');
+                        setEmail(data.email || user?.primaryEmailAddress?.emailAddress || '');
                     }
                 } catch (err) {
                     console.error('Fetch user data failed', err);
@@ -105,173 +147,249 @@ function SettingsContent() {
             };
             fetchUserData();
         }
-    }, [isLoaded, clerkUserId, router, profile, isSyncing, getToken]);
+    }, [isLoaded, clerkUserId, profile, user]);
 
+    useEffect(() => {
+        if (user) {
+            if (!name) setName(user.fullName || '');
+            if (!email) setEmail(user.primaryEmailAddress?.emailAddress || '');
+        }
+    }, [user]);
 
-    const [showCancelModal, setShowCancelModal] = useState(false);
+    const containerVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { 
+            opacity: 1, 
+            y: 0,
+            transition: { 
+                duration: 0.6,
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 10 },
+        visible: { opacity: 1, y: 0 }
+    };
 
     return (
-        <div className="max-w-4xl space-y-16 pb-20 mt-8">
-            {/* Cancellation Modal */}
-            {showCancelModal && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-                    <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-md" onClick={() => setShowCancelModal(false)}></div>
-                    <RevealOnScroll>
-                        <div className="relative bg-white w-full max-w-lg rounded-[3rem] p-12 overflow-hidden shadow-2xl border border-purple-100">
-                            <div className="absolute top-0 right-0 p-8">
-                                <button onClick={() => setShowCancelModal(false)} className="text-gray-400 hover:text-purple-600 transition-colors">
-                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
-                                </button>
-                            </div>
+        <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="max-w-5xl mx-auto pb-32 space-y-24"
+        >
+            {/* Page Header */}
+            <header className="space-y-4">
+                <motion.span 
+                    variants={itemVariants}
+                    className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block italic"
+                >
+                    Account Configuration
+                </motion.span>
+                <motion.h2 
+                    variants={itemVariants}
+                    className="text-5xl md:text-7xl font-sans font-bold tracking-tight text-slate-900 leading-tight"
+                >
+                    Account <span className="italic font-serif text-slate-400">Settings.</span>
+                </motion.h2>
+            </header>
 
-                            <div className="space-y-8">
-                                <div className="space-y-4">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-600">Membership Management</span>
-                                    <h3 className="text-4xl font-serif italic text-gray-900 leading-tight">We'll miss you, <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">{name.split(' ')[0] || 'Member'}.</span></h3>
-                                    <p className="text-sm text-gray-500 font-medium leading-relaxed">
-                                        You're about to end your access toViral DNA Scans and AI Intelligence. Is there anything we can do to change your mind?
-                                    </p>
-                                </div>
-
-                                <div className="space-y-4 pt-4">
-                                    <div className="p-4 bg-purple-50 rounded-2xl border border-purple-100">
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-purple-600">Free Beta Access</p>
-                                        <p className="text-xs text-gray-500 mt-1">Platform is currently unlocked for all early adopters.</p>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col gap-4 pt-4">
-                                    <button
-                                        onClick={() => setShowCancelModal(false)}
-                                        className="w-full py-5 border border-gray-100 text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 rounded-xl hover:bg-gray-50 transition-all"
-                                    >
-                                        Wait, keep my plan
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </RevealOnScroll>
-                </div>
-            )}
-
-            <div className="space-y-4">
-                <RevealOnScroll>
-                    <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 block">Workspace Management</span>
-                </RevealOnScroll>
-                <RevealOnScroll delay={100}>
-                    <h2 className="text-5xl lg:text-6xl font-serif font-medium tracking-tighter text-gray-900 leading-tight">
-                        Personal <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Identity.</span>
-                    </h2>
-                </RevealOnScroll>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div className="md:col-span-1 space-y-4">
-                    <h3 className="text-lg font-serif text-gray-900 leading-tight">Profile Data</h3>
-                    <p className="text-sm text-gray-400 font-medium leading-relaxed">
-                        Manage your public identity and workspace credentials.
+            {/* Identity Section */}
+            <motion.section variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div className="lg:col-span-4 space-y-4">
+                    <h3 className="text-2xl font-serif italic text-slate-900">Personal Identity</h3>
+                    <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                        Update your director credentials and verify your contact information for elite feature access.
                     </p>
                 </div>
-
-                <div className="md:col-span-2 space-y-8 bg-white p-10 rounded-[2.5rem] border border-purple-100 shadow-[0_20px_50px_-20px_rgba(168,85,247,0.05)]">
-                    <div className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Full Name</label>
+                
+                <div className="lg:col-span-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-10 md:p-12 space-y-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Display Name</label>
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-all font-medium"
-                                placeholder="Enter your full name"
+                                className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 text-base focus:ring-2 focus:ring-amber-500 transition-all font-medium"
+                                placeholder="E.g. Creative Director"
                             />
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Email Address</label>
+                        <div className="space-y-3">
+                            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Email Relay</label>
                             <input
                                 type="email"
                                 value={email}
                                 disabled
-                                className="w-full bg-gray-100 border border-gray-100 rounded-xl px-4 py-3 text-sm font-medium text-gray-500 cursor-not-allowed"
+                                className="w-full bg-slate-100 border-none rounded-2xl px-6 py-4 text-base text-slate-400 cursor-not-allowed font-medium"
                             />
-                            <p className="text-[10px] text-gray-400 italic">Email cannot be changed. Contact support if needed.</p>
                         </div>
                     </div>
 
-                    <div className="pt-6 border-t border-gray-100">
+                    <div className="pt-8 border-t border-slate-50 flex justify-end">
                         <button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="px-10 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:shadow-lg hover:shadow-purple-200 transition-all flex items-center gap-3 disabled:opacity-50"
+                            className="px-10 py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-amber-500 hover:text-slate-950 transition-all shadow-xl shadow-indigo-950/10 disabled:opacity-50 active:scale-95"
                         >
-                            {isSaving ? 'Syncing...' : 'Save Settings'}
+                            {isSaving ? 'Updating Identity...' : 'Save Configuration'}
                         </button>
                     </div>
                 </div>
-            </div>
+            </motion.section>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-                <div className="md:col-span-1 space-y-4">
-                    <h3 className="text-lg font-serif text-gray-900 leading-tight">Subscription Plan</h3>
-                    <p className="text-sm text-gray-400 font-medium leading-relaxed">
-                        Manage your billing cycles and upgrade tiers.
+            {/* Membership Section */}
+            <motion.section variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div className="lg:col-span-4 space-y-4">
+                    <h3 className="text-2xl font-serif italic text-slate-900">Subscription Plan</h3>
+                    <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                        Manage your active subscription, view billing history, and upgrade your analysis capacity.
                     </p>
                 </div>
 
-                <div className="md:col-span-2 p-10 rounded-[2.5rem] border border-purple-100 bg-purple-50/50 relative overflow-hidden group">
-                    <div className="flex items-center justify-between gap-8 mb-6 relative z-10">
-                        <div>
-                            <p className="text-lg font-serif text-purple-900">
-                                Current Plan: <span className="italic">{getPlanDisplay()}</span>
-                            </p>
-                            {getSubscriptionStatus() && (
-                                <p className="text-xs text-purple-600/60 font-medium uppercase tracking-widest mt-1">
-                                    {getSubscriptionStatus()}
-                                </p>
-                            )}
+                <div className="lg:col-span-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-10 md:p-12">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+                        <div className="space-y-2">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-600 block italic">Active Plan</span>
+                            <h4 className="text-3xl font-serif italic text-slate-900">{getPlanDisplay()}</h4>
                         </div>
-                        <div className="flex flex-col gap-3">
-                            <Link
-                                href="/dashboard/upgrade"
-                                className="px-6 py-3 border border-purple-200 text-purple-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-purple-100 transition-all bg-white text-center shadow-sm"
-                            >
-                                {((user?.publicMetadata as any)?.plan_type || profile?.plan_type) === 'free' || !((user?.publicMetadata as any)?.plan_type || profile?.plan_type) ? 'Upgrade Plan' : 'Manage Subscription'}
-                            </Link>
-
-                            {((user?.publicMetadata as any)?.plan_type || profile?.plan_type) !== 'free' && (
-                                <div className="flex flex-col items-end gap-2 pr-2">
-                                    <a
-                                        href="https://gumroad.com/library"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-[9px] text-gray-400 font-bold uppercase tracking-widest hover:text-purple-600 transition-colors"
-                                    >
-                                        Billing History / Update Card
-                                    </a>
-                                    <button
-                                        onClick={() => setShowCancelModal(true)}
-                                        className="text-[9px] text-gray-400 font-medium uppercase tracking-widest hover:text-red-500 transition-colors"
-                                    >
-                                        Cancel Membership
-                                    </button>
-                                </div>
-                            )}
-                        </div>
+                        <button
+                            onClick={() => router.push('/pricing')}
+                            className="px-10 py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-amber-500 hover:text-slate-950 transition-all shadow-xl shadow-indigo-950/10"
+                        >
+                            View Subscription Plans
+                        </button>
                     </div>
+                </div>
+            </motion.section>
 
-                    {profile?.plan_type === 'free' && (
-                        <div className="grid grid-cols-2 gap-4 pt-6 border-t border-purple-100 relative z-10">
-                            <div className="space-y-1">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Monthly Scans</p>
-                                <p className="text-sm font-medium text-purple-900">{profile.monthly_usage?.scans || 0} / 3 Used</p>
+            {/* Team Management Section */}
+            <motion.section variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div className="lg:col-span-4 space-y-4">
+                    <h3 className="text-2xl font-serif italic text-slate-900">Team Collaboration</h3>
+                    <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                        Invite your creative team to collaborate on strategies without sharing passwords.
+                    </p>
+                </div>
+
+                <div className="lg:col-span-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-10 md:p-12 overflow-hidden relative">
+                    {(profile?.subscription_tier === 'studio' || profile?.subscription_tier === 'agency') ? (
+                        <div className="space-y-10">
+                            <div className="flex flex-col md:flex-row gap-6">
+                                <input
+                                    type="email"
+                                    value={teamEmail}
+                                    onChange={(e) => setTeamEmail(e.target.value)}
+                                    placeholder="Colleague's email address..."
+                                    className="flex-1 bg-slate-50 border-none rounded-2xl px-6 py-4 text-base focus:ring-2 focus:ring-indigo-500 transition-all font-medium"
+                                />
+                                <button
+                                    onClick={handleInvite}
+                                    disabled={isInviting}
+                                    className="px-8 py-4 bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 disabled:opacity-50"
+                                >
+                                    {isInviting ? 'Inviting...' : 'Invite Member'}
+                                </button>
                             </div>
-                            <div className="space-y-1">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Monthly Extractions</p>
-                                <p className="text-sm font-medium text-purple-900">{profile.monthly_usage?.scripts || 0} / 3 Used</p>
+
+                            <div className="space-y-6">
+                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 block">Team Members (Max 5)</span>
+                                <div className="space-y-4">
+                                    {teamMembers.length > 0 ? teamMembers.map((member, i) => (
+                                        <div key={i} className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xs uppercase">
+                                                    {member.member_email[0]}
+                                                </div>
+                                                <span className="text-sm font-semibold text-slate-900">{member.member_email}</span>
+                                            </div>
+                                            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Invited Member</span>
+                                        </div>
+                                    )) : (
+                                        <div className="text-center py-12 border-2 border-dashed border-slate-100 rounded-3xl">
+                                            <p className="text-sm text-slate-300 font-medium uppercase tracking-widest italic">No members invited yet</p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
+                        </div>
+                    ) : (
+                        <div className="relative z-10 py-10 text-center space-y-6">
+                            <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="w-8 h-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </div>
+                            <h4 className="text-2xl font-serif italic text-slate-900">Unlock Team Collaboration</h4>
+                            <p className="text-slate-400 max-w-sm mx-auto text-sm leading-relaxed">
+                                Ready to scale? The Studio plan lets you add up to 5 team members to collaborate on your winning strategies.
+                            </p>
+                            <button
+                                onClick={() => router.push('/pricing')}
+                                className="px-10 py-5 bg-amber-500 text-slate-950 text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-amber-900/10"
+                            >
+                                Upgrade to Studio
+                            </button>
                         </div>
                     )}
                 </div>
-            </div>
+            </motion.section>
 
-        </div>
+            {/* Cancellation Modal */}
+            <AnimatePresence>
+                {showCancelModal && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setShowCancelModal(false)}
+                            className="absolute inset-0 bg-slate-950/40 backdrop-blur-md"
+                        />
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="relative bg-white w-full max-w-lg rounded-[3rem] p-12 overflow-hidden shadow-2xl border border-slate-100"
+                        >
+                            <div className="space-y-8">
+                                <div className="space-y-4">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-600">Plan Management</span>
+                                    <h3 className="text-4xl font-sans font-bold text-slate-900 leading-tight">Cancel <br /><span className="italic font-serif text-slate-400">Subscription?</span></h3>
+                                    <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                                        Terminating your subscription will disconnect you from our Viral DNA engine and all saved strategy dossiers.
+                                    </p>
+                                </div>
+
+                                <div className="p-6 bg-amber-50 rounded-3xl border border-amber-100">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600">Founding Access Notice</p>
+                                    <p className="text-xs text-slate-600 mt-2 font-medium">As an early adopter, your current rate is protected. If you dissolve now, future access will be at standard market rates.</p>
+                                </div>
+
+                                <div className="flex flex-col gap-4 pt-4">
+                                    <button
+                                        onClick={() => setShowCancelModal(false)}
+                                        className="w-full py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-2xl hover:bg-amber-500 hover:text-slate-950 transition-all shadow-xl"
+                                    >
+                                        Keep My Subscription
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            window.open('https://gumroad.com/library', '_blank');
+                                            setShowCancelModal(false);
+                                        }}
+                                        className="w-full py-5 border border-slate-100 text-[10px] font-bold uppercase tracking-[0.4em] text-slate-300 rounded-2xl hover:text-red-500 hover:bg-red-50/50 hover:border-red-100 transition-all"
+                                    >
+                                        Cancel Subscription
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }

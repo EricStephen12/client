@@ -18,27 +18,27 @@ export default function CheckoutButton({ productId, children, className }: Check
     const handleCheckout = async () => {
         if (!isLoaded) return;
 
+        // Check if user is logged in
         if (!user) {
-            router.push(`/signup?redirect=/pricing&productId=${productId}`);
+            router.push(`/sign-in?redirect_url=/pricing`); // Using Clerk's default sign-in route
             return;
         }
 
         setIsLoading(true);
         
-        // Selar Direct Redirect Logic
-        const SELAR_LINKS: Record<string, string> = {
-            founding: 'https://selar.co/m/foundingplan', // Placeholder - User to update
-            agency: 'https://selar.co/m/agencyplan'      // Placeholder - User to update
-        };
+        // Use the productId (which comes from .env variables like NEXT_PUBLIC_GUMROAD_CREATOR_ID)
+        // Since we are using Gumroad/Stripe/Polar links, the productId is usually the checkout URL.
+        const checkoutUrl = productId.startsWith('http') ? productId : `https://selar.co/m/${productId}`;
 
-        const checkoutUrl = SELAR_LINKS[productId];
-
-        if (checkoutUrl) {
-            // Append user email to Selar link if possible for auto-fill
-            const finalUrl = `${checkoutUrl}?email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`;
+        if (checkoutUrl && checkoutUrl !== 'creator_placeholder' && checkoutUrl !== 'studio_placeholder') {
+            // Append user email to the link if possible for auto-fill
+            const finalUrl = checkoutUrl.includes('?') 
+                ? `${checkoutUrl}&email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`
+                : `${checkoutUrl}?email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`;
             window.location.href = finalUrl;
         } else {
-            console.error('Invalid product ID');
+            console.warn('Payment link not configured in environment variables.');
+            alert('Payment gateways are currently being configured. Please contact support.');
             setIsLoading(false);
         }
     };

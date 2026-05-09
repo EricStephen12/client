@@ -8,9 +8,9 @@ import Link from 'next/link';
 export default function AnalyzePage() {
     return (
         <Suspense fallback={
-            <div className="max-w-6xl mx-auto pt-12 text-center">
-                <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                <p className="font-serif text-xl italic text-gray-400">Loading Studio...</p>
+            <div className="max-w-6xl mx-auto pt-24 text-center">
+                <div className="w-12 h-12 border-4 border-amber-100 border-t-amber-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <p className="font-serif text-xl italic text-slate-400">Preparing the Studio...</p>
             </div>
         }>
             <AnalyzeContent />
@@ -333,12 +333,12 @@ function AnalyzeContent() {
         <>
             <div className="max-w-6xl mx-auto animate-fade-in-up pb-20 -mt-4 md:-mt-8 space-y-6 md:space-y-8">
                 {/* Header */}
-                <div className="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-purple-50 pb-6 md:pb-8">
+                <div className="mb-6 md:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-12">
                     <div>
-                        <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 mb-2 block">Intelligence Studio</span>
-                        <h2 className="text-3xl lg:text-5xl font-serif text-gray-900 leading-tight tracking-tighter">
-                            {isChatMode ? 'Strategy ' : 'Viral '}
-                            <span className="italic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                        <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 mb-2 block italic">Studio Workspace</span>
+                        <h2 className="text-3xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
+                            {isChatMode ? 'Strategy ' : 'Creative '}
+                            <span className="italic font-serif text-slate-400">
                                 {isChatMode ? 'Lounge.' : 'Analyzer.'}
                             </span>
                         </h2>
@@ -369,41 +369,44 @@ function AnalyzeContent() {
                         {!result ? (
                             <div className="max-w-4xl mx-auto space-y-6 md:space-y-12">
                                 {/* Tab Switcher */}
-                                <div className="flex gap-3">
+                                <div className="flex gap-4">
                                     <button
                                         onClick={() => setActiveTab('url')}
-                                        className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all ${activeTab === 'url' ? 'bg-gray-900 text-white shadow-xl' : 'bg-white text-gray-400 border border-gray-100'}`}
+                                        className={`flex-1 sm:flex-none px-8 py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all ${activeTab === 'url' ? 'bg-amber-500 text-slate-950 shadow-xl shadow-amber-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-amber-200'}`}
                                     >
-                                        Competitor Scan
+                                        Reference Scan
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('upload')}
-                                        className={`flex-1 sm:flex-none px-4 sm:px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-[10px] transition-all ${activeTab === 'upload' ? 'bg-gray-900 text-white shadow-xl' : 'bg-white text-gray-400 border border-gray-100'}`}
+                                        className={`flex-1 sm:flex-none px-8 py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all ${activeTab === 'upload' ? 'bg-amber-500 text-slate-950 shadow-xl shadow-amber-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-amber-200'}`}
                                     >
-                                        Audit My Draft
+                                        Draft Audit
                                     </button>
                                 </div>
 
                                 {activeTab === 'url' ? (
-                                    <div className="p-6 md:p-12 bg-white rounded-[2rem] md:rounded-[3rem] border border-purple-50 shadow-sm space-y-4 md:space-y-6">
-                                        <h3 className="font-serif text-2xl md:text-3xl text-gray-900 italic">Paste Viral Blueprint</h3>
+                                    <div className="p-10 md:p-20 bg-white rounded-[3rem] border border-slate-100 shadow-sm space-y-8">
+                                        <div className="space-y-4">
+                                            <h3 className="font-serif text-3xl md:text-5xl text-slate-900 italic">Paste Viral Blueprint</h3>
+                                            <p className="text-slate-400 font-light text-lg">Our engine will extract the psychological DNA from any public video URL.</p>
+                                        </div>
                                         <input
                                             type="text"
                                             placeholder="https://www.tiktok.com/@creator/video/..."
                                             value={url}
                                             onChange={(e) => setUrl(e.target.value)}
-                                            className="w-full p-4 md:p-6 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-purple-600 transition-all font-medium text-sm md:text-lg"
+                                            className="w-full p-6 md:p-8 bg-slate-50 border-none rounded-3xl focus:ring-2 focus:ring-amber-500 transition-all font-medium text-lg md:text-xl"
                                         />
                                         <button
                                             onClick={handleAnalyze}
                                             disabled={isAnalyzing || !url}
-                                            className="w-full py-5 md:py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
+                                            className="w-full py-6 md:py-8 bg-indigo-950 text-white font-bold uppercase tracking-[0.4em] text-xs rounded-3xl hover:bg-amber-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
                                         >
                                             {isAnalyzing ? 'Locating Viral DNA...' : 'Scan Masterclass'}
                                         </button>
-                                        <div className="flex items-center gap-2 ml-1">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Viral Sweet Spot: 15-60s Recommended</span>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Creative Sweet Spot: 15-60s Analysis</span>
                                         </div>
                                     </div>
                                 ) : (
@@ -426,9 +429,10 @@ function AnalyzeContent() {
                                 )}
 
                                 {isAnalyzing && (
-                                    <div className="text-center p-8 md:p-12 bg-gray-900 rounded-[2rem] md:rounded-[3rem] text-white animate-pulse">
-                                        <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-                                        <h3 className="font-serif text-xl md:text-2xl italic">AI Creative Director is Watching...</h3>
+                                    <div className="text-center p-12 md:p-24 bg-gradient-to-br from-indigo-950 to-purple-950 rounded-[3rem] text-white animate-pulse relative overflow-hidden shadow-2xl">
+                                        <div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin mx-auto mb-8"></div>
+                                        <h3 className="font-serif text-2xl md:text-4xl italic">AI Creative Director is Watching...</h3>
+                                        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-amber-500 rounded-full blur-[100px] opacity-10"></div>
                                     </div>
                                 )}
                             </div>
@@ -436,52 +440,52 @@ function AnalyzeContent() {
                             /* Result Dashboard */
                             <div className="max-w-3xl mx-auto space-y-6 md:space-y-12 animate-fade-in">
                                 {/* Strategic Breakdown */}
-                                <div className="space-y-4 md:space-y-8">
-                                    <div className="p-6 md:p-10 bg-gray-900 rounded-[2rem] md:rounded-[3rem] shadow-2xl relative overflow-hidden group border border-white/5">
-                                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10"></div>
-                                        <div className="relative z-10 grid grid-cols-3 gap-4 md:gap-8">
+                                <div className="space-y-6 md:space-y-10">
+                                    <div className="p-8 md:p-16 bg-white border border-slate-100 rounded-[3rem] shadow-sm relative overflow-hidden group">
+                                        <div className="relative z-10 grid grid-cols-3 gap-8">
                                             <div className="text-center">
-                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-2 md:mb-3">Hook</h3>
-                                                <div className="text-3xl md:text-4xl font-serif italic text-purple-400">{result.analysis.metrics?.hook_power || 8}/10</div>
+                                                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-4">Hook Power</h3>
+                                                <div className="text-4xl md:text-6xl font-sans font-bold text-slate-900">{result.analysis.metrics?.hook_power || 8}<span className="text-xl text-slate-300 font-light ml-1">/10</span></div>
                                             </div>
                                             <div className="text-center">
-                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-2 md:mb-3">Retention</h3>
-                                                <div className="text-3xl md:text-4xl font-serif italic text-blue-400">{result.analysis.metrics?.retention_score || 7}/10</div>
+                                                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-4">Retention</h3>
+                                                <div className="text-4xl md:text-6xl font-sans font-bold text-amber-500">{result.analysis.metrics?.retention_score || 7}<span className="text-xl text-slate-200 font-light ml-1">/10</span></div>
                                             </div>
                                             <div className="text-center">
-                                                <h3 className="text-[9px] font-black uppercase tracking-widest text-white/40 mb-2 md:mb-3">CTA</h3>
-                                                <div className="text-3xl md:text-4xl font-serif italic text-green-400">{result.analysis.metrics?.conversion_trigger || 6}/10</div>
+                                                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-4">Conversion</h3>
+                                                <div className="text-4xl md:text-6xl font-sans font-bold text-slate-900">{result.analysis.metrics?.conversion_trigger || 6}<span className="text-xl text-slate-300 font-light ml-1">/10</span></div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="p-6 md:p-8 bg-purple-50 rounded-2xl md:rounded-3xl italic relative overflow-hidden group">
-                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-purple-400 mb-2">The Big Idea</h4>
-                                        <p className="text-gray-900 text-lg md:text-xl font-serif leading-relaxed">"{result.analysis.big_idea}"</p>
+                                    <div className="p-10 md:p-12 bg-amber-50 border border-amber-100 rounded-[2.5rem] italic relative overflow-hidden group">
+                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-600 mb-4">The Big Idea</h4>
+                                        <p className="text-slate-900 text-xl md:text-3xl font-serif leading-relaxed">"{result.analysis.big_idea}"</p>
+                                        <div className="absolute top-0 right-0 p-8 opacity-10 text-4xl">💡</div>
                                     </div>
 
-                                    <div className="p-6 md:p-8 bg-white border border-purple-100 rounded-2xl md:rounded-3xl space-y-4 shadow-sm">
-                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">The Secret Sauce</h4>
-                                        <p className="text-gray-900 font-serif italic text-base md:text-lg leading-relaxed">"{result.analysis.hook_analysis.critique}"</p>
+                                    <div className="p-10 md:p-12 bg-white border border-slate-100 rounded-[2.5rem] space-y-4 shadow-sm">
+                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-4 uppercase italic">The Secret Sauce</h4>
+                                        <p className="text-slate-900 font-serif italic text-lg md:text-xl leading-relaxed">"{result.analysis.hook_analysis.critique}"</p>
                                     </div>
 
-                                    <div className="flex flex-col sm:flex-row gap-4">
+                                    <div className="flex flex-col sm:flex-row gap-6">
                                         <button
                                             onClick={startChat}
-                                            className="flex-1 py-6 md:py-8 bg-gray-900 text-white rounded-2xl md:rounded-3xl font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-xs hover:scale-[1.02] active:scale-95 transition-all shadow-xl flex items-center justify-center gap-4 md:gap-6 group"
+                                            className="flex-1 py-8 bg-indigo-950 text-white rounded-[2rem] font-bold uppercase tracking-[0.4em] text-xs hover:bg-amber-500 hover:text-slate-950 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-indigo-950/20 flex items-center justify-center gap-6 group"
                                         >
-                                            <span className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(168,85,247,0.5)]" />
-                                            Enter AI Strategist
+                                            <span className="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+                                            Enter Strategy Lounge
                                             <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
                                         </button>
 
                                         {profile?.plan_type === 'agency' && (
                                             <Link
                                                 href={`/dashboard/report/${sessionId || ''}`}
-                                                className="px-8 py-6 md:py-8 border-2 border-purple-100 text-purple-600 rounded-2xl md:rounded-3xl font-black uppercase tracking-[0.2em] text-xs hover:bg-purple-50 transition-all flex items-center justify-center gap-3"
+                                                className="px-10 py-8 border border-slate-100 text-slate-400 rounded-[2rem] font-bold uppercase tracking-[0.3em] text-xs hover:bg-white hover:text-amber-600 transition-all flex items-center justify-center gap-3"
                                             >
                                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-                                                Export Report
+                                                Expert Report
                                             </Link>
                                         )}
                                     </div>
@@ -495,35 +499,34 @@ function AnalyzeContent() {
                         <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-2 md:pr-4 custom-scrollbar">
                             {messages.map((msg, idx) => (
                                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[90%] md:max-w-[85%] p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-sm ${msg.type === 'brief'
-                                        ? 'bg-gray-900 text-white border-4 border-purple-500/30'
+                                    <div className={`max-w-[90%] md:max-w-[85%] p-6 md:p-10 rounded-[2.5rem] shadow-sm ${msg.type === 'brief'
+                                        ? 'bg-gradient-to-br from-indigo-950 to-purple-950 text-white border-4 border-amber-500/20'
                                         : msg.role === 'user'
-                                            ? 'bg-gray-900 text-white rounded-tr-none'
-                                            : 'bg-white text-gray-900 rounded-tl-none border border-purple-100'
+                                            ? 'bg-slate-900 text-white rounded-tr-none'
+                                            : 'bg-white text-slate-900 rounded-tl-none border border-slate-100'
                                         }`}>
                                         {msg.type === 'brief' && (
-                                            <div className="flex items-center gap-3 mb-4 pb-4 border-b border-white/10">
-                                                <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center font-serif italic text-lg shadow-lg">B</div>
-                                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-400">Creative Brief Forged</span>
+                                            <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
+                                                <div className="w-10 h-10 bg-amber-500 text-slate-950 rounded-xl flex items-center justify-center font-serif italic text-xl shadow-lg">B</div>
+                                                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-400">Director Brief Forged</span>
                                             </div>
                                         )}
                                         <p className={`text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'brief' ? 'font-serif text-gray-100' : ''}`}>{msg.content}</p>
-                                        
-                                        {msg.role === 'assistant' && msg.type !== 'brief' && (
-                                            <div className="mt-4 pt-4 border-t border-purple-50 flex gap-4 items-center">
+                                                 {msg.role === 'assistant' && msg.type !== 'brief' && (
+                                            <div className="mt-6 pt-6 border-t border-slate-50 flex gap-6 items-center">
                                                 <button 
                                                     onClick={() => handleFeedback(idx, 'up')}
-                                                    className={`hover:scale-110 transition-transform ${msg.feedback === 'up' ? 'text-purple-600' : 'text-gray-300'}`}
+                                                    className={`hover:scale-110 transition-transform ${msg.feedback === 'up' ? 'text-amber-500' : 'text-slate-400'}`}
                                                 >
-                                                    <svg className="w-4 h-4" fill={msg.feedback === 'up' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10h4.708C19.746 10 20.5 10.852 20.5 11.852c0 .324-.078.636-.231.912l-2.455 4.39A2.5 2.5 0 0115.656 18H10V10z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 18H5a2 2 0 01-2-2v-4a2 2 0 012-2h5v8z" /></svg>
+                                                    <svg className="w-5 h-5" fill={msg.feedback === 'up' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10h4.708C19.746 10 20.5 10.852 20.5 11.852c0 .324-.078.636-.231.912l-2.455 4.39A2.5 2.5 0 0115.656 18H10V10z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 18H5a2 2 0 01-2-2v-4a2 2 0 012-2h5v8z" /></svg>
                                                 </button>
                                                 <button 
                                                     onClick={() => handleFeedback(idx, 'down')}
-                                                    className={`hover:scale-110 transition-transform ${msg.feedback === 'down' ? 'text-red-500' : 'text-gray-300'}`}
+                                                    className={`hover:scale-110 transition-transform ${msg.feedback === 'down' ? 'text-red-400' : 'text-slate-400'}`}
                                                 >
-                                                    <svg className="w-4 h-4" fill={msg.feedback === 'down' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14H5.292C4.254 14 3.5 13.148 3.5 12.148c0-.324.078-.636.231-.912l2.455-4.39A2.5 2.5 0 018.344 6H14v8z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 6h5a2 2 0 012 2v4a2 2 0 01-2 2h-5V6z" /></svg>
+                                                    <svg className="w-5 h-5" fill={msg.feedback === 'down' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14H5.292C4.254 14 3.5 13.148 3.5 12.148c0-.324.078-.636.231-.912l2.455-4.39A2.5 2.5 0 018.344 6H14v8z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 6h5a2 2 0 012 2v4a2 2 0 01-2 2h-5V6z" /></svg>
                                                 </button>
-                                                <span className="text-[8px] font-black uppercase tracking-widest text-gray-300">Helpful?</span>
+                                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Director Feedback</span>
                                             </div>
                                         )}
                                     </div>
@@ -531,48 +534,48 @@ function AnalyzeContent() {
                             ))}
                             {isSending && (
                                 <div className="flex justify-start">
-                                    <div className="bg-white p-4 md:p-6 rounded-[2rem] rounded-tl-none border border-purple-100 shadow-sm flex gap-1.5">
-                                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" />
-                                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce delay-75" />
-                                        <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce delay-150" />
+                                    <div className="bg-white p-6 rounded-[2.5rem] rounded-tl-none border border-slate-100 shadow-sm flex gap-2">
+                                        <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce" />
+                                        <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce delay-75" />
+                                        <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce delay-150" />
                                     </div>
                                 </div>
                             )}
                         </div>
 
                         {/* Mobile-first Input Bar */}
-                        <div className="relative group bg-white rounded-2xl md:rounded-[2rem] border border-purple-100 shadow-xl focus-within:ring-2 focus-within:ring-purple-600/20 transition-all">
-                            <div className="flex gap-2 p-2 md:p-3">
+                        <div className="relative group bg-white rounded-3xl border border-slate-100 shadow-2xl focus-within:ring-4 focus-within:ring-amber-500/10 transition-all">
+                            <div className="flex gap-4 p-4">
                                 <input
                                     type="text"
                                     value={chatInput}
                                     onChange={(e) => setChatInput(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                                    placeholder="Message your Director..."
-                                    className="flex-1 bg-transparent border-none focus:ring-0 text-sm font-medium px-3 py-2"
+                                    placeholder="Message your Creative Partner..."
+                                    className="flex-1 bg-transparent border-none focus:ring-0 text-base font-medium px-4 py-2"
                                 />
-                                <div className="flex items-center gap-1.5 md:gap-2">
+                                <div className="flex items-center gap-3">
                                     <button
                                         onClick={forgeDirectorBrief}
                                         disabled={isSending || messages.length < 1}
                                         title="Forge Director Brief"
-                                        className="p-2.5 md:p-3 bg-purple-50 text-purple-600 rounded-xl hover:bg-purple-100 transition-colors disabled:opacity-30"
+                                        className="p-4 bg-amber-50 text-amber-600 rounded-2xl hover:bg-amber-100 transition-colors disabled:opacity-30"
                                     >
-                                        <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
                                     </button>
                                     <button
                                         onClick={sendMessage}
                                         disabled={isSending || !chatInput.trim()}
-                                        className="p-2.5 md:p-3 bg-gray-900 text-white rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg disabled:opacity-50"
+                                        className="p-4 bg-indigo-950 text-white rounded-2xl hover:bg-amber-500 hover:text-slate-950 hover:scale-105 active:scale-95 transition-all shadow-xl disabled:opacity-50"
                                     >
-                                        <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                     </button>
                                 </div>
                             </div>
-                            <div className="px-4 pb-2 flex items-center gap-2">
-                                <div className={`w-1.5 h-1.5 rounded-full ${isRoastMode ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`} />
-                                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
-                                    {isRoastMode ? 'Roast Mode' : 'Director Lounge'}
+                            <div className="px-6 pb-4 flex items-center gap-3">
+                                <div className={`w-1.5 h-1.5 rounded-full ${isRoastMode ? 'bg-red-500 animate-pulse' : 'bg-amber-500'}`} />
+                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                                    {isRoastMode ? 'Roast Mode' : 'Creative Lounge'}
                                 </span>
                             </div>
                         </div>

@@ -38,69 +38,96 @@ export default function DashboardPage() {
     const firstName = user?.firstName || user?.username || 'Creator';
 
     return (
-        <div className="max-w-5xl mx-auto space-y-10 md:space-y-16">
-            {/* Mission Control Header */}
-            <div className="space-y-4 pt-6 md:pt-12">
-                <RevealOnScroll pb-4>
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-purple-600">Mission Control</span>
-                </RevealOnScroll>
-                <RevealOnScroll delay={100}>
-                    <div className="flex items-center gap-4">
-                        <h2 className="text-4xl sm:text-6xl md:text-8xl font-serif font-medium tracking-tighter text-gray-900 leading-[0.9]">
-                            {loading ? 'Initializing...' : `Welcome, ${firstName}.`}
-                        </h2>
+        <div className="max-w-6xl mx-auto space-y-12 md:space-y-20">
+            {/* Header Section */}
+            <div className="pt-6 md:pt-12">
+                <RevealOnScroll>
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-100 pb-12">
+                        <div className="space-y-4">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-600 mb-2 block">Director's Suite</span>
+                            <h2 className="text-4xl md:text-7xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
+                                {loading ? 'Preparing your lounge...' : (
+                                    <>Welcome back, <br /><span className="italic font-serif text-slate-400">{firstName}.</span></>
+                                )}
+                            </h2>
+                        </div>
                         {profile?.plan_type && profile.plan_type !== 'free' && (
-                            <span className="bg-purple-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mt-4">
-                                {profile.plan_type === 'founding' ? 'FOUNDING' : profile.plan_type.toUpperCase()}
-                            </span>
+                            <div className="flex items-center gap-3 bg-amber-50 border border-amber-100 px-6 py-3 rounded-2xl">
+                                <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-amber-700">
+                                    {profile.plan_type === 'founding' ? 'Founding Partner' : `${profile.plan_type.toUpperCase()} Access`}
+                                </span>
+                            </div>
                         )}
                     </div>
                 </RevealOnScroll>
             </div>
 
-            {/* Primary Action */}
+            {/* Primary Action Card - The "Studio" */}
             <RevealOnScroll delay={200}>
-                <div className="bg-gray-900 rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 text-white relative overflow-hidden group border border-white/5 shadow-2xl">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10"></div>
-                    <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-12">
-                        <div className="space-y-3 md:space-y-6">
-                            <h3 className="text-2xl md:text-3xl font-serif italic text-purple-400">"The studio is ready for your next winner."</h3>
-                            <p className="text-gray-400 text-sm max-w-sm leading-relaxed">
-                                Deconstruct any viral reference and weaponize the math of their retention DNA.
+                <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 rounded-[3rem] p-10 md:p-20 text-white relative overflow-hidden group shadow-2xl border border-purple-500/10">
+                    <div className="absolute top-0 right-0 p-12 opacity-5 font-sans font-bold text-[15vw] pointer-events-none text-amber-200">FLOW</div>
+                    
+                    <div className="max-w-2xl relative z-10 space-y-10">
+                        <div className="space-y-6">
+                            <h3 className="text-3xl md:text-5xl font-serif italic text-amber-200 leading-tight">
+                                Ready to find your <br /> next winning flow?
+                            </h3>
+                            <p className="text-white/60 text-lg font-light leading-relaxed">
+                                Our creative engine is primed. Upload any reference to extract the psychological blueprints behind today's viral winners.
                             </p>
                         </div>
-                        <Link
-                            href="/dashboard/analyze"
-                            className="w-full md:w-auto text-center px-8 md:px-12 py-5 md:py-6 bg-white text-gray-900 rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-xl whitespace-nowrap"
-                        >
-                            Enter Intelligence Studio &rarr;
-                        </Link>
+                        
+                        <div className="flex flex-col sm:flex-row gap-6">
+                            <Link
+                                href="/dashboard/analyze"
+                                className="px-10 py-6 bg-amber-500 text-slate-950 rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-white hover:scale-105 transition-all shadow-xl shadow-amber-950/20 text-center"
+                            >
+                                Enter Intelligence Studio &rarr;
+                            </Link>
+                            <Link
+                                href="/dashboard/batch"
+                                className="px-10 py-6 bg-white/5 border border-white/10 text-white rounded-2xl font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-all text-center"
+                            >
+                                Batch Processing
+                            </Link>
+                        </div>
                     </div>
+
+                    {/* Aesthetic Glow */}
+                    <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-amber-500 rounded-full blur-[140px] opacity-10" />
                 </div>
             </RevealOnScroll>
 
-            {/* Subtle Vital Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {/* Stats Overview */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 {[
                     {
-                        label: 'DNA Scans',
+                        label: 'Creative Scans',
                         value: profile?.plan_type === 'free'
                             ? `${profile?.monthly_usage?.scans || 0} / 3`
-                            : (profile?.total_videos_analyzed || 0)
+                            : (profile?.total_videos_analyzed || 0),
+                        sub: 'Viral DNA extractions'
                     },
                     {
-                        label: 'Extractions',
+                        label: 'Production Briefs',
                         value: profile?.plan_type === 'free'
                             ? `${profile?.monthly_usage?.scripts || 0} / 3`
-                            : (profile?.total_scripts || 0)
+                            : (profile?.total_scripts || 0),
+                        sub: 'Actionable shooting plans'
                     },
-                    { label: 'Retention Pins', value: profile?.total_pins || 0 },
-                    { label: 'Studio Level', value: profile?.plan_type ? (profile.plan_type === 'pro' ? 'Founding' : profile.plan_type.charAt(0).toUpperCase() + profile.plan_type.slice(1)) : 'Free' }
+                    { label: 'Retention Pins', value: profile?.total_pins || 0, sub: 'Saved pattern interrupts' },
+                    { 
+                        label: 'Partnership', 
+                        value: profile?.plan_type ? (profile.plan_type === 'founding' ? 'Founding' : profile.plan_type.charAt(0).toUpperCase() + profile.plan_type.slice(1)) : 'Free',
+                        sub: 'Current account status'
+                    }
                 ].map((stat, i) => (
                     <RevealOnScroll key={i} delay={300 + (i * 100)}>
-                        <div className="p-4 md:p-8 border-t border-purple-100">
-                            <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2">{stat.label}</p>
-                            <p className="text-2xl md:text-3xl font-serif italic text-gray-900 capitalize">{stat.value}</p>
+                        <div className="p-8 bg-white border border-slate-100 rounded-[2rem] hover:shadow-lg transition-all group">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-4 group-hover:text-amber-600 transition-colors">{stat.label}</p>
+                            <p className="text-4xl font-sans font-bold text-slate-900 mb-2">{stat.value}</p>
+                            <p className="text-[10px] text-slate-400 font-medium italic opacity-60">{stat.sub}</p>
                         </div>
                     </RevealOnScroll>
                 ))}

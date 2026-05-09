@@ -1,166 +1,68 @@
+'use client';
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import PricingSection from "@/components/PricingSection";
 import CheckoutButton from "@/components/CheckoutButton";
+import { motion } from "framer-motion";
 
 export default function PricingPage() {
-    const foundingUrl = process.env.NEXT_PUBLIC_GUMROAD_FOUNDING_URL || 'https://eixora.gumroad.com/l/foundingplan';
-    const agencyUrl = process.env.NEXT_PUBLIC_GUMROAD_AGENCY_URL || 'https://eixora.gumroad.com/l/agencyplan';
-
+    const { user } = useUser();
+    const currentTier = (user?.publicMetadata as any)?.plan_type || 'free';
+    
     return (
-        <div className="min-h-screen bg-[#FAFAF9] text-[#1c1917] font-sans selection:bg-purple-100">
-            {/* Navigation */}
-            <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b border-purple-200">
-                <div className="w-full px-6 h-20 flex items-center justify-between">
-                    <Link href="/" className="text-3xl font-signature">
-                        Eixora.
+        <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-amber-100 selection:text-amber-900">
+            {/* Navigation - Unified Warm Partner Style */}
+            <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+                <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                    <Link href="/" className="text-2xl font-serif italic font-bold text-slate-900">
+                        Eixora<span className="text-amber-600">.</span>
                     </Link>
-                    <div className="flex gap-12 text-xs font-medium tracking-[0.2em] uppercase">
-                        <Link href="/" className="hover:underline">Home</Link>
-                        <Link href="/login" className="hover:underline">Sign In</Link>
+                    <div className="flex gap-10 text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400">
+                        <Link href="/" className="hover:text-amber-600 transition-colors">Home</Link>
+                        <Link href="/login" className="hover:text-amber-600 transition-colors">Sign In</Link>
                     </div>
                 </div>
             </nav>
 
-            <main className="max-w-6xl mx-auto px-6 pt-40 pb-32">
-                <div className="text-center mb-20">
+            <main className="max-w-7xl mx-auto px-6 pt-40 pb-32">
+                <div className="text-center mb-32">
                     <RevealOnScroll>
-                        <h1 className="text-5xl md:text-7xl font-serif mb-6 tracking-tight italic">Free Beta <span className="text-purple-600">Access.</span></h1>
-                        <p className="text-lg md:text-xl font-light opacity-60 max-w-lg mx-auto leading-relaxed">
-                            Eixora is currently in exclusive early access. All premium Ad Intelligence tools are unlocked for early adopters.
+                        <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-amber-600 mb-6 block">The Investment</span>
+                        <h1 className="text-5xl md:text-7xl font-sans font-bold tracking-tight text-slate-900 mb-8">
+                            Clarity for every <br className="hidden md:block" />
+                            <span className="italic text-transparent bg-gradient-to-r from-purple-600 to-amber-500 bg-clip-text underline decoration-amber-100 underline-offset-8">creative cycle.</span>
+                        </h1>
+                        <p className="text-lg text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
+                            Professional creative strategy doesn't happen by accident. Choose the plan that gives your team the data, speed, and clarity needed to dominate the feed.
                         </p>
                     </RevealOnScroll>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-6 items-start">
-                    {/* Free Tier */}
-                    <RevealOnScroll delay={50}>
-                        <div className="relative bg-white border border-gray-200 p-10 rounded-2xl shadow-sm hover:shadow-lg transition-all overflow-hidden flex flex-col h-full">
-                            <div className="mb-8">
-                                <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-gray-200 text-gray-600 px-4 py-1.5 rounded-full mb-6 inline-block">FREE ACCESS</span>
-                                <div className="flex items-baseline gap-2 mt-4">
-                                    <span className="text-6xl font-serif tracking-tighter">$0</span>
-                                    <span className="text-lg font-light opacity-40 italic">/forever</span>
-                                </div>
-                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">No credit card required</p>
-                            </div>
+                <PricingSection 
+                    currentTier={currentTier}
+                    userEmail={user?.primaryEmailAddress?.emailAddress || ''}
+                    showQuotas={!!user}
+                />
 
-                            <ul className="space-y-4 mb-12 flex-grow">
-                                {[
-                                    "1 Free Masterclass Scan",
-                                    "AI Creative Director Intro",
-                                    "Standard Audit Dashboard",
-                                ].map((feature, i) => (
-                                    <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-gray-400"></div>
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <Link
-                                href="/signup"
-                                className="block w-full py-6 border-2 border-gray-200 text-gray-600 text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-gray-50 transition-all rounded-sm text-center"
-                            >
-                                Get Your 1 Free Scan
-                            </Link>
-                        </div>
-                    </RevealOnScroll>
-
-                    {/* Founding Tier */}
-                    <RevealOnScroll delay={150}>
-                        <div className="relative bg-white border border-purple-100 p-10 rounded-2xl shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
-                            <div className="mb-8">
-                                <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-purple-600 text-white px-4 py-1.5 rounded-full mb-6 inline-block">FOUNDING PLAN</span>
-                                <div className="flex items-baseline gap-2 mt-4">
-                                    <span className="text-6xl font-serif tracking-tighter">$24.99</span>
-                                    <span className="text-lg font-light opacity-40 italic">/month</span>
-                                </div>
-                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">Early adopter pricing — locked in forever</p>
-                            </div>
-
-                            <ul className="space-y-4 mb-12 flex-grow">
-                                {[
-                                    "Unlimited Intelligence Audits",
-                                    "Unlimited AI Strategist Access",
-                                    "Winning Ad Remix Studio",
-                                    "Actionable Shooting Briefs",
-                                    "Priority Email Support"
-                                ].map((feature, i) => (
-                                    <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-purple-600"></div>
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <CheckoutButton
-                                productId="founding"
-                                className="block w-full py-6 bg-black text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-purple-900 transition-all rounded-sm shadow-lg text-center"
-                            >
-                                Secure Founder Rate
-                            </CheckoutButton>
-                        </div>
-                    </RevealOnScroll>
-
-                    {/* Agency Tier */}
-                    <RevealOnScroll delay={250}>
-                        <div className="relative bg-white border-2 border-purple-600 p-10 rounded-2xl shadow-2xl transition-all overflow-hidden flex flex-col h-full">
-                            <div className="absolute top-0 right-0 p-6">
-                                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-purple-600 underline underline-offset-4">MOST POWERFUL</span>
-                            </div>
-
-                            <div className="mb-8">
-                                <span className="text-[10px] font-bold tracking-[0.3em] uppercase bg-black text-white px-4 py-1.5 rounded-full mb-6 inline-block">AGENCY PLAN</span>
-                                <div className="flex items-baseline gap-2 mt-4">
-                                    <span className="text-6xl font-serif tracking-tighter">$49.99</span>
-                                    <span className="text-lg font-light opacity-40 italic">/month</span>
-                                </div>
-                                <p className="text-[10px] tracking-[0.3em] uppercase opacity-40 mt-2">Scale your ad intelligence</p>
-                            </div>
-
-                            <ul className="space-y-4 mb-12 flex-grow">
-                                {[
-                                    "Everything in Founding",
-                                    "Batch Processing (10+ URLs)",
-                                    "Competitor Profile Spy",
-                                    "Export Strategy Reports (PDF)",
-                                    "Team Workspace (5 Seats)"
-                                ].map((feature, i) => (
-                                    <li key={i} className="flex items-center gap-4 text-sm font-light text-gray-600 font-medium">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
-
-                            <CheckoutButton
-                                productId="agency"
-                                className="block w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-[10px] font-bold tracking-[0.4em] uppercase hover:scale-[1.02] transition-all rounded-sm shadow-xl text-center"
-                            >
-                                Scale to Agency
-                            </CheckoutButton>
-                        </div>
-                    </RevealOnScroll>
-                </div>
-
-                <div className="mt-20 text-center opacity-40">
-                    <p className="text-[10px] tracking-[0.3em] uppercase leading-loose">
-                        Early Access Beta • No Credit Card Required • Completely Free
+                <div className="mt-32 text-center max-w-2xl mx-auto border-t border-slate-100 pt-20">
+                    <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-amber-600 mb-4 block">The Founding Promise</span>
+                    <p className="text-sm text-slate-400 font-light leading-relaxed italic">
+                        "We are building Eixora to be the standard for creative media buying. By joining now, you lock in your rate for the life of your account. No hidden increases, ever."
                     </p>
                 </div>
             </main>
 
             {/* Minimal Footer */}
-            <footer className="border-t border-purple-100 py-16 px-6">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
-                    <div className="text-2xl font-signature italic opacity-80">Eixora by EXRICX.</div>
-                    <div className="flex flex-wrap justify-center gap-12 text-[10px] tracking-[0.3em] uppercase opacity-40">
-                        <Link href="/privacy" className="hover:opacity-100 transition-opacity">Privacy</Link>
-                        <Link href="/terms" className="hover:opacity-100 transition-opacity">Terms</Link>
-                        <Link href="/refund" className="hover:opacity-100 transition-opacity">Refunds</Link>
-                        <a href="mailto:support@eixora.store" className="hover:opacity-100 transition-opacity">Support</a>
+            <footer className="bg-white border-t border-slate-100 py-24 px-6">
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-16">
+                    <Link href="/" className="text-2xl font-serif italic font-bold text-slate-900 opacity-60 hover:opacity-100 transition-opacity">Eixora<span className="text-amber-600">.</span></Link>
+                    <div className="flex flex-wrap justify-center gap-12 text-[9px] font-bold tracking-[0.4em] uppercase text-slate-400">
+                        <Link href="/privacy" className="hover:text-amber-600 transition-colors">Privacy</Link>
+                        <Link href="/terms" className="hover:text-amber-600 transition-colors">Terms</Link>
+                        <a href="mailto:hello@eixora.store" className="hover:text-amber-600 transition-colors">Support</a>
                     </div>
-                    <p className="text-[10px] tracking-[0.3em] uppercase opacity-20">&copy; 2026 EIXORA BY EXRICX</p>
+                    <p className="text-[9px] font-bold tracking-[0.4em] uppercase text-slate-300">&copy; 2026 EIXORA. BORN FOR CREATIVES.</p>
                 </div>
             </footer>
         </div>
