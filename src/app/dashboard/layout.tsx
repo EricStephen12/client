@@ -143,7 +143,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     }
 
     return (
-        <div className="flex min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-amber-100 selection:text-amber-900">
+        <div className="flex min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-purple-100 selection:text-purple-900">
 
             {/* Premium Sidebar (Desktop) */}
             <aside className="w-72 border-r border-slate-100 hidden lg:flex flex-col sticky top-0 h-screen bg-white">
@@ -189,10 +189,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             {/* Main Content */}
             <main className="flex-1 overflow-auto">
                 <header className="flex lg:hidden items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-                    <Link href="/" className="text-2xl font-serif font-bold italic">Eixora<span className="text-amber-600">.</span></Link>
+                    <Link href="/" className="text-2xl font-serif font-bold italic">Eixora<span className="text-purple-600">.</span></Link>
                     <button
                         onClick={() => setIsMobileMenuOpen(true)}
-                        className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center hover:bg-amber-100 transition-colors"
+                        className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors"
                     >
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
@@ -329,7 +329,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
         <div className="flex flex-col h-full overflow-hidden">
             <div className="p-8 border-b border-slate-100 flex-shrink-0">
                 <Link href="/" className="text-2xl font-serif font-bold italic hover:opacity-70 transition-opacity">
-                    Eixora<span className="text-amber-600">.</span>
+                    Eixora<span className="text-purple-600">.</span>
                 </Link>
             </div>
 
@@ -345,15 +345,15 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                 href={item.href}
                                 onClick={onClose}
                                 className={`group flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-2xl ${isActive
-                                    ? 'bg-amber-500 text-slate-950 shadow-xl shadow-amber-500/10'
-                                    : 'text-slate-400 hover:bg-slate-50 hover:text-amber-600'
+                                    ? 'bg-purple-500 text-slate-950 shadow-xl shadow-purple-500/10'
+                                    : 'text-slate-400 hover:bg-slate-50 hover:text-purple-600'
                                     }`}
                             >
-                                <span className={`w-1 h-1 rounded-full transition-all ${isActive ? 'bg-slate-950' : 'bg-slate-200 group-hover:bg-amber-400'}`}></span>
+                                <span className={`w-1 h-1 rounded-full transition-all ${isActive ? 'bg-slate-950' : 'bg-slate-200 group-hover:bg-purple-400'}`}></span>
                                 <div className="flex items-center justify-between w-full">
                                     <span>{item.name}</span>
                                     {item.comingSoon && (
-                                        <span className="text-[8px] font-black bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full tracking-normal lowercase">soon</span>
+                                        <span className="text-[8px] font-black bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full tracking-normal lowercase">soon</span>
                                     )}
                                 </div>
                             </Link>
@@ -375,7 +375,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                         onClick={onClose}
                                         className={`block px-4 py-3 text-[9px] tracking-widest uppercase truncate rounded-xl transition-all border border-transparent ${isActive
                                             ? 'bg-white text-slate-900 font-bold border-slate-100 shadow-sm'
-                                            : 'text-slate-400 font-medium hover:text-amber-600 hover:bg-white'
+                                            : 'text-slate-400 font-medium hover:text-purple-600 hover:bg-white'
                                             }`}
                                         title={session.title}
                                     >
@@ -394,9 +394,9 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 {/* Elite Support Link */}
                 <button
                     onClick={() => { onOpenSupport(); onClose?.(); }}
-                    className="w-full group flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-2xl text-slate-400 hover:bg-amber-50 hover:text-amber-600"
+                    className="w-full group flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-2xl text-slate-400 hover:bg-purple-50 hover:text-purple-600"
                 >
-                    <span className="w-1 h-1 rounded-full bg-amber-500 group-hover:scale-125 transition-transform"></span>
+                    <span className="w-1 h-1 rounded-full bg-purple-500 group-hover:scale-125 transition-transform"></span>
                     <span>Elite Support</span>
                 </button>
             </div>
@@ -409,7 +409,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-[10px] font-bold uppercase tracking-widest truncate text-slate-900">{profile.full_name || 'Creator'}</p>
-                            <p className="text-[9px] text-amber-600 font-bold uppercase tracking-widest italic">{profile.plan_type === 'free' || !profile.plan_type ? 'Discovery Mode' : `${profile.plan_type} Member`}</p>
+                            <p className="text-[9px] text-purple-600 font-bold uppercase tracking-widest italic">{profile.plan_type === 'free' || !profile.plan_type ? 'Discovery Mode' : `${profile.plan_type} Member`}</p>
                         </div>
                     </div>
                 ) : (
@@ -425,7 +425,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className="w-full py-4 px-4 border border-slate-200 text-[9px] font-bold uppercase tracking-[0.3em] text-slate-400 hover:border-amber-200 hover:text-amber-600 hover:bg-white transition-all rounded-xl disabled:opacity-50"
+                    className="w-full py-4 px-4 border border-slate-200 text-[9px] font-bold uppercase tracking-[0.3em] text-slate-400 hover:border-purple-200 hover:text-purple-600 hover:bg-white transition-all rounded-xl disabled:opacity-50"
                 >
                     {isLoggingOut ? 'Leaving Lounge...' : 'Exit Account'}
                 </button>

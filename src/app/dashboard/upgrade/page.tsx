@@ -13,7 +13,7 @@ export default function UpgradePage() {
         <div className="max-w-6xl mx-auto py-20 px-6">
             <div className="text-center mb-24 space-y-8">
                 <RevealOnScroll>
-                    <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-amber-600 block mb-4 italic">Account Upgrades</span>
+                    <span className="text-[10px] font-bold tracking-[0.5em] uppercase text-purple-600 block mb-4 italic">Account Upgrades</span>
                     <h2 className="text-4xl md:text-8xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
                         Subscription <span className="italic font-serif text-slate-400">Plans.</span>
                     </h2>

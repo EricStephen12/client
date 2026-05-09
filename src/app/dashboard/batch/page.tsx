@@ -140,7 +140,7 @@ export default function BatchPage() {
     if (isCheckingPlan) {
         return (
             <div className="max-w-4xl mx-auto pt-24 text-center">
-                <div className="w-12 h-12 border-4 border-amber-100 border-t-amber-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <div className="w-12 h-12 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
                 <p className="font-serif text-xl italic text-slate-400">Loading Batch Engine...</p>
             </div>
         );
@@ -155,7 +155,7 @@ export default function BatchPage() {
         <div className="max-w-5xl mx-auto space-y-8 pb-20">
             {/* Header */}
             <div className="space-y-6 border-b border-slate-100 pb-12">
-                <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block italic">Agency Workspace</span>
+                <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 block italic">Agency Workspace</span>
                 <h2 className="text-3xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
                     Batch <span className="italic font-serif text-slate-400">Processing.</span>
                 </h2>
@@ -201,22 +201,22 @@ export default function BatchPage() {
                     {logs.length > 0 && (
                         <div className="bg-slate-900 rounded-[3rem] p-10 space-y-6 shadow-2xl border border-white/5 relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-10 opacity-5">
-                                <div className="w-32 h-32 bg-amber-500 rounded-full blur-3xl"></div>
+                                <div className="w-32 h-32 bg-purple-500 rounded-full blur-3xl"></div>
                             </div>
                             <div className="flex items-center justify-between border-b border-white/10 pb-6 relative z-10">
                                 <div className="flex items-center gap-4">
                                     <div className="flex gap-2">
                                         <div className="w-2.5 h-2.5 rounded-full bg-red-500/30" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-amber-500/30" />
+                                        <div className="w-2.5 h-2.5 rounded-full bg-purple-500/30" />
                                         <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/30" />
                                     </div>
                                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">Diagnostic Protocol</span>
                                 </div>
-                                {isProcessing && <div className="w-4 h-4 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />}
+                                {isProcessing && <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />}
                             </div>
                             <div className="space-y-3 h-48 overflow-y-auto font-mono text-[11px] custom-scrollbar pr-6 relative z-10">
                                 {logs.map((log, i) => (
-                                    <div key={i} className={`flex gap-4 ${i === 0 ? 'text-amber-400 animate-pulse' : 'text-slate-500'}`}>
+                                    <div key={i} className={`flex gap-4 ${i === 0 ? 'text-purple-400 animate-pulse' : 'text-slate-500'}`}>
                                         <span className="opacity-20 flex-shrink-0">{(logs.length - i).toString().padStart(2, '0')}</span>
                                         <span className="break-all tracking-tight leading-relaxed">{log}</span>
                                     </div>
@@ -239,7 +239,7 @@ export default function BatchPage() {
                             </div>
                             <div>
                                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-4 italic">Success</p>
-                                <p className="text-5xl font-sans font-bold text-amber-500">{results.completed}</p>
+                                <p className="text-5xl font-sans font-bold text-purple-500">{results.completed}</p>
                             </div>
                             <div>
                                 <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-4 italic">Failed</p>
@@ -270,7 +270,7 @@ export default function BatchPage() {
                                         </div>
                                         <div className="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
                                             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Retention</p>
-                                            <p className="text-3xl font-sans font-bold text-amber-500">{r.analysis.metrics?.retention_score || '—'}</p>
+                                            <p className="text-3xl font-sans font-bold text-purple-500">{r.analysis.metrics?.retention_score || '—'}</p>
                                         </div>
                                         <div className="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
                                             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">CTA</p>
@@ -278,14 +278,14 @@ export default function BatchPage() {
                                         </div>
                                     </div>
 
-                                    <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100 italic">
-                                        <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-2">Strategic Verdict</p>
+                                    <div className="bg-purple-50 rounded-2xl p-6 border border-purple-100 italic">
+                                        <p className="text-[10px] font-bold uppercase tracking-widest text-purple-600 mb-2">Strategic Verdict</p>
                                         <p className="text-lg font-serif text-slate-900 leading-relaxed italic">"{r.analysis.big_idea}"</p>
                                     </div>
 
                                     <button
                                         onClick={() => handleExportReport(r.analysis, r.url)}
-                                        className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-600 hover:text-amber-700 transition-colors flex items-center gap-3 pt-2"
+                                        className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-600 hover:text-purple-700 transition-colors flex items-center gap-3 pt-2"
                                     >
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -307,7 +307,7 @@ export default function BatchPage() {
                     {/* New Batch Button */}
                     <button
                         onClick={() => { setResults(null); setUrls(''); }}
-                        className="w-full py-8 bg-slate-900 text-white rounded-[2.5rem] font-bold uppercase tracking-[0.4em] text-xs hover:bg-amber-500 hover:text-slate-950 hover:scale-[1.01] transition-all shadow-2xl"
+                        className="w-full py-8 bg-slate-900 text-white rounded-[2.5rem] font-bold uppercase tracking-[0.4em] text-xs hover:bg-purple-500 hover:text-slate-950 hover:scale-[1.01] transition-all shadow-2xl"
                     >
                         + Initialize New Batch
                     </button>

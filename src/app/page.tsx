@@ -103,13 +103,13 @@ export default function LandingPage() {
             <section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-purple-200 overflow-hidden">
                 <div className="flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-24 py-16 md:py-24 border-b md:border-b-0 md:border-r border-purple-200 bg-white">
                     <RevealOnScroll delay={100}>
-                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-amber-500 block">Your Creative Partner</span>
+                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-purple-500 block">Your Creative Partner</span>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={200}>
                         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.2] md:leading-[1.1] mb-6 md:mb-8 tracking-tight">
                             Find your <br className="hidden sm:block" />
-                            <span className="italic bg-gradient-to-r from-purple-600 via-rose-500 to-amber-500 bg-clip-text text-transparent underline decoration-amber-200 decoration-4 underline-offset-8">Creative Flow.</span>
+                            <span className="italic bg-gradient-to-r from-purple-600 via-rose-500 to-purple-500 bg-clip-text text-transparent underline decoration-purple-200 decoration-4 underline-offset-8">Creative Flow.</span>
                         </h1>
                     </RevealOnScroll>
 
@@ -183,23 +183,23 @@ export default function LandingPage() {
             <section className="py-32 px-6 bg-white">
                 <div className="max-w-7xl mx-auto">
                     <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 rounded-[3rem] p-12 md:p-24 text-white relative overflow-hidden group border border-purple-500/20 shadow-2xl">
-                        <div className="absolute top-0 right-0 p-12 opacity-5 font-sans font-bold text-[12vw] pointer-events-none text-amber-200">PARTNER</div>
+                        <div className="absolute top-0 right-0 p-12 opacity-5 font-sans font-bold text-[12vw] pointer-events-none text-purple-200">PARTNER</div>
                         <div className="max-w-3xl relative z-10">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-400 mb-8 block">Our Vision</span>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-8 block">Our Vision</span>
                             <h2 className="text-4xl md:text-7xl font-sans font-bold leading-tight tracking-tight mb-12">
                                 Scale with <br />
-                                <span className="italic text-amber-200/60 font-serif">Total Peace.</span>
+                                <span className="italic text-purple-200/60 font-serif">Total Peace.</span>
                             </h2>
                             <p className="text-xl md:text-2xl font-light leading-relaxed text-white/80 mb-16">
                                 We believe creative work should be rewarding, not exhausting. Eixora handles the heavy lifting of analysis so you can stay in your zone of genius—creating content that connects.
                             </p>
                             <div className="flex flex-wrap gap-12 border-t border-white/10 pt-12">
                                 <div>
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500/40 mb-2">Focus On</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-purple-500/40 mb-2">Focus On</p>
                                     <p className="text-lg font-serif italic text-white">Creative Strategy</p>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-amber-500/40 mb-2">Leave Us The</p>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-purple-500/40 mb-2">Leave Us The</p>
                                     <p className="text-lg font-serif italic text-white">Technical Blueprinting</p>
                                 </div>
                             </div>
@@ -316,7 +316,7 @@ export default function LandingPage() {
                     <div className="flex flex-col md:grid md:grid-cols-3 gap-16 md:gap-32 mb-20 md:mb-32">
                         <div>
                             <RevealOnScroll>
-                                <h2 className="text-[20vw] md:text-[8vw] leading-[0.8] font-serif tracking-tighter opacity-10 text-amber-500">
+                                <h2 className="text-[20vw] md:text-[8vw] leading-[0.8] font-serif tracking-tighter opacity-10 text-purple-500">
                                     FLOW.
                                 </h2>
                             </RevealOnScroll>
@@ -325,23 +325,23 @@ export default function LandingPage() {
                         <div className="space-y-12">
                             <RevealOnScroll delay={200}>
                                 <div>
-                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-amber-500/60">The Lounge</h3>
+                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-purple-500/60">The Lounge</h3>
                                     <div className="flex flex-col gap-6 text-sm font-light opacity-60">
-                                        <Link href="/pricing" className="hover:text-amber-500 transition-colors">Pricing</Link>
-                                        <Link href="/privacy" className="hover:text-amber-500 transition-colors">Privacy</Link>
-                                        <Link href="/terms" className="hover:text-amber-500 transition-colors">Terms</Link>
+                                        <Link href="/pricing" className="hover:text-purple-500 transition-colors">Pricing</Link>
+                                        <Link href="/privacy" className="hover:text-purple-500 transition-colors">Privacy</Link>
+                                        <Link href="/terms" className="hover:text-purple-500 transition-colors">Terms</Link>
                                     </div>
                                 </div>
                                 <div className="mt-16">
-                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-amber-500/60">Connect</h3>
-                                    <a href="mailto:hello@eixora.store" className="text-sm font-light opacity-60 hover:text-amber-500 transition-colors">hello@eixora.store</a>
+                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-purple-500/60">Connect</h3>
+                                    <a href="mailto:hello@eixora.store" className="text-sm font-light opacity-60 hover:text-purple-500 transition-colors">hello@eixora.store</a>
                                 </div>
                             </RevealOnScroll>
                         </div>
 
                         <div className="flex flex-col justify-end items-start md:items-end">
                             <RevealOnScroll delay={300} className="w-full text-left md:text-right">
-                                <Link href="/signup" className="text-4xl md:text-6xl font-serif hover:italic transition-all underline decoration-1 underline-offset-8 mb-10 inline-block decoration-amber-600">
+                                <Link href="/signup" className="text-4xl md:text-6xl font-serif hover:italic transition-all underline decoration-1 underline-offset-8 mb-10 inline-block decoration-purple-600">
                                     Find Your Flow &rarr;
                                 </Link>
                                 <p className="text-sm opacity-40 max-w-sm md:ml-auto leading-relaxed">
@@ -354,9 +354,9 @@ export default function LandingPage() {
 
                     <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/5 gap-8 font-mono text-[9px] tracking-widest uppercase opacity-30">
                         <div className="flex gap-8">
-                            <Link href="https://instagram.com/eixora.store" className="hover:text-amber-500 transition-opacity">Instagram</Link>
-                            <Link href="https://x.com/eixora_store" className="hover:text-amber-500 transition-opacity">Twitter</Link>
-                            <Link href="https://tiktok.com/@eixora.store" className="hover:text-amber-500 transition-opacity">TikTok</Link>
+                            <Link href="https://instagram.com/eixora.store" className="hover:text-purple-500 transition-opacity">Instagram</Link>
+                            <Link href="https://x.com/eixora_store" className="hover:text-purple-500 transition-opacity">Twitter</Link>
+                            <Link href="https://tiktok.com/@eixora.store" className="hover:text-purple-500 transition-opacity">TikTok</Link>
                         </div>
                         <p>&copy; 2026 EIXORA. BORN FOR CREATIVES.</p>
                     </div>

@@ -9,7 +9,7 @@ export default function AnalyzePage() {
     return (
         <Suspense fallback={
             <div className="max-w-6xl mx-auto pt-24 text-center">
-                <div className="w-12 h-12 border-4 border-amber-100 border-t-amber-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <div className="w-12 h-12 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
                 <p className="font-serif text-xl italic text-slate-400">Preparing the Studio...</p>
             </div>
         }>
@@ -335,7 +335,7 @@ function AnalyzeContent() {
                 {/* Header */}
                 <div className="mb-6 md:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-12">
                     <div>
-                        <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 mb-2 block italic">Studio Workspace</span>
+                        <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 mb-2 block italic">Studio Workspace</span>
                         <h2 className="text-3xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
                             {isChatMode ? 'Strategy ' : 'Creative '}
                             <span className="italic font-serif text-slate-400">
@@ -372,13 +372,13 @@ function AnalyzeContent() {
                                 <div className="flex gap-4">
                                     <button
                                         onClick={() => setActiveTab('url')}
-                                        className={`flex-1 sm:flex-none px-8 py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all ${activeTab === 'url' ? 'bg-amber-500 text-slate-950 shadow-xl shadow-amber-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-amber-200'}`}
+                                        className={`flex-1 sm:flex-none px-8 py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all ${activeTab === 'url' ? 'bg-purple-500 text-slate-950 shadow-xl shadow-purple-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-purple-200'}`}
                                     >
                                         Reference Scan
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('upload')}
-                                        className={`flex-1 sm:flex-none px-8 py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all ${activeTab === 'upload' ? 'bg-amber-500 text-slate-950 shadow-xl shadow-amber-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-amber-200'}`}
+                                        className={`flex-1 sm:flex-none px-8 py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] transition-all ${activeTab === 'upload' ? 'bg-purple-500 text-slate-950 shadow-xl shadow-purple-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-purple-200'}`}
                                     >
                                         Draft Audit
                                     </button>
@@ -395,17 +395,17 @@ function AnalyzeContent() {
                                             placeholder="https://www.tiktok.com/@creator/video/..."
                                             value={url}
                                             onChange={(e) => setUrl(e.target.value)}
-                                            className="w-full p-6 md:p-8 bg-slate-50 border-none rounded-3xl focus:ring-2 focus:ring-amber-500 transition-all font-medium text-lg md:text-xl"
+                                            className="w-full p-6 md:p-8 bg-slate-50 border-none rounded-3xl focus:ring-2 focus:ring-purple-500 transition-all font-medium text-lg md:text-xl"
                                         />
                                         <button
                                             onClick={handleAnalyze}
                                             disabled={isAnalyzing || !url}
-                                            className="w-full py-6 md:py-8 bg-indigo-950 text-white font-bold uppercase tracking-[0.4em] text-xs rounded-3xl hover:bg-amber-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
+                                            className="w-full py-6 md:py-8 bg-indigo-950 text-white font-bold uppercase tracking-[0.4em] text-xs rounded-3xl hover:bg-purple-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
                                         >
                                             {isAnalyzing ? 'Locating Viral DNA...' : 'Scan Masterclass'}
                                         </button>
                                         <div className="flex items-center gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
                                             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Creative Sweet Spot: 15-60s Analysis</span>
                                         </div>
                                     </div>
@@ -430,9 +430,9 @@ function AnalyzeContent() {
 
                                 {isAnalyzing && (
                                     <div className="text-center p-12 md:p-24 bg-gradient-to-br from-indigo-950 to-purple-950 rounded-[3rem] text-white animate-pulse relative overflow-hidden shadow-2xl">
-                                        <div className="w-12 h-12 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin mx-auto mb-8"></div>
+                                        <div className="w-12 h-12 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin mx-auto mb-8"></div>
                                         <h3 className="font-serif text-2xl md:text-4xl italic">AI Creative Director is Watching...</h3>
-                                        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-amber-500 rounded-full blur-[100px] opacity-10"></div>
+                                        <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-purple-500 rounded-full blur-[100px] opacity-10"></div>
                                     </div>
                                 )}
                             </div>
@@ -449,7 +449,7 @@ function AnalyzeContent() {
                                             </div>
                                             <div className="text-center">
                                                 <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-4">Retention</h3>
-                                                <div className="text-4xl md:text-6xl font-sans font-bold text-amber-500">{result.analysis.metrics?.retention_score || 7}<span className="text-xl text-slate-200 font-light ml-1">/10</span></div>
+                                                <div className="text-4xl md:text-6xl font-sans font-bold text-purple-500">{result.analysis.metrics?.retention_score || 7}<span className="text-xl text-slate-200 font-light ml-1">/10</span></div>
                                             </div>
                                             <div className="text-center">
                                                 <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-4">Conversion</h3>
@@ -458,8 +458,8 @@ function AnalyzeContent() {
                                         </div>
                                     </div>
 
-                                    <div className="p-10 md:p-12 bg-amber-50 border border-amber-100 rounded-[2.5rem] italic relative overflow-hidden group">
-                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-600 mb-4">The Big Idea</h4>
+                                    <div className="p-10 md:p-12 bg-purple-50 border border-purple-100 rounded-[2.5rem] italic relative overflow-hidden group">
+                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-purple-600 mb-4">The Big Idea</h4>
                                         <p className="text-slate-900 text-xl md:text-3xl font-serif leading-relaxed">"{result.analysis.big_idea}"</p>
                                         <div className="absolute top-0 right-0 p-8 opacity-10 text-4xl">💡</div>
                                     </div>
@@ -472,9 +472,9 @@ function AnalyzeContent() {
                                     <div className="flex flex-col sm:flex-row gap-6">
                                         <button
                                             onClick={startChat}
-                                            className="flex-1 py-8 bg-indigo-950 text-white rounded-[2rem] font-bold uppercase tracking-[0.4em] text-xs hover:bg-amber-500 hover:text-slate-950 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-indigo-950/20 flex items-center justify-center gap-6 group"
+                                            className="flex-1 py-8 bg-indigo-950 text-white rounded-[2rem] font-bold uppercase tracking-[0.4em] text-xs hover:bg-purple-500 hover:text-slate-950 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-indigo-950/20 flex items-center justify-center gap-6 group"
                                         >
-                                            <span className="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+                                            <span className="w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
                                             Enter Strategy Lounge
                                             <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
                                         </button>
@@ -482,7 +482,7 @@ function AnalyzeContent() {
                                         {profile?.plan_type === 'agency' && (
                                             <Link
                                                 href={`/dashboard/report/${sessionId || ''}`}
-                                                className="px-10 py-8 border border-slate-100 text-slate-400 rounded-[2rem] font-bold uppercase tracking-[0.3em] text-xs hover:bg-white hover:text-amber-600 transition-all flex items-center justify-center gap-3"
+                                                className="px-10 py-8 border border-slate-100 text-slate-400 rounded-[2rem] font-bold uppercase tracking-[0.3em] text-xs hover:bg-white hover:text-purple-600 transition-all flex items-center justify-center gap-3"
                                             >
                                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
                                                 Expert Report
@@ -500,15 +500,15 @@ function AnalyzeContent() {
                             {messages.map((msg, idx) => (
                                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                     <div className={`max-w-[90%] md:max-w-[85%] p-6 md:p-10 rounded-[2.5rem] shadow-sm ${msg.type === 'brief'
-                                        ? 'bg-gradient-to-br from-indigo-950 to-purple-950 text-white border-4 border-amber-500/20'
+                                        ? 'bg-gradient-to-br from-indigo-950 to-purple-950 text-white border-4 border-purple-500/20'
                                         : msg.role === 'user'
                                             ? 'bg-slate-900 text-white rounded-tr-none'
                                             : 'bg-white text-slate-900 rounded-tl-none border border-slate-100'
                                         }`}>
                                         {msg.type === 'brief' && (
                                             <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
-                                                <div className="w-10 h-10 bg-amber-500 text-slate-950 rounded-xl flex items-center justify-center font-serif italic text-xl shadow-lg">B</div>
-                                                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-400">Director Brief Forged</span>
+                                                <div className="w-10 h-10 bg-purple-500 text-slate-950 rounded-xl flex items-center justify-center font-serif italic text-xl shadow-lg">B</div>
+                                                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400">Director Brief Forged</span>
                                             </div>
                                         )}
                                         <p className={`text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'brief' ? 'font-serif text-gray-100' : ''}`}>{msg.content}</p>
@@ -516,7 +516,7 @@ function AnalyzeContent() {
                                             <div className="mt-6 pt-6 border-t border-slate-50 flex gap-6 items-center">
                                                 <button 
                                                     onClick={() => handleFeedback(idx, 'up')}
-                                                    className={`hover:scale-110 transition-transform ${msg.feedback === 'up' ? 'text-amber-500' : 'text-slate-400'}`}
+                                                    className={`hover:scale-110 transition-transform ${msg.feedback === 'up' ? 'text-purple-500' : 'text-slate-400'}`}
                                                 >
                                                     <svg className="w-5 h-5" fill={msg.feedback === 'up' ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10h4.708C19.746 10 20.5 10.852 20.5 11.852c0 .324-.078.636-.231.912l-2.455 4.39A2.5 2.5 0 0115.656 18H10V10z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 18H5a2 2 0 01-2-2v-4a2 2 0 012-2h5v8z" /></svg>
                                                 </button>
@@ -535,16 +535,16 @@ function AnalyzeContent() {
                             {isSending && (
                                 <div className="flex justify-start">
                                     <div className="bg-white p-6 rounded-[2.5rem] rounded-tl-none border border-slate-100 shadow-sm flex gap-2">
-                                        <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce" />
-                                        <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce delay-75" />
-                                        <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce delay-150" />
+                                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce" />
+                                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce delay-75" />
+                                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-bounce delay-150" />
                                     </div>
                                 </div>
                             )}
                         </div>
 
                         {/* Mobile-first Input Bar */}
-                        <div className="relative group bg-white rounded-3xl border border-slate-100 shadow-2xl focus-within:ring-4 focus-within:ring-amber-500/10 transition-all">
+                        <div className="relative group bg-white rounded-3xl border border-slate-100 shadow-2xl focus-within:ring-4 focus-within:ring-purple-500/10 transition-all">
                             <div className="flex gap-4 p-4">
                                 <input
                                     type="text"
@@ -559,21 +559,21 @@ function AnalyzeContent() {
                                         onClick={forgeDirectorBrief}
                                         disabled={isSending || messages.length < 1}
                                         title="Forge Director Brief"
-                                        className="p-4 bg-amber-50 text-amber-600 rounded-2xl hover:bg-amber-100 transition-colors disabled:opacity-30"
+                                        className="p-4 bg-purple-50 text-purple-600 rounded-2xl hover:bg-purple-100 transition-colors disabled:opacity-30"
                                     >
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
                                     </button>
                                     <button
                                         onClick={sendMessage}
                                         disabled={isSending || !chatInput.trim()}
-                                        className="p-4 bg-indigo-950 text-white rounded-2xl hover:bg-amber-500 hover:text-slate-950 hover:scale-105 active:scale-95 transition-all shadow-xl disabled:opacity-50"
+                                        className="p-4 bg-indigo-950 text-white rounded-2xl hover:bg-purple-500 hover:text-slate-950 hover:scale-105 active:scale-95 transition-all shadow-xl disabled:opacity-50"
                                     >
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                     </button>
                                 </div>
                             </div>
                             <div className="px-6 pb-4 flex items-center gap-3">
-                                <div className={`w-1.5 h-1.5 rounded-full ${isRoastMode ? 'bg-red-500 animate-pulse' : 'bg-amber-500'}`} />
+                                <div className={`w-1.5 h-1.5 rounded-full ${isRoastMode ? 'bg-red-500 animate-pulse' : 'bg-purple-500'}`} />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
                                     {isRoastMode ? 'Roast Mode' : 'Creative Lounge'}
                                 </span>

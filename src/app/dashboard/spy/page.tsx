@@ -96,7 +96,7 @@ export default function CompetitorSpyPage() {
     if (isCheckingPlan) {
         return (
             <div className="max-w-4xl mx-auto pt-24 text-center">
-                <div className="w-12 h-12 border-4 border-amber-100 border-t-amber-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <div className="w-12 h-12 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
                 <p className="font-serif text-xl italic text-slate-400">Syncing Intelligence...</p>
             </div>
         );
@@ -113,7 +113,7 @@ export default function CompetitorSpyPage() {
             {/* Header */}
             <div className="space-y-6 pt-6 md:pt-12 border-b border-slate-100 pb-12">
                 <RevealOnScroll>
-                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 italic block">Expert Surveillance</span>
+                    <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 italic block">Expert Surveillance</span>
                 </RevealOnScroll>
                 <RevealOnScroll delay={100}>
                     <h2 className="text-4xl sm:text-7xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
@@ -131,7 +131,7 @@ export default function CompetitorSpyPage() {
             <RevealOnScroll delay={300}>
                 <form onSubmit={handleSpy} className="max-w-3xl">
                     <div className="flex flex-col sm:flex-row gap-6">
-                        <div className="flex-1 relative group p-1 bg-white rounded-2xl border border-slate-100 focus-within:ring-4 focus-within:ring-amber-500/10 transition-all">
+                        <div className="flex-1 relative group p-1 bg-white rounded-2xl border border-slate-100 focus-within:ring-4 focus-within:ring-purple-500/10 transition-all">
                             <input
                                 type="text"
                                 placeholder="Paste TikTok or Instagram profile URL..."
@@ -144,7 +144,7 @@ export default function CompetitorSpyPage() {
                         <button
                             type="submit"
                             disabled={loading || !profileUrl.trim()}
-                            className="px-10 py-6 bg-indigo-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-amber-500 hover:text-slate-950 transition-all shadow-2xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                            className="px-10 py-6 bg-indigo-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-slate-950 transition-all shadow-2xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                         >
                             {loading ? (
                                 <span className="flex items-center gap-2">
@@ -169,7 +169,7 @@ export default function CompetitorSpyPage() {
             {/* Loading State */}
             {loading && (
                 <div className="text-center py-24 bg-slate-50 rounded-[3rem] border border-slate-100 border-dashed">
-                    <div className="w-16 h-16 border-2 border-amber-500/20 border-t-amber-500 rounded-full animate-spin mx-auto mb-8"></div>
+                    <div className="w-16 h-16 border-2 border-purple-500/20 border-t-purple-500 rounded-full animate-spin mx-auto mb-8"></div>
                     <p className="text-slate-900 font-serif italic text-2xl">Mapping their Creative Strategy...</p>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.4em] mt-4">Direct Link established • Extraction in progress</p>
                 </div>
@@ -193,7 +193,7 @@ export default function CompetitorSpyPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {results.videos.map((video, i) => (
                                 <RevealOnScroll key={video.id || i} delay={i * 50}>
-                                    <div className="group bg-white border border-slate-100 rounded-[2.5rem] overflow-hidden hover:shadow-2xl hover:border-amber-200 transition-all duration-500">
+                                    <div className="group bg-white border border-slate-100 rounded-[2.5rem] overflow-hidden hover:shadow-2xl hover:border-purple-200 transition-all duration-500">
                                         {/* Thumbnail */}
                                         <div className="relative aspect-[9/16] bg-slate-100 overflow-hidden">
                                             {video.thumbnail ? (
@@ -217,7 +217,7 @@ export default function CompetitorSpyPage() {
                                             <div className="absolute inset-0 bg-indigo-950/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
                                                 <button
                                                     onClick={() => handleAnalyze(video.url)}
-                                                    className="px-8 py-4 bg-amber-500 text-slate-950 text-[10px] font-bold uppercase tracking-widest rounded-2xl hover:scale-110 transition-all active:scale-95 shadow-2xl"
+                                                    className="px-8 py-4 bg-purple-500 text-slate-950 text-[10px] font-bold uppercase tracking-widest rounded-2xl hover:scale-110 transition-all active:scale-95 shadow-2xl"
                                                 >
                                                     Extract DNA →
                                                 </button>
@@ -243,7 +243,7 @@ export default function CompetitorSpyPage() {
                                             </div>
 
                                             {video.music && (
-                                                <p className="text-[10px] text-amber-600 truncate font-medium">♫ {video.music}</p>
+                                                <p className="text-[10px] text-purple-600 truncate font-medium">♫ {video.music}</p>
                                             )}
                                         </div>
                                     </div>

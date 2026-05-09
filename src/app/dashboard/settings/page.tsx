@@ -184,7 +184,7 @@ function SettingsContent() {
             <header className="space-y-4">
                 <motion.span 
                     variants={itemVariants}
-                    className="text-[10px] font-bold tracking-[0.4em] uppercase text-amber-600 block italic"
+                    className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 block italic"
                 >
                     Account Configuration
                 </motion.span>
@@ -213,7 +213,7 @@ function SettingsContent() {
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 text-base focus:ring-2 focus:ring-amber-500 transition-all font-medium"
+                                className="w-full bg-slate-50 border-none rounded-2xl px-6 py-4 text-base focus:ring-2 focus:ring-purple-500 transition-all font-medium"
                                 placeholder="E.g. Creative Director"
                             />
                         </div>
@@ -232,7 +232,7 @@ function SettingsContent() {
                         <button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="px-10 py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-amber-500 hover:text-slate-950 transition-all shadow-xl shadow-indigo-950/10 disabled:opacity-50 active:scale-95"
+                            className="px-10 py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl shadow-indigo-950/10 disabled:opacity-50 active:scale-95"
                         >
                             {isSaving ? 'Updating Identity...' : 'Save Configuration'}
                         </button>
@@ -252,12 +252,12 @@ function SettingsContent() {
                 <div className="lg:col-span-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-10 md:p-12">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                         <div className="space-y-2">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-600 block italic">Active Plan</span>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-600 block italic">Active Plan</span>
                             <h4 className="text-3xl font-serif italic text-slate-900">{getPlanDisplay()}</h4>
                         </div>
                         <button
                             onClick={() => router.push('/pricing')}
-                            className="px-10 py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-amber-500 hover:text-slate-950 transition-all shadow-xl shadow-indigo-950/10"
+                            className="px-10 py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl shadow-indigo-950/10"
                         >
                             View Subscription Plans
                         </button>
@@ -317,8 +317,8 @@ function SettingsContent() {
                         </div>
                     ) : (
                         <div className="relative z-10 py-10 text-center space-y-6">
-                            <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-8 h-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
                             </div>
@@ -328,7 +328,7 @@ function SettingsContent() {
                             </p>
                             <button
                                 onClick={() => router.push('/pricing')}
-                                className="px-10 py-5 bg-amber-500 text-slate-950 text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-amber-900/10"
+                                className="px-10 py-5 bg-purple-500 text-slate-950 text-[10px] font-bold uppercase tracking-[0.3em] rounded-2xl hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-purple-900/10"
                             >
                                 Upgrade to Studio
                             </button>
@@ -356,22 +356,22 @@ function SettingsContent() {
                         >
                             <div className="space-y-8">
                                 <div className="space-y-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-600">Plan Management</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-600">Plan Management</span>
                                     <h3 className="text-4xl font-sans font-bold text-slate-900 leading-tight">Cancel <br /><span className="italic font-serif text-slate-400">Subscription?</span></h3>
                                     <p className="text-sm text-slate-400 font-medium leading-relaxed">
                                         Terminating your subscription will disconnect you from our Viral DNA engine and all saved strategy dossiers.
                                     </p>
                                 </div>
 
-                                <div className="p-6 bg-amber-50 rounded-3xl border border-amber-100">
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600">Founding Access Notice</p>
+                                <div className="p-6 bg-purple-50 rounded-3xl border border-purple-100">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-purple-600">Founding Access Notice</p>
                                     <p className="text-xs text-slate-600 mt-2 font-medium">As an early adopter, your current rate is protected. If you dissolve now, future access will be at standard market rates.</p>
                                 </div>
 
                                 <div className="flex flex-col gap-4 pt-4">
                                     <button
                                         onClick={() => setShowCancelModal(false)}
-                                        className="w-full py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-2xl hover:bg-amber-500 hover:text-slate-950 transition-all shadow-xl"
+                                        className="w-full py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl"
                                     >
                                         Keep My Subscription
                                     </button>
