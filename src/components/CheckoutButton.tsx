@@ -18,26 +18,23 @@ export default function CheckoutButton({ productId, children, className }: Check
     const handleCheckout = async () => {
         if (!isLoaded) return;
 
-        // Check if user is logged in
-        if (!user) {
+if (!user) {
             router.push(`/sign-in?redirect_url=/pricing`); // Using Clerk's default sign-in route
             return;
         }
 
         setIsLoading(true);
-        
-        // Use the productId (which comes from .env variables like NEXT_PUBLIC_GUMROAD_CREATOR_ID)
-        // Since we are using Gumroad/Stripe/Polar links, the productId is usually the checkout URL.
-        const checkoutUrl = productId.startsWith('http') ? productId : `https://selar.co/m/${productId}`;
+
+const checkoutUrl = productId.startsWith('http') ? productId : `https://polar.sh/checkout/${productId}`;
 
         if (checkoutUrl && checkoutUrl !== 'creator_placeholder' && checkoutUrl !== 'studio_placeholder') {
-            // Append user email to the link if possible for auto-fill
-            const finalUrl = checkoutUrl.includes('?') 
-                ? `${checkoutUrl}&email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`
-                : `${checkoutUrl}?email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`;
+
+const finalUrl = checkoutUrl.includes('?') 
+                ? `${checkoutUrl}&customer_email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`
+                : `${checkoutUrl}?customer_email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`;
             window.location.href = finalUrl;
         } else {
-            console.warn('Payment link not configured in environment variables.');
+
             alert('Payment gateways are currently being configured. Please contact support.');
             setIsLoading(false);
         }

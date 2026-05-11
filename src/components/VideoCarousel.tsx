@@ -132,8 +132,7 @@ export default function VideoCarousel() {
                                     className="object-cover w-full h-full opacity-60 group-hover:opacity-100 transition-opacity duration-500"
                                 />
 
-                                {/* Floating Viral Signals */}
-                                <FloatingIcon type="heart" delay={0} />
+<FloatingIcon type="heart" delay={0} />
                                 <FloatingIcon type="eye" delay={0.8} />
                                 <FloatingIcon type="heart" delay={1.6} />
                                 <FloatingIcon type="eye" delay={2.4} />
@@ -155,8 +154,7 @@ export default function VideoCarousel() {
                     ))}
                 </motion.div>
 
-                {/* No Gradient Masks per user request */}
-            </div>
+</div>
         </div>
     );
 }

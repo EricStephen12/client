@@ -12,7 +12,7 @@ export default function PricingPage() {
     
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-purple-100 selection:text-purple-900">
-            {/* Navigation - Unified Warm Partner Style */}
+
             <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
                 <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <Link href="/" className="text-2xl font-serif italic font-bold text-slate-900">
@@ -53,8 +53,7 @@ export default function PricingPage() {
                 </div>
             </main>
 
-            {/* Minimal Footer */}
-            <footer className="bg-white border-t border-slate-100 py-24 px-6">
+<footer className="bg-white border-t border-slate-100 py-24 px-6">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-16">
                     <Link href="/" className="text-2xl font-serif italic font-bold text-slate-900 opacity-60 hover:opacity-100 transition-opacity">Eixora<span className="text-purple-600">.</span></Link>
                     <div className="flex flex-wrap justify-center gap-12 text-[9px] font-bold tracking-[0.4em] uppercase text-slate-400">

@@ -34,8 +34,7 @@ export default function ExtractionModal({
     const { user } = useUser();
     const userId = user?.id;
 
-    // Reset state when modal opens
-    useEffect(() => {
+useEffect(() => {
         if (isOpen) {
             setStep(1);
             setProductName(initialProductName);
@@ -47,8 +46,7 @@ export default function ExtractionModal({
         }
     }, [isOpen, initialProductName, initialDescription]);
 
-    // Simulate real-time log scanning
-    useEffect(() => {
+useEffect(() => {
         if (isLoading && analysisLogs.length > 0 && step === 1) {
             const interval = setInterval(() => {
                 setCurrentLogIdx(prev => (prev + 1) % analysisLogs.length);
@@ -57,8 +55,7 @@ export default function ExtractionModal({
         }
     }, [isLoading, analysisLogs, step]);
 
-    // Step 1 -> Step 2 (Fetch Questions)
-    const handleNextToQuestions = async (e: React.FormEvent) => {
+const handleNextToQuestions = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!adId) {
             handleFinalGenerate();
@@ -96,8 +93,7 @@ export default function ExtractionModal({
         }
     };
 
-    // Step 2 -> Step 3 (Final Generate)
-    const handleFinalGenerate = async () => {
+const handleFinalGenerate = async () => {
         setIsLoading(true);
         setError('');
         setStep(3);
@@ -164,7 +160,7 @@ export default function ExtractionModal({
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-[2.5rem] bg-white p-8 md:p-12 shadow-2xl transition-all">
-                                {/* Header */}
+
                                 <div className="mb-8 border-b border-purple-100 pb-6 flex justify-between items-start">
                                     <div>
                                         <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 mb-2 block">AI Creative Director</span>
@@ -187,8 +183,7 @@ export default function ExtractionModal({
                                     </button>
                                 </div>
 
-                                {/* Progress Steps */}
-                                <div className="flex items-center gap-4 mb-8">
+<div className="flex items-center gap-4 mb-8">
                                     {[1, 2, 3].map((s) => (
                                         <div key={s} className="flex items-center gap-2">
                                             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border transition-all duration-500 ${step === s ? 'bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-100' : 'text-gray-400 border-gray-200'}`}>
@@ -199,8 +194,7 @@ export default function ExtractionModal({
                                     ))}
                                 </div>
 
-                                {/* Content */}
-                                <div className="max-h-[60vh] overflow-y-auto">
+<div className="max-h-[60vh] overflow-y-auto">
                                     {step === 1 && (
                                         <form onSubmit={handleNextToQuestions} className="space-y-8">
                                             <div className="space-y-2">
@@ -294,7 +288,7 @@ export default function ExtractionModal({
 
                                     {step === 3 && extraction && (
                                         <div className="space-y-8">
-                                            {/* Storyboard Table */}
+
                                             {extraction.shot_list && extraction.shot_list.length > 0 && (
                                                 <div className="bg-white border border-purple-50 rounded-3xl overflow-hidden shadow-sm">
                                                     <div className="p-8 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-purple-100">
@@ -328,8 +322,7 @@ export default function ExtractionModal({
                                                 </div>
                                             )}
 
-                                            {/* Aesthetic Guide */}
-                                            {extraction.aesthetic_guide && (
+{extraction.aesthetic_guide && (
                                                 <div className="p-10 bg-gradient-to-br from-gray-900 to-black text-white rounded-[2.5rem] shadow-2xl space-y-6 relative overflow-hidden border border-white/5">
                                                     <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
                                                     <div className="relative">
@@ -344,8 +337,7 @@ export default function ExtractionModal({
                                                 </div>
                                             )}
 
-                                            {/* Summary Cards */}
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
                                                     <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block mb-4">The Hook</span>
                                                     <p className="text-lg font-serif italic text-gray-900">"{(extraction.summary || extraction).hook}"</p>
@@ -357,8 +349,7 @@ export default function ExtractionModal({
                                                 </div>
                                             </div>
 
-                                            {/* Action Buttons - Show directly with results */}
-                                            <div className="space-y-4 pt-6 border-t border-purple-100">
+<div className="space-y-4 pt-6 border-t border-purple-100">
                                                 <button
                                                     onClick={() => window.location.href = `/dashboard/content-generator?productName=${encodeURIComponent(productName)}&description=${encodeURIComponent(description)}`}
                                                     className="w-full p-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl flex items-center justify-between hover:scale-[1.02] transition-all group shadow-lg shadow-purple-100"

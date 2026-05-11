@@ -48,15 +48,13 @@ export default function LandingPage() {
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 text-gray-900 selection:bg-purple-600 selection:text-white overflow-x-hidden">
             <CursorEffect />
 
-            {/* Navigation - Minimalist & Bordered */}
-            <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-purple-100 transition-all duration-300">
+<nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-purple-100 transition-all duration-300">
                 <div className="w-full px-6 h-20 flex items-center justify-between">
                     <Link href="/" className="text-3xl md:text-4xl font-signature hover:opacity-70 transition-opacity">
                         Eixora.
                     </Link>
 
-                    {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center gap-12">
+<div className="hidden md:flex items-center gap-12">
                         <Link href="/pricing" className="text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1 decoration-purple-400">
                             Pricing
                         </Link>
@@ -68,8 +66,7 @@ export default function LandingPage() {
                         </Link>
                     </div>
 
-                    {/* Mobile Toggle */}
-                    <button
+<button
                         className="md:hidden text-gray-900 p-2"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
@@ -81,8 +78,7 @@ export default function LandingPage() {
                     </button>
                 </div>
 
-                {/* Mobile Menu Overlay */}
-                {isMobileMenuOpen && (
+{isMobileMenuOpen && (
                     <div className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-purple-100 animate-slide-down">
                         <div className="flex flex-col p-8 gap-6 text-center">
                             <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="text-[10px] font-black tracking-[0.4em] uppercase text-gray-500">Pricing</Link>
@@ -99,9 +95,8 @@ export default function LandingPage() {
                 )}
             </nav>
 
-            {/* Hero Section - Refined Editorial */}
-            <section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-purple-200 overflow-hidden">
-                <div className="flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-24 py-16 md:py-24 border-b md:border-b-0 md:border-r border-purple-200 bg-white">
+<section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-purple-200 overflow-hidden">
+                <div className="flex flex-col justify-center px-5 sm:px-8 md:px-16 lg:px-24 py-12 sm:py-16 md:py-24 border-b md:border-b-0 md:border-r border-purple-200 bg-white">
                     <RevealOnScroll delay={100}>
                         <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-purple-500 block">Your Creative Partner</span>
                     </RevealOnScroll>
@@ -140,8 +135,7 @@ export default function LandingPage() {
                     </RevealOnScroll>
                 </div>
 
-                {/* Right: Localized Hero Video */}
-                <div className="relative h-[70vh] md:h-auto overflow-hidden bg-black flex items-center justify-center">
+<div className="relative h-[50vh] sm:h-[70vh] md:h-auto overflow-hidden bg-black flex items-center justify-center">
                     <video
                         autoPlay
                         muted
@@ -158,12 +152,11 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Trust Bar - Social Proof for Business Utility */}
-            <section className="py-12 border-b border-purple-100 bg-[#FAFAF9]">
+<section className="py-12 border-b border-purple-100 bg-[#FAFAF9]">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 mb-8">Trusted by Performance Teams at</p>
                     <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
-                        {/* Use generic but professional looking text-based logos */}
+
                         <span className="text-xl md:text-2xl font-serif italic tracking-tighter">GrowthOps</span>
                         <span className="text-xl md:text-2xl font-serif italic tracking-tighter">Scale.V1</span>
                         <span className="text-xl md:text-2xl font-serif italic tracking-tighter">Direct.Alpha</span>
@@ -173,27 +166,24 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Video Carousel Section */}
-            <VideoCarousel />
+<VideoCarousel />
 
-            {/* Real Blueprint Preview */}
-            <BlueprintPreview />
+<BlueprintPreview />
 
-            {/* Benefit-Centric Manifesto - Royal Warmth */}
-            <section className="py-32 px-6 bg-white">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white">
                 <div className="max-w-7xl mx-auto">
-                    <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 rounded-[3rem] p-12 md:p-24 text-white relative overflow-hidden group border border-purple-500/20 shadow-2xl">
-                        <div className="absolute top-0 right-0 p-12 opacity-5 font-sans font-bold text-[12vw] pointer-events-none text-purple-200">PARTNER</div>
+                    <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 rounded-2xl sm:rounded-[3rem] p-6 sm:p-12 md:p-24 text-white relative overflow-hidden group border border-purple-500/20 shadow-2xl">
+                        <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-5 font-sans font-bold text-[20vw] sm:text-[12vw] pointer-events-none text-purple-200">PARTNER</div>
                         <div className="max-w-3xl relative z-10">
                             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-8 block">Our Vision</span>
-                            <h2 className="text-4xl md:text-7xl font-sans font-bold leading-tight tracking-tight mb-12">
+                            <h2 className="text-3xl sm:text-4xl md:text-7xl font-sans font-bold leading-tight tracking-tight mb-8 sm:mb-12">
                                 Scale with <br />
                                 <span className="italic text-purple-200/60 font-serif">Total Peace.</span>
                             </h2>
-                            <p className="text-xl md:text-2xl font-light leading-relaxed text-white/80 mb-16">
+                            <p className="text-base sm:text-xl md:text-2xl font-light leading-relaxed text-white/80 mb-10 sm:mb-16">
                                 We believe creative work should be rewarding, not exhausting. Eixora handles the heavy lifting of analysis so you can stay in your zone of genius—creating content that connects.
                             </p>
-                            <div className="flex flex-wrap gap-12 border-t border-white/10 pt-12">
+                            <div className="flex flex-wrap gap-8 sm:gap-12 border-t border-white/10 pt-8 sm:pt-12">
                                 <div>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-purple-500/40 mb-2">Focus On</p>
                                     <p className="text-lg font-serif italic text-white">Creative Strategy</p>
@@ -208,21 +198,20 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Yorby Principle: Clean Workflow Cards */}
-            <section className="py-32 px-6 bg-slate-50">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-slate-50">
                 <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-24">
-                        <h2 className="text-4xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 mb-6">Built for High-Growth Teams.</h2>
-                        <p className="text-lg text-slate-500 font-light">The Eixora Protocol: From discovery to production in 60 seconds.</p>
+                    <div className="text-center mb-12 sm:mb-16 md:mb-24">
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 mb-4 sm:mb-6">Built for High-Growth Teams.</h2>
+                        <p className="text-base sm:text-lg text-slate-500 font-light px-2">The Eixora Protocol: From discovery to production in 60 seconds.</p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                         {[
                             { step: "01", title: "Extract Viral DNA", desc: "Paste any viral TikTok or Reels URL. Our engine deconstructs the hook, pacing, and visual triggers that drive the hold rate." },
                             { step: "02", title: "Map Technical Brief", desc: "We convert visual data into a structured production blueprint. Direct shooting instructions, script variations, and audio cues." },
                             { step: "03", title: "Scale with Logic", desc: "Hand the brief to your creators. Stop guessing what will work and start filming ads backed by psychological data." }
                         ].map((item, i) => (
-                            <div key={i} className="bg-white p-12 rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group">
+                            <div key={i} className="bg-white p-8 sm:p-12 rounded-2xl sm:rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group">
                                 <span className="text-5xl font-sans font-bold text-slate-100 group-hover:text-purple-100 transition-colors block mb-8">{item.step}</span>
                                 <h3 className="text-2xl font-bold text-slate-900 mb-6 group-hover:text-purple-600 transition-colors">{item.title}</h3>
                                 <p className="text-sm text-slate-500 font-light leading-relaxed">{item.desc}</p>
@@ -232,13 +221,11 @@ export default function LandingPage() {
                 </div>
             </section>
 
-
-            {/* Yorby Principle: Strategic Social Proof */}
-            <section className="py-32 px-6 bg-white overflow-hidden">
-                <div className="max-w-7xl mx-auto border-t border-slate-100 pt-32">
-                    <div className="flex flex-col lg:grid lg:grid-cols-12 gap-20">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white overflow-hidden">
+                <div className="max-w-7xl mx-auto border-t border-slate-100 pt-16 sm:pt-24 md:pt-32">
+                    <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 sm:gap-16 md:gap-20">
                         <div className="lg:col-span-5">
-                            <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-8">Performance Driven.</h2>
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-6 sm:mb-8">Performance Driven.</h2>
                             <p className="text-lg text-slate-500 font-light leading-relaxed mb-12">
                                 Eixora isn't just a tool; it's a member of your creative team. We analyze millions in ad spend daily to keep our "Director's Logic" ahead of the market.
                             </p>
@@ -254,16 +241,16 @@ export default function LandingPage() {
                             </div>
                         </div>
                         <div className="lg:col-span-7">
-                            <div className="grid grid-cols-2 gap-8">
-                                <div className="bg-slate-50 p-10 rounded-[2rem] border border-slate-100">
-                                    <p className="text-5xl font-sans font-bold text-slate-900 mb-4">42%</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+                                <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
+                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">42%</p>
                                     <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Average Hook Rate Increase</p>
                                 </div>
-                                <div className="bg-slate-50 p-10 rounded-[2rem] border border-slate-100">
-                                    <p className="text-5xl font-sans font-bold text-slate-900 mb-4">12x</p>
+                                <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
+                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">12x</p>
                                     <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Faster Brief Turnaround</p>
                                 </div>
-                                <div className="bg-slate-900 p-10 rounded-[2rem] text-white col-span-2">
+                                <div className="bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] text-white sm:col-span-2">
                                     <p className="text-xl font-serif italic mb-6">"Eixora has completely changed our creative workflow. We no longer wait days for scripts—we get them in 60 seconds."</p>
                                     <div className="flex items-center gap-4">
                                         <div className="w-8 h-8 bg-blue-500 rounded-full" />
@@ -279,11 +266,10 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Yorby Principle: Minimalist FAQ */}
-            <section className="py-32 px-6 bg-[#F8FAFC]">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#F8FAFC]">
                 <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-24">
-                        <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900">Questions & Answers.</h2>
+                    <div className="text-center mb-12 sm:mb-16 md:mb-24">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900">Questions & Answers.</h2>
                     </div>
                     <div className="space-y-4">
                         {[
@@ -292,14 +278,14 @@ export default function LandingPage() {
                             { q: "Which platforms are supported?", a: "We are optimized for TikTok and Reels, with YouTube Shorts and Meta support currently in beta." },
                             { q: "Can I cancel anytime?", a: "Yes. Our monthly plans are contract-free. Scale up or down as your production needs change." }
                         ].map((faq, i) => (
-                            <details key={i} className="group bg-white border border-slate-200 rounded-3xl overflow-hidden hover:border-blue-400 transition-all duration-300">
-                                <summary className="flex items-center justify-between p-10 cursor-pointer list-none">
-                                    <h3 className="text-lg font-bold text-slate-900">{faq.q}</h3>
+                            <details key={i} className="group bg-white border border-slate-200 rounded-2xl sm:rounded-3xl overflow-hidden hover:border-blue-400 transition-all duration-300">
+                                <summary className="flex items-center justify-between p-5 sm:p-8 md:p-10 cursor-pointer list-none">
+                                    <h3 className="text-base sm:text-lg font-bold text-slate-900 pr-4">{faq.q}</h3>
                                     <span className="text-slate-400 group-open:rotate-180 transition-transform duration-300">
                                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" /></svg>
                                     </span>
                                 </summary>
-                                <div className="px-10 pb-10 text-slate-500 font-light leading-relaxed">
+                                <div className="px-5 sm:px-8 md:px-10 pb-5 sm:pb-8 md:pb-10 text-sm sm:text-base text-slate-500 font-light leading-relaxed">
                                     {faq.a}
                                 </div>
                             </details>
@@ -308,12 +294,9 @@ export default function LandingPage() {
                 </div>
             </section>
 
-
-
-            {/* Footer - Blended Royal Warmth */}
-            <footer className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 text-white pt-24 md:pt-32 pb-12 px-6 border-t border-purple-500/20">
+<footer className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 text-white pt-16 sm:pt-24 md:pt-32 pb-12 px-4 sm:px-6 border-t border-purple-500/20">
                 <div className="max-w-[1400px] mx-auto">
-                    <div className="flex flex-col md:grid md:grid-cols-3 gap-16 md:gap-32 mb-20 md:mb-32">
+                    <div className="flex flex-col md:grid md:grid-cols-3 gap-12 sm:gap-16 md:gap-32 mb-16 sm:mb-20 md:mb-32">
                         <div>
                             <RevealOnScroll>
                                 <h2 className="text-[20vw] md:text-[8vw] leading-[0.8] font-serif tracking-tighter opacity-10 text-purple-500">
@@ -341,7 +324,7 @@ export default function LandingPage() {
 
                         <div className="flex flex-col justify-end items-start md:items-end">
                             <RevealOnScroll delay={300} className="w-full text-left md:text-right">
-                                <Link href="/signup" className="text-4xl md:text-6xl font-serif hover:italic transition-all underline decoration-1 underline-offset-8 mb-10 inline-block decoration-purple-600">
+                                <Link href="/signup" className="text-2xl sm:text-4xl md:text-6xl font-serif hover:italic transition-all underline decoration-1 underline-offset-8 mb-6 sm:mb-10 inline-block decoration-purple-600">
                                     Find Your Flow &rarr;
                                 </Link>
                                 <p className="text-sm opacity-40 max-w-sm md:ml-auto leading-relaxed">

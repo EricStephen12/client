@@ -25,8 +25,7 @@ export default function CursorEffect() {
         const handleMouseMove = (e: MouseEvent) => {
             mouseRef.current = { x: e.clientX, y: e.clientY };
 
-            // Spawn a bunch of "fish" on move
-            for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 5; i++) {
                 particlesRef.current.push({
                     x: e.clientX,
                     y: e.clientY,
@@ -46,16 +45,14 @@ export default function CursorEffect() {
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Limit particle count
-            if (particlesRef.current.length > 300) {
+if (particlesRef.current.length > 300) {
                 particlesRef.current = particlesRef.current.slice(-300);
             }
 
             particlesRef.current.forEach((p, i) => {
                 p.life -= p.decay;
 
-                // Organic "swimming" movement toward mouse with some noise
-                const dx = mouseRef.current.x - p.x;
+const dx = mouseRef.current.x - p.x;
                 const dy = mouseRef.current.y - p.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
 
@@ -64,8 +61,7 @@ export default function CursorEffect() {
                     p.vy += (dy / dist) * 0.2;
                 }
 
-                // Add some wiggle
-                p.vx += Math.sin(Date.now() * 0.01 + p.offset) * 0.1;
+p.vx += Math.sin(Date.now() * 0.01 + p.offset) * 0.1;
                 p.vy += Math.cos(Date.now() * 0.01 + p.offset) * 0.1;
 
                 p.vx *= 0.95; // Friction
@@ -86,8 +82,7 @@ export default function CursorEffect() {
                 ctx.fill();
             });
 
-            // Draw a subtle glow under the cursor
-            const gradient = ctx.createRadialGradient(
+const gradient = ctx.createRadialGradient(
                 mouseRef.current.x, mouseRef.current.y, 0,
                 mouseRef.current.x, mouseRef.current.y, 100
             );

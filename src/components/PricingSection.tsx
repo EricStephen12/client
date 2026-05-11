@@ -38,7 +38,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
         {
             id: 'studio',
             name: 'The Studio',
-            price: '$79',
+            price: '$59',
             period: '/mo',
             badge: 'No Password Sharing Needed',
             description: 'Full team collaboration',
@@ -52,7 +52,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
             ],
             productId: process.env.NEXT_PUBLIC_GUMROAD_STUDIO_ID || 'studio_placeholder',
             buttonText: currentTier === 'studio' ? 'Active Plan' : 'Enter The Studio',
-            color: 'amber',
+            color: 'indigo',
             popular: true
         }
     ];

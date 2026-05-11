@@ -7,11 +7,22 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen grid md:grid-cols-2 bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden text-gray-900">
 
-            {/* Left Column - Clerk Sign In */}
-            <div className="flex items-center justify-center p-8 md:p-16 lg:p-24 order-2 md:order-1 border-r border-purple-100 bg-white/50 backdrop-blur-sm">
+            {/* Back Button */}
+            <Link 
+                href="/" 
+                className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-purple-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-purple-600 hover:bg-purple-600 hover:text-white transition-all shadow-sm group"
+            >
+                <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                </svg>
+                Home
+            </Link>
+
+            {/* Form Section */}
+            <div className="flex items-center justify-center p-6 sm:p-12 md:p-16 lg:p-24 bg-white/50 backdrop-blur-sm min-h-screen w-full md:w-auto">
                 <div className="w-full max-w-md flex flex-col items-center">
                     <RevealOnScroll>
-                        <Link href="/" className="inline-block text-5xl font-signature mb-10 hover:opacity-70 transition-opacity">
+                        <Link href="/" className="inline-block text-4xl sm:text-5xl font-signature mb-8 sm:mb-10 hover:opacity-70 transition-opacity">
                             Eixora.
                         </Link>
                     </RevealOnScroll>
@@ -36,8 +47,8 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            {/* Right Column - Video */}
-            <div className="relative bg-gradient-to-br from-purple-100 to-blue-100 order-1 md:order-2 overflow-hidden h-full min-h-screen">
+            {/* Visual Section - Hidden on Mobile for better UX */}
+            <div className="relative bg-gradient-to-br from-purple-100 to-blue-100 overflow-hidden hidden md:block">
                 <video
                     autoPlay
                     loop

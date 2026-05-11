@@ -69,7 +69,7 @@ export default function BatchPage() {
         setProgress({ current: 0, total: urlList.length });
 
         try {
-            // Use AbortController for manual timeout (5 minutes for heavy batches)
+
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 min
 
@@ -139,43 +139,48 @@ export default function BatchPage() {
 
     if (isCheckingPlan) {
         return (
-            <div className="max-w-4xl mx-auto pt-24 text-center">
-                <div className="w-12 h-12 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
-                <p className="font-serif text-xl italic text-slate-400">Loading Batch Engine...</p>
+            <div className="max-w-4xl mx-auto pt-24 text-center px-4">
+                <div className="w-10 h-10 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <p className="font-serif text-lg italic text-slate-400">Loading Batch Engine...</p>
             </div>
         );
     }
 
-    // All users have access during public launch
-    if (false && planTier.toLowerCase() !== 'agency') {
-        return null;
-    }
-
     return (
-        <div className="max-w-5xl mx-auto space-y-8 pb-20">
-            {/* Header */}
-            <div className="space-y-6 border-b border-slate-100 pb-12">
+        <div className="max-w-5xl mx-auto space-y-8 pb-20 px-2 sm:px-4">
+
+            <div className="space-y-4 sm:space-y-6 border-b border-slate-100 pb-8 sm:pb-12">
                 <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 block italic">Agency Workspace</span>
-                <h2 className="text-3xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
-                    Batch <span className="italic font-serif text-slate-400">Processing.</span>
-                </h2>
-                <p className="text-slate-400 text-lg font-light max-w-xl">Deep-scan up to 10 viral masterclasses simultaneously for high-velocity creative strategy.</p>
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
+                        Batch <span className="italic font-serif text-slate-400">Processing.</span>
+                    </h2>
+                    <button 
+                        onClick={() => window.history.back()}
+                        className="self-start sm:self-auto flex items-center gap-2 px-4 py-2 bg-white border border-purple-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-purple-600 hover:bg-purple-50 transition-all shadow-sm"
+                    >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        Back
+                    </button>
+                </div>
+                <p className="text-slate-400 text-base sm:text-lg font-light max-w-xl">Deep-scan up to 10 viral masterclasses simultaneously for high-velocity creative strategy.</p>
             </div>
 
-            {/* Input */}
             {!results && (
                 <div className="space-y-6">
-                    <div className="bg-white rounded-[2rem] border border-purple-50 p-8 space-y-6 shadow-sm">
+                    <div className="bg-white rounded-2xl sm:rounded-[2rem] border border-purple-50 p-6 sm:p-8 space-y-6 shadow-sm">
                         <textarea
                             value={urls}
                             onChange={(e) => setUrls(e.target.value)}
                             placeholder={"https://www.tiktok.com/@creator1/video/...\nhttps://www.tiktok.com/@creator2/video/...\nhttps://www.tiktok.com/@creator3/video/..."}
                             rows={6}
-                            className="w-full bg-gray-50 border-none rounded-2xl p-6 focus:ring-2 focus:ring-purple-600 transition-all font-medium text-sm resize-none"
+                            className="w-full bg-gray-50 border-none rounded-xl sm:rounded-2xl p-4 sm:p-6 focus:ring-2 focus:ring-purple-600 transition-all font-medium text-sm resize-none"
                         />
 
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div className="flex items-center gap-2 self-start sm:self-auto">
                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                 <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
                                     {urls.split('\n').filter(u => u.trim()).length}/10 URLs
@@ -185,7 +190,7 @@ export default function BatchPage() {
                             <button
                                 onClick={handleBatchAnalyze}
                                 disabled={isProcessing || !urls.trim()}
-                                className="px-10 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-xs rounded-2xl hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
+                                className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs rounded-xl sm:rounded-2xl hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
                             >
                                 {isProcessing ? 'Processing...' : 'Batch Analyze All'}
                             </button>
@@ -193,30 +198,30 @@ export default function BatchPage() {
                     </div>
 
                     {error && (
-                        <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-red-600 text-sm font-medium">
+                        <div className="bg-red-50 border border-red-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-red-600 text-sm font-medium">
                             {error}
                         </div>
                     )}
 
                     {logs.length > 0 && (
-                        <div className="bg-slate-900 rounded-[3rem] p-10 space-y-6 shadow-2xl border border-white/5 relative overflow-hidden">
+                        <div className="bg-slate-900 rounded-2xl sm:rounded-[3rem] p-6 sm:p-10 space-y-4 sm:space-y-6 shadow-2xl border border-white/5 relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-10 opacity-5">
                                 <div className="w-32 h-32 bg-purple-500 rounded-full blur-3xl"></div>
                             </div>
-                            <div className="flex items-center justify-between border-b border-white/10 pb-6 relative z-10">
+                            <div className="flex items-center justify-between border-b border-white/10 pb-4 sm:pb-6 relative z-10">
                                 <div className="flex items-center gap-4">
                                     <div className="flex gap-2">
-                                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/30" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-purple-500/30" />
-                                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/30" />
+                                        <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-500/30" />
+                                        <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-purple-500/30" />
+                                        <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500/30" />
                                     </div>
                                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">Diagnostic Protocol</span>
                                 </div>
                                 {isProcessing && <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />}
                             </div>
-                            <div className="space-y-3 h-48 overflow-y-auto font-mono text-[11px] custom-scrollbar pr-6 relative z-10">
+                            <div className="space-y-3 h-48 overflow-y-auto font-mono text-[10px] sm:text-[11px] custom-scrollbar pr-2 sm:pr-6 relative z-10">
                                 {logs.map((log, i) => (
-                                    <div key={i} className={`flex gap-4 ${i === 0 ? 'text-purple-400 animate-pulse' : 'text-slate-500'}`}>
+                                    <div key={i} className={`flex gap-3 sm:gap-4 ${i === 0 ? 'text-purple-400 animate-pulse' : 'text-slate-500'}`}>
                                         <span className="opacity-20 flex-shrink-0">{(logs.length - i).toString().padStart(2, '0')}</span>
                                         <span className="break-all tracking-tight leading-relaxed">{log}</span>
                                     </div>
@@ -227,60 +232,58 @@ export default function BatchPage() {
                 </div>
             )}
 
-            {/* Results */}
             {results && (
                 <div className="space-y-6">
-                    {/* Summary */}
-                    <div className="bg-slate-900 rounded-[3rem] p-12 text-white shadow-2xl border border-white/5">
-                        <div className="grid grid-cols-3 gap-12 text-center">
+
+                    <div className="bg-slate-900 rounded-2xl sm:rounded-[3rem] p-8 sm:p-12 text-white shadow-2xl border border-white/5">
+                        <div className="grid grid-cols-3 gap-4 sm:gap-12 text-center">
                             <div>
-                                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-4 italic">Total</p>
-                                <p className="text-5xl font-sans font-bold text-white">{results.total}</p>
+                                <p className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/30 mb-2 sm:mb-4 italic">Total</p>
+                                <p className="text-2xl sm:text-5xl font-sans font-bold text-white">{results.total}</p>
                             </div>
                             <div>
-                                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-4 italic">Success</p>
-                                <p className="text-5xl font-sans font-bold text-purple-500">{results.completed}</p>
+                                <p className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/30 mb-2 sm:mb-4 italic">Success</p>
+                                <p className="text-2xl sm:text-5xl font-sans font-bold text-purple-500">{results.completed}</p>
                             </div>
                             <div>
-                                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 mb-4 italic">Failed</p>
-                                <p className="text-5xl font-sans font-bold text-slate-700">{results.failed}</p>
+                                <p className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/30 mb-2 sm:mb-4 italic">Failed</p>
+                                <p className="text-2xl sm:text-5xl font-sans font-bold text-slate-700">{results.failed}</p>
                             </div>
                         </div>
                     </div>
 
-                    {/* Individual Results */}
                     {results.results?.map((r: any, idx: number) => (
-                        <div key={idx} className={`bg-white rounded-2xl border ${r.success ? 'border-purple-100' : 'border-red-100'} p-8 space-y-4 shadow-sm`}>
-                            <div className="flex items-start justify-between gap-4">
+                        <div key={idx} className={`bg-white rounded-xl sm:rounded-2xl border ${r.success ? 'border-purple-100' : 'border-red-100'} p-6 sm:p-8 space-y-6 shadow-sm`}>
+                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                                 <div className="flex-1 min-w-0">
                                     <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Video {idx + 1}</p>
-                                    <p className="text-sm font-medium text-gray-600 truncate">{r.url}</p>
+                                    <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">{r.url}</p>
                                 </div>
-                                <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${r.success ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
+                                <span className={`self-start sm:self-auto text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${r.success ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`}>
                                     {r.success ? 'Success' : 'Failed'}
                                 </span>
                             </div>
 
                             {r.success && r.analysis && (
                                 <>
-                                    <div className="grid grid-cols-3 gap-6">
-                                        <div className="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
-                                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Hook</p>
-                                            <p className="text-3xl font-sans font-bold text-slate-900">{r.analysis.metrics?.hook_power || '—'}</p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                                        <div className="bg-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center border border-slate-100">
+                                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 sm:mb-2">Hook</p>
+                                            <p className="text-2xl sm:text-3xl font-sans font-bold text-slate-900">{r.analysis.metrics?.hook_power || '—'}</p>
                                         </div>
-                                        <div className="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
-                                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Retention</p>
-                                            <p className="text-3xl font-sans font-bold text-purple-500">{r.analysis.metrics?.retention_score || '—'}</p>
+                                        <div className="bg-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center border border-slate-100">
+                                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 sm:mb-2">Retention</p>
+                                            <p className="text-2xl sm:text-3xl font-sans font-bold text-purple-500">{r.analysis.metrics?.retention_score || '—'}</p>
                                         </div>
-                                        <div className="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100">
-                                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">CTA</p>
-                                            <p className="text-3xl font-sans font-bold text-slate-900">{r.analysis.metrics?.conversion_trigger || '—'}</p>
+                                        <div className="bg-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center border border-slate-100">
+                                            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 sm:mb-2">CTA</p>
+                                            <p className="text-2xl sm:text-3xl font-sans font-bold text-slate-900">{r.analysis.metrics?.conversion_trigger || '—'}</p>
                                         </div>
                                     </div>
 
-                                    <div className="bg-purple-50 rounded-2xl p-6 border border-purple-100 italic">
+                                    <div className="bg-purple-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-purple-100 italic">
                                         <p className="text-[10px] font-bold uppercase tracking-widest text-purple-600 mb-2">Strategic Verdict</p>
-                                        <p className="text-lg font-serif text-slate-900 leading-relaxed italic">"{r.analysis.big_idea}"</p>
+                                        <p className="text-base sm:text-lg font-serif text-slate-900 leading-relaxed italic">&quot;{r.analysis.big_idea}&quot;</p>
                                     </div>
 
                                     <button
@@ -298,16 +301,15 @@ export default function BatchPage() {
                             {!r.success && (
                                 <div className="bg-red-50/50 rounded-xl p-4 border border-red-100/50">
                                     <p className="text-[10px] font-black uppercase tracking-widest text-red-400 mb-1">Reason for Failure</p>
-                                    <p className="text-sm font-medium text-red-600 italic">"{r.error || 'Unknown extraction error occurred'}"</p>
+                                    <p className="text-xs sm:text-sm font-medium text-red-600 italic">&quot;{r.error || 'Unknown extraction error occurred'}&quot;</p>
                                 </div>
                             )}
                         </div>
                     ))}
 
-                    {/* New Batch Button */}
                     <button
                         onClick={() => { setResults(null); setUrls(''); }}
-                        className="w-full py-8 bg-slate-900 text-white rounded-[2.5rem] font-bold uppercase tracking-[0.4em] text-xs hover:bg-purple-500 hover:text-slate-950 hover:scale-[1.01] transition-all shadow-2xl"
+                        className="w-full py-6 sm:py-8 bg-slate-900 text-white rounded-2xl sm:rounded-[2.5rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs hover:bg-purple-500 hover:text-slate-950 hover:scale-[1.01] transition-all shadow-2xl"
                     >
                         + Initialize New Batch
                     </button>

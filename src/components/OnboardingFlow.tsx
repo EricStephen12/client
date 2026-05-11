@@ -37,7 +37,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden relative"
             >
-                {/* Progress Bar */}
+
                 <div className="absolute top-0 left-0 right-0 h-1 bg-slate-50">
                     <motion.div 
                         initial={{ width: 0 }}

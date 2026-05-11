@@ -4,7 +4,7 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 export default function RefundPolicy() {
     return (
         <div className="min-h-screen bg-[#FAFAF9] text-[#1c1917] font-sans selection:bg-purple-100">
-            {/* Small Header */}
+
             <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b border-purple-200">
                 <div className="w-full px-6 h-20 flex items-center justify-between">
                     <Link href="/" className="text-3xl font-signature">

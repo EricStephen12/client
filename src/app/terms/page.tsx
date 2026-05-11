@@ -4,7 +4,7 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 export default function TermsAndConditions() {
     return (
         <div className="min-h-screen bg-[#FAFAF9] text-[#1c1917] font-sans selection:bg-purple-100">
-            {/* Small Header */}
+
             <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b border-purple-200">
                 <div className="w-full px-6 h-20 flex items-center justify-between">
                     <Link href="/" className="text-3xl font-signature">
@@ -52,7 +52,7 @@ export default function TermsAndConditions() {
                         <section>
                             <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">3. Subscriptions & Billing</h2>
                             <p>
-                                EIXORA is a subscription-based service. By subscribing, you agree to recurring monthly or annual payments as specified in your chosen plan. All payments are processed securely via Gumroad, our payment processor. You may cancel your subscription at any time through your account settings or by contacting support.
+                                EIXORA is a subscription-based service. By subscribing, you agree to recurring monthly or annual payments as specified in your chosen plan. All payments are processed securely via Polar, our payment processor. You may cancel your subscription at any time through your account settings or by contacting support.
                             </p>
                         </section>
                     </RevealOnScroll>

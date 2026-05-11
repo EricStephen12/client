@@ -24,9 +24,9 @@ export default function AdminLoginPage() {
             const data = await res.json();
 
             if (res.ok) {
-                // Store token for the 'Authorization' header fallback 🚀
+
                 localStorage.setItem('admin_token', data.token);
-                // Redirect to Admin Dashboard
+
                 router.push('/dashboard/admin');
             } else {
                 setError(data.details || data.error || 'Invalid Elite Access Key.');

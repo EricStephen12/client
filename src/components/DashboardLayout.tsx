@@ -31,10 +31,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         ? [...navItems, adminItem]
         : navItems;
 
-    // Component is protected by middleware, no need for extra useEffect redirect patterns usually,
-    // but we can add a check for isLoaded if needed.
-
-    const handleLogout = async () => {
+const handleLogout = async () => {
         setIsLoggingOut(true);
         await signOut({ redirectUrl: '/' });
     };
@@ -42,8 +39,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return (
         <div className="flex min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 text-gray-900 font-sans selection:bg-purple-600 selection:text-white">
 
-            {/* Premium Sidebar (Desktop) */}
-            <aside className="w-72 border-r border-purple-50 hidden lg:flex flex-col sticky top-0 h-screen bg-white shadow-[20px_0_40px_-20px_rgba(168,85,247,0.05)]">
+<aside className="w-72 border-r border-purple-50 hidden lg:flex flex-col sticky top-0 h-screen bg-white shadow-[20px_0_40px_-20px_rgba(168,85,247,0.05)]">
                 <SidebarContent
                     pathname={pathname}
                     navItems={displayNavItems}
@@ -53,8 +49,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 />
             </aside>
 
-            {/* Mobile Menu Overlay */}
-            {isMobileMenuOpen && (
+{isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
                     <div className="absolute inset-0 bg-purple-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
                     <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in">
@@ -75,10 +70,21 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 </div>
             )}
 
-            {/* Main Content */}
-            <main className="flex-1 overflow-auto">
+<main className="flex-1 overflow-auto">
                 <header className="flex lg:hidden items-center justify-between p-6 border-b border-purple-50 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-                    <Link href="/" className="text-3xl font-signature">Eixora.</Link>
+                    <div className="flex items-center gap-4">
+                        {pathname !== '/dashboard' && (
+                            <button 
+                                onClick={() => router.back()}
+                                className="w-10 h-10 rounded-xl bg-white border border-purple-100 flex items-center justify-center text-purple-600 shadow-sm"
+                            >
+                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                        )}
+                        <Link href="/" className="text-3xl font-signature">Eixora.</Link>
+                    </div>
                     <button
                         onClick={() => setIsMobileMenuOpen(true)}
                         className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors"
@@ -87,7 +93,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     </button>
                 </header>
 
-                <div className="p-6 md:p-12 lg:p-16 max-w-[1600px] mx-auto min-h-screen">
+                <div className="p-4 sm:p-6 md:p-12 lg:p-16 max-w-[1600px] mx-auto min-h-screen">
                     <RevealOnScroll>
                         {children}
                     </RevealOnScroll>
@@ -160,7 +166,6 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
     );
 }
 
-// Minimal Reveal wrapper if not already imported or available
 function RevealOnScroll({ children }: { children: ReactNode }) {
     return (
         <div className="animate-fade-in-up">

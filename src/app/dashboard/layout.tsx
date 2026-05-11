@@ -48,9 +48,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 if (res.ok) {
                     const data = await res.json();
                     setProfileData(data);
-                    
-                    // Trigger Onboarding if not completed 🚀
-                    if (data.onboarding_completed === false) {
+
+if (data.onboarding_completed === false) {
                         setShowOnboarding(true);
                     }
                 }
@@ -59,8 +58,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             }
         };
 
-        // Check for Master Admin session 💎🛡️
-        const masterToken = localStorage.getItem('admin_token');
+const masterToken = localStorage.getItem('admin_token');
         if (masterToken) setIsAdminMaster(true);
 
         if (userId) {
@@ -69,7 +67,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         }
 
         const handleSessionUpdate = () => {
-            console.log('🔄 Session update event received, refreshing sidebar...');
+
             fetchSessions();
             fetchLatestProfile();
         };
@@ -85,8 +83,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         { name: 'Settings', href: '/dashboard/settings' },
     ];
 
-    // Add Admin Hub for admin users (Clerk or Master Secret) 💎🛡️
-    const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin || isAdminMaster;
+const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin || isAdminMaster;
     if (isAdmin) {
         navItems.push({ name: 'Admin Hub', href: '/dashboard/admin' });
     }
@@ -94,7 +91,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const handleLogout = async () => {
         setIsLoggingOut(true);
         localStorage.removeItem('admin_token'); // Purge Elite Session 🚀
-        // Also hit server to clear cookie
+
         await fetch('/api/main/api/admin/auth/logout', { method: 'POST' });
         await signOut({ redirectUrl: '/' });
     };
@@ -145,8 +142,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return (
         <div className="flex min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-purple-100 selection:text-purple-900">
 
-            {/* Premium Sidebar (Desktop) */}
-            <aside className="w-72 border-r border-slate-100 hidden lg:flex flex-col sticky top-0 h-screen bg-white">
+<aside className="w-72 border-r border-slate-100 hidden lg:flex flex-col sticky top-0 h-screen bg-white">
                 <Suspense fallback={<div className="p-8 w-full h-full bg-white animate-pulse" />}>
                     <SidebarContent
                         pathname={pathname}
@@ -160,8 +156,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 </Suspense>
             </aside>
 
-            {/* Mobile Menu Overlay */}
-            {isMobileMenuOpen && (
+{isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
                     <div className="absolute inset-0 bg-purple-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
                     <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in">
@@ -186,8 +181,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 </div>
             )}
 
-            {/* Main Content */}
-            <main className="flex-1 overflow-auto">
+<main className="flex-1 overflow-auto">
                 <header className="flex lg:hidden items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
                     <Link href="/" className="text-2xl font-serif font-bold italic">Eixora<span className="text-purple-600">.</span></Link>
                     <button
@@ -204,8 +198,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     </RevealOnScroll>
                 </div>
 
-                {/* Onboarding Overlay 🚀 */}
-                <AnimatePresence>
+<AnimatePresence>
                     {showOnboarding && (
                         <OnboardingFlow 
                             userName={user?.firstName || 'Director'} 
@@ -214,16 +207,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     )}
                 </AnimatePresence>
 
-                {/* 📨 ELITE SUPPORT MODAL 🛡️ */}
-                <SupportModal
+<SupportModal
                     isOpen={isSupportOpen}
                     onClose={() => setIsSupportOpen(false)}
                     userAddress={user?.primaryEmailAddress?.emailAddress}
                     userId={user?.id}
                 />
 
-                {/* Floating Support Trigger (Mobile) */}
-                <button
+<button
                     onClick={() => setIsSupportOpen(true)}
                     className="fixed bottom-6 right-6 lg:hidden w-14 h-14 bg-purple-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40"
                 >
@@ -334,7 +325,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
             </div>
 
             <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col p-8 space-y-10">
-                {/* Navigation Section */}
+
                 <div className="space-y-4">
                     <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400 mb-2 block italic">Lounge Access</span>
                     {navItems.map((item: any) => {
@@ -361,8 +352,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                     })}
                 </div>
 
-                {/* History Section */}
-                <div className="space-y-4">
+<div className="space-y-4">
                     <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400 mb-2 block italic">Recent Flows</span>
                     <div className="space-y-2">
                         {sessions && sessions.length > 0 ? (
@@ -390,9 +380,8 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         )}
                     </div>
                 </div>
-                
-                {/* Elite Support Link */}
-                <button
+
+<button
                     onClick={() => { onOpenSupport(); onClose?.(); }}
                     className="w-full group flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-2xl text-slate-400 hover:bg-purple-50 hover:text-purple-600"
                 >
