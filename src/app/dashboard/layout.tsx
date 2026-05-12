@@ -260,18 +260,18 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                         <div className="text-center space-y-4 py-12">
                             <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">✓</div>
                             <h2 className="text-3xl font-serif italic text-gray-900">Message Transmitted.</h2>
-                            <p className="text-gray-400 text-sm">The Elite Support agents have received your signal. Expect a response in your secure inbox soon.</p>
+                            <p className="text-gray-400 text-sm">Our support team has received your signal. Expect a response in your inbox soon.</p>
                             <button onClick={onClose} className="mt-8 px-8 py-3 bg-purple-600 text-white rounded-xl text-xs font-black uppercase tracking-widest">Close Relay</button>
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="flex justify-between items-center mb-2">
-                                <h2 className="text-3xl font-serif italic text-gray-900 leading-tight">Secure Relay.</h2>
+                                <h2 className="text-3xl font-serif italic text-gray-900 leading-tight">Direct Support.</h2>
                                 <button type="button" onClick={onClose} className="text-gray-300 hover:text-purple-600 transition-colors">
                                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
                             </div>
-                            <p className="text-gray-400 text-sm mb-8">Direct line to Eixora Masterminds. Report issues or request elite feature deployments.</p>
+                            <p className="text-gray-400 text-sm mb-8">Direct line to the Eixora team. Report issues or request feature assistance.</p>
 
                             <div className="space-y-4">
                                 <div className="group">
@@ -302,7 +302,7 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                                 disabled={sending}
                                 className="w-full py-4 bg-purple-600 text-white rounded-xl text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-purple-200 hover:bg-purple-700 transition-all disabled:opacity-50"
                             >
-                                {sending ? 'Transmitting...' : 'Send to Mastermind Hub'}
+                                {sending ? 'Transmitting...' : 'Send Priority Message'}
                             </button>
                         </form>
                     )}
@@ -386,7 +386,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                     className="w-full group flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-2xl text-slate-400 hover:bg-purple-50 hover:text-purple-600"
                 >
                     <span className="w-1 h-1 rounded-full bg-purple-500 group-hover:scale-125 transition-transform"></span>
-                    <span>Elite Support</span>
+                    <span>Direct Support</span>
                 </button>
             </div>
 

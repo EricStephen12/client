@@ -70,6 +70,7 @@ function SettingsContent() {
         const planNames: Record<string, string> = {
             'free': 'Standard Access',
             'founding': 'Founding Member',
+            'studio': 'Studio Creator',
             'agency': 'Agency Executive'
         };
 
@@ -200,7 +201,7 @@ function SettingsContent() {
                 <div className="lg:col-span-4 space-y-3 sm:space-y-4">
                     <h3 className="text-xl sm:text-2xl font-serif italic text-slate-900">Personal Identity</h3>
                     <p className="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">
-                        Update your director credentials and verify your contact information for elite feature access.
+                        Update your director credentials and verify your contact information for premium feature access.
                     </p>
                 </div>
                 
