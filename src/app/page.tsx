@@ -98,7 +98,7 @@ export default function LandingPage() {
 <section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-purple-200 overflow-hidden">
                 <div className="flex flex-col justify-center px-5 sm:px-8 md:px-16 lg:px-24 py-12 sm:py-16 md:py-24 border-b md:border-b-0 md:border-r border-purple-200 bg-white">
                     <RevealOnScroll delay={100}>
-                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-purple-500 block">Your Creative Partner</span>
+                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-purple-500 block">Your Creative Intelligence</span>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={200}>
@@ -152,19 +152,7 @@ export default function LandingPage() {
                 </div>
             </section>
 
-<section className="py-12 border-b border-purple-100 bg-[#FAFAF9]">
-                <div className="max-w-7xl mx-auto px-6 text-center">
-                    <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-400 mb-8">Trusted by Performance Teams at</p>
-                    <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
 
-                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">GrowthOps</span>
-                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">Scale.V1</span>
-                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">Direct.Alpha</span>
-                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">Loom.Creative</span>
-                        <span className="text-xl md:text-2xl font-serif italic tracking-tighter">VentureMedia</span>
-                    </div>
-                </div>
-            </section>
 
 <VideoCarousel />
 
@@ -173,7 +161,7 @@ export default function LandingPage() {
 <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white">
                 <div className="max-w-7xl mx-auto">
                     <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 rounded-2xl sm:rounded-[3rem] p-6 sm:p-12 md:p-24 text-white relative overflow-hidden group border border-purple-500/20 shadow-2xl">
-                        <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-5 font-sans font-bold text-[20vw] sm:text-[12vw] pointer-events-none text-purple-200">PARTNER</div>
+                        <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-5 font-sans font-bold text-[20vw] sm:text-[12vw] pointer-events-none text-purple-200">ENGINE</div>
                         <div className="max-w-3xl relative z-10">
                             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-8 block">Our Vision</span>
                             <h2 className="text-3xl sm:text-4xl md:text-7xl font-sans font-bold leading-tight tracking-tight mb-8 sm:mb-12">
@@ -255,8 +243,8 @@ export default function LandingPage() {
                                     <div className="flex items-center gap-4">
                                         <div className="w-8 h-8 bg-blue-500 rounded-full" />
                                         <div>
-                                            <p className="text-xs font-bold uppercase tracking-widest">Mark J.</p>
-                                            <p className="text-[10px] text-white/40 uppercase tracking-widest">Founder, ScaleAlpha</p>
+                                            <p className="text-xs font-bold uppercase tracking-widest">Rawlins Stephen</p>
+                                            <p className="text-[10px] text-white/40 uppercase tracking-widest">Founder, AsrdollarBeatz</p>
                                         </div>
                                     </div>
                                 </div>
