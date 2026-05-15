@@ -11,30 +11,36 @@ interface CheckoutButtonProps {
 
 export default function CheckoutButton({ productId, children, className }: CheckoutButtonProps) {
     const { user, isLoaded } = useUser();
-    const { getToken } = useAuth();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
     const handleCheckout = async () => {
         if (!isLoaded) return;
 
-if (!user) {
-            router.push(`/sign-in?redirect_url=/pricing`); // Using Clerk's default sign-in route
+        if (!user) {
+            router.push(`/sign-in?redirect_url=/pricing`);
             return;
         }
 
         setIsLoading(true);
 
-const checkoutUrl = productId.startsWith('http') ? productId : `https://polar.sh/checkout/${productId}`;
+        // If the productId is already a full URL, use it. 
+        // Otherwise, use the direct Polar buy link format which is often more reliable
+        const checkoutUrl = productId.startsWith('http') 
+            ? productId 
+            : `https://polar.sh/buy/${productId}`;
 
-        if (checkoutUrl && checkoutUrl !== 'creator_placeholder' && checkoutUrl !== 'studio_placeholder') {
-
-const finalUrl = checkoutUrl.includes('?') 
-                ? `${checkoutUrl}&customer_email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`
-                : `${checkoutUrl}?customer_email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`;
-            window.location.href = finalUrl;
+        if (productId && productId !== 'creator_placeholder' && productId !== 'studio_placeholder') {
+            try {
+                const urlObj = new URL(checkoutUrl);
+                urlObj.searchParams.set('customer_email', user.primaryEmailAddress?.emailAddress || '');
+                window.location.href = urlObj.toString();
+            } catch (err) {
+                console.error('Invalid checkout URL:', err);
+                // Fallback for non-URL strings
+                window.location.href = `${checkoutUrl}?customer_email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`;
+            }
         } else {
-
             alert('Payment gateways are currently being configured. Please contact support.');
             setIsLoading(false);
         }

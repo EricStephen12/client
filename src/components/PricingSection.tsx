@@ -31,7 +31,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                 'Standard Report Suite',
                 'Community Support'
             ],
-            productId: process.env.NEXT_PUBLIC_GUMROAD_CREATOR_ID || 'creator_placeholder',
+            productId: process.env.NEXT_PUBLIC_POLAR_CREATOR_ID || 'creator_placeholder',
             buttonText: currentTier === 'creator' ? 'Active Plan' : 'Upgrade to Creator',
             color: 'slate'
         },
@@ -50,7 +50,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                 'Advanced PDF Exports',
                 'Direct Strategy Response'
             ],
-            productId: process.env.NEXT_PUBLIC_GUMROAD_STUDIO_ID || 'studio_placeholder',
+            productId: process.env.NEXT_PUBLIC_POLAR_STUDIO_ID || 'studio_placeholder',
             buttonText: currentTier === 'studio' ? 'Active Plan' : 'Enter The Studio',
             color: 'indigo',
             popular: true
