@@ -359,18 +359,49 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                             sessions.slice(0, 8).map((session: any) => {
                                 const isActive = currentSessionId === session.id;
                                 return (
-                                    <Link
-                                        key={session.id}
-                                        href={`/dashboard/analyze?sessionId=${session.id}`}
-                                        onClick={onClose}
-                                        className={`block px-4 py-3 text-[9px] tracking-widest uppercase truncate rounded-xl transition-all border border-transparent ${isActive
+                                    <div 
+                                        key={session.id} 
+                                        className={`group relative flex items-center justify-between px-4 py-3 rounded-xl transition-all border border-transparent ${isActive
                                             ? 'bg-white text-slate-900 font-bold border-slate-100 shadow-sm'
                                             : 'text-slate-400 font-medium hover:text-purple-600 hover:bg-white'
-                                            }`}
-                                        title={session.title}
+                                        }`}
                                     >
-                                        {session.title || 'Untitled Session'}
-                                    </Link>
+                                        <Link
+                                            href={`/dashboard/analyze?sessionId=${session.id}`}
+                                            onClick={onClose}
+                                            className="flex-1 text-[9px] tracking-widest uppercase truncate pr-2 block"
+                                            title={session.title}
+                                        >
+                                            {session.title || 'Untitled Session'}
+                                        </Link>
+                                        <button
+                                            onClick={async (e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                if (confirm('Are you sure you want to delete this flow?')) {
+                                                    try {
+                                                        const res = await fetch(`/api/main/api/lounge-session/${session.id}`, {
+                                                            method: 'DELETE'
+                                                        });
+                                                        if (res.ok) {
+                                                            window.dispatchEvent(new Event('session-updated'));
+                                                            if (isActive) {
+                                                                window.location.href = '/dashboard/analyze';
+                                                            }
+                                                        }
+                                                    } catch (err) {
+                                                        console.error('Failed to delete session', err);
+                                                    }
+                                                }
+                                            }}
+                                            className="opacity-0 group-hover:opacity-100 hover:text-red-600 transition-opacity p-1 text-slate-400 hover:bg-red-50 rounded"
+                                            title="Delete Flow"
+                                        >
+                                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 );
                             })
                         ) : (
