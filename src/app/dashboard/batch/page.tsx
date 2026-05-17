@@ -174,7 +174,7 @@ export default function BatchPage() {
                         <textarea
                             value={urls}
                             onChange={(e) => setUrls(e.target.value)}
-                            placeholder={"https://www.tiktok.com/@creator1/video/...\nhttps://www.tiktok.com/@creator2/video/...\nhttps://www.tiktok.com/@creator3/video/..."}
+                            placeholder={"https://www.tiktok.com/@creator/video/123456789\nhttps://www.instagram.com/reel/Cw8Xyz1234/\nhttps://www.youtube.com/shorts/AbCdEfGhIj"}
                             rows={6}
                             className="w-full bg-gray-50 border-none rounded-xl sm:rounded-2xl p-4 sm:p-6 focus:ring-2 focus:ring-purple-600 transition-all font-medium text-sm resize-none"
                         />

@@ -138,7 +138,7 @@ export default function CompetitorSpyPage() {
                         <div className="flex-1 relative group p-1 bg-white rounded-xl sm:rounded-2xl border border-slate-100 focus-within:ring-4 focus-within:ring-purple-500/10 transition-all">
                             <input
                                 type="text"
-                                placeholder="Profile URL (TikTok/Instagram)..."
+                                placeholder="Profile URL (TikTok, Instagram, or YouTube)..."
                                 value={profileUrl}
                                 onChange={(e) => setProfileUrl(e.target.value)}
                                 className="w-full bg-transparent border-none focus:ring-0 text-base sm:text-lg font-medium px-4 sm:px-6 py-4 sm:py-5"

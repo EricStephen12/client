@@ -38,56 +38,56 @@ const SOCIAL_PROOF_DATA = [
         title: "Hook Logic",
         results: "Scale Ready",
         views: "Energy Signal",
-        video: "/videos/v1.mp4"
+        video: "/videos/v1.webm"
     },
     {
         id: 2,
         title: "Scale DNA",
         results: "Direct Response",
         views: "Viral Angle",
-        video: "/videos/v2.mp4"
+        video: "/videos/v2.webm"
     },
     {
         id: 3,
         title: "Winning Angle",
         results: "High Retention",
         views: "Growth Signal",
-        video: "/videos/v3.mp4"
+        video: "/videos/v3.webm"
     },
     {
         id: 4,
         title: "Growth Signal",
         results: "Pattern Break",
         views: "Winning DNA",
-        video: "/videos/v4.mp4"
+        video: "/videos/v4.webm"
     },
     {
         id: 5,
         title: "Retention Peak",
         results: "Viral Energy",
         views: "Scale Ready",
-        video: "/videos/v5.mp4"
+        video: "/videos/v5.webm"
     },
     {
         id: 6,
         title: "Pattern Break",
         results: "High Engagement",
         views: "Direct Link",
-        video: "/videos/v6.mp4"
+        video: "/videos/v6.webm"
     },
     {
         id: 7,
         title: "Winning Logic",
         results: "Growth Found",
         views: "Tier 1",
-        video: "/videos/v7.mp4"
+        video: "/videos/v7.webm"
     },
     {
         id: 8,
         title: "Direct Response",
         results: "Viral Hook",
         views: "Winning Angle",
-        video: "/videos/v8.mp4"
+        video: "/videos/v8.webm"
     }
 ];
 

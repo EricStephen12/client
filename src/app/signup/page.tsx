@@ -61,7 +61,7 @@ function SignupContent() {
                     playsInline
                     className="absolute inset-0 w-full h-full object-cover opacity-90"
                 >
-                    <source src="/videos/v1.mp4" type="video/mp4" />
+                    <source src="/videos/v1.webm" type="video/webm" />
                 </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent"></div>
                 <div className="absolute bottom-12 left-12 right-12 z-20 text-white drop-shadow-2xl">

@@ -119,7 +119,7 @@ export default function LandingPage() {
                             <div className="relative group p-1 bg-gray-50 rounded-xl border border-purple-100 focus-within:ring-2 focus-within:ring-purple-600/10 transition-all">
                                 <input
                                     type="text"
-                                    placeholder="Paste Winning TikTok URL..."
+                                    placeholder="Paste TikTok, Instagram Reels, or YouTube Shorts URL..."
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
                                     className="w-full bg-transparent border-none focus:ring-0 text-sm font-medium px-4 py-3"

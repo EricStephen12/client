@@ -384,7 +384,7 @@ function AnalyzeContent() {
                                         </div>
                                         <input
                                             type="text"
-                                            placeholder="TikTok, Instagram, or YouTube URL..."
+                                            placeholder="Paste TikTok, Instagram Reels, or YouTube Shorts URL..."
                                             value={url}
                                             onChange={(e) => setUrl(e.target.value)}
                                             className="w-full p-4 sm:p-6 md:p-8 bg-slate-50 border-none rounded-xl sm:rounded-3xl focus:ring-2 focus:ring-purple-500 transition-all font-medium text-sm sm:text-lg md:text-xl"
