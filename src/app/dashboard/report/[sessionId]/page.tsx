@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
-
+import Link from 'next/link';
 export default function ReportPage() {
     const { sessionId } = useParams();
     const { getToken } = useAuth();
@@ -46,12 +46,12 @@ export default function ReportPage() {
         <div className="min-h-screen bg-neutral-50 py-6 sm:py-12 px-4 sm:px-6 md:px-12 print:bg-white print:p-0">
 
             <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 print:hidden">
-                <button
-                    onClick={() => window.history.back()}
+                <Link
+                    href="/dashboard/analyze"
                     className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-purple-600 transition-colors flex items-center gap-2 self-start sm:self-auto"
                 >
                     &larr; Back to Studio
-                </button>
+                </Link>
                 <button
                     onClick={() => window.print()}
                     className="w-full sm:w-auto px-6 py-3 bg-gray-900 text-white text-[10px] font-bold uppercase tracking-widest rounded-xl hover:scale-105 transition-all shadow-lg flex items-center justify-center gap-2"

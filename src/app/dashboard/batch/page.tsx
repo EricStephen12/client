@@ -155,15 +155,15 @@ export default function BatchPage() {
                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
                         Batch <span className="italic font-serif text-slate-400">Processing.</span>
                     </h2>
-                    <button 
-                        onClick={() => window.history.back()}
+                    <Link 
+                        href="/dashboard"
                         className="self-start sm:self-auto flex items-center gap-2 px-4 py-2 bg-white border border-purple-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-purple-600 hover:bg-purple-50 transition-all shadow-sm"
                     >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
                         </svg>
                         Back
-                    </button>
+                    </Link>
                 </div>
                 <p className="text-slate-400 text-base sm:text-lg font-light max-w-xl">Deep-scan up to 10 viral masterclasses simultaneously for high-velocity creative strategy.</p>
             </div>
