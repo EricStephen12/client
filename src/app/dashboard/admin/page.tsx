@@ -64,7 +64,7 @@ export default function AdminDashboard() {
 
             setLoading(false);
         } catch (err) {
-            console.error('Fetch failed', err);
+
         }
     };
 

@@ -22,7 +22,7 @@ export default function ReportPage() {
                     setData(json);
                 }
             } catch (err) {
-                console.error('Fetch report failed', err);
+
             } finally {
                 setIsLoading(false);
             }

@@ -7,7 +7,7 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen grid md:grid-cols-2 bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden text-gray-900">
 
-            {/* Back Button */}
+            {}
             <Link 
                 href="/" 
                 className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-purple-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-purple-600 hover:bg-purple-600 hover:text-white transition-all shadow-sm group"
@@ -18,7 +18,7 @@ export default function LoginPage() {
                 Home
             </Link>
 
-            {/* Form Section */}
+            {}
             <div className="flex items-center justify-center p-6 sm:p-12 md:p-16 lg:p-24 bg-white/50 backdrop-blur-sm min-h-screen w-full md:w-auto">
                 <div className="w-full max-w-md flex flex-col items-center">
                     <RevealOnScroll>
@@ -47,7 +47,7 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            {/* Visual Section - Hidden on Mobile for better UX */}
+            {}
             <div className="relative bg-gradient-to-br from-purple-100 to-blue-100 overflow-hidden hidden md:block">
                 <video
                     autoPlay

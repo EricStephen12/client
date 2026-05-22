@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     setSessions(data);
                 }
             } catch (err) {
-                console.error('Fetch sessions failed', err);
+
             }
         };
 
@@ -54,7 +54,7 @@ if (data.onboarding_completed === false) {
                     }
                 }
             } catch (err) {
-                console.error('Profile fetch failed', err);
+
             }
         };
 
@@ -94,6 +94,15 @@ const masterToken = localStorage.getItem('admin_token');
             icon: (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+            )
+        },
+        { 
+            name: 'Extraction History', 
+            href: '/dashboard/history',
+            icon: (
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             )
         },
@@ -169,7 +178,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                 setShowOnboarding(false);
             }
         } catch (err) {
-            console.error('Onboarding update failed', err);
+
         }
     };
 
@@ -296,65 +305,69 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
             });
             if (res.ok) setSent(true);
         } catch (err) {
-            console.error('Support failed', err);
+
         } finally {
             setSending(false);
         }
     };
 
     return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 pb-20 md:pb-6">
-            <div className="absolute inset-0 bg-purple-950/20 backdrop-blur-md" onClick={onClose}></div>
-            <div className="bg-white w-full max-w-lg rounded-3xl shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-200">
-                <div className="h-2 bg-gradient-to-r from-purple-600 to-blue-600"></div>
-                <div className="p-8">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 pb-20 md:pb-6">
+            <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-md" onClick={onClose}></div>
+            <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-200 border border-slate-100">
+                <div className="p-8 sm:p-10">
                     {sent ? (
-                        <div className="text-center space-y-4 py-12">
-                            <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">✓</div>
-                            <h2 className="text-3xl font-serif italic text-gray-900">Message Transmitted.</h2>
-                            <p className="text-gray-400 text-sm">Our support team has received your signal. Expect a response in your inbox soon.</p>
-                            <button onClick={onClose} className="mt-8 px-8 py-3 bg-purple-600 text-white rounded-xl text-xs font-black uppercase tracking-widest">Close Relay</button>
+                        <div className="text-center space-y-6 py-12">
+                            <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" /></svg>
+                            </div>
+                            <h2 className="text-3xl font-serif italic text-slate-900">Message Transmitted.</h2>
+                            <p className="text-slate-400 text-sm font-medium">Our support team has received your signal. Expect a response in your inbox soon.</p>
+                            <button onClick={onClose} className="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-purple-600 transition-all shadow-xl">Close Relay</button>
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="flex justify-between items-center mb-2">
-                                <h2 className="text-3xl font-serif italic text-gray-900 leading-tight">Direct Support.</h2>
-                                <button type="button" onClick={onClose} className="text-gray-300 hover:text-purple-600 transition-colors">
-                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        <form onSubmit={handleSubmit} className="space-y-8">
+                            <div className="flex justify-between items-start mb-2">
+                                <div className="space-y-1">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-600 italic">Concierge</span>
+                                    <h2 className="text-3xl sm:text-4xl font-sans font-bold text-slate-900 leading-tight tracking-tight">Direct Support.</h2>
+                                </div>
+                                <button type="button" onClick={onClose} className="w-10 h-10 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
                             </div>
-                            <p className="text-gray-400 text-sm mb-6">Direct line to the Eixora team. Report issues, request features, or ask for strategy advice.</p>
+                            <p className="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed">Direct line to the Eixora team. Report issues, request features, or ask for strategy advice.</p>
                             
-                            <div className="bg-purple-50 rounded-xl p-4 flex items-center justify-between mb-8 border border-purple-100">
+                            <div className="bg-slate-50 rounded-2xl p-5 flex items-center justify-between border border-slate-100 group hover:border-purple-200 transition-colors">
                                 <div>
-                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-purple-900 mb-1">Need immediate help?</h4>
-                                    <p className="text-xs text-purple-600 font-medium">Email us at <a href="mailto:support@eixora.com" className="underline hover:text-purple-800">support@eixora.com</a></p>
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 mb-1">Need immediate help?</h4>
+                                    <p className="text-xs text-slate-500 font-medium">Email us at <a href="mailto:support@eixora.com" className="text-purple-600 hover:text-purple-800 transition-colors">support@eixora.com</a></p>
                                 </div>
-                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-purple-600 shadow-sm">
+                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-purple-600 group-hover:scale-110 transition-all shadow-sm">
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                 </div>
                             </div>
 
-                            <div className="space-y-4">
-                                <div className="group">
-                                    <label className="text-[10px] font-black tracking-widest uppercase text-purple-600 mb-2 block">Subject of Inquiry</label>
+                            <div className="space-y-5">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black tracking-[0.2em] uppercase text-slate-400 ml-1">Subject of Inquiry</label>
                                     <input
                                         required
                                         value={subject}
                                         onChange={e => setSubject(e.target.value)}
                                         placeholder="Brief summary..."
-                                        className="w-full bg-purple-50/50 border border-purple-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 transition-all font-medium"
+                                        className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all font-medium text-slate-900 placeholder-slate-400"
                                     />
                                 </div>
-                                <div>
-                                    <label className="text-[10px] font-black tracking-widest uppercase text-purple-600 mb-2 block">Message Details</label>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black tracking-[0.2em] uppercase text-slate-400 ml-1">Message Details</label>
                                     <textarea
                                         required
                                         value={message}
                                         onChange={e => setMessage(e.target.value)}
                                         rows={4}
                                         placeholder="How can our team help you succeed today?"
-                                        className="w-full bg-purple-50/50 border border-purple-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 transition-all font-medium resize-none"
+                                        className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all font-medium text-slate-900 placeholder-slate-400 resize-none"
                                     />
                                 </div>
                             </div>
@@ -362,7 +375,7 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                             <button
                                 type="submit"
                                 disabled={sending}
-                                className="w-full py-4 bg-purple-600 text-white rounded-xl text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-purple-200 hover:bg-purple-700 transition-all disabled:opacity-50"
+                                className="w-full py-5 bg-indigo-950 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-indigo-950/10 hover:bg-purple-500 hover:text-slate-950 transition-all disabled:opacity-50 active:scale-95"
                             >
                                 {sending ? 'Transmitting...' : 'Send Priority Message'}
                             </button>
@@ -398,11 +411,11 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                 href={item.href}
                                 onClick={onClose}
                                 className={`group flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-2xl ${isActive
-                                    ? 'bg-purple-500 text-slate-950 shadow-xl shadow-purple-500/10 font-black'
+                                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20 font-black'
                                     : 'text-slate-400 hover:bg-slate-50 hover:text-purple-600'
                                     } ${item.id || ''}`}
                             >
-                                <span className={`transition-all ${isActive ? 'text-slate-950 scale-110' : 'text-slate-400 group-hover:text-purple-500 group-hover:scale-110'}`}>
+                                <span className={`transition-all ${isActive ? 'text-white scale-110' : 'text-slate-400 group-hover:text-purple-500 group-hover:scale-110'}`}>
                                     {item.icon}
                                 </span>
                                 <div className="flex items-center justify-between w-full">
@@ -414,66 +427,6 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                             </Link>
                         );
                     })}
-                </div>
-
-                <div className="space-y-4 tour-recent-flows">
-                    <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400 mb-2 block italic">Recent Flows</span>
-                    <div className="space-y-2">
-                        {sessions && sessions.length > 0 ? (
-                            sessions.slice(0, 8).map((session: any) => {
-                                const isActive = currentSessionId === session.id;
-                                return (
-                                    <div 
-                                        key={session.id} 
-                                        className={`group relative flex items-center justify-between px-4 py-3 rounded-xl transition-all border border-transparent ${isActive
-                                            ? 'bg-white text-slate-900 font-bold border-slate-100 shadow-sm'
-                                            : 'text-slate-400 font-medium hover:text-purple-600 hover:bg-white'
-                                        }`}
-                                    >
-                                        <Link
-                                            href={`/dashboard/analyze?sessionId=${session.id}`}
-                                            onClick={onClose}
-                                            className="flex-1 text-[9px] tracking-widest uppercase truncate pr-2 block"
-                                            title={session.title}
-                                        >
-                                            {session.title || 'Untitled Session'}
-                                        </Link>
-                                        <button
-                                            onClick={async (e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                                if (confirm('Are you sure you want to delete this flow?')) {
-                                                    try {
-                                                        const res = await fetch(`/api/main/api/lounge-session/${session.id}`, {
-                                                            method: 'DELETE'
-                                                        });
-                                                        if (res.ok) {
-                                                            window.dispatchEvent(new Event('session-updated'));
-                                                            if (isActive) {
-                                                                window.location.href = '/dashboard/analyze';
-                                                            }
-                                                        }
-                                                    } catch (err) {
-                                                        console.error('Failed to delete session', err);
-                                                    }
-                                                }
-                                            }}
-                                            className="opacity-0 group-hover:opacity-100 hover:text-red-600 transition-opacity p-1 text-slate-400 hover:bg-red-50 rounded"
-                                            title="Delete Flow"
-                                        >
-                                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                );
-                            })
-                        ) : (
-                            <div className="px-4 py-3 text-[9px] text-slate-300 font-medium uppercase tracking-widest border border-dashed border-slate-100 rounded-xl italic">
-                                No sessions yet
-                            </div>
-                        )}
-                    </div>
                 </div>
 
                 <button

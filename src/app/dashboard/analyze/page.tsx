@@ -534,35 +534,39 @@ function AnalyzeContent() {
                             )}
                         </div>
 
-                        <div className="relative group bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-2xl focus-within:ring-4 focus-within:ring-purple-500/10 transition-all">
-                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 p-3 sm:p-4">
+                        <div className="relative group bg-slate-50 rounded-[2.5rem] border border-slate-100 p-2 focus-within:ring-2 focus-within:ring-purple-200 transition-all shadow-sm">
+                            <div className="flex flex-col sm:flex-row gap-2">
                                 <input
                                     type="text"
                                     value={chatInput}
                                     onChange={(e) => setChatInput(e.target.value)}
-                                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                                    placeholder="Message Creative Partner..."
-                                    className="flex-1 bg-transparent border-none focus:ring-0 text-sm sm:text-base font-medium px-2 sm:px-4 py-2"
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') sendMessage();
+                                    }}
+                                    placeholder="Discuss strategy with your Creative Director..."
+                                    className="flex-1 bg-transparent border-none rounded-3xl px-6 py-4 text-slate-900 placeholder-slate-400 font-medium focus:outline-none focus:ring-0"
+                                    disabled={isSending}
                                 />
-                                <div className="flex items-center justify-end gap-2 sm:gap-3 px-2 sm:px-0">
+                                <div className="flex items-center justify-end gap-2 px-2 pb-2 sm:px-0 sm:pb-0">
                                     <button
                                         onClick={forgeDirectorBrief}
                                         disabled={isSending || messages.length < 1}
                                         title="Forge Director Brief"
-                                        className="p-3 sm:p-4 bg-purple-50 text-purple-600 rounded-xl sm:rounded-2xl hover:bg-purple-100 transition-colors disabled:opacity-30"
+                                        className="p-4 bg-purple-50 text-purple-600 rounded-2xl hover:bg-purple-100 transition-colors disabled:opacity-30 flex items-center justify-center"
                                     >
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
                                     </button>
                                     <button
                                         onClick={sendMessage}
                                         disabled={isSending || !chatInput.trim()}
-                                        className="p-3 sm:p-4 bg-indigo-950 text-white rounded-xl sm:rounded-2xl hover:bg-purple-500 hover:text-slate-950 hover:scale-105 active:scale-95 transition-all shadow-xl disabled:opacity-50"
+                                        className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-purple-600 transition-all shadow-md disabled:opacity-50 flex items-center justify-center gap-2"
                                     >
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                                        Send
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                     </button>
                                 </div>
                             </div>
-                            <div className="px-5 sm:px-6 pb-3 sm:pb-4 flex items-center gap-3">
+                            <div className="px-5 pb-3 pt-1 flex items-center gap-3">
                                 <div className={`w-1.5 h-1.5 rounded-full ${isRoastMode ? 'bg-red-500 animate-pulse' : 'bg-purple-500'}`} />
                                 <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
                                     {isRoastMode ? 'Roast Mode' : 'Creative Lounge'}

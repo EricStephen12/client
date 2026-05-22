@@ -33,7 +33,7 @@ function SettingsContent() {
             const data = await res.json();
             if (data.members) setTeamMembers(data.members);
         } catch (err) {
-            console.error('Failed to fetch team');
+
         }
     };
 
@@ -114,7 +114,7 @@ function SettingsContent() {
                 setTimeout(() => notification.remove(), 3000);
             }
         } catch (error) {
-            console.error('Error saving settings:', error);
+
         } finally {
             setIsSaving(false);
         }
@@ -141,7 +141,7 @@ function SettingsContent() {
                         setEmail(data.email || user?.primaryEmailAddress?.emailAddress || '');
                     }
                 } catch (err) {
-                    console.error('Fetch user data failed', err);
+
                 } finally {
                     setIsSyncing(false);
                 }
@@ -179,22 +179,24 @@ function SettingsContent() {
             initial="hidden"
             animate="visible"
             variants={containerVariants}
-            className="max-w-5xl mx-auto pb-20 sm:pb-32 space-y-12 sm:space-y-24 px-2 sm:px-4"
+            className="max-w-7xl mx-auto pb-20 sm:pb-32 space-y-12 sm:space-y-24 px-2 sm:px-4"
         >
 
-            <header className="space-y-3 sm:space-y-4 pt-2 sm:pt-6">
-                <motion.span 
-                    variants={itemVariants}
-                    className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 block italic"
-                >
-                    Account Configuration
-                </motion.span>
-                <motion.h2 
-                    variants={itemVariants}
-                    className="text-3xl sm:text-5xl md:text-7xl font-sans font-bold tracking-tight text-slate-900 leading-tight"
-                >
-                    Account <span className="italic font-serif text-slate-400">Settings.</span>
-                </motion.h2>
+            <header className="pt-2 sm:pt-6 mb-8 flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-slate-100 pb-8">
+                <div className="space-y-2">
+                    <motion.span 
+                        variants={itemVariants}
+                        className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block italic"
+                    >
+                        Account Configuration
+                    </motion.span>
+                    <motion.h2 
+                        variants={itemVariants}
+                        className="text-3xl sm:text-5xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 leading-tight"
+                    >
+                        Account <br className="hidden md:block" /><span className="italic font-serif text-slate-400">Settings.</span>
+                    </motion.h2>
+                </div>
             </header>
 
             <motion.section variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">

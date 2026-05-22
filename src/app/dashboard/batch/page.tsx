@@ -36,7 +36,7 @@ export default function BatchPage() {
                     setPlanTier(tier);
                 }
             } catch (err) {
-                console.error('Plan check failed', err);
+
             } finally {
                 setIsCheckingPlan(false);
             }
@@ -132,7 +132,7 @@ export default function BatchPage() {
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (err) {
-            console.error('Export failed:', err);
+
             alert('Failed to export report.');
         }
     };
@@ -147,53 +147,58 @@ export default function BatchPage() {
     }
 
     return (
-        <div className="max-w-5xl mx-auto space-y-8 pb-20 px-2 sm:px-4">
+        <div className="max-w-7xl mx-auto space-y-8 pb-20 px-2 sm:px-4">
 
-            <div className="space-y-4 sm:space-y-6 border-b border-slate-100 pb-8 sm:pb-12">
-                <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 block italic">Agency Workspace</span>
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
-                        Batch <span className="italic font-serif text-slate-400">Processing.</span>
+            <div className="pt-2 sm:pt-6 mb-8 flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-slate-100 pb-8">
+                <div className="space-y-2">
+                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block italic">Agency Workspace</span>
+                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
+                        Batch <br className="hidden md:block" /><span className="italic font-serif text-slate-400">Processing.</span>
                     </h2>
-                    <Link 
-                        href="/dashboard"
-                        className="self-start sm:self-auto flex items-center gap-2 px-4 py-2 bg-white border border-purple-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-purple-600 hover:bg-purple-50 transition-all shadow-sm"
-                    >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-                        </svg>
-                        Back
-                    </Link>
+                    <p className="text-slate-400 font-medium max-w-xl pt-2">Deep-scan up to 10 viral masterclasses simultaneously for high-velocity creative strategy.</p>
                 </div>
-                <p className="text-slate-400 text-base sm:text-lg font-light max-w-xl">Deep-scan up to 10 viral masterclasses simultaneously for high-velocity creative strategy.</p>
+                <Link 
+                    href="/dashboard"
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-purple-600 hover:border-purple-200 hover:shadow-lg transition-all"
+                >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Back to Lounge
+                </Link>
             </div>
 
             {!results && (
-                <div className="space-y-6">
-                    <div className="bg-white rounded-2xl sm:rounded-[2rem] border border-purple-50 p-6 sm:p-8 space-y-6 shadow-sm">
-                        <textarea
-                            value={urls}
-                            onChange={(e) => setUrls(e.target.value)}
-                            placeholder={"https://www.tiktok.com/@creator/video/123456789\nhttps://www.instagram.com/reel/Cw8Xyz1234/\nhttps://www.youtube.com/shorts/AbCdEfGhIj"}
-                            rows={6}
-                            className="w-full bg-gray-50 border-none rounded-xl sm:rounded-2xl p-4 sm:p-6 focus:ring-2 focus:ring-purple-600 transition-all font-medium text-sm resize-none"
-                        />
-
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                            <div className="flex items-center gap-2 self-start sm:self-auto">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
-                                    {urls.split('\n').filter(u => u.trim()).length}/10 URLs
-                                </span>
+                <div className="space-y-6 max-w-4xl">
+                    <div className="relative group">
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                        <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-10 shadow-xl shadow-purple-900/5 space-y-6">
+                            <div className="bg-slate-50 border border-slate-100 rounded-3xl p-2">
+                                <textarea
+                                    value={urls}
+                                    onChange={(e) => setUrls(e.target.value)}
+                                    placeholder={"https://www.tiktok.com/@creator/video/123456789\nhttps://www.instagram.com/reel/Cw8Xyz1234/\nhttps://www.youtube.com/shorts/AbCdEfGhIj"}
+                                    rows={6}
+                                    className="w-full bg-transparent border-none p-4 sm:p-6 focus:ring-0 focus:outline-none transition-all font-medium text-slate-900 placeholder-slate-400 text-sm resize-none"
+                                />
                             </div>
 
-                            <button
-                                onClick={handleBatchAnalyze}
-                                disabled={isProcessing || !urls.trim()}
-                                className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs rounded-xl sm:rounded-2xl hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
-                            >
-                                {isProcessing ? 'Processing...' : 'Batch Analyze All'}
-                            </button>
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                                <div className="flex items-center gap-2 self-start sm:self-auto">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                        {urls.split('\n').filter(u => u.trim()).length}/10 URLs
+                                    </span>
+                                </div>
+
+                                <button
+                                    onClick={handleBatchAnalyze}
+                                    disabled={isProcessing || !urls.trim()}
+                                    className="w-full sm:w-auto px-10 py-5 bg-slate-900 text-white font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs rounded-2xl hover:bg-purple-600 hover:shadow-lg hover:shadow-purple-500/30 transition-all disabled:opacity-50"
+                                >
+                                    {isProcessing ? 'Processing Engine Active...' : 'Initialize Batch Scan'}
+                                </button>
+                            </div>
                         </div>
                     </div>
 

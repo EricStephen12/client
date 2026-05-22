@@ -24,8 +24,6 @@ export default function CheckoutButton({ productId, children, className }: Check
 
         setIsLoading(true);
 
-        // If the productId is already a full URL, use it. 
-        // Otherwise, use the direct Polar buy link format which is often more reliable
         const checkoutUrl = productId.startsWith('http') 
             ? productId 
             : `https://polar.sh/buy/${productId}`;
@@ -36,8 +34,7 @@ export default function CheckoutButton({ productId, children, className }: Check
                 urlObj.searchParams.set('customer_email', user.primaryEmailAddress?.emailAddress || '');
                 window.location.href = urlObj.toString();
             } catch (err) {
-                console.error('Invalid checkout URL:', err);
-                // Fallback for non-URL strings
+
                 window.location.href = `${checkoutUrl}?customer_email=${encodeURIComponent(user.primaryEmailAddress?.emailAddress || '')}`;
             }
         } else {
