@@ -299,7 +299,14 @@ function AnalyzeContent() {
                 }
             });
 
-            if (!res.ok) throw new Error('Analysis failed');
+            let errorMessage = 'Failed to analyze video. Please try again.';
+            if (!res.ok) {
+                try {
+                    const errorData = await res.json();
+                    errorMessage = errorData.details || errorData.error || errorMessage;
+                } catch(e) {}
+                throw new Error(errorMessage);
+            }
 
             const data = await res.json();
             setResult(data);
@@ -312,9 +319,9 @@ function AnalyzeContent() {
                 startChat();
             }, 1000);
 
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert('Failed to analyze video. Please try again.');
+            alert(`Analysis Error: ${err.message}`);
         } finally {
             setIsAnalyzing(false);
         }
