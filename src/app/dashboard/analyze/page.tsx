@@ -302,8 +302,13 @@ function AnalyzeContent() {
             let errorMessage = 'Failed to analyze video. Please try again.';
             if (!res.ok) {
                 try {
-                    const errorData = await res.json();
-                    errorMessage = errorData.details || errorData.error || errorMessage;
+                    const text = await res.text();
+                    try {
+                        const errorData = JSON.parse(text);
+                        errorMessage = errorData.details || errorData.error || errorMessage;
+                    } catch(e) {
+                        errorMessage = `Server Error (${res.status}): ${text.substring(0, 100)}`;
+                    }
                 } catch(e) {}
                 throw new Error(errorMessage);
             }
