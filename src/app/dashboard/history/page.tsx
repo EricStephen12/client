@@ -33,6 +33,27 @@ export default function HistoryPage() {
         }
     }, [isLoaded, user, getToken, userId]);
 
+    const handleDelete = async (e: React.MouseEvent, sessionId: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!confirm('Are you sure you want to permanently delete this extraction history?')) return;
+        
+        try {
+            const token = await getToken();
+            const res = await fetch(`/api/main/api/lounge-session/${sessionId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                setSessions(prev => prev.filter(s => s.id !== sessionId));
+            } else {
+                alert('Failed to delete history');
+            }
+        } catch (err) {
+            console.error('Failed to delete:', err);
+        }
+    };
+
     return (
         <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12 pb-20 px-2 sm:px-4">
             <div className="pt-2 sm:pt-6 mb-8 flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-slate-100 pb-8">
@@ -70,11 +91,22 @@ export default function HistoryPage() {
                                     </div>
                                     <h4 className="font-bold text-slate-900 line-clamp-2 text-xl mb-2">{session.title || 'Untitled Extraction'}</h4>
                                 </div>
-                                <div className="mt-6 flex items-center gap-2 text-purple-600">
-                                    <span className="text-[10px] font-black uppercase tracking-widest">Resume Lounge</span>
-                                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
+                                <div className="mt-6 flex items-center justify-between text-purple-600">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] font-black uppercase tracking-widest">Resume Lounge</span>
+                                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                        </svg>
+                                    </div>
+                                    <button 
+                                        onClick={(e) => handleDelete(e, session.id)}
+                                        className="text-slate-300 hover:text-red-500 transition-colors p-2 -mr-2 rounded-full hover:bg-red-50"
+                                        title="Delete Session"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </Link>
                         </RevealOnScroll>
