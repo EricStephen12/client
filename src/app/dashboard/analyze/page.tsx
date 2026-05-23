@@ -53,8 +53,21 @@ function AnalyzeContent() {
             });
             if (res.ok) {
                 const data = await res.json();
-                setResult({ analysis: data.dna });
-                setMessages(data.messages);
+                
+                let parsedDna = data.dna;
+                if (typeof parsedDna === 'string') {
+                    try { parsedDna = JSON.parse(parsedDna); } catch(e){}
+                }
+                
+                let parsedMessages = data.messages;
+                if (typeof parsedMessages === 'string') {
+                    try { parsedMessages = JSON.parse(parsedMessages); } catch(e){}
+                } else if (!parsedMessages) {
+                    parsedMessages = [];
+                }
+
+                setResult({ analysis: parsedDna });
+                setMessages(parsedMessages);
                 setSessionId(data.id);
                 setIsChatMode(true);
             }
