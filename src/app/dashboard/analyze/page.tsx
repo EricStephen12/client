@@ -212,35 +212,59 @@ function AnalyzeContent() {
         setChatInput('');
         setIsSending(true);
 
-        try {
-            const token = await getToken();
-            const res = await fetch(`/api/main/api/creative-director-chat`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    messages: newMessages,
-                    dna: result.analysis,
-                    userId,
-                    isRoastMode
-                })
-            });
+        const MAX_ATTEMPTS = 2;
+        for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+            try {
+                const token = await getToken();
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 45000);
 
-            if (!res.ok) throw new Error('Chat failed');
-            const data = await res.json();
-            const assistantMsg = { role: 'assistant', content: data.message };
-            const finalMessages = [...newMessages, assistantMsg];
-            setMessages(finalMessages);
+                const res = await fetch(`/api/main/api/creative-director-chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        messages: newMessages,
+                        dna: result.analysis,
+                        userId,
+                        isRoastMode
+                    }),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
 
-            const savedId = await saveSessionState(finalMessages);
-            if (savedId) setSessionId(savedId);
-        } catch (err) {
-            console.error(err);
-        } finally {
-            setIsSending(false);
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.details || errData.error || `Server returned ${res.status}`);
+                }
+                const data = await res.json();
+                if (!data.message) throw new Error('Empty response from AI');
+
+                const assistantMsg = { role: 'assistant', content: data.message };
+                const finalMessages = [...newMessages, assistantMsg];
+                setMessages(finalMessages);
+
+                const savedId = await saveSessionState(finalMessages);
+                if (savedId) setSessionId(savedId);
+                setIsSending(false);
+                return; // success — exit
+            } catch (err: any) {
+                console.error(`Chat attempt ${attempt} failed:`, err);
+                if (attempt < MAX_ATTEMPTS) {
+                    await new Promise(r => setTimeout(r, 1500)); // wait before retry
+                    continue;
+                }
+                // Both attempts failed — show error in chat
+                const errorMsg = {
+                    role: 'assistant',
+                    content: `⚠️ The Creative Director couldn't respond right now. This usually happens due to a brief AI service hiccup.\n\n**Try sending your message again** — it typically works on the next attempt.\n\n_Error: ${err.message || 'Connection timeout'}_`
+                };
+                setMessages([...newMessages, errorMsg]);
+            }
         }
+        setIsSending(false);
     };
 
     const handleFeedback = async (msgIdx: number, rating: 'up' | 'down') => {
