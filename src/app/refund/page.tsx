@@ -63,7 +63,7 @@ export default function RefundPolicy() {
                         <section>
                             <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">5. Contact Support</h2>
                             <p>
-                                For any concerns regarding your purchase or billing, please reach out to our support team at: <a href="mailto:support@eixora.store" className="text-purple-600 underline">support@eixora.store</a>
+                                For any concerns regarding your purchase or billing, please reach out to our support team at: <a href="mailto:hello@eixora.store" className="text-purple-600 underline">hello@eixora.store</a>
                             </p>
                         </section>
                     </RevealOnScroll>

@@ -341,7 +341,7 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                             <div className="bg-slate-50 rounded-2xl p-5 flex items-center justify-between border border-slate-100 group hover:border-purple-200 transition-colors">
                                 <div>
                                     <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 mb-1">Need immediate help?</h4>
-                                    <p className="text-xs text-slate-500 font-medium">Email us at <a href="mailto:support@eixora.com" className="text-purple-600 hover:text-purple-800 transition-colors">support@eixora.com</a></p>
+                                    <p className="text-xs text-slate-500 font-medium">Email us at <a href="mailto:hello@eixora.store" className="text-purple-600 hover:text-purple-800 transition-colors">hello@eixora.store</a></p>
                                 </div>
                                 <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-purple-600 group-hover:scale-110 transition-all shadow-sm">
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
