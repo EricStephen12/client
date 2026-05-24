@@ -27,7 +27,9 @@ export default function BatchPage() {
         const checkPlan = async () => {
             try {
                 const token = await getToken();
-                const res = await fetch(`/api/main/api/me`, {
+                const email = user?.primaryEmailAddress?.emailAddress || '';
+                const name = user?.fullName || '';
+                const res = await fetch(`/api/main/api/me?userId=${user?.id}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
