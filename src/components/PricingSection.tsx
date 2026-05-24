@@ -20,7 +20,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
         {
             id: 'creator',
             name: 'The Creator',
-            price: '$29',
+            price: '$5',
             period: '/mo',
             badge: 'Essential Access',
             description: 'For individual creatives',
@@ -38,7 +38,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
         {
             id: 'studio',
             name: 'The Studio',
-            price: '$59',
+            price: '$10',
             period: '/mo',
             badge: 'No Password Sharing Needed',
             description: 'Full team collaboration',

@@ -30,7 +30,7 @@ export default function UpgradePage() {
 
             <div className="text-center mt-20 opacity-40">
                 <p className="text-[10px] font-bold uppercase tracking-[0.3em]">
-                    Eixora by EXRICX &bull; Early Access Beta &bull; 100% Free for Early Adopters
+                    Eixora &bull; Secure Checkout &bull; Live Support
                 </p>
             </div>
         </div>

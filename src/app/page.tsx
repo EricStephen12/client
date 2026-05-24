@@ -62,7 +62,7 @@ export default function LandingPage() {
                             Sign In
                         </Link>
                         <Link href={isLoggedIn ? "/dashboard/analyze" : "/signup"} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:from-purple-700 hover:to-blue-700 border-0 transition-all shadow-lg hover:shadow-xl">
-                            {isLoggedIn ? "Enter Studio" : "Try Free"}
+                            {isLoggedIn ? "Enter Studio" : "Get Started"}
                         </Link>
                     </div>
 
@@ -88,7 +88,7 @@ export default function LandingPage() {
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 text-[10px] font-black tracking-[0.4em] uppercase rounded-xl"
                             >
-                                {isLoggedIn ? "Enter Studio" : "Start Free Access"}
+                                {isLoggedIn ? "Enter Studio" : "Get Started"}
                             </Link>
                         </div>
                     </div>

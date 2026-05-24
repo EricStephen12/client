@@ -71,7 +71,7 @@ export default function RefundPolicy() {
             </main>
 
             <footer className="border-t border-purple-100 py-12 text-center text-[10px] uppercase tracking-[0.3em] opacity-40">
-                &copy; 2026 EIXORA BY EXRICX. All rights reserved.
+                &copy; 2026 EIXORA. All rights reserved.
             </footer>
         </div>
     );
