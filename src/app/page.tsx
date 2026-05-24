@@ -324,12 +324,7 @@ export default function LandingPage() {
                     </div>
 
                     <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-white/5 gap-8 font-mono text-[9px] tracking-widest uppercase opacity-30">
-                        <div className="flex gap-8">
-                            <Link href="https://instagram.com/eixora.store" className="hover:text-purple-500 transition-opacity">Instagram</Link>
-                            <Link href="https://x.com/eixora_store" className="hover:text-purple-500 transition-opacity">Twitter</Link>
-                            <Link href="https://tiktok.com/@eixora.store" className="hover:text-purple-500 transition-opacity">TikTok</Link>
-                        </div>
-                        <p>&copy; 2026 EIXORA. BORN FOR CREATIVES.</p>
+                        <p className="md:ml-auto">&copy; 2026 EIXORA. BORN FOR CREATIVES.</p>
                     </div>
                 </div>
             </footer>
