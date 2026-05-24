@@ -68,20 +68,27 @@ export default function DashboardPage() {
                         </div>
 
                         {}
-                        <div className="flex flex-wrap lg:flex-nowrap gap-3 sm:gap-4 flex-1 xl:max-w-3xl justify-start xl:justify-end">
+                        <div className="flex flex-wrap lg:flex-nowrap gap-3 sm:gap-4 flex-1 xl:max-w-xl justify-start xl:justify-end">
                             {[
                                 {
                                     label: 'Creative Scans',
-                                    value: profile?.plan_type === 'creator' ? `${profile?.monthly_usage?.scans || 0} / 30` : (profile?.plan_type === 'studio' || profile?.plan_type === 'agency') ? `${profile?.monthly_usage?.scans || 0} / 250` : `${profile?.monthly_usage?.scans || 0} / 3`,
+                                    value: (() => {
+                                        const scans = profile?.monthly_usage?.scans || 0;
+                                        const tier = profile?.plan_type || 'free';
+                                        const limit = tier === 'creator' ? 30 : (tier === 'studio' || tier === 'agency') ? 250 : 3;
+                                        return `${scans} / ${limit}`;
+                                    })(),
                                 },
-                                {
-                                    label: 'Briefs',
-                                    value: profile?.plan_type === 'creator' ? `${profile?.monthly_usage?.scripts || 0} / 30` : (profile?.plan_type === 'studio' || profile?.plan_type === 'agency') ? `${profile?.monthly_usage?.scripts || 0} / 250` : `${profile?.monthly_usage?.scripts || 0} / 3`,
-                                },
-                                { label: 'Pins', value: profile?.total_pins || 0 },
                                 { 
                                     label: 'Plan', 
-                                    value: profile?.plan_type ? (profile.plan_type === 'free' ? 'Discovery' : profile.plan_type.charAt(0).toUpperCase() + profile.plan_type.slice(1)) : 'Discovery',
+                                    value: (() => {
+                                        const tier = profile?.plan_type || 'free';
+                                        if (tier === 'free') return 'Free Trial';
+                                        if (tier === 'creator') return 'Creator';
+                                        if (tier === 'studio') return 'The Studio';
+                                        if (tier === 'agency') return 'Agency';
+                                        return tier.charAt(0).toUpperCase() + tier.slice(1);
+                                    })(),
                                 }
                             ].map((stat, i) => (
                                 <div key={i} className="flex-1 min-w-[120px] p-4 sm:p-5 bg-white border border-slate-100 rounded-2xl hover:shadow-lg hover:border-purple-200 transition-all group shadow-sm">

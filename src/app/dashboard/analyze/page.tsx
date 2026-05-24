@@ -30,11 +30,38 @@ function AnalyzeContent() {
     const { getToken } = useAuth();
     const userId = user?.id;
 
-    const profile = isLoaded && user ? {
-        plan_type: (user.publicMetadata as any)?.plan_type || 'free'
-    } : null;
-
     const searchParams = useSearchParams();
+    const sessionTier = (user?.publicMetadata as any)?.plan_type;
+    const [planTier, setPlanTier] = useState<string>(sessionTier || 'free');
+    const [scansUsed, setScansUsed] = useState(0);
+    const [scanLimit, setScanLimit] = useState(3);
+    const [isCheckingPlan, setIsCheckingPlan] = useState(true);
+
+    useEffect(() => {
+        const checkPlan = async () => {
+            if (!userId) return;
+            try {
+                const token = await getToken();
+                const res = await fetch(`/api/main/api/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    const tier = data.plan_type || data.subscription_tier || 'free';
+                    setPlanTier(tier);
+                    setScansUsed(data.monthly_usage?.scans || 0);
+                    const limits: Record<string, number> = { free: 3, creator: 30, studio: 250, agency: 250 };
+                    setScanLimit(limits[tier] ?? 3);
+                }
+            } catch (err) {
+            } finally {
+                setIsCheckingPlan(false);
+            }
+        };
+        if (isLoaded && userId) {
+            checkPlan();
+        }
+    }, [isLoaded, userId]);
 
     const [isChatMode, setIsChatMode] = useState(false);
     const [messages, setMessages] = useState<any[]>([]);
@@ -425,7 +452,54 @@ function AnalyzeContent() {
 
                 {!isChatMode ? (
                     <>
-                        {!result ? (
+                        {isCheckingPlan ? (
+                            <div className="max-w-4xl mx-auto pt-24 text-center px-4">
+                                <div className="w-10 h-10 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
+                                <p className="font-serif text-lg italic text-slate-400">Verifying Creative License...</p>
+                            </div>
+                        ) : scansUsed >= scanLimit ? (
+                            <div className="max-w-3xl mx-auto text-center space-y-8 py-16 bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-purple-900/5 relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-50"></div>
+                                <div className="relative z-10 space-y-6">
+                                    <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto text-purple-600 shadow-inner">
+                                        <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="font-serif text-3xl sm:text-5xl text-slate-900 italic">
+                                        {planTier === 'free' ? 'Free Trial Complete' : 'Scan Limit Reached'}
+                                    </h3>
+                                    <p className="text-slate-500 font-light text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+                                        {planTier === 'free' 
+                                            ? <>You've used all <strong>3 free scans</strong>. Upgrade to keep extracting viral DNA and unlock unlimited strategy sessions.</>
+                                            : <>You've reached your <strong>{scanLimit} monthly scans</strong>. Upgrade your plan to increase your limit.</>
+                                        }
+                                    </p>
+                                    <div className="pt-4 max-w-sm mx-auto">
+                                        <Link
+                                            href="/dashboard/upgrade"
+                                            className="w-full py-5 block bg-slate-900 text-white font-bold uppercase tracking-[0.3em] text-xs rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl hover:shadow-purple-500/20 active:scale-95 text-center"
+                                        >
+                                            {planTier === 'free' ? 'Upgrade — Starting at $5/mo' : 'Upgrade Plan'}
+                                        </Link>
+                                    </div>
+                                    <div className="flex flex-wrap justify-center gap-6 pt-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                                            <span>30+ Scans/mo</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                                            <span>AI Strategy Lounge</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                                            <span>Director Briefs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : !result ? (
                             <div className="max-w-4xl mx-auto space-y-6 md:space-y-12">
                                 <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-2 hide-scrollbar">
                                     <button
@@ -441,6 +515,19 @@ function AnalyzeContent() {
                                         Draft Audit
                                     </button>
                                 </div>
+
+                                {planTier === 'free' && (
+                                    <div className="flex items-center gap-3 px-5 py-3 bg-purple-50 border border-purple-100 rounded-2xl">
+                                        <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+                                        <span className="text-[11px] font-bold text-purple-700">
+                                            {scanLimit - scansUsed} of {scanLimit} free scans remaining
+                                        </span>
+                                        <span className="text-[10px] text-purple-400 hidden sm:inline">•</span>
+                                        <Link href="/dashboard/upgrade" className="text-[10px] font-bold text-purple-500 hover:text-purple-700 transition-colors uppercase tracking-widest hidden sm:inline">
+                                            Upgrade
+                                        </Link>
+                                    </div>
+                                )}
 
                                 {activeTab === 'url' ? (
                                     <div className="p-6 sm:p-10 md:p-20 bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-sm space-y-6 sm:space-y-8">

@@ -170,7 +170,33 @@ export default function BatchPage() {
 
             {!results && (
                 <div className="space-y-6 max-w-4xl">
-                    <div className="relative group">
+                    {planTier !== 'studio' && planTier !== 'agency' ? (
+                        <div className="relative group">
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-[2.5rem] blur opacity-10"></div>
+                            <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-purple-900/5 text-center space-y-8">
+                                <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto text-purple-600 shadow-inner">
+                                    <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                    </svg>
+                                </div>
+                                <div className="space-y-4">
+                                    <h3 className="font-serif text-3xl text-slate-900 italic">The Studio License Required</h3>
+                                    <p className="text-slate-500 font-light text-base max-w-md mx-auto leading-relaxed">
+                                        Batch Processing is exclusive to The Studio membership. Upgrade your license to analyze up to 10 viral videos simultaneously.
+                                    </p>
+                                </div>
+                                <div className="pt-4 max-w-sm mx-auto">
+                                    <Link
+                                        href="/dashboard/upgrade"
+                                        className="w-full py-5 block bg-slate-900 text-white font-bold uppercase tracking-[0.3em] text-xs rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl hover:shadow-purple-500/20 active:scale-95 text-center font-sans"
+                                    >
+                                        Upgrade to The Studio
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="relative group">
                         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
                         <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-10 shadow-xl shadow-purple-900/5 space-y-6">
                             <div className="bg-slate-50 border border-slate-100 rounded-3xl p-2">
@@ -201,6 +227,7 @@ export default function BatchPage() {
                             </div>
                         </div>
                     </div>
+                    )}
 
                     {error && (
                         <div className="bg-red-50 border border-red-200 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-red-600 text-sm font-medium">
