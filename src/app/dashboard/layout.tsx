@@ -151,10 +151,14 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
-        localStorage.removeItem('admin_token'); // Purge Elite Session 🚀
-
-        await fetch('/api/main/api/admin/auth/logout', { method: 'POST' });
-        await signOut({ redirectUrl: '/' });
+        try {
+            localStorage.removeItem('admin_token'); // Purge Elite Session 🚀
+            fetch('/api/main/api/admin/auth/logout', { method: 'POST' }).catch(() => {});
+            await signOut();
+            window.location.href = '/';
+        } catch (e) {
+            window.location.href = '/';
+        }
     };
 
     const handleOnboardingComplete = async (data: { niche: string; goal: string }) => {

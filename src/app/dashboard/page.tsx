@@ -113,7 +113,7 @@ export default function DashboardPage() {
                                 required
                                 value={quickScanUrl}
                                 onChange={(e) => setQuickScanUrl(e.target.value)}
-                                placeholder="Paste TikTok or Instagram URL for instant DNA extraction..."
+                                placeholder="Paste TikTok/IG URL to extract DNA..."
                                 className="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 font-medium text-base sm:text-lg focus:outline-none focus:ring-0"
                             />
                         </div>
