@@ -85,8 +85,7 @@ export default function DashboardPage() {
                                         const tier = profile?.plan_type || 'free';
                                         if (tier === 'free') return 'Free Trial';
                                         if (tier === 'creator') return 'Creator';
-                                        if (tier === 'studio') return 'The Studio';
-                                        if (tier === 'agency') return 'Agency';
+                                        if (tier === 'studio' || tier === 'agency') return 'The Studio';
                                         return tier.charAt(0).toUpperCase() + tier.slice(1);
                                     })(),
                                 }

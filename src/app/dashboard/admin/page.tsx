@@ -90,7 +90,7 @@ export default function AdminDashboard() {
             const res = await fetch(`/api/main/api/admin/users/${targetUserId}/update-tier`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ tier: 'agency' })
+                body: JSON.stringify({ tier: 'studio' })
             });
             if (res.ok) fetchAllData(token);
         } finally {
@@ -182,7 +182,7 @@ export default function AdminDashboard() {
                                         <div className="flex gap-2">
                                             <button
                                                 onClick={() => handlePromote(u.id)}
-                                                disabled={actionLoading === u.id || u.plan_type === 'agency'}
+                                                disabled={actionLoading === u.id || u.plan_type === 'studio' || u.plan_type === 'agency'}
                                                 className="px-3 py-1 bg-purple-100 text-purple-600 rounded-lg text-[8px] font-black uppercase hover:bg-purple-600 hover:text-white transition-all disabled:opacity-30"
                                             >
                                                 {actionLoading === u.id ? '...' : 'Promote'}

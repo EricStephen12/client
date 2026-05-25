@@ -29,11 +29,13 @@ function SettingsContent() {
 
     const fetchTeam = async () => {
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/team/list?userId=${user?.id}`);
+            const token = await getToken();
+            const res = await fetch(`/api/main/api/team/list?userId=${user?.id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
             const data = await res.json();
             if (data.members) setTeamMembers(data.members);
         } catch (err) {
-
         }
     };
 
@@ -41,9 +43,13 @@ function SettingsContent() {
         if (!teamEmail) return;
         setIsInviting(true);
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/team/invite`, {
+            const token = await getToken();
+            const res = await fetch(`/api/main/api/team/invite`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({ email: teamEmail, userId: user?.id })
             });
             const data = await res.json();
@@ -70,8 +76,9 @@ function SettingsContent() {
         const planNames: Record<string, string> = {
             'free': 'Standard Access',
             'founding': 'Founding Member',
-            'studio': 'Studio Creator',
-            'agency': 'Agency Executive'
+            'studio': 'The Studio',
+            'agency': 'The Studio', // Legacy
+            'creator': 'Creator'
         };
 
         return planNames[planType] || 'Standard Access';
@@ -80,7 +87,7 @@ function SettingsContent() {
     const getSubscriptionStatus = () => {
         if (!profile) return null;
         const status = profile.subscription_status;
-        const isPaid = profile.plan_type === 'founding' || profile.plan_type === 'agency';
+        const isPaid = profile.plan_type === 'founding' || profile.plan_type === 'studio' || profile.plan_type === 'agency' || profile.plan_type === 'creator';
         if (!isPaid || status === 'inactive') return null;
         if (profile.next_billing_date) {
             const date = new Date(profile.next_billing_date);

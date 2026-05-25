@@ -71,19 +71,18 @@ export default function BatchPage() {
         setProgress({ current: 0, total: urlList.length });
 
         try {
-
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 300000); // 5 min
 
             addLog(`🔗 Sent ${urlList.length} URLs to processing engine...`);
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/batch-analyze`, {
+            const res = await fetch(`/api/main/api/batch-analyze`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ urls: urlList }),
+                body: JSON.stringify({ urls: urlList, userId: user?.id }),
                 signal: controller.signal
             });
 
@@ -112,17 +111,17 @@ export default function BatchPage() {
     const handleExportReport = async (analysis: any, videoUrl: string) => {
         try {
             const token = await getToken();
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/export-report`, {
+            const res = await fetch(`/api/main/api/export-report`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ analysis, videoUrl }),
+                body: JSON.stringify({ analysis, videoUrl, userId: user?.id }),
             });
 
             if (res.status === 403) {
-                alert('Report export requires an Agency plan.');
+                alert('Report export requires The Studio plan.');
                 return;
             }
 

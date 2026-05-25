@@ -457,8 +457,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                             <p className="text-[9px] text-purple-600 font-bold uppercase tracking-widest italic">{
                                 !profile.plan_type || profile.plan_type === 'free' ? 'Free Trial' :
                                 profile.plan_type === 'creator' ? 'Creator Member' :
-                                profile.plan_type === 'studio' ? 'The Studio' :
-                                profile.plan_type === 'agency' ? 'Agency Member' :
+                                (profile.plan_type === 'studio' || profile.plan_type === 'agency') ? 'The Studio' :
                                 `${profile.plan_type} Member`
                             }</p>
                         </div>
