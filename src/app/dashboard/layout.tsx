@@ -186,7 +186,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
         full_name: user.fullName || user.username || 'Creator',
         email: user.primaryEmailAddress?.emailAddress,
         image: user.imageUrl,
-        plan_type: (user.publicMetadata as any)?.plan_type || profileData?.plan_type || 'free'
+        plan_type: profileData?.plan_type || profileData?.subscription_tier || (user.publicMetadata as any)?.plan_type || 'free'
     } : null;
 
     if (!isLoaded) {
@@ -450,7 +450,13 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-[10px] font-bold uppercase tracking-widest truncate text-slate-900">{profile.full_name || 'Creator'}</p>
-                            <p className="text-[9px] text-purple-600 font-bold uppercase tracking-widest italic">{profile.plan_type === 'free' || !profile.plan_type ? 'Discovery Mode' : `${profile.plan_type} Member`}</p>
+                            <p className="text-[9px] text-purple-600 font-bold uppercase tracking-widest italic">{
+                                !profile.plan_type || profile.plan_type === 'free' ? 'Free Trial' :
+                                profile.plan_type === 'creator' ? 'Creator Member' :
+                                profile.plan_type === 'studio' ? 'The Studio' :
+                                profile.plan_type === 'agency' ? 'Agency Member' :
+                                `${profile.plan_type} Member`
+                            }</p>
                         </div>
                     </div>
                 ) : (
