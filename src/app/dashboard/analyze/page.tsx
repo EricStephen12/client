@@ -761,7 +761,7 @@ function AnalyzeContent() {
                                             <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
                                         </button>
 
-                                        {profile?.plan_type === 'agency' && (
+                                        {planTier === 'agency' && (
                                             <Link
                                                 href={`/dashboard/report/${sessionId || ''}`}
                                                 className="px-6 sm:px-10 py-6 sm:py-8 border border-slate-100 text-slate-400 rounded-xl sm:rounded-[2rem] font-bold uppercase tracking-[0.3em] text-[10px] sm:text-xs hover:bg-white hover:text-purple-600 transition-all flex items-center justify-center gap-3"
