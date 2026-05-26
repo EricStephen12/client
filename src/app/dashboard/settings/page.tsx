@@ -273,6 +273,7 @@ function SettingsContent() {
                 </div>
             </motion.section>
 
+            {/* Team collaboration — coming soon in v2
             <motion.section variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
                 <div className="lg:col-span-4 space-y-3 sm:space-y-4">
                     <h3 className="text-xl sm:text-2xl font-serif italic text-slate-900">Team Collaboration</h3>
@@ -343,6 +344,7 @@ function SettingsContent() {
                     )}
                 </div>
             </motion.section>
+            */}
 
             <AnimatePresence>
                 {showCancelModal && (

@@ -58,10 +58,10 @@ export default function LandingPage() {
                         <Link href="/pricing" className="text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1 decoration-purple-400">
                             Pricing
                         </Link>
-                        <Link href="/login" className="text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1 decoration-purple-400">
+                        <Link href="/login" className="text-xs font-medium tracking-[0.2em] uppercase border border-slate-200 px-6 py-2.5 rounded-lg hover:border-purple-400 transition-all">
                             Sign In
                         </Link>
-                        <Link href={isLoggedIn ? "/dashboard/analyze" : "/signup"} className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:from-purple-700 hover:to-blue-700 border-0 transition-all shadow-lg hover:shadow-xl">
+                        <Link href={isLoggedIn ? "/dashboard/analyze" : "/signup"} className="bg-slate-900 text-white px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:bg-purple-700 transition-all shadow-lg rounded-lg">
                             {isLoggedIn ? "Enter Studio" : "Get Started"}
                         </Link>
                     </div>
@@ -161,7 +161,7 @@ export default function LandingPage() {
 <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white">
                 <div className="max-w-7xl mx-auto">
                     <div className="bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 rounded-2xl sm:rounded-[3rem] p-6 sm:p-12 md:p-24 text-white relative overflow-hidden group border border-purple-500/20 shadow-2xl">
-                        <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-5 font-sans font-bold text-[20vw] sm:text-[12vw] pointer-events-none text-purple-200">ENGINE</div>
+                        <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-5 font-sans font-bold text-[20vw] sm:text-[12vw] pointer-events-none text-purple-200 select-none" aria-hidden="true">✦</div>
                         <div className="max-w-3xl relative z-10">
                             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-8 block">Our Vision</span>
                             <h2 className="text-3xl sm:text-4xl md:text-7xl font-sans font-bold leading-tight tracking-tight mb-8 sm:mb-12">
@@ -190,7 +190,7 @@ export default function LandingPage() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-12 sm:mb-16 md:mb-24">
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 mb-4 sm:mb-6">Built for High-Growth Teams.</h2>
-                        <p className="text-base sm:text-lg text-slate-500 font-light px-2">The Eixora Protocol: From discovery to production in 60 seconds.</p>
+                        <p className="text-base sm:text-lg text-slate-500 font-light px-2">From discovery to production brief in 60 seconds.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
@@ -215,7 +215,7 @@ export default function LandingPage() {
                         <div className="lg:col-span-5">
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-6 sm:mb-8">Performance Driven.</h2>
                             <p className="text-lg text-slate-500 font-light leading-relaxed mb-12">
-                                Eixora isn't just a tool; it's a member of your creative team. We analyze millions in ad spend daily to keep our "Director's Logic" ahead of the market.
+                                Eixora is trained on millions in ad spend data — so every brief you generate is backed by what's actually working right now, not guesswork.
                             </p>
                             <div className="space-y-6">
                                 <div className="flex items-center gap-4">
@@ -232,16 +232,16 @@ export default function LandingPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                                 <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
                                     <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">42%</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Average Hook Rate Increase</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Avg. Hook Rate Improvement Reported</p>
                                 </div>
                                 <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
                                     <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">12x</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Faster Brief Turnaround</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Faster Brief Turnaround vs. Manual</p>
                                 </div>
                                 <div className="bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] text-white sm:col-span-2">
-                                    <p className="text-xl font-serif italic mb-6">"Eixora has completely changed our creative workflow. We no longer wait days for scripts—we get them in 60 seconds."</p>
+                                    <p className="text-xl font-serif italic mb-6">"Before Eixora, I'd spend 3 hours reverse-engineering a viral video and still miss half the hooks. Now I paste the URL, get the full DNA in 60 seconds, and my briefs actually convert. My last campaign hit 2.1M views — I credit the hook structure directly to what Eixora extracted."</p>
                                     <div className="flex items-center gap-4">
-                                        <div className="w-8 h-8 bg-blue-500 rounded-full" />
+                                        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-bold">R</div>
                                         <div>
                                             <p className="text-xs font-bold uppercase tracking-widest">Rawlins Stephen</p>
                                             <p className="text-[10px] text-white/40 uppercase tracking-widest">Founder, AsrdollarBeatz</p>
@@ -261,10 +261,10 @@ export default function LandingPage() {
                     </div>
                     <div className="space-y-4">
                         {[
-                            { q: "What is the Eixora Protocol?", a: "The Eixora Protocol is our proprietary AI deconstruction method that extracts technical shooting data from viral social ads." },
-                            { q: "Do I need technical skills?", a: "No. Our technical briefs are written for creators and editors of all levels. If you can read, you can shoot." },
-                            { q: "Which platforms are supported?", a: "We are optimized for TikTok and Reels, with YouTube Shorts and Meta support currently in beta." },
-                            { q: "Can I cancel anytime?", a: "Yes. Our monthly plans are contract-free. Scale up or down as your production needs change." }
+                            { q: "How does it work?", a: "Paste any viral TikTok, Reels, or YouTube Shorts URL. Our AI breaks down the hook, pacing, and psychological triggers that make it work — then gives you a production brief you can hand to any creator." },
+                            { q: "Do I need technical skills?", a: "No. The briefs are written for creators and editors of all levels. If you can read, you can shoot." },
+                            { q: "Which platforms are supported?", a: "We fully support TikTok, Instagram Reels, YouTube Shorts, and Facebook/Meta video ads. Paste any public URL and we'll extract the DNA." },
+                            { q: "Can I cancel anytime?", a: "Yes. Monthly plans are contract-free. Scale up or down as your needs change." }
                         ].map((faq, i) => (
                             <details key={i} className="group bg-white border border-slate-200 rounded-2xl sm:rounded-3xl overflow-hidden hover:border-blue-400 transition-all duration-300">
                                 <summary className="flex items-center justify-between p-5 sm:p-8 md:p-10 cursor-pointer list-none">
@@ -287,8 +287,8 @@ export default function LandingPage() {
                     <div className="flex flex-col md:grid md:grid-cols-3 gap-12 sm:gap-16 md:gap-32 mb-16 sm:mb-20 md:mb-32">
                         <div>
                             <RevealOnScroll>
-                                <h2 className="text-[20vw] md:text-[8vw] leading-[0.8] font-serif tracking-tighter opacity-10 text-purple-500">
-                                    FLOW.
+                                <h2 className="text-[20vw] md:text-[8vw] leading-[0.8] font-serif tracking-tighter opacity-10 text-purple-500" aria-hidden="true">
+                                    Eixora.
                                 </h2>
                             </RevealOnScroll>
                         </div>
@@ -296,11 +296,12 @@ export default function LandingPage() {
                         <div className="space-y-12">
                             <RevealOnScroll delay={200}>
                                 <div>
-                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-purple-500/60">The Lounge</h3>
+                                    <h3 className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-purple-500/60">Navigation</h3>
                                     <div className="flex flex-col gap-6 text-sm font-light opacity-60">
                                         <Link href="/pricing" className="hover:text-purple-500 transition-colors">Pricing</Link>
                                         <Link href="/privacy" className="hover:text-purple-500 transition-colors">Privacy</Link>
                                         <Link href="/terms" className="hover:text-purple-500 transition-colors">Terms</Link>
+                                        <Link href="/refund" className="hover:text-purple-500 transition-colors">Refund Policy</Link>
                                     </div>
                                 </div>
                                 <div className="mt-16">

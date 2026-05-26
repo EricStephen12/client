@@ -3,11 +3,36 @@ import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 
 export const metadata: Metadata = {
-  title: "EIXORA — AI Ad Intelligence for Dropshippers | Decode Viral TikTok Ads",
-  description: "Reverse-engineer any viral TikTok ad. Extract hooks, pacing, and conversion triggers with AI-powered DNA analysis. Built for e-commerce sellers who scale.",
+  title: "EIXORA — AI Ad Intelligence for Creators | Decode Viral TikTok Ads",
+  description: "Reverse-engineer any viral TikTok ad. Extract hooks, pacing, and conversion triggers with AI-powered DNA analysis. Built for creators and e-commerce teams who scale.",
   icons: {
     icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
   },
+  openGraph: {
+    title: "EIXORA — Decode Viral Ads with AI",
+    description: "Paste any TikTok or Reels URL. Get the full psychological DNA — hook, pacing, triggers — in 60 seconds. Start free.",
+    url: "https://eixora.store",
+    siteName: "Eixora",
+    images: [
+      {
+        url: "https://eixora.store/hero.png",
+        width: 1200,
+        height: 630,
+        alt: "Eixora — AI Ad Intelligence",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "EIXORA — Decode Viral Ads with AI",
+    description: "Paste any TikTok or Reels URL. Get the full psychological DNA in 60 seconds.",
+    images: ["https://eixora.store/hero.png"],
+  },
+  metadataBase: new URL("https://eixora.store"),
 };
 
 export default function RootLayout({

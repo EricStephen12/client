@@ -45,7 +45,6 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
             features: [
                 '250 Studio Scans / mo',
                 '250 Strategy Briefs / mo',
-                '5 Team Member Seats',
                 'Priority AI Speed',
                 'Advanced PDF Exports',
                 'Direct Strategy Response'
@@ -79,7 +78,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                 className="grid grid-cols-1 md:grid-cols-2 gap-8"
             >
                 {plans.map((plan) => {
-                    const isCurrent = currentTier === plan.id;
+                    const isCurrent = currentTier === plan.id || (plan.id === 'studio' && currentTier === 'agency');
                     const isIndigo = plan.color === 'indigo';
                     
                     return (
