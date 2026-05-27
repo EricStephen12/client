@@ -224,12 +224,13 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
 {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
                     <div className="absolute inset-0 bg-purple-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
-                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in">
-                        <div className="flex justify-end p-6">
+                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in flex flex-col overflow-hidden">
+                        <div className="flex justify-end p-6 flex-shrink-0">
                             <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-purple-600 transition-colors">
                                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
+                        <div className="flex-1 overflow-y-auto">
                         <Suspense fallback={<div className="p-8 w-full h-full bg-white animate-pulse" />}>
                             <SidebarContent
                                 pathname={pathname}
@@ -242,6 +243,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                                 onOpenSupport={() => setIsSupportOpen(true)}
                             />
                         </Suspense>
+                        </div>
                     </aside>
                 </div>
             )}
