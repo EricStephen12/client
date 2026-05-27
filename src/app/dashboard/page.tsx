@@ -4,6 +4,7 @@ import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { getPlanLimit, getPlanLabel } from '@/utils/plan';
 
 export default function DashboardPage() {
     const { user, isLoaded } = useUser();
@@ -73,21 +74,14 @@ export default function DashboardPage() {
                                 {
                                     label: 'Creative Scans',
                                     value: (() => {
-                                        const scans = profile?.monthly_usage?.scans || 0;
                                         const tier = profile?.plan_type || 'free';
-                                        const limit = tier === 'creator' ? 30 : (tier === 'studio' || tier === 'agency') ? 250 : 3;
-                                        return `${scans} / ${limit}`;
+                                        const scans = profile?.monthly_usage?.scans ?? 0;
+                                        return `${scans} / ${getPlanLimit(tier)}`;
                                     })(),
                                 },
-                                { 
-                                    label: 'Plan', 
-                                    value: (() => {
-                                        const tier = profile?.plan_type || 'free';
-                                        if (tier === 'free') return 'Free Trial';
-                                        if (tier === 'creator') return 'Creator';
-                                        if (tier === 'studio' || tier === 'agency') return 'The Studio';
-                                        return tier.charAt(0).toUpperCase() + tier.slice(1);
-                                    })(),
+                                {
+                                    label: 'Plan',
+                                    value: getPlanLabel(profile?.plan_type || 'free'),
                                 }
                             ].map((stat, i) => (
                                 <div key={i} className="flex-1 min-w-[120px] p-4 sm:p-5 bg-white border border-slate-100 rounded-2xl hover:shadow-lg hover:border-purple-200 transition-all group shadow-sm">

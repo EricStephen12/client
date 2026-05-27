@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
 import { useUser, useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
+import { getPlanLimit } from '@/utils/plan';
 
 export default function AnalyzePage() {
     return (
@@ -49,11 +50,10 @@ function AnalyzeContent() {
                 });
                 if (res.ok) {
                     const data = await res.json();
-                    const tier = data.plan_type || data.subscription_tier || 'free';
+                    const tier = data.plan_type || 'free';
                     setPlanTier(tier);
-                    setScansUsed(data.monthly_usage?.scans || 0);
-                    const limits: Record<string, number> = { free: 3, creator: 30, studio: 250, agency: 250 };
-                    setScanLimit(limits[tier] ?? 3);
+                    setScansUsed(data.monthly_usage?.scans ?? 0);
+                    setScanLimit(getPlanLimit(tier));
                 }
             } catch (err) {
             } finally {
