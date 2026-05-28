@@ -106,7 +106,7 @@ function SettingsContent() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ name }),
+                body: JSON.stringify({ name, userId: user?.id }),
             });
 
             if (res.ok) {
@@ -138,7 +138,7 @@ function SettingsContent() {
                 setIsSyncing(true);
                 try {
                     const token = await getToken();
-                    const res = await fetch(`/api/main/api/me`, {
+                    const res = await fetch(`/api/main/api/me?userId=${user?.id}&email=${encodeURIComponent(user?.primaryEmailAddress?.emailAddress || '')}&name=${encodeURIComponent(user?.fullName || '')}`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     if (res.ok) {

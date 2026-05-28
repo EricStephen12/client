@@ -171,6 +171,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
+                    userId: user?.id,
                     onboarding_completed: true,
                     brand_niche: data.niche,
                     primary_goal: data.goal,

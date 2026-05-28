@@ -415,7 +415,7 @@ function AnalyzeContent() {
 
     return (
         <>
-            <div className="max-w-6xl mx-auto animate-fade-in-up pb-20 -mt-2 sm:-mt-4 md:-mt-8 space-y-6 sm:space-y-8 px-1 sm:px-2">
+            <div className="w-full max-w-[1400px] mx-auto animate-fade-in-up pb-20 -mt-2 sm:-mt-4 md:-mt-8 space-y-6 sm:space-y-8 px-1 sm:px-2">
 
                 <div className="mb-6 sm:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-8 sm:pb-12">
                     <div>
@@ -451,12 +451,12 @@ function AnalyzeContent() {
                 </div>
 
                 {isCheckingPlan ? (
-                            <div className="max-w-4xl mx-auto pt-24 text-center px-4">
+                            <div className="max-w-5xl mx-auto pt-24 text-center px-4">
                                 <div className="w-10 h-10 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
                                 <p className="font-serif text-lg italic text-slate-400">Checking scans limit...</p>
                             </div>
                         ) : scansUsed >= scanLimit ? (
-                            <div className="max-w-3xl mx-auto text-center space-y-8 py-16 bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-purple-900/5 relative overflow-hidden group">
+                            <div className="max-w-4xl mx-auto text-center space-y-8 py-16 bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-purple-900/5 relative overflow-hidden group">
                                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-indigo-500/5 opacity-50"></div>
                                 <div className="relative z-10 space-y-6">
                                     <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto text-purple-600 shadow-inner">
@@ -498,7 +498,7 @@ function AnalyzeContent() {
                                 </div>
                             </div>
                         ) : !result ? (
-                            <div className="max-w-4xl mx-auto space-y-6 md:space-y-12">
+                            <div className="max-w-5xl mx-auto space-y-6 md:space-y-12">
                                 <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-2 hide-scrollbar">
                                     <button
                                         onClick={() => setActiveTab('url')}
@@ -583,7 +583,7 @@ function AnalyzeContent() {
                             /* Unified Studio Layout */
                             <div className="flex flex-col xl:flex-row gap-8 w-full items-start">
                                 {/* Result Dashboard */}
-                                <div className={`w-full xl:w-1/2 space-y-6 md:space-y-10 animate-fade-in px-1 ${isChatMode ? 'hidden xl:block' : 'max-w-3xl mx-auto'}`}>
+                                <div className={`w-full xl:w-1/2 space-y-6 md:space-y-10 animate-fade-in px-1 ${isChatMode ? 'hidden xl:block' : 'max-w-4xl mx-auto'}`}>
                                     <div className="space-y-6 md:space-y-8">
                                     {/* Metrics Bar */}
                                     <div className="p-6 sm:p-10 md:p-16 bg-white border border-slate-100 rounded-2xl sm:rounded-[3rem] shadow-sm relative overflow-hidden group">
