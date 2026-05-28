@@ -27,7 +27,6 @@ export default function LoginPage() {
                         </Link>
                     </RevealOnScroll>
 
-                    <RevealOnScroll delay={200}>
                         <SignIn
                             appearance={{
                                 elements: {
@@ -43,7 +42,6 @@ export default function LoginPage() {
                             routing="hash"
                             forceRedirectUrl="/dashboard"
                         />
-                    </RevealOnScroll>
                 </div>
             </div>
 

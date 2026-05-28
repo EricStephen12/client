@@ -32,7 +32,6 @@ function SignupContent() {
                         </Link>
                     </RevealOnScroll>
 
-                    <RevealOnScroll delay={200}>
                         <SignUp
                             appearance={{
                                 elements: {
@@ -48,7 +47,6 @@ function SignupContent() {
                             routing="hash"
                             forceRedirectUrl={redirectUrl}
                         />
-                    </RevealOnScroll>
                 </div>
             </div>
 
