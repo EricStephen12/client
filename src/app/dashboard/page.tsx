@@ -60,9 +60,9 @@ export default function DashboardPage() {
                 <RevealOnScroll>
                     <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-8">
                         <div className="space-y-2">
-                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block">Director's Suite</span>
+                            <span className="text-xs font-semibold uppercase tracking-wider text-purple-600 block">Dashboard</span>
                             <h2 className="text-3xl sm:text-5xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
-                                {loading ? 'Preparing lounge...' : (
+                                {loading ? 'Loading dashboard...' : (
                                     <>Welcome back, <br className="hidden md:block" /><span className="italic font-serif text-slate-400">{firstName}.</span></>
                                 )}
                             </h2>
@@ -72,7 +72,7 @@ export default function DashboardPage() {
                         <div className="flex flex-wrap lg:flex-nowrap gap-3 sm:gap-4 flex-1 xl:max-w-xl justify-start xl:justify-end">
                             {[
                                 {
-                                    label: 'Creative Scans',
+                                    label: 'Scans Used',
                                     value: (() => {
                                         const tier = profile?.plan_type || 'free';
                                         const scans = profile?.monthly_usage?.scans ?? 0;
@@ -80,7 +80,7 @@ export default function DashboardPage() {
                                     })(),
                                 },
                                 {
-                                    label: 'Plan',
+                                    label: 'Current Plan',
                                     value: getPlanLabel(profile?.plan_type || 'free'),
                                 }
                             ].map((stat, i) => (
@@ -106,12 +106,12 @@ export default function DashboardPage() {
                                 required
                                 value={quickScanUrl}
                                 onChange={(e) => setQuickScanUrl(e.target.value)}
-                                placeholder="Paste TikTok/IG URL to extract DNA..."
-                                className="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 font-medium text-base sm:text-lg focus:outline-none focus:ring-0"
+                                placeholder="Paste TikTok, Reels, or Shorts URL to analyze..."
+                                className="w-transparent bg-transparent border-none text-slate-900 placeholder-slate-400 font-medium text-base sm:text-lg focus:outline-none focus:ring-0"
                             />
                         </div>
                         <button type="submit" className="w-full sm:w-auto px-8 py-5 sm:py-0 h-full sm:h-16 m-1 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-purple-600 transition-all shadow-lg hover:shadow-purple-500/30 whitespace-nowrap">
-                            Initialize Scan
+                            Analyze Video
                         </button>
                     </form>
                 </div>
@@ -122,9 +122,9 @@ export default function DashboardPage() {
                 {}
                 <div className="lg:col-span-2 space-y-6">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-2xl font-serif italic text-slate-900 font-bold">Recent Extractions</h3>
+                        <h3 className="text-2xl font-serif italic text-slate-900 font-bold">Recent Scans</h3>
                         <Link href="/dashboard/analyze" className="text-[10px] font-black uppercase tracking-widest text-purple-600 hover:text-purple-800 transition-colors">
-                            Open Studio &rarr;
+                            Open Analyzer &rarr;
                         </Link>
                     </div>
                     
@@ -142,8 +142,8 @@ export default function DashboardPage() {
                                         </div>
                                         <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">{new Date(session.created_at || session.updatedAt).toLocaleDateString()}</span>
                                     </div>
-                                    <h4 className="font-bold text-slate-900 truncate pr-4 text-lg">{session.title || 'Untitled Extraction'}</h4>
-                                    <p className="text-xs text-slate-400 mt-2 font-medium">Click to resume lounge session</p>
+                                    <h4 className="font-bold text-slate-900 truncate pr-4 text-lg">{session.title || 'Untitled Scan'}</h4>
+                                    <p className="text-xs text-slate-400 mt-2 font-medium">Click to view analysis report</p>
                                 </Link>
                             ))
                         ) : (
@@ -151,8 +151,8 @@ export default function DashboardPage() {
                                 <div className="w-16 h-16 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
                                 </div>
-                                <h4 className="font-bold text-slate-900 mb-2">No flows extracted yet</h4>
-                                <p className="text-sm text-slate-400 mb-6">Paste a URL above to start dissecting viral content.</p>
+                                <h4 className="font-bold text-slate-900 mb-2">No scans run yet</h4>
+                                <p className="text-sm text-slate-400 mb-6">Paste a video link above to run your first report.</p>
                             </div>
                         )}
                     </div>
@@ -160,19 +160,19 @@ export default function DashboardPage() {
 
                 {}
                 <div className="space-y-6">
-                    <h3 className="text-2xl font-serif italic text-slate-900 font-bold">Power Tools</h3>
+                    <h3 className="text-2xl font-serif italic text-slate-900 font-bold">More Tools</h3>
                     
                     <div className="space-y-4">
                         <Link href="/dashboard/batch" className="block p-6 bg-gradient-to-br from-indigo-950 to-slate-900 text-white rounded-3xl hover:shadow-2xl hover:scale-[1.02] transition-all relative overflow-hidden group">
                             <div className="absolute -right-10 -top-10 w-32 h-32 bg-purple-500 rounded-full blur-[40px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
                             <h4 className="font-bold text-xl mb-2">Batch Process</h4>
-                            <p className="text-white/60 text-sm mb-6">Analyze up to 10 URLs at once.</p>
+                            <p className="text-white/60 text-sm mb-6">Analyze up to 10 video links in bulk.</p>
                             <span className="inline-block px-4 py-2 bg-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest">Open Tool &rarr;</span>
                         </Link>
                         
                         <Link href="/dashboard/analyze" className="block p-6 bg-purple-50 text-purple-900 rounded-3xl border border-purple-100 hover:border-purple-300 hover:shadow-lg transition-all group">
                             <h4 className="font-bold text-xl mb-2">Manual Upload</h4>
-                            <p className="text-purple-600/70 text-sm mb-6">Upload a raw .mp4 for deep analysis.</p>
+                            <p className="text-purple-600/70 text-sm mb-6">Upload an MP4 file for a detailed analysis.</p>
                             <span className="inline-block px-4 py-2 bg-white text-purple-600 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">Upload Video &rarr;</span>
                         </Link>
                     </div>

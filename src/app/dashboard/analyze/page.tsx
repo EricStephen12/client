@@ -11,7 +11,7 @@ export default function AnalyzePage() {
         <Suspense fallback={
             <div className="max-w-6xl mx-auto pt-24 text-center px-4">
                 <div className="w-12 h-12 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
-                <p className="font-serif text-lg sm:text-xl italic text-slate-400">Preparing the Studio...</p>
+                <p className="font-serif text-lg sm:text-xl italic text-slate-400">Loading Video Analyzer...</p>
             </div>
         }>
             <AnalyzeContent />
@@ -421,11 +421,11 @@ function AnalyzeContent() {
 
                 <div className="mb-6 sm:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-8 sm:pb-12">
                     <div>
-                        <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 mb-1 block italic">Studio Workspace</span>
+                        <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-purple-600 mb-1 block italic">Workspace</span>
                         <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
-                            {isChatMode ? 'Strategy ' : 'Creative '}
+                            {isChatMode ? 'Strategy ' : 'Video '}
                             <span className="italic font-serif text-slate-400">
-                                {isChatMode ? 'Lounge.' : 'Analyzer.'}
+                                {isChatMode ? 'Assistant.' : 'Analyzer.'}
                             </span>
                         </h2>
                     </div>
@@ -457,7 +457,7 @@ function AnalyzeContent() {
                         {isCheckingPlan ? (
                             <div className="max-w-4xl mx-auto pt-24 text-center px-4">
                                 <div className="w-10 h-10 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
-                                <p className="font-serif text-lg italic text-slate-400">Verifying Creative License...</p>
+                                <p className="font-serif text-lg italic text-slate-400">Checking scans limit...</p>
                             </div>
                         ) : scansUsed >= scanLimit ? (
                             <div className="max-w-3xl mx-auto text-center space-y-8 py-16 bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-purple-900/5 relative overflow-hidden group">
@@ -469,11 +469,11 @@ function AnalyzeContent() {
                                         </svg>
                                     </div>
                                     <h3 className="font-serif text-3xl sm:text-5xl text-slate-900 italic">
-                                        {planTier === 'free' ? 'Free Trial Complete' : 'Scan Limit Reached'}
+                                        {planTier === 'free' ? 'Trial Limit Reached' : 'Scans Limit Reached'}
                                     </h3>
                                     <p className="text-slate-500 font-light text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
                                         {planTier === 'free' 
-                                            ? <>You've used all <strong>3 free scans</strong>. Upgrade to keep extracting viral DNA and unlock unlimited strategy sessions.</>
+                                            ? <>You've used all <strong>3 free scans</strong>. Upgrade to keep running analyses and unlock unlimited strategy sessions.</>
                                             : <>You've reached your <strong>{scanLimit} monthly scans</strong>. Upgrade your plan to increase your limit.</>
                                         }
                                     </p>
@@ -492,11 +492,11 @@ function AnalyzeContent() {
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-                                            <span>AI Strategy Lounge</span>
+                                            <span>AI Strategy Assistant</span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-                                            <span>Director Briefs</span>
+                                            <span>Director Reports</span>
                                         </div>
                                     </div>
                                 </div>
@@ -534,8 +534,8 @@ function AnalyzeContent() {
                                 {activeTab === 'url' ? (
                                     <div className="p-6 sm:p-10 md:p-20 bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-sm space-y-6 sm:space-y-8">
                                         <div className="space-y-3 sm:space-y-4">
-                                            <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Paste Viral Blueprint</h3>
-                                            <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will extract the psychological DNA from any public TikTok, Reels, or Shorts URL.</p>
+                                            <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Analyze Video URL</h3>
+                                            <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will analyze structure and metrics from any public TikTok, Reels, or Shorts URL.</p>
                                         </div>
                                         <input
                                             type="text"
@@ -549,7 +549,7 @@ function AnalyzeContent() {
                                             disabled={isAnalyzing || !url}
                                             className="w-full py-5 sm:py-6 md:py-8 bg-indigo-950 text-white font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-xl sm:rounded-3xl hover:bg-purple-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
                                         >
-                                            {isAnalyzing ? 'Locating Viral DNA...' : 'Scan Masterclass'}
+                                            {isAnalyzing ? 'Analyzing Video...' : 'Run Analysis'}
                                         </button>
                                         <div className="flex items-center gap-3">
                                             <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
@@ -566,7 +566,7 @@ function AnalyzeContent() {
                                             <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-purple-50 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto text-purple-300">
                                                 <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
                                             </div>
-                                            <p className="text-gray-900 font-bold text-base sm:text-lg md:text-xl font-serif">Audit My mp4</p>
+                                            <p className="text-gray-900 font-bold text-base sm:text-lg md:text-xl font-serif">Upload MP4 Video</p>
                                             <div className="flex items-center justify-center gap-2">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                                 <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-gray-400">Sweet Spot: 15-60s</span>
@@ -578,7 +578,7 @@ function AnalyzeContent() {
                                 {isAnalyzing && (
                                     <div className="text-center p-8 sm:p-12 md:p-24 bg-gradient-to-br from-indigo-950 to-purple-950 rounded-2xl sm:rounded-[3rem] text-white animate-pulse relative overflow-hidden shadow-2xl">
                                         <div className="w-10 h-10 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin mx-auto mb-6 sm:mb-8"></div>
-                                        <h3 className="font-serif text-xl sm:text-2xl md:text-4xl italic">AI Creative Director is Watching...</h3>
+                                        <h3 className="font-serif text-xl sm:text-2xl md:text-4xl italic">AI Video Analyzer is processing...</h3>
                                         <div className="absolute -bottom-20 -right-20 w-48 sm:w-64 h-48 sm:h-64 bg-purple-500 rounded-full blur-[80px] sm:blur-[100px] opacity-10"></div>
                                     </div>
                                 )}

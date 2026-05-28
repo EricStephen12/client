@@ -89,7 +89,7 @@ const masterToken = localStorage.getItem('admin_token');
             )
         },
         { 
-            name: 'Intelligence Studio', 
+            name: 'Video Analyzer', 
             href: '/dashboard/analyze',
             icon: (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,7 +98,7 @@ const masterToken = localStorage.getItem('admin_token');
             )
         },
         { 
-            name: 'Extraction History', 
+            name: 'Scan History', 
             href: '/dashboard/history',
             icon: (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,7 +107,7 @@ const masterToken = localStorage.getItem('admin_token');
             )
         },
         { 
-            name: 'Batch Processing', 
+            name: 'Batch Analyzer', 
             href: '/dashboard/batch',
             icon: (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -116,7 +116,7 @@ const masterToken = localStorage.getItem('admin_token');
             )
         },
         { 
-            name: 'Upgrade Access', 
+            name: 'Billing & Plans', 
             href: '/dashboard/upgrade',
             icon: (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -187,7 +187,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
     };
 
     const profile = isLoaded && user ? {
-        full_name: user.fullName || user.username || 'Creator',
+        full_name: user.fullName || user.username || 'User',
         email: user.primaryEmailAddress?.emailAddress,
         image: user.imageUrl,
         plan_type: profileData?.plan_type || profileData?.subscription_tier || (user.publicMetadata as any)?.plan_type || 'free'
@@ -198,7 +198,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
             <div className="flex min-h-screen items-center justify-center bg-white text-gray-900">
                 <div className="text-center space-y-4">
                     <div className="w-12 h-12 border-2 border-purple-100 border-t-purple-600 rounded-full animate-spin mx-auto"></div>
-                    <p className="text-gray-400 font-serif italic text-lg">Authenticating Mastermind...</p>
+                    <p className="text-gray-400 font-serif italic text-lg">Authenticating...</p>
                 </div>
             </div>
         );
@@ -268,7 +268,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
 <AnimatePresence>
                     {showOnboarding && (
                         <OnboardingFlow 
-                            userName={user?.firstName || 'Director'} 
+                            userName={user?.firstName || 'User'} 
                             onComplete={handleOnboardingComplete} 
                         />
                     )}
@@ -408,7 +408,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
             <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col p-8 space-y-10">
 
                 <div className="space-y-4">
-                    <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400 mb-2 block italic">Lounge Access</span>
+                    <span className="text-xs font-semibold tracking-wider uppercase text-slate-400 mb-3 block">Workspace</span>
                     {navItems.map((item: any) => {
                         const isActive = pathname === item.href;
                         return (
@@ -416,9 +416,9 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                 key={item.href}
                                 href={item.href}
                                 onClick={onClose}
-                                className={`group flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-2xl ${isActive
-                                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/20 font-black'
-                                    : 'text-slate-400 hover:bg-slate-50 hover:text-purple-600'
+                                className={`group flex items-center gap-3 px-4 py-3.5 text-sm font-medium transition-all duration-300 rounded-xl ${isActive
+                                    ? 'bg-purple-600 text-white shadow-md shadow-purple-600/10 font-semibold'
+                                    : 'text-slate-500 hover:bg-slate-50 hover:text-purple-600'
                                     } ${item.id || ''}`}
                             >
                                 <span className={`transition-all ${isActive ? 'text-white scale-110' : 'text-slate-400 group-hover:text-purple-500 group-hover:scale-110'}`}>
@@ -437,36 +437,40 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
 
                 <button
                     onClick={() => { onOpenSupport(); onClose?.(); }}
-                    className="w-full tour-support group flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 rounded-2xl text-slate-400 hover:bg-purple-50 hover:text-purple-600"
+                    className="w-full tour-support group flex items-center gap-3 px-4 py-3.5 text-sm font-medium transition-all duration-300 rounded-xl text-slate-500 hover:bg-purple-50 hover:text-purple-600"
                 >
                     <span className="text-slate-400 group-hover:text-purple-600 group-hover:scale-110 transition-all">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                     </span>
-                    <span>Direct Support</span>
+                    <span>Help & Support</span>
                 </button>
             </div>
 
             <div className="p-8 border-t border-slate-100 space-y-6 flex-shrink-0 bg-slate-50/50">
                 {profile ? (
                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-950 to-purple-950 text-white flex items-center justify-center font-serif italic text-lg shadow-md border border-white/10">
-                            {profile.full_name ? profile.full_name[0] : 'C'}
-                        </div>
+                        {profile.image ? (
+                            <img src={profile.image} alt={profile.full_name} className="w-10 h-10 rounded-full border border-slate-200" />
+                        ) : (
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-950 to-purple-950 text-white flex items-center justify-center font-semibold text-lg shadow-md">
+                                {profile.full_name ? profile.full_name[0] : 'U'}
+                            </div>
+                        )}
                         <div className="flex-1 min-w-0">
-                            <p className="text-[10px] font-bold uppercase tracking-widest truncate text-slate-900">{profile.full_name || 'Creator'}</p>
-                            <p className="text-[9px] text-purple-600 font-bold uppercase tracking-widest italic">{
+                            <p className="text-sm font-semibold truncate text-slate-900">{profile.full_name || 'User'}</p>
+                            <p className="text-xs text-purple-600 font-medium tracking-wide">{
                                 !profile.plan_type || profile.plan_type === 'free' ? 'Free Trial' :
-                                profile.plan_type === 'creator' ? 'Creator Member' :
-                                (profile.plan_type === 'studio' || profile.plan_type === 'agency') ? 'The Studio' :
-                                `${profile.plan_type} Member`
+                                profile.plan_type === 'creator' ? 'Creator Plan' :
+                                (profile.plan_type === 'studio' || profile.plan_type === 'agency') ? 'Studio Plan' :
+                                'Premium Member'
                             }</p>
                         </div>
                     </div>
                 ) : (
                     <div className="flex items-center gap-4 animate-pulse">
-                        <div className="w-10 h-10 rounded-xl bg-slate-200"></div>
+                        <div className="w-10 h-10 rounded-full bg-slate-200"></div>
                         <div className="space-y-2 flex-1">
                             <div className="h-3 w-20 bg-slate-200 rounded"></div>
                             <div className="h-2 w-12 bg-slate-200 rounded"></div>
@@ -477,9 +481,9 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className="w-full py-4 px-4 border border-slate-200 text-[9px] font-bold uppercase tracking-[0.3em] text-slate-400 hover:border-purple-200 hover:text-purple-600 hover:bg-white transition-all rounded-xl disabled:opacity-50"
+                    className="w-full py-3 px-4 border border-slate-200 text-xs font-semibold text-slate-400 hover:border-purple-200 hover:text-purple-600 hover:bg-white transition-all rounded-xl disabled:opacity-50"
                 >
-                    {isLoggingOut ? 'Leaving Lounge...' : 'Exit Account'}
+                    {isLoggingOut ? 'Signing out...' : 'Sign Out'}
                 </button>
             </div>
         </div>
