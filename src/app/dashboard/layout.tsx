@@ -247,25 +247,38 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                     </aside>
                 </div>
             )}
-
-<main className="flex-1 overflow-auto">
-                <header className="flex lg:hidden items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+<main className="flex-1 overflow-auto flex flex-col h-screen relative pb-20 lg:pb-0">
+                <header className="flex lg:hidden items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
                     <Link href="/" className="text-2xl font-serif font-bold italic">Eixora<span className="text-purple-600">.</span></Link>
                     <button
                         onClick={() => setIsMobileMenuOpen(true)}
-                        className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors"
+                        className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors"
                     >
-                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                 </header>
 
-                <div className="p-6 md:p-12 lg:p-16 max-w-[1600px] mx-auto min-h-screen">
+                <header className="hidden lg:flex items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
+                    <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
+                        <span className="text-slate-900 font-semibold text-lg">{navItems.find(i => i.href === pathname)?.name || 'Dashboard'}</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        {profileData && (
+                            <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-4 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
+                                <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                <span>Scans: {profileData.scan_count || 0} / {profileData.scan_limit || 10}</span>
+                            </div>
+                        )}
+                    </div>
+                </header>
+
+                <div className="p-6 md:p-12 lg:p-16 max-w-[1600px] mx-auto flex-1 w-full">
                     <RevealOnScroll>
                         {children}
                     </RevealOnScroll>
                 </div>
 
-<AnimatePresence>
+                <AnimatePresence>
                     {showOnboarding && (
                         <OnboardingFlow 
                             userName={user?.firstName || 'User'} 
@@ -274,19 +287,39 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                     )}
                 </AnimatePresence>
 
-<SupportModal
+                <SupportModal
                     isOpen={isSupportOpen}
                     onClose={() => setIsSupportOpen(false)}
                     userAddress={user?.primaryEmailAddress?.emailAddress}
                     userId={user?.id}
                 />
 
-<button
+                <button
                     onClick={() => setIsSupportOpen(true)}
-                    className="fixed bottom-6 right-6 lg:hidden w-14 h-14 bg-purple-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40"
+                    className="fixed bottom-24 right-6 lg:bottom-6 lg:right-6 lg:hidden w-14 h-14 bg-purple-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40"
                 >
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
                 </button>
+
+                <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 pb-4 z-50 flex justify-around items-center px-2 py-3 shadow-[0_-4px_15px_-5px_rgba(0,0,0,0.05)]">
+                    {navItems.slice(0, 3).map((item: any) => {
+                        const isActive = pathname === item.href;
+                        return (
+                            <Link key={item.href} href={item.href} className={`flex flex-col items-center p-2 rounded-lg transition-colors ${isActive ? 'text-purple-600' : 'text-slate-400 hover:text-slate-900'}`}>
+                                <span className={`${isActive ? 'scale-110' : ''} transition-transform`}>{item.icon}</span>
+                                <span className="text-[10px] mt-1.5 font-medium">{item.name.split(' ')[0]}</span>
+                            </Link>
+                        );
+                    })}
+                    <Link href="/dashboard/upgrade" className={`flex flex-col items-center p-2 rounded-lg transition-colors ${pathname === '/dashboard/upgrade' ? 'text-purple-600' : 'text-slate-400 hover:text-slate-900'}`}>
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z" /></svg>
+                        <span className="text-[10px] mt-1.5 font-medium">Billing</span>
+                    </Link>
+                    <button onClick={() => setIsMobileMenuOpen(true)} className="flex flex-col items-center p-2 rounded-lg text-slate-400 hover:text-slate-900 transition-colors">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                        <span className="text-[10px] mt-1.5 font-medium">Menu</span>
+                    </button>
+                </div>
             </main>
         </div>
     );
