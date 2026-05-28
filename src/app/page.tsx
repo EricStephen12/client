@@ -58,11 +58,7 @@ export default function LandingPage() {
                         <Link href="/pricing" className="text-xs font-medium tracking-[0.2em] uppercase hover:underline underline-offset-4 decoration-1 decoration-purple-400">
                             Pricing
                         </Link>
-                        {!isLoggedIn && (
-                            <Link href="/login" className="text-xs font-medium tracking-[0.2em] uppercase border border-slate-200 px-6 py-2.5 rounded-lg hover:border-purple-400 transition-all">
-                                Sign In
-                            </Link>
-                        )}
+
                         <Link href={isLoggedIn ? "/dashboard" : "/signup"} className="bg-slate-900 text-white px-8 py-3 text-xs font-medium tracking-[0.2em] uppercase hover:bg-purple-700 transition-all shadow-lg rounded-lg">
                             {isLoggedIn ? "Go to Dashboard" : "Get Started"}
                         </Link>
@@ -84,9 +80,7 @@ export default function LandingPage() {
                     <div className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-purple-100 animate-slide-down">
                         <div className="flex flex-col p-8 gap-6 text-center">
                             <Link href="/pricing" onClick={() => setIsMobileMenuOpen(false)} className="text-[10px] font-black tracking-[0.4em] uppercase text-gray-500">Pricing</Link>
-                            {!isLoggedIn && (
-                                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="text-[10px] font-black tracking-[0.4em] uppercase text-gray-500">Sign In</Link>
-                            )}
+
                             <Link
                                 href={isLoggedIn ? "/dashboard" : "/signup"}
                                 onClick={() => setIsMobileMenuOpen(false)}
