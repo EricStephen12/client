@@ -226,10 +226,13 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
 {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
                     <div className="absolute inset-0 bg-purple-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
-                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in flex flex-col overflow-hidden">
-                        <div className="flex justify-end p-6 flex-shrink-0">
+                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in flex flex-col">
+                        <div className="flex justify-between items-center p-6 border-b border-slate-100 flex-shrink-0">
+                            <Link href="/" className="text-2xl font-serif font-bold italic" onClick={() => setIsMobileMenuOpen(false)}>
+                                Eixora<span className="text-purple-600">.</span>
+                            </Link>
                             <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-purple-600 transition-colors">
-                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
+                                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
                         <div className="flex-1 overflow-y-auto">
@@ -313,13 +316,19 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                             </Link>
                         );
                     })}
-                    <Link href="/dashboard/upgrade" className={`flex flex-col items-center p-2 rounded-lg transition-colors ${pathname === '/dashboard/upgrade' ? 'text-purple-600' : 'text-slate-400 hover:text-slate-900'}`}>
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z" /></svg>
-                        <span className="text-[10px] mt-1.5 font-medium">Billing</span>
-                    </Link>
                     <button onClick={() => setIsMobileMenuOpen(true)} className="flex flex-col items-center p-2 rounded-lg text-slate-400 hover:text-slate-900 transition-colors">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                        <span className="text-[10px] mt-1.5 font-medium">Menu</span>
+                        <span className="text-[10px] mt-1.5 font-medium">More</span>
+                    </button>
+                    <button
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                        className="flex flex-col items-center p-2 rounded-lg text-slate-400 hover:text-red-500 transition-colors disabled:opacity-50"
+                    >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        <span className="text-[10px] mt-1.5 font-medium">{isLoggingOut ? '...' : 'Sign Out'}</span>
                     </button>
                 </div>
             </main>
@@ -440,7 +449,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 </Link>
             </div>
 
-            <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col p-8 space-y-10">
+            <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col p-8 space-y-10 min-h-0">
 
                 <div className="space-y-4">
                     <span className="text-xs font-semibold tracking-wider uppercase text-slate-400 mb-3 block">Workspace</span>
