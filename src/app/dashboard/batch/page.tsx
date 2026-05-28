@@ -152,9 +152,9 @@ export default function BatchPage() {
 
             <div className="pt-2 sm:pt-6 mb-8 flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-slate-100 pb-8">
                 <div className="space-y-2">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block italic">Agency Workspace</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block italic">Workspace</span>
                     <h2 className="text-3xl sm:text-5xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
-                        Batch <br className="hidden md:block" /><span className="italic font-serif text-slate-400">Processing.</span>
+                        Batch <br className="hidden md:block" /><span className="italic font-serif text-slate-400">Analysis.</span>
                     </h2>
                     <p className="text-slate-400 font-medium max-w-xl pt-2">Deep-scan up to 10 viral masterclasses simultaneously for high-velocity creative strategy.</p>
                 </div>
@@ -165,7 +165,7 @@ export default function BatchPage() {
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
                     </svg>
-                    Back to Lounge
+                    Back to Dashboard
                 </Link>
             </div>
 
@@ -183,7 +183,7 @@ export default function BatchPage() {
                                 <div className="space-y-4">
                                     <h3 className="font-serif text-3xl text-slate-900 italic">The Studio License Required</h3>
                                     <p className="text-slate-500 font-light text-base max-w-md mx-auto leading-relaxed">
-                                        Batch Processing is exclusive to The Studio membership. Upgrade your license to analyze up to 10 viral videos simultaneously.
+                                        Batch Analysis is exclusive to The Studio membership. Upgrade your license to analyze up to 10 viral videos simultaneously.
                                     </p>
                                 </div>
                                 <div className="pt-4 max-w-sm mx-auto">
@@ -223,7 +223,7 @@ export default function BatchPage() {
                                     disabled={isProcessing || !urls.trim()}
                                     className="w-full sm:w-auto px-10 py-5 bg-slate-900 text-white font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs rounded-2xl hover:bg-purple-600 hover:shadow-lg hover:shadow-purple-500/30 transition-all disabled:opacity-50"
                                 >
-                                    {isProcessing ? 'Processing Engine Active...' : 'Initialize Batch Scan'}
+                                    {isProcessing ? 'Processing Engine Active...' : 'Initialize Batch Analysis'}
                                 </button>
                             </div>
                         </div>
@@ -344,7 +344,7 @@ export default function BatchPage() {
                         onClick={() => { setResults(null); setUrls(''); }}
                         className="w-full py-6 sm:py-8 bg-slate-900 text-white rounded-2xl sm:rounded-[2.5rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs hover:bg-purple-500 hover:text-slate-950 hover:scale-[1.01] transition-all shadow-2xl"
                     >
-                        + Initialize New Batch
+                        + Initialize New Batch Analysis
                     </button>
                 </div>
             )}

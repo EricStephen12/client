@@ -403,9 +403,7 @@ function AnalyzeContent() {
                 await saveSessionState([], null);
             }
 
-            setTimeout(() => {
-                startChat();
-            }, 1000);
+
 
         } catch (err: any) {
             console.error(err);
@@ -436,9 +434,9 @@ function AnalyzeContent() {
                                 className="flex items-center gap-2 px-4 py-2 bg-white border border-purple-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-purple-600 hover:bg-purple-50 transition-all shadow-sm"
                             >
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                                Back
+                                Close Lounge
                             </button>
                         )}
                         {!isChatMode && result && (
@@ -452,9 +450,7 @@ function AnalyzeContent() {
                     </div>
                 </div>
 
-                {!isChatMode ? (
-                    <>
-                        {isCheckingPlan ? (
+                {isCheckingPlan ? (
                             <div className="max-w-4xl mx-auto pt-24 text-center px-4">
                                 <div className="w-10 h-10 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
                                 <p className="font-serif text-lg italic text-slate-400">Checking scans limit...</p>
@@ -584,9 +580,11 @@ function AnalyzeContent() {
                                 )}
                             </div>
                         ) : (
-                            /* Result Dashboard */
-                            <div className="max-w-3xl mx-auto space-y-6 md:space-y-10 animate-fade-in px-1">
-                                <div className="space-y-6 md:space-y-8">
+                            /* Unified Studio Layout */
+                            <div className="flex flex-col xl:flex-row gap-8 w-full items-start">
+                                {/* Result Dashboard */}
+                                <div className={`w-full xl:w-1/2 space-y-6 md:space-y-10 animate-fade-in px-1 ${isChatMode ? 'hidden xl:block' : 'max-w-3xl mx-auto'}`}>
+                                    <div className="space-y-6 md:space-y-8">
                                     {/* Metrics Bar */}
                                     <div className="p-6 sm:p-10 md:p-16 bg-white border border-slate-100 rounded-2xl sm:rounded-[3rem] shadow-sm relative overflow-hidden group">
                                         <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
@@ -751,33 +749,34 @@ function AnalyzeContent() {
                                     )}
 
                                     {/* CTA Buttons */}
-                                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                                        <button
-                                            onClick={startChat}
-                                            className="flex-1 py-6 sm:py-8 bg-indigo-950 text-white rounded-xl sm:rounded-[2rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs hover:bg-purple-500 hover:text-slate-950 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-indigo-950/20 flex items-center justify-center gap-4 sm:gap-6 group"
-                                        >
-                                            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-purple-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
-                                            Strategy Lounge
-                                            <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
-                                        </button>
-
-                                        {(planTier === 'studio' || planTier === 'agency') && (
-                                            <Link
-                                                href={`/dashboard/report/${sessionId || ''}`}
-                                                className="px-6 sm:px-10 py-6 sm:py-8 border border-slate-100 text-slate-400 rounded-xl sm:rounded-[2rem] font-bold uppercase tracking-[0.3em] text-[10px] sm:text-xs hover:bg-white hover:text-purple-600 transition-all flex items-center justify-center gap-3"
+                                    {!isChatMode && (
+                                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                                            <button
+                                                onClick={startChat}
+                                                className="flex-1 py-6 sm:py-8 bg-indigo-950 text-white rounded-xl sm:rounded-[2rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs hover:bg-purple-500 hover:text-slate-950 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-indigo-950/20 flex items-center justify-center gap-4 sm:gap-6 group"
                                             >
-                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-                                                Expert Report
-                                            </Link>
-                                        )}
-                                    </div>
+                                                <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-purple-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+                                                Strategy Lounge
+                                                <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
+                                            </button>
+
+                                            {(planTier === 'studio' || planTier === 'agency') && (
+                                                <Link
+                                                    href={`/dashboard/report/${sessionId || ''}`}
+                                                    className="px-6 sm:px-10 py-6 sm:py-8 border border-slate-100 text-slate-400 rounded-xl sm:rounded-[2rem] font-bold uppercase tracking-[0.3em] text-[10px] sm:text-xs hover:bg-white hover:text-purple-600 transition-all flex items-center justify-center gap-3"
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                                    Expert Report
+                                                </Link>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
-                            </div>
-                        )}
-                    </>
-                ) : (
-                    /* CHAT MODE: ChatGPT Style Lounge */
-                    <div className="max-w-4xl mx-auto space-y-4 animate-fade-in flex flex-col" style={{ height: 'calc(100dvh - 200px)', minHeight: '350px' }}>
+                                </div>
+
+                                {/* Strategy Lounge Chat */}
+                                {isChatMode && (
+                                    <div className="w-full xl:w-1/2 xl:sticky xl:top-24 bg-white border border-slate-100 xl:rounded-[2.5rem] xl:shadow-sm animate-fade-in flex flex-col xl:p-8" style={{ height: 'calc(100dvh - 120px)', minHeight: '600px' }}>
                         <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-1 md:pr-4 custom-scrollbar">
                             {messages.map((msg, idx) => (
                                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -864,8 +863,10 @@ function AnalyzeContent() {
                                 </span>
                             </div>
                         </div>
-                    </div>
-                )}
+                                    </div>
+                                )}
+                            </div>
+                        )}
             </div>
 
             <style jsx>{`

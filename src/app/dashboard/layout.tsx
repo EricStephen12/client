@@ -80,7 +80,7 @@ const masterToken = localStorage.getItem('admin_token');
 
     const navItems = [
         { 
-            name: 'Overview', 
+            name: 'Dashboard', 
             href: '/dashboard',
             icon: (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -89,7 +89,7 @@ const masterToken = localStorage.getItem('admin_token');
             )
         },
         { 
-            name: 'Video Analyzer', 
+            name: 'Analyze Video', 
             href: '/dashboard/analyze',
             icon: (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,7 +107,7 @@ const masterToken = localStorage.getItem('admin_token');
             )
         },
         { 
-            name: 'Batch Analyzer', 
+            name: 'Batch Analysis', 
             href: '/dashboard/batch',
             icon: (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -161,7 +161,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
         }
     };
 
-    const handleOnboardingComplete = async (data: { niche: string; goal: string }) => {
+    const handleOnboardingComplete = async (data: { niche: string; goal: string; source: string }) => {
         try {
             const token = await getToken();
             const res = await fetch('/api/main/api/me', {
@@ -173,7 +173,8 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                 body: JSON.stringify({
                     onboarding_completed: true,
                     brand_niche: data.niche,
-                    primary_goal: data.goal
+                    primary_goal: data.goal,
+                    source: data.source
                 })
             });
             if (res.ok) {

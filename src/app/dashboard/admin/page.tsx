@@ -162,6 +162,7 @@ export default function AdminDashboard() {
                                 <th className="p-4 sm:p-6">User / Identity</th>
                                 <th className="p-4 sm:p-6">Tier</th>
                                 <th className="p-4 sm:p-6">Usage</th>
+                                <th className="p-4 sm:p-6">Onboarding Data</th>
                                 <th className="p-4 sm:p-6">Actions</th>
                             </tr>
                         </thead>
@@ -178,6 +179,14 @@ export default function AdminDashboard() {
                                         </span>
                                     </td>
                                     <td className="p-4 sm:p-6 text-xs text-gray-500 font-mono">{u.scans} scans</td>
+                                    <td className="p-4 sm:p-6">
+                                        <div className="flex flex-col gap-1 text-[10px] text-gray-500">
+                                            {u.brand_niche && <span><strong className="text-purple-600 uppercase">Niche:</strong> {u.brand_niche}</span>}
+                                            {u.primary_goal && <span><strong className="text-purple-600 uppercase">Goal:</strong> {u.primary_goal}</span>}
+                                            {u.source && <span><strong className="text-purple-600 uppercase">Source:</strong> {u.source}</span>}
+                                            {!u.brand_niche && !u.primary_goal && !u.source && <span className="italic text-gray-400">Incomplete</span>}
+                                        </div>
+                                    </td>
                                     <td className="p-4 sm:p-6">
                                         <div className="flex gap-2">
                                             <button
