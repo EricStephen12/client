@@ -2,12 +2,21 @@
 import { SignUp } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
-import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
+import { useUser } from '@clerk/nextjs';
 
 function SignupContent() {
     const searchParams = useSearchParams();
     const redirectUrl = searchParams.get('redirect') || '/dashboard';
+    const { user, isLoaded } = useUser();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (isLoaded && user) {
+            router.replace(redirectUrl);
+        }
+    }, [isLoaded, user, router, redirectUrl]);
 
     return (
         <div className="min-h-screen grid md:grid-cols-2 bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden text-gray-900">

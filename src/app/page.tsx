@@ -18,6 +18,13 @@ export default function LandingPage() {
     const isLoggedIn = isLoaded && !!user;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    // Redirect logged-in users straight to dashboard
+    useEffect(() => {
+        if (isLoaded && user) {
+            router.replace('/dashboard');
+        }
+    }, [isLoaded, user, router]);
+
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

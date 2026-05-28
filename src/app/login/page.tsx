@@ -2,8 +2,19 @@
 import { SignIn } from '@clerk/nextjs';
 import Link from 'next/link';
 import RevealOnScroll from '@/components/RevealOnScroll';
+import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function LoginPage() {
+    const { user, isLoaded } = useUser();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (isLoaded && user) {
+            router.replace('/dashboard');
+        }
+    }, [isLoaded, user, router]);
     return (
         <div className="min-h-screen grid md:grid-cols-2 bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden text-gray-900">
 
