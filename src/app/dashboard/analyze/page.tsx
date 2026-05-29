@@ -124,7 +124,8 @@ function AnalyzeContent() {
                 setIsAnalyzing(true);
                 try {
                     const token = await getToken();
-                    const res = await fetch(`/api/main/api/analyze-video-url`, {
+                    const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+                    const res = await fetch(`${apiBase}/api/analyze-video-url`, {
                         method: 'POST',
                         body: JSON.stringify({ videoUrl: queryUrl, userId }),
                         headers: {
@@ -320,7 +321,8 @@ function AnalyzeContent() {
         setIsSending(true);
         try {
             const token = await getToken();
-            const res = await fetch(`/api/main/api/generate-final-script`, {
+            const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+            const res = await fetch(`${apiBase}/api/generate-final-script`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -356,6 +358,54 @@ function AnalyzeContent() {
         }
     };
 
+    const generateHookVariations = async (briefData: any) => {
+        if (!briefData) return;
+        setIsSending(true);
+        try {
+            const token = await getToken();
+            const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+            const res = await fetch(`${apiBase}/api/generate-hook-variations`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    brief: briefData,
+                    userId
+                })
+            });
+
+            if (!res.ok) throw new Error('Hook variations generation failed');
+            const data = await res.json();
+
+            if (!data.variations || data.variations.length === 0) {
+                throw new Error('No hook variations returned');
+            }
+
+            const hookContent = `⚡ **ALTERNATIVE HOOK VARIATIONS**\n\nHere are 3 high-converting hook variations (0-3s) using different psychological triggers for your script:\n\n` + 
+                data.variations.map((v: any, index: number) => 
+                    `${index + 1}. **${v.trigger}**\n🎬 **Visual**: ${v.visual}\n🎙️ **Audio**: ${v.audio}\n📝 **Overlay**: ${v.overlay}`
+                ).join('\n\n');
+
+            const hookMsg = {
+                role: 'assistant',
+                type: 'hooks',
+                content: hookContent
+            };
+
+            const updatedMessages = [...messages, hookMsg];
+            setMessages(updatedMessages);
+            await saveSessionState(updatedMessages);
+
+        } catch (err) {
+            console.error(err);
+            alert("Could not generate hook variations right now. Please try again.");
+        } finally {
+            setIsSending(false);
+        }
+    };
+
     const handleAnalyze = async () => {
         if (activeTab === 'upload' && !file) return;
         if (activeTab === 'url' && !url) return;
@@ -373,7 +423,8 @@ function AnalyzeContent() {
 
         try {
             const token = await getToken();
-            const res = await fetch(`/api/main/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
+            const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+            const res = await fetch(`${apiBase}/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
                 method: 'POST',
                 body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId }),
                 headers: {
@@ -793,6 +844,17 @@ function AnalyzeContent() {
                                             </div>
                                         )}
                                         <p className={`text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'brief' ? 'font-serif text-gray-100' : ''}`}>{msg.content}</p>
+                                        {msg.type === 'brief' && msg.raw && (
+                                            <div className="mt-6 pt-6 border-t border-white/10 flex flex-wrap gap-4">
+                                                <button
+                                                    onClick={() => generateHookVariations(msg.raw)}
+                                                    disabled={isSending}
+                                                    className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-md hover:shadow-purple-500/20 disabled:opacity-50 active:scale-95 flex items-center gap-2 cursor-pointer"
+                                                >
+                                                    ⚡ Generate Hook Variations
+                                                </button>
+                                            </div>
+                                        )}
                                                  {msg.role === 'assistant' && msg.type !== 'brief' && (
                                             <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-50 flex gap-4 sm:gap-6 items-center">
                                                 <button 
