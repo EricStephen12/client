@@ -152,15 +152,65 @@ export default function AdminDashboard() {
                 <div className="space-y-8 sm:space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                         {[
-                            { label: 'Total Users', value: stats?.totalUsers || 0, color: 'text-purple-600' },
-                            { label: 'Platform Scans', value: stats?.totalScans || 0, color: 'text-blue-600' },
-                            { label: 'Open Tickets', value: tickets.filter(t => t.status === 'open').length, color: 'text-orange-600' }
+                            { label: 'Total Users', value: stats?.totalUsers || 0, color: 'text-purple-600', desc: 'Total accounts registered' },
+                            { label: 'Platform Scans', value: stats?.totalScans || 0, color: 'text-blue-600', desc: 'Viral blueprints extracted' },
+                            { label: 'Open Tickets', value: tickets.filter(t => t.status === 'open').length, color: 'text-orange-600', desc: 'Requires support attention' }
                         ].map((stat, i) => (
-                            <div key={i} className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-purple-100 shadow-sm">
+                            <div key={i} className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-purple-100 shadow-sm relative overflow-hidden group hover:border-purple-300 transition-all duration-300">
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3 sm:mb-4">{stat.label}</p>
-                                <p className={`text-3xl sm:text-5xl font-serif italic ${stat.color}`}>{stat.value}</p>
+                                <p className={`text-3xl sm:text-5xl font-serif italic ${stat.color} relative z-10`}>{stat.value}</p>
+                                <p className="text-[10px] text-gray-400 mt-2 font-light">{stat.desc}</p>
+                                <div className="absolute right-0 bottom-0 opacity-5 text-8xl font-serif select-none pointer-events-none group-hover:scale-110 transition-transform duration-500">✦</div>
                             </div>
                         ))}
+                    </div>
+
+                    {/* Financial Performance dossier */}
+                    <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 p-6 sm:p-10 rounded-2xl sm:rounded-[2.5rem] border border-indigo-500/20 text-white relative overflow-hidden shadow-xl">
+                        <div className="absolute top-0 right-0 p-10 opacity-[0.03] text-[15vw] font-serif pointer-events-none select-none">$$</div>
+                        <div className="relative z-10 mb-8 border-b border-white/10 pb-6">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-400 mb-2 block">Premium Financial Dossier</span>
+                            <h2 className="text-xl sm:text-2xl font-serif italic font-bold">Revenue Stream Tracker</h2>
+                        </div>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
+                            {[
+                                { period: 'Daily Revenue', value: stats?.revenue?.daily, color: 'text-green-400' },
+                                { period: 'Weekly Revenue', value: stats?.revenue?.weekly, color: 'text-emerald-400' },
+                                { period: 'Monthly Revenue', value: stats?.revenue?.monthly, color: 'text-teal-400' },
+                                { period: 'Yearly Revenue', value: stats?.revenue?.yearly, color: 'text-cyan-400' }
+                            ].map((item, idx) => (
+                                <div key={idx} className="bg-white/5 backdrop-blur-md p-5 sm:p-6 rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all">
+                                    <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">{item.period}</p>
+                                    <p className={`text-2xl sm:text-3xl font-mono font-bold ${item.color}`}>
+                                        ${typeof item.value === 'number' ? item.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* User growth stats */}
+                    <div className="bg-white p-6 sm:p-10 rounded-2xl sm:rounded-[2.5rem] border border-purple-100 shadow-sm relative overflow-hidden">
+                        <div className="relative z-10 mb-8 border-b border-purple-50 pb-6">
+                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-600 mb-2 block">Acquisition Engine</span>
+                            <h2 className="text-xl sm:text-2xl font-serif italic text-gray-900">User Growth Speed</h2>
+                        </div>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
+                            {[
+                                { period: 'Daily Signups', value: stats?.signups?.daily, color: 'text-purple-600', unit: 'new users' },
+                                { period: 'Weekly Signups', value: stats?.signups?.weekly, color: 'text-indigo-600', unit: 'new users' },
+                                { period: 'Monthly Signups', value: stats?.signups?.monthly, color: 'text-blue-600', unit: 'new users' },
+                                { period: 'Yearly Signups', value: stats?.signups?.yearly, color: 'text-pink-600', unit: 'new users' }
+                            ].map((item, idx) => (
+                                <div key={idx} className="bg-purple-50/20 p-5 sm:p-6 rounded-2xl border border-purple-50/50 hover:border-purple-200 transition-all">
+                                    <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-2">{item.period}</p>
+                                    <p className={`text-3xl font-serif italic font-bold ${item.color}`}>
+                                        +{item.value || 0}
+                                    </p>
+                                    <p className="text-[9px] text-gray-400 mt-1 font-light">{item.unit}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}
