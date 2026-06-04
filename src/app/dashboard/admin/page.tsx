@@ -50,10 +50,14 @@ export default function AdminDashboard() {
     const fetchAllData = async (explicitToken?: string | null) => {
         try {
             const token = explicitToken || localStorage.getItem('admin_token') || await getToken();
+            const headers: Record<string, string> = { 'Authorization': `Bearer ${token}` };
+            if (user?.primaryEmailAddress?.emailAddress) {
+                headers['x-user-email'] = user.primaryEmailAddress.emailAddress;
+            }
             const [statsRes, usersRes, ticketsRes, healthRes] = await Promise.all([
-                fetch(`/api/main/api/admin/stats`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`/api/main/api/admin/users`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`/api/main/api/admin/support`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                fetch(`/api/main/api/admin/stats`, { headers }),
+                fetch(`/api/main/api/admin/users`, { headers }),
+                fetch(`/api/main/api/admin/support`, { headers }),
                 fetch(`/api/main/api/health`)
             ]);
 
@@ -68,13 +72,20 @@ export default function AdminDashboard() {
         }
     };
 
+    const getAdminHeaders = async () => {
+        const token = localStorage.getItem('admin_token') || await getToken();
+        const h: Record<string, string> = { 'Authorization': `Bearer ${token}` };
+        if (user?.primaryEmailAddress?.emailAddress) h['x-user-email'] = user.primaryEmailAddress.emailAddress;
+        return { token, headers: h };
+    };
+
     const handleAddCredits = async (targetUserId: string) => {
         setActionLoading(targetUserId);
         try {
-            const token = localStorage.getItem('admin_token') || await getToken();
+            const { token, headers } = await getAdminHeaders();
             const res = await fetch(`/api/main/api/admin/users/${targetUserId}/add-credits`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { ...headers, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount: 50 })
             });
             if (res.ok) fetchAllData(token);
@@ -86,10 +97,10 @@ export default function AdminDashboard() {
     const handlePromote = async (targetUserId: string) => {
         setActionLoading(targetUserId);
         try {
-            const token = localStorage.getItem('admin_token') || await getToken();
+            const { token, headers } = await getAdminHeaders();
             const res = await fetch(`/api/main/api/admin/users/${targetUserId}/update-tier`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                headers: { ...headers, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ tier: 'studio' })
             });
             if (res.ok) fetchAllData(token);
@@ -100,10 +111,10 @@ export default function AdminDashboard() {
 
     const handleResolveTicket = async (ticketId: string) => {
         try {
-            const token = localStorage.getItem('admin_token') || await getToken();
+            const { token, headers } = await getAdminHeaders();
             const res = await fetch(`/api/main/api/admin/support/${ticketId}/resolve`, {
                 method: 'PATCH',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers
             });
             if (res.ok) fetchAllData(token);
         } catch (err) { }

@@ -136,6 +136,7 @@ export default function LandingPage() {
                             >
                                 Extract Blueprint &rarr;
                             </button>
+                            <p className="text-xs text-gray-400 font-medium tracking-wide mt-2 text-center">Starting at $5/month · Cancel anytime</p>
                         </form>
                     </RevealOnScroll>
                 </div>
@@ -236,12 +237,12 @@ export default function LandingPage() {
                         <div className="lg:col-span-7">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                                 <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
-                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">42%</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Avg. Hook Rate Improvement Reported</p>
+                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">60s</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Blueprint from Any Viral URL</p>
                                 </div>
                                 <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
-                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">12x</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Faster Brief Turnaround vs. Manual</p>
+                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">3→1</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Hours of Research Replaced Per Brief</p>
                                 </div>
                                 <div className="bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] text-white sm:col-span-2">
                                     <p className="text-xl font-serif italic mb-6">"Before Eixora, I'd spend 3 hours reverse-engineering a viral video and still miss half the hooks. Now I paste the URL, get the full DNA in 60 seconds, and my briefs actually convert. My last campaign hit 2.1M views — I credit the hook structure directly to what Eixora extracted."</p>
