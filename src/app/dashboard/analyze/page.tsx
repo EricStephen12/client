@@ -95,10 +95,30 @@ function AnalyzeContent() {
                     parsedMessages = [];
                 }
 
+                // If background processing is active, poll again after delay
+                if (parsedDna && parsedDna.status === 'processing') {
+                    setIsAnalyzing(true);
+                    setSessionId(data.id);
+                    setResult(null);
+                    setTimeout(() => loadSession(id), 3000);
+                    return;
+                }
+
+                if (parsedDna && parsedDna.status === 'failed') {
+                    setIsAnalyzing(false);
+                    setSessionId(null);
+                    setResult(null);
+                    window.history.pushState({}, '', window.location.pathname);
+                    alert(`Analysis failed: ${parsedDna.error || 'Unknown error'}`);
+                    return;
+                }
+
                 setResult({ analysis: parsedDna });
                 setMessages(parsedMessages);
                 setSessionId(data.id);
-                setIsChatMode(true);
+                setIsAnalyzing(false);
+                setIsChatMode(parsedMessages.length > 0);
+                window.dispatchEvent(new CustomEvent('session-updated'));
             }
         } catch (err) {
             console.error('Load session failed', err);
@@ -135,11 +155,18 @@ function AnalyzeContent() {
                     });
                     if (res.ok) {
                         const data = await res.json();
-                        setResult(data);
+                        if (data.sessionId) {
+                            window.history.pushState({}, '', `?sessionId=${data.sessionId}`);
+                            setSessionId(data.sessionId);
+                            loadSession(data.sessionId);
+                        } else {
+                            setIsAnalyzing(false);
+                        }
+                    } else {
+                        setIsAnalyzing(false);
                     }
                 } catch (err) {
                     console.error(err);
-                } finally {
                     setIsAnalyzing(false);
                 }
             };
@@ -448,18 +475,14 @@ function AnalyzeContent() {
             }
 
             const data = await res.json();
-            setResult(data);
-
-            if (userId && data.analysis) {
-                await saveSessionState([], null);
+            if (data.sessionId) {
+                window.history.pushState({}, '', `?sessionId=${data.sessionId}`);
+                setSessionId(data.sessionId);
+                loadSession(data.sessionId);
             }
-
-
-
         } catch (err: any) {
             console.error(err);
             alert(`Analysis Error: ${err.message}`);
-        } finally {
             setIsAnalyzing(false);
         }
     };
@@ -550,76 +573,80 @@ function AnalyzeContent() {
                             </div>
                         ) : !result ? (
                             <div className="max-w-5xl mx-auto space-y-6 md:space-y-12">
-                                <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-2 hide-scrollbar">
-                                    <button
-                                        onClick={() => setActiveTab('url')}
-                                        className={`flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold uppercase tracking-widest text-[9px] sm:text-[10px] transition-all ${activeTab === 'url' ? 'bg-purple-500 text-slate-950 shadow-xl shadow-purple-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-purple-200'}`}
-                                    >
-                                        Reference Scan
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveTab('upload')}
-                                        className={`flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold uppercase tracking-widest text-[9px] sm:text-[10px] transition-all ${activeTab === 'upload' ? 'bg-purple-500 text-slate-950 shadow-xl shadow-purple-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-purple-200'}`}
-                                    >
-                                        Draft Audit
-                                    </button>
-                                </div>
+                                {!sessionId && (
+                                    <>
+                                        <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-2 hide-scrollbar">
+                                            <button
+                                                onClick={() => setActiveTab('url')}
+                                                className={`flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold uppercase tracking-widest text-[9px] sm:text-[10px] transition-all ${activeTab === 'url' ? 'bg-purple-500 text-slate-950 shadow-xl shadow-purple-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-purple-200'}`}
+                                            >
+                                                Reference Scan
+                                            </button>
+                                            <button
+                                                onClick={() => setActiveTab('upload')}
+                                                className={`flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold uppercase tracking-widest text-[9px] sm:text-[10px] transition-all ${activeTab === 'upload' ? 'bg-purple-500 text-slate-950 shadow-xl shadow-purple-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-purple-200'}`}
+                                            >
+                                                Draft Audit
+                                            </button>
+                                        </div>
 
-                                {planTier === 'free' && (
-                                    <div className="flex items-center gap-3 px-5 py-3 bg-purple-50 border border-purple-100 rounded-2xl">
-                                        <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-                                        <span className="text-[11px] font-bold text-purple-700">
-                                            {scanLimit - scansUsed} of {scanLimit} free scans remaining
-                                        </span>
-                                        <span className="text-[10px] text-purple-400 hidden sm:inline">•</span>
-                                        <Link href="/dashboard/upgrade" className="text-[10px] font-bold text-purple-500 hover:text-purple-700 transition-colors uppercase tracking-widest hidden sm:inline">
-                                            Upgrade
-                                        </Link>
-                                    </div>
-                                )}
+                                        {planTier === 'free' && (
+                                            <div className="flex items-center gap-3 px-5 py-3 bg-purple-50 border border-purple-100 rounded-2xl">
+                                                <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+                                                <span className="text-[11px] font-bold text-purple-700">
+                                                    {scanLimit - scansUsed} of {scanLimit} free scans remaining
+                                                </span>
+                                                <span className="text-[10px] text-purple-400 hidden sm:inline">•</span>
+                                                <Link href="/dashboard/upgrade" className="text-[10px] font-bold text-purple-500 hover:text-purple-700 transition-colors uppercase tracking-widest hidden sm:inline">
+                                                    Upgrade
+                                                </Link>
+                                            </div>
+                                        )}
 
-                                {activeTab === 'url' ? (
-                                    <div className="p-6 sm:p-10 md:p-20 bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-sm space-y-6 sm:space-y-8">
-                                        <div className="space-y-3 sm:space-y-4">
-                                            <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Analyze Video URL</h3>
-                                            <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will analyze structure and metrics from any public TikTok, Reels, or Shorts URL.</p>
-                                        </div>
-                                        <input
-                                            type="text"
-                                            placeholder="Paste TikTok, Instagram Reels, or YouTube Shorts URL..."
-                                            value={url}
-                                            onChange={(e) => setUrl(e.target.value)}
-                                            className="w-full p-4 sm:p-6 md:p-8 bg-slate-50 border-none rounded-xl sm:rounded-3xl focus:ring-2 focus:ring-purple-500 transition-all font-medium text-sm sm:text-lg md:text-xl"
-                                        />
-                                        <button
-                                            onClick={handleAnalyze}
-                                            disabled={isAnalyzing || !url}
-                                            className="w-full py-5 sm:py-6 md:py-8 bg-indigo-950 text-white font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-xl sm:rounded-3xl hover:bg-purple-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
-                                        >
-                                            {isAnalyzing ? 'Analyzing Video...' : 'Run Analysis'}
-                                        </button>
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
-                                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sweet Spot: 15-60s Analysis</span>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div
-                                        {...getRootProps()}
-                                        className="h-[200px] sm:h-[280px] md:h-[400px] bg-white border-2 border-dashed border-purple-100 rounded-2xl sm:rounded-[3rem] flex flex-col items-center justify-center cursor-pointer hover:border-purple-400 transition-all"
-                                    >
-                                        <input {...getInputProps()} />
-                                        <div className="text-center p-4 sm:p-8 space-y-3 sm:space-y-4">
-                                            <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-purple-50 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto text-purple-300">
-                                                <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                                        {activeTab === 'url' ? (
+                                            <div className="p-6 sm:p-10 md:p-20 bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-sm space-y-6 sm:space-y-8">
+                                                <div className="space-y-3 sm:space-y-4">
+                                                    <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Analyze Video URL</h3>
+                                                    <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will analyze structure and metrics from any public TikTok, Reels, or Shorts URL.</p>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Paste TikTok, Instagram Reels, or YouTube Shorts URL..."
+                                                    value={url}
+                                                    onChange={(e) => setUrl(e.target.value)}
+                                                    className="w-full p-4 sm:p-6 md:p-8 bg-slate-50 border-none rounded-xl sm:rounded-3xl focus:ring-2 focus:ring-purple-500 transition-all font-medium text-sm sm:text-lg md:text-xl"
+                                                />
+                                                <button
+                                                    onClick={handleAnalyze}
+                                                    disabled={isAnalyzing || !url}
+                                                    className="w-full py-5 sm:py-6 md:py-8 bg-indigo-950 text-white font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-xl sm:rounded-3xl hover:bg-purple-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
+                                                >
+                                                    {isAnalyzing ? 'Analyzing Video...' : 'Run Analysis'}
+                                                </button>
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sweet Spot: 15-60s Analysis</span>
+                                                </div>
                                             </div>
-                                            <p className="text-gray-900 font-bold text-base sm:text-lg md:text-xl font-serif">Upload MP4 Video</p>
-                                            <div className="flex items-center justify-center gap-2">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-gray-400">Sweet Spot: 15-60s</span>
+                                        ) : (
+                                            <div
+                                                {...getRootProps()}
+                                                className="h-[200px] sm:h-[280px] md:h-[400px] bg-white border-2 border-dashed border-purple-100 rounded-2xl sm:rounded-[3rem] flex flex-col items-center justify-center cursor-pointer hover:border-purple-400 transition-all"
+                                            >
+                                                <input {...getInputProps()} />
+                                                <div className="text-center p-4 sm:p-8 space-y-3 sm:space-y-4">
+                                                    <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-purple-50 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto text-purple-300">
+                                                        <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                                                    </div>
+                                                    <p className="text-gray-900 font-bold text-base sm:text-lg md:text-xl font-serif">Upload MP4 Video</p>
+                                                    <div className="flex items-center justify-center gap-2">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-gray-400">Sweet Spot: 15-60s</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        )}
+                                    </>
                                 )}
 
                                 {isAnalyzing && (

@@ -48,14 +48,13 @@ export default function AdminLoginPage() {
                         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-500/10 border border-blue-500/20 mb-6 group-hover:scale-110 transition-transform duration-500">
                             <span className="text-2xl">💎</span>
                         </div>
-                        <h1 className="text-2xl font-bold text-white mb-2">Elite Admin Hub</h1>
-                        <p className="text-gray-400 text-sm">Secure Master Access Only</p>
+                        <p className="text-gray-400 text-sm">Secure Login </p>
                     </div>
 
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div>
                             <label className="block text-xs font-medium text-gray-500 uppercase tracking-widest mb-2">
-                                Elite Access Key
+                                password
                             </label>
                             <input
                                 type="password"
@@ -87,7 +86,7 @@ export default function AdminLoginPage() {
 
                     <div className="mt-10 pt-8 border-t border-[#1A1A1A] text-center">
                         <p className="text-[10px] text-gray-600 uppercase tracking-[0.2em]">
-                            End-to-End Encrypted Session 🛡️
+                            Password Required
                         </p>
                     </div>
                 </div>
