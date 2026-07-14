@@ -32,8 +32,8 @@ export default function MagneticButton({ href, children, className = '', variant
     };
 
     const baseClasses = variant === 'primary'
-        ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 shadow-lg hover:shadow-xl'
-        : 'border-2 border-purple-600 text-purple-600 hover:bg-purple-50';
+        ? 'bg-gradient-to-r from-lime-600 to-lime-600 text-white hover:from-lime-700 hover:to-lime-700 shadow-lg hover:shadow-xl'
+        : 'border-2 border-lime-600 text-lime-600 hover:bg-lime-50';
 
     return (
         <Link

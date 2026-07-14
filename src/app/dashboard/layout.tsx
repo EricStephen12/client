@@ -16,7 +16,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [profileData, setProfileData] = useState<any>(null);
     const [sessions, setSessions] = useState<any[]>([]);
-    const [isAdminMaster, setIsAdminMaster] = useState(false);
     const [isSupportOpen, setIsSupportOpen] = useState(false);
     const [showOnboarding, setShowOnboarding] = useState(false);
     const userId = user?.id;
@@ -57,9 +56,6 @@ if (data.onboarding_completed === false) {
 
             }
         };
-
-const masterToken = localStorage.getItem('admin_token');
-        if (masterToken) setIsAdminMaster(true);
 
         if (userId) {
             fetchSessions();
@@ -136,7 +132,7 @@ const masterToken = localStorage.getItem('admin_token');
         },
     ];
 
-const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin || isAdminMaster;
+const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin;
     if (isAdmin) {
         navItems.push({ 
             name: 'Admin Hub', 
@@ -152,8 +148,6 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
     const handleLogout = async () => {
         setIsLoggingOut(true);
         try {
-            localStorage.removeItem('admin_token'); // Purge Elite Session 🚀
-            fetch('/api/main/api/admin/auth/logout', { method: 'POST' }).catch(() => {});
             await signOut();
             window.location.href = '/';
         } catch (e) {
@@ -199,7 +193,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
         return (
             <div className="flex min-h-screen items-center justify-center bg-white text-gray-900">
                 <div className="text-center space-y-4">
-                    <div className="w-12 h-12 border-2 border-purple-100 border-t-purple-600 rounded-full animate-spin mx-auto"></div>
+                    <div className="w-12 h-12 border-2 border-lime-100 border-t-lime-600 rounded-full animate-spin mx-auto"></div>
                     <p className="text-gray-400 font-serif italic text-lg">Authenticating...</p>
                 </div>
             </div>
@@ -207,7 +201,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
     }
 
     return (
-        <div className="flex min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-purple-100 selection:text-purple-900">
+        <div className="flex min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-lime-100 selection:text-lime-900">
 
 <aside className="w-72 border-r border-slate-100 hidden lg:flex flex-col sticky top-0 h-screen bg-white">
                 <Suspense fallback={<div className="p-8 w-full h-full bg-white animate-pulse" />}>
@@ -225,13 +219,13 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
 
 {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
-                    <div className="absolute inset-0 bg-purple-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
+                    <div className="absolute inset-0 bg-lime-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
                     <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in flex flex-col">
                         <div className="flex justify-between items-center p-6 border-b border-slate-100 flex-shrink-0">
                             <Link href="/" className="text-2xl font-serif font-bold italic" onClick={() => setIsMobileMenuOpen(false)}>
-                                Eixora<span className="text-purple-600">.</span>
+                                Eixora<span className="text-lime-600">.</span>
                             </Link>
-                            <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-purple-600 transition-colors">
+                            <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-lime-600 transition-colors">
                                 <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
@@ -254,10 +248,10 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
             )}
 <main className="flex-1 overflow-auto flex flex-col h-screen relative pb-20 lg:pb-0">
                 <header className="flex lg:hidden items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
-                    <Link href="/" className="text-2xl font-serif font-bold italic">Eixora<span className="text-purple-600">.</span></Link>
+                    <Link href="/" className="text-2xl font-serif font-bold italic">Eixora<span className="text-lime-600">.</span></Link>
                     <button
                         onClick={() => setIsMobileMenuOpen(true)}
-                        className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-100 transition-colors"
+                        className="w-10 h-10 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center hover:bg-lime-100 transition-colors"
                     >
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
@@ -270,7 +264,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                     <div className="flex items-center gap-4">
                         {profileData && (
                             <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-4 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
-                                <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                <svg className="w-4 h-4 text-lime-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                 <span>Scans: {profileData.scan_count || 0} / {profileData.scan_limit || 10}</span>
                             </div>
                         )}
@@ -301,7 +295,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
 
                 <button
                     onClick={() => setIsSupportOpen(true)}
-                    className="fixed bottom-24 right-6 lg:bottom-6 lg:right-6 lg:hidden w-14 h-14 bg-purple-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40"
+                    className="fixed bottom-24 right-6 lg:bottom-6 lg:right-6 lg:hidden w-14 h-14 bg-lime-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40"
                 >
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
                 </button>
@@ -310,7 +304,7 @@ const isAdmin = (user?.publicMetadata as any)?.is_admin || profileData?.is_admin
                     {navItems.slice(0, 3).map((item: any) => {
                         const isActive = pathname === item.href;
                         return (
-                            <Link key={item.href} href={item.href} className={`flex flex-col items-center p-2 rounded-lg transition-colors ${isActive ? 'text-purple-600' : 'text-slate-400 hover:text-slate-900'}`}>
+                            <Link key={item.href} href={item.href} className={`flex flex-col items-center p-2 rounded-lg transition-colors ${isActive ? 'text-lime-600' : 'text-slate-400 hover:text-slate-900'}`}>
                                 <span className={`${isActive ? 'scale-110' : ''} transition-transform`}>{item.icon}</span>
                                 <span className="text-[10px] mt-1.5 font-medium">{item.name.split(' ')[0]}</span>
                             </Link>
@@ -373,13 +367,13 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                             </div>
                             <h2 className="text-3xl font-serif italic text-slate-900">Message Transmitted.</h2>
                             <p className="text-slate-400 text-sm font-medium">Our support team has received your signal. Expect a response in your inbox soon.</p>
-                            <button onClick={onClose} className="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-purple-600 transition-all shadow-xl">Close Relay</button>
+                            <button onClick={onClose} className="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-lime-600 transition-all shadow-xl">Close Relay</button>
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-8">
                             <div className="flex justify-between items-start mb-2">
                                 <div className="space-y-1">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-600 italic">Concierge</span>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-lime-600 italic">Concierge</span>
                                     <h2 className="text-3xl sm:text-4xl font-sans font-bold text-slate-900 leading-tight tracking-tight">Direct Support.</h2>
                                 </div>
                                 <button type="button" onClick={onClose} className="w-10 h-10 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center hover:bg-slate-100 hover:text-slate-900 transition-colors">
@@ -388,12 +382,12 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                             </div>
                             <p className="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed">Direct line to the Eixora team. Report issues, request features, or ask for strategy advice.</p>
                             
-                            <div className="bg-slate-50 rounded-2xl p-5 flex items-center justify-between border border-slate-100 group hover:border-purple-200 transition-colors">
+                            <div className="bg-slate-50 rounded-2xl p-5 flex items-center justify-between border border-slate-100 group hover:border-lime-200 transition-colors">
                                 <div>
                                     <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 mb-1">Need immediate help?</h4>
-                                    <p className="text-xs text-slate-500 font-medium">Email us at <a href="mailto:hello@eixora.store" className="text-purple-600 hover:text-purple-800 transition-colors">hello@eixora.store</a></p>
+                                    <p className="text-xs text-slate-500 font-medium">Email us at <a href="mailto:hello@eixora.store" className="text-lime-600 hover:text-lime-800 transition-colors">hello@eixora.store</a></p>
                                 </div>
-                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-purple-600 group-hover:scale-110 transition-all shadow-sm">
+                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-lime-600 group-hover:scale-110 transition-all shadow-sm">
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                 </div>
                             </div>
@@ -406,7 +400,7 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                                         value={subject}
                                         onChange={e => setSubject(e.target.value)}
                                         placeholder="Brief summary..."
-                                        className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all font-medium text-slate-900 placeholder-slate-400"
+                                        className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition-all font-medium text-slate-900 placeholder-slate-400"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -417,7 +411,7 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                                         onChange={e => setMessage(e.target.value)}
                                         rows={4}
                                         placeholder="How can our team help you succeed today?"
-                                        className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all font-medium text-slate-900 placeholder-slate-400 resize-none"
+                                        className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition-all font-medium text-slate-900 placeholder-slate-400 resize-none"
                                     />
                                 </div>
                             </div>
@@ -425,7 +419,7 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                             <button
                                 type="submit"
                                 disabled={sending}
-                                className="w-full py-5 bg-indigo-950 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-indigo-950/10 hover:bg-purple-500 hover:text-slate-950 transition-all disabled:opacity-50 active:scale-95"
+                                className="w-full py-5 bg-slate-950 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-slate-950/10 hover:bg-lime-500 hover:text-slate-950 transition-all disabled:opacity-50 active:scale-95"
                             >
                                 {sending ? 'Transmitting...' : 'Send Priority Message'}
                             </button>
@@ -445,7 +439,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
         <div className="flex flex-col h-full overflow-hidden">
             <div className="p-8 border-b border-slate-100 flex-shrink-0">
                 <Link href="/" className="text-2xl font-serif font-bold italic hover:opacity-70 transition-opacity">
-                    Eixora<span className="text-purple-600">.</span>
+                    Eixora<span className="text-lime-600">.</span>
                 </Link>
             </div>
 
@@ -461,17 +455,17 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                 href={item.href}
                                 onClick={onClose}
                                 className={`group flex items-center gap-3 px-4 py-3.5 text-sm font-medium transition-all duration-300 rounded-xl ${isActive
-                                    ? 'bg-purple-600 text-white shadow-md shadow-purple-600/10 font-semibold'
-                                    : 'text-slate-500 hover:bg-slate-50 hover:text-purple-600'
+                                    ? 'bg-lime-600 text-white shadow-md shadow-lime-600/10 font-semibold'
+                                    : 'text-slate-500 hover:bg-slate-50 hover:text-lime-600'
                                     } ${item.id || ''}`}
                             >
-                                <span className={`transition-all ${isActive ? 'text-white scale-110' : 'text-slate-400 group-hover:text-purple-500 group-hover:scale-110'}`}>
+                                <span className={`transition-all ${isActive ? 'text-white scale-110' : 'text-slate-400 group-hover:text-lime-500 group-hover:scale-110'}`}>
                                     {item.icon}
                                 </span>
                                 <div className="flex items-center justify-between w-full">
                                     <span>{item.name}</span>
                                     {item.comingSoon && (
-                                        <span className="text-[8px] font-black bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full tracking-normal lowercase">soon</span>
+                                        <span className="text-[8px] font-black bg-lime-100 text-lime-600 px-2 py-0.5 rounded-full tracking-normal lowercase">soon</span>
                                     )}
                                 </div>
                             </Link>
@@ -481,9 +475,9 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
 
                 <button
                     onClick={() => { onOpenSupport(); onClose?.(); }}
-                    className="w-full tour-support group flex items-center gap-3 px-4 py-3.5 text-sm font-medium transition-all duration-300 rounded-xl text-slate-500 hover:bg-purple-50 hover:text-purple-600"
+                    className="w-full tour-support group flex items-center gap-3 px-4 py-3.5 text-sm font-medium transition-all duration-300 rounded-xl text-slate-500 hover:bg-lime-50 hover:text-lime-600"
                 >
-                    <span className="text-slate-400 group-hover:text-purple-600 group-hover:scale-110 transition-all">
+                    <span className="text-slate-400 group-hover:text-lime-600 group-hover:scale-110 transition-all">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
@@ -498,13 +492,13 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         {profile.image ? (
                             <img src={profile.image} alt={profile.full_name} className="w-10 h-10 rounded-full border border-slate-200" />
                         ) : (
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-950 to-purple-950 text-white flex items-center justify-center font-semibold text-lg shadow-md">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-950 to-lime-950 text-white flex items-center justify-center font-semibold text-lg shadow-md">
                                 {profile.full_name ? profile.full_name[0] : 'U'}
                             </div>
                         )}
                         <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold truncate text-slate-900">{profile.full_name || 'User'}</p>
-                            <p className="text-xs text-purple-600 font-medium tracking-wide">{
+                            <p className="text-xs text-lime-600 font-medium tracking-wide">{
                                 !profile.plan_type || profile.plan_type === 'free' ? 'Free Trial' :
                                 profile.plan_type === 'creator' ? 'Creator Plan' :
                                 (profile.plan_type === 'studio' || profile.plan_type === 'agency') ? 'Studio Plan' :
@@ -525,7 +519,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className="w-full py-3 px-4 border border-slate-200 text-xs font-semibold text-slate-400 hover:border-purple-200 hover:text-purple-600 hover:bg-white transition-all rounded-xl disabled:opacity-50"
+                    className="w-full py-3 px-4 border border-slate-200 text-xs font-semibold text-slate-400 hover:border-lime-200 hover:text-lime-600 hover:bg-white transition-all rounded-xl disabled:opacity-50"
                 >
                     {isLoggingOut ? 'Signing out...' : 'Sign Out'}
                 </button>

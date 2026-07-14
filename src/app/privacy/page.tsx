@@ -3,9 +3,9 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 
 export default function PrivacyPolicy() {
     return (
-        <div className="min-h-screen bg-[#FAFAF9] text-[#1c1917] font-sans selection:bg-purple-100">
+        <div className="min-h-screen bg-[#FAFAF9] text-[#1c1917] font-sans selection:bg-lime-100">
 
-            <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b border-purple-200">
+            <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-sm border-b border-lime-200">
                 <div className="w-full px-6 h-20 flex items-center justify-between">
                     <Link href="/" className="text-3xl font-signature">
                         Eixora.
@@ -69,14 +69,14 @@ export default function PrivacyPolicy() {
                         <section>
                             <h2 className="text-xl font-serif text-black mb-4 uppercase tracking-wider">5. Contact Us</h2>
                             <p>
-                                If you have any questions about this privacy policy or our privacy practices, please contact us at: <a href="mailto:hello@eixora.store" className="text-purple-600 underline">hello@eixora.store</a>
+                                If you have any questions about this privacy policy or our privacy practices, please contact us at: <a href="mailto:hello@eixora.store" className="text-lime-600 underline">hello@eixora.store</a>
                             </p>
                         </section>
                     </RevealOnScroll>
                 </article>
             </main>
 
-            <footer className="border-t border-purple-100 py-12 text-center text-[10px] uppercase tracking-[0.3em] opacity-40">
+            <footer className="border-t border-lime-100 py-12 text-center text-[10px] uppercase tracking-[0.3em] opacity-40">
                 &copy; 2026 EIXORA. All rights reserved.
             </footer>
         </div>

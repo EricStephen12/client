@@ -33,7 +33,7 @@ export default function ReportPage() {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-white px-4">
-                <div className="w-8 h-8 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-2 border-lime-600 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -48,7 +48,7 @@ export default function ReportPage() {
             <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 print:hidden">
                 <Link
                     href="/dashboard/analyze"
-                    className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-purple-600 transition-colors flex items-center gap-2 self-start sm:self-auto"
+                    className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-lime-600 transition-colors flex items-center gap-2 self-start sm:self-auto"
                 >
                     &larr; Back to Studio
                 </Link>
@@ -67,8 +67,8 @@ export default function ReportPage() {
                     <div className="absolute top-0 right-0 p-8 sm:p-12 opacity-10 font-signature text-6xl sm:text-8xl">Eixora.</div>
                     <div className="relative z-10 space-y-4 sm:space-y-6">
                         <div className="flex items-center gap-3">
-                            <span className="w-6 sm:w-8 h-1 bg-purple-500 rounded-full"></span>
-                            <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase text-purple-400">Strategic Ad Audit</span>
+                            <span className="w-6 sm:w-8 h-1 bg-lime-500 rounded-full"></span>
+                            <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase text-lime-400">Strategic Ad Audit</span>
                         </div>
                         <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif italic tracking-tight leading-tight">{data.title || 'Viral Analysis Report'}</h1>
                         <p className="text-[9px] sm:text-sm font-light opacity-50 uppercase tracking-widest border-t border-white/10 pt-4 inline-block">Ref: {sessionId?.toString().slice(0, 8)} • {new Date(data.created_at).toLocaleDateString()}</p>
@@ -79,15 +79,15 @@ export default function ReportPage() {
 
                     <section className="space-y-4 sm:space-y-6">
                         <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 border-b border-gray-100 pb-3 sm:pb-4">Executive Summary</h2>
-                        <div className="bg-purple-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-purple-100 italic">
+                        <div className="bg-lime-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-lime-100 italic">
                             <p className="text-xl sm:text-2xl md:text-3xl font-serif text-gray-900 leading-tight">&quot;{audit.big_idea}&quot;</p>
                         </div>
                     </section>
 
                     <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                         {[
-                            { label: 'Hook Power', score: audit.metrics?.hook_power || 8, color: 'text-purple-600' },
-                            { label: 'Retention Logic', score: audit.metrics?.retention_score || 7, color: 'text-blue-600' },
+                            { label: 'Hook Power', score: audit.metrics?.hook_power || 8, color: 'text-lime-600' },
+                            { label: 'Retention Logic', score: audit.metrics?.retention_score || 7, color: 'text-lime-600' },
                             { label: 'Conversion Trigger', score: audit.metrics?.conversion_trigger || 6, color: 'text-emerald-600' }
                         ].map((m, i) => (
                             <div key={i} className="border border-gray-100 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center space-y-2">
@@ -103,7 +103,7 @@ export default function ReportPage() {
                             <ul className="space-y-3 sm:space-y-4">
                                 {audit.psychological_triggers?.map((t: string, i: number) => (
                                     <li key={i} className="flex gap-3 sm:gap-4 items-start">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-purple-600 mt-2 flex-shrink-0"></div>
+                                        <div className="w-1.5 h-1.5 rounded-full bg-lime-600 mt-2 flex-shrink-0"></div>
                                         <p className="text-sm font-medium text-gray-700 leading-relaxed font-serif italic">&quot;{t}&quot;</p>
                                     </li>
                                 ))}
@@ -119,7 +119,7 @@ export default function ReportPage() {
 
                     <section className="space-y-4 sm:space-y-6 pt-6 sm:pt-8 border-t border-gray-100">
                         <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Full Audio Blueprint</h2>
-                        <div className="text-gray-900 text-base sm:text-lg font-serif italic leading-loose opacity-80 decoration-purple-100 underline underline-offset-8">
+                        <div className="text-gray-900 text-base sm:text-lg font-serif italic leading-loose opacity-80 decoration-lime-100 underline underline-offset-8">
                             {audit.transcript}
                         </div>
                     </section>

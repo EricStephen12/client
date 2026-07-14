@@ -141,7 +141,7 @@ export default function BatchPage() {
     if (isCheckingPlan) {
         return (
             <div className="max-w-4xl mx-auto pt-24 text-center px-4">
-                <div className="w-10 h-10 border-4 border-purple-100 border-t-purple-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <div className="w-10 h-10 border-4 border-lime-100 border-t-lime-500 rounded-full animate-spin mx-auto mb-6"></div>
                 <p className="font-serif text-lg italic text-slate-400">Loading Batch Engine...</p>
             </div>
         );
@@ -152,7 +152,7 @@ export default function BatchPage() {
 
             <div className="pt-2 sm:pt-6 mb-8 flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-slate-100 pb-8">
                 <div className="space-y-2">
-                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block italic">Workspace</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-lime-600 block italic">Workspace</span>
                     <h2 className="text-3xl sm:text-5xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
                         Batch <br className="hidden md:block" /><span className="italic font-serif text-slate-400">Analysis.</span>
                     </h2>
@@ -160,7 +160,7 @@ export default function BatchPage() {
                 </div>
                 <Link 
                     href="/dashboard"
-                    className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-purple-600 hover:border-purple-200 hover:shadow-lg transition-all"
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:text-lime-600 hover:border-lime-200 hover:shadow-lg transition-all"
                 >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
@@ -173,9 +173,9 @@ export default function BatchPage() {
                 <div className="space-y-6 max-w-4xl">
                     {planTier !== 'studio' && planTier !== 'agency' ? (
                         <div className="relative group">
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-[2.5rem] blur opacity-10"></div>
-                            <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-purple-900/5 text-center space-y-8">
-                                <div className="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto text-purple-600 shadow-inner">
+                            <div className="absolute inset-0 bg-gradient-to-r from-lime-500 to-slate-500 rounded-[2.5rem] blur opacity-10"></div>
+                            <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-lime-900/5 text-center space-y-8">
+                                <div className="w-20 h-20 bg-lime-50 rounded-full flex items-center justify-center mx-auto text-lime-600 shadow-inner">
                                     <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                     </svg>
@@ -189,7 +189,7 @@ export default function BatchPage() {
                                 <div className="pt-4 max-w-sm mx-auto">
                                     <Link
                                         href="/dashboard/upgrade"
-                                        className="w-full py-5 block bg-slate-900 text-white font-bold uppercase tracking-[0.3em] text-xs rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl hover:shadow-purple-500/20 active:scale-95 text-center font-sans"
+                                        className="w-full py-5 block bg-slate-900 text-white font-bold uppercase tracking-[0.3em] text-xs rounded-2xl hover:bg-lime-500 hover:text-slate-950 transition-all shadow-xl hover:shadow-lime-500/20 active:scale-95 text-center font-sans"
                                     >
                                         Upgrade to The Studio
                                     </Link>
@@ -198,8 +198,8 @@ export default function BatchPage() {
                         </div>
                     ) : (
                         <div className="relative group">
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-                        <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-10 shadow-xl shadow-purple-900/5 space-y-6">
+                        <div className="absolute inset-0 bg-gradient-to-r from-lime-500 to-slate-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                        <div className="relative bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-10 shadow-xl shadow-lime-900/5 space-y-6">
                             <div className="bg-slate-50 border border-slate-100 rounded-3xl p-2">
                                 <textarea
                                     value={urls}
@@ -212,7 +212,7 @@ export default function BatchPage() {
 
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
                                 <div className="flex items-center gap-2 self-start sm:self-auto">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+                                    <div className="w-1.5 h-1.5 rounded-full bg-lime-500 animate-pulse" />
                                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                                         {urls.split('\n').filter(u => u.trim()).length}/10 URLs
                                     </span>
@@ -221,7 +221,7 @@ export default function BatchPage() {
                                 <button
                                     onClick={handleBatchAnalyze}
                                     disabled={isProcessing || !urls.trim()}
-                                    className="w-full sm:w-auto px-10 py-5 bg-slate-900 text-white font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs rounded-2xl hover:bg-purple-600 hover:shadow-lg hover:shadow-purple-500/30 transition-all disabled:opacity-50"
+                                    className="w-full sm:w-auto px-10 py-5 bg-slate-900 text-white font-black uppercase tracking-[0.2em] text-[10px] sm:text-xs rounded-2xl hover:bg-lime-600 hover:shadow-lg hover:shadow-lime-500/30 transition-all disabled:opacity-50"
                                 >
                                     {isProcessing ? 'Processing Engine Active...' : 'Initialize Batch Analysis'}
                                 </button>
@@ -239,22 +239,22 @@ export default function BatchPage() {
                     {logs.length > 0 && (
                         <div className="bg-slate-900 rounded-2xl sm:rounded-[3rem] p-6 sm:p-10 space-y-4 sm:space-y-6 shadow-2xl border border-white/5 relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-10 opacity-5">
-                                <div className="w-32 h-32 bg-purple-500 rounded-full blur-3xl"></div>
+                                <div className="w-32 h-32 bg-lime-500 rounded-full blur-3xl"></div>
                             </div>
                             <div className="flex items-center justify-between border-b border-white/10 pb-4 sm:pb-6 relative z-10">
                                 <div className="flex items-center gap-4">
                                     <div className="flex gap-2">
                                         <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-500/30" />
-                                        <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-purple-500/30" />
+                                        <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-lime-500/30" />
                                         <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500/30" />
                                     </div>
                                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">Diagnostic Protocol</span>
                                 </div>
-                                {isProcessing && <div className="w-4 h-4 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />}
+                                {isProcessing && <div className="w-4 h-4 border-2 border-lime-500 border-t-transparent rounded-full animate-spin" />}
                             </div>
                             <div className="space-y-3 h-48 overflow-y-auto font-mono text-[10px] sm:text-[11px] custom-scrollbar pr-2 sm:pr-6 relative z-10">
                                 {logs.map((log, i) => (
-                                    <div key={i} className={`flex gap-3 sm:gap-4 ${i === 0 ? 'text-purple-400 animate-pulse' : 'text-slate-500'}`}>
+                                    <div key={i} className={`flex gap-3 sm:gap-4 ${i === 0 ? 'text-lime-400 animate-pulse' : 'text-slate-500'}`}>
                                         <span className="opacity-20 flex-shrink-0">{(logs.length - i).toString().padStart(2, '0')}</span>
                                         <span className="break-all tracking-tight leading-relaxed">{log}</span>
                                     </div>
@@ -276,7 +276,7 @@ export default function BatchPage() {
                             </div>
                             <div>
                                 <p className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/30 mb-2 sm:mb-4 italic">Success</p>
-                                <p className="text-2xl sm:text-5xl font-sans font-bold text-purple-500">{results.completed}</p>
+                                <p className="text-2xl sm:text-5xl font-sans font-bold text-lime-500">{results.completed}</p>
                             </div>
                             <div>
                                 <p className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-white/30 mb-2 sm:mb-4 italic">Failed</p>
@@ -286,7 +286,7 @@ export default function BatchPage() {
                     </div>
 
                     {results.results?.map((r: any, idx: number) => (
-                        <div key={idx} className={`bg-white rounded-xl sm:rounded-2xl border ${r.success ? 'border-purple-100' : 'border-red-100'} p-6 sm:p-8 space-y-6 shadow-sm`}>
+                        <div key={idx} className={`bg-white rounded-xl sm:rounded-2xl border ${r.success ? 'border-lime-100' : 'border-red-100'} p-6 sm:p-8 space-y-6 shadow-sm`}>
                             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                                 <div className="flex-1 min-w-0">
                                     <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Video {idx + 1}</p>
@@ -306,7 +306,7 @@ export default function BatchPage() {
                                         </div>
                                         <div className="bg-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center border border-slate-100">
                                             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 sm:mb-2">Retention</p>
-                                            <p className="text-2xl sm:text-3xl font-sans font-bold text-purple-500">{r.analysis.metrics?.retention_score || '—'}</p>
+                                            <p className="text-2xl sm:text-3xl font-sans font-bold text-lime-500">{r.analysis.metrics?.retention_score || '—'}</p>
                                         </div>
                                         <div className="bg-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center border border-slate-100">
                                             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 sm:mb-2">CTA</p>
@@ -314,14 +314,14 @@ export default function BatchPage() {
                                         </div>
                                     </div>
 
-                                    <div className="bg-purple-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-purple-100 italic">
-                                        <p className="text-[10px] font-bold uppercase tracking-widest text-purple-600 mb-2">Strategic Verdict</p>
+                                    <div className="bg-lime-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-lime-100 italic">
+                                        <p className="text-[10px] font-bold uppercase tracking-widest text-lime-600 mb-2">Strategic Verdict</p>
                                         <p className="text-base sm:text-lg font-serif text-slate-900 leading-relaxed italic">&quot;{r.analysis.big_idea}&quot;</p>
                                     </div>
 
                                     <button
                                         onClick={() => handleExportReport(r.analysis, r.url)}
-                                        className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-600 hover:text-purple-700 transition-colors flex items-center gap-3 pt-2"
+                                        className="text-[10px] font-bold uppercase tracking-[0.2em] text-lime-600 hover:text-lime-700 transition-colors flex items-center gap-3 pt-2"
                                     >
                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -342,7 +342,7 @@ export default function BatchPage() {
 
                     <button
                         onClick={() => { setResults(null); setUrls(''); }}
-                        className="w-full py-6 sm:py-8 bg-slate-900 text-white rounded-2xl sm:rounded-[2.5rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs hover:bg-purple-500 hover:text-slate-950 hover:scale-[1.01] transition-all shadow-2xl"
+                        className="w-full py-6 sm:py-8 bg-slate-900 text-white rounded-2xl sm:rounded-[2.5rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs hover:bg-lime-500 hover:text-slate-950 hover:scale-[1.01] transition-all shadow-2xl"
                     >
                         + Initialize New Batch Analysis
                     </button>

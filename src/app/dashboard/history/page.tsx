@@ -59,7 +59,7 @@ export default function HistoryPage() {
             <div className="pt-2 sm:pt-6 mb-8 flex flex-col xl:flex-row xl:items-end justify-between gap-8 border-b border-slate-100 pb-8">
                 <RevealOnScroll>
                     <div className="space-y-2">
-                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block italic">History</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-lime-600 block italic">History</span>
                         <h2 className="text-3xl sm:text-5xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
                             Scan <br className="hidden md:block" /><span className="italic font-serif text-slate-400">History.</span>
                         </h2>
@@ -76,9 +76,9 @@ export default function HistoryPage() {
                 ) : sessions && sessions.length > 0 ? (
                     sessions.map((session: any) => (
                         <RevealOnScroll key={session.id} delay={100}>
-                            <Link href={`/dashboard/analyze?sessionId=${session.id}`} className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 bg-white border border-slate-100 rounded-[1.5rem] hover:border-purple-300 hover:shadow-lg hover:shadow-purple-500/10 transition-all gap-4">
+                            <Link href={`/dashboard/analyze?sessionId=${session.id}`} className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 bg-white border border-slate-100 rounded-[1.5rem] hover:border-lime-300 hover:shadow-lg hover:shadow-lime-500/10 transition-all gap-4">
                                 <div className="flex items-center gap-5">
-                                    <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm flex-shrink-0">
+                                    <div className="w-12 h-12 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm flex-shrink-0">
                                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -92,7 +92,7 @@ export default function HistoryPage() {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4 self-end sm:self-auto">
-                                    <div className="flex items-center gap-2 text-purple-600">
+                                    <div className="flex items-center gap-2 text-lime-600">
                                         <span className="text-[10px] font-black uppercase tracking-widest hidden sm:block">View Report</span>
                                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -120,7 +120,7 @@ export default function HistoryPage() {
                         </div>
                         <h4 className="font-serif italic text-3xl text-slate-900 mb-3">No history found</h4>
                         <p className="text-base text-slate-400 mb-8 max-w-sm mx-auto">Your extraction vault is currently empty. Run your first scan to populate this area.</p>
-                        <Link href="/dashboard" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-purple-600 transition-all shadow-xl">
+                        <Link href="/dashboard" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-lime-600 transition-all shadow-xl">
                             Go to Dashboard
                         </Link>
                     </div>

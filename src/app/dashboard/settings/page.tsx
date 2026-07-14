@@ -115,7 +115,7 @@ function SettingsContent() {
                 setName(data.name || '');
 
                 const notification = document.createElement('div');
-                notification.className = "fixed bottom-8 right-8 bg-indigo-950 text-white px-8 py-4 rounded-2xl shadow-2xl z-[100] animate-in slide-in-from-right font-bold text-xs uppercase tracking-widest";
+                notification.className = "fixed bottom-8 right-8 bg-slate-950 text-white px-8 py-4 rounded-2xl shadow-2xl z-[100] animate-in slide-in-from-right font-bold text-xs uppercase tracking-widest";
                 notification.innerText = "Identity Synchronized";
                 document.body.appendChild(notification);
                 setTimeout(() => notification.remove(), 3000);
@@ -193,7 +193,7 @@ function SettingsContent() {
                 <div className="space-y-2">
                     <motion.span 
                         variants={itemVariants}
-                        className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block italic"
+                        className="text-[10px] font-black uppercase tracking-[0.4em] text-lime-600 block italic"
                     >
                         Account Configuration
                     </motion.span>
@@ -222,7 +222,7 @@ function SettingsContent() {
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                className="w-full bg-slate-50 border-none rounded-xl sm:rounded-2xl px-5 sm:px-6 py-3 sm:py-4 text-sm sm:text-base focus:ring-2 focus:ring-purple-500 transition-all font-medium"
+                                className="w-full bg-slate-50 border-none rounded-xl sm:rounded-2xl px-5 sm:px-6 py-3 sm:py-4 text-sm sm:text-base focus:ring-2 focus:ring-lime-500 transition-all font-medium"
                                 placeholder="E.g. Creative Director"
                             />
                         </div>
@@ -241,7 +241,7 @@ function SettingsContent() {
                         <button
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="w-full sm:w-auto px-10 py-4 sm:py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl shadow-indigo-950/10 disabled:opacity-50 active:scale-95"
+                            className="w-full sm:w-auto px-10 py-4 sm:py-5 bg-slate-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-lime-500 hover:text-slate-950 transition-all shadow-xl shadow-slate-950/10 disabled:opacity-50 active:scale-95"
                         >
                             {isSaving ? 'Updating Identity...' : 'Save Configuration'}
                         </button>
@@ -260,12 +260,12 @@ function SettingsContent() {
                 <div className="lg:col-span-8 bg-white rounded-2xl sm:rounded-[2.5rem] border border-slate-100 shadow-sm p-6 sm:p-10 md:p-12">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
                         <div className="space-y-1 sm:space-y-2 text-center md:text-left">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-600 block italic">Active Plan</span>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-lime-600 block italic">Active Plan</span>
                             <h4 className="text-2xl sm:text-3xl font-serif italic text-slate-900">{getPlanDisplay()}</h4>
                         </div>
                         <button
                             onClick={() => router.push('/pricing')}
-                            className="w-full md:w-auto px-10 py-4 sm:py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl shadow-indigo-950/10"
+                            className="w-full md:w-auto px-10 py-4 sm:py-5 bg-slate-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-lime-500 hover:text-slate-950 transition-all shadow-xl shadow-slate-950/10"
                         >
                             View Plans
                         </button>
@@ -291,12 +291,12 @@ function SettingsContent() {
                                     value={teamEmail}
                                     onChange={(e) => setTeamEmail(e.target.value)}
                                     placeholder="Colleague's email..."
-                                    className="flex-1 bg-slate-50 border-none rounded-xl sm:rounded-2xl px-5 sm:px-6 py-3 sm:py-4 text-sm sm:text-base focus:ring-2 focus:ring-indigo-500 transition-all font-medium"
+                                    className="flex-1 bg-slate-50 border-none rounded-xl sm:rounded-2xl px-5 sm:px-6 py-3 sm:py-4 text-sm sm:text-base focus:ring-2 focus:ring-slate-500 transition-all font-medium"
                                 />
                                 <button
                                     onClick={handleInvite}
                                     disabled={isInviting}
-                                    className="px-8 py-3 sm:py-4 bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 disabled:opacity-50"
+                                    className="px-8 py-3 sm:py-4 bg-slate-600 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-xl sm:rounded-2xl hover:bg-slate-700 transition-all shadow-lg shadow-slate-200 disabled:opacity-50"
                                 >
                                     {isInviting ? 'Inviting...' : 'Invite'}
                                 </button>
@@ -308,7 +308,7 @@ function SettingsContent() {
                                     {teamMembers.length > 0 ? teamMembers.map((member, i) => (
                                         <div key={i} className="flex items-center justify-between p-4 sm:p-6 bg-slate-50 rounded-2xl sm:rounded-3xl border border-slate-100">
                                             <div className="flex items-center gap-3 sm:gap-4">
-                                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xs uppercase">
+                                                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs uppercase">
                                                     {member.member_email[0]}
                                                 </div>
                                                 <span className="text-xs sm:text-sm font-semibold text-slate-900 truncate max-w-[120px] sm:max-w-none">{member.member_email}</span>
@@ -325,8 +325,8 @@ function SettingsContent() {
                         </div>
                     ) : (
                         <div className="relative z-10 py-6 sm:py-10 text-center space-y-4 sm:space-y-6">
-                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-lime-50 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-lime-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
                             </div>
@@ -336,7 +336,7 @@ function SettingsContent() {
                             </p>
                             <button
                                 onClick={() => router.push('/pricing')}
-                                className="px-8 sm:px-10 py-4 sm:py-5 bg-purple-500 text-slate-950 text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-purple-900/10"
+                                className="px-8 sm:px-10 py-4 sm:py-5 bg-lime-500 text-slate-950 text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-lime-900/10"
                             >
                                 Upgrade to Studio
                             </button>
@@ -364,22 +364,22 @@ function SettingsContent() {
                         >
                             <div className="space-y-6 sm:space-y-8">
                                 <div className="space-y-3 sm:space-y-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-600">Plan Management</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-600">Plan Management</span>
                                     <h3 className="text-3xl sm:text-4xl font-sans font-bold text-slate-900 leading-tight">Cancel <br /><span className="italic font-serif text-slate-400">Subscription?</span></h3>
                                     <p className="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">
                                         Terminating your subscription will disconnect you from our Viral DNA engine and all saved strategy dossiers.
                                     </p>
                                 </div>
 
-                                <div className="p-4 sm:p-6 bg-purple-50 rounded-xl sm:rounded-3xl border border-purple-100">
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-purple-600">Early Access Notice</p>
+                                <div className="p-4 sm:p-6 bg-lime-50 rounded-xl sm:rounded-3xl border border-lime-100">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-lime-600">Early Access Notice</p>
                                     <p className="text-[10px] sm:text-xs text-slate-600 mt-2 font-medium leading-relaxed">As an early adopter, your current rate is protected. If you dissolve now, future access will be at standard market rates.</p>
                                 </div>
 
                                 <div className="flex flex-col gap-3 sm:gap-4 pt-2">
                                     <button
                                         onClick={() => setShowCancelModal(false)}
-                                        className="w-full py-4 sm:py-5 bg-indigo-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-purple-500 hover:text-slate-950 transition-all shadow-xl"
+                                        className="w-full py-4 sm:py-5 bg-slate-950 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-lime-500 hover:text-slate-950 transition-all shadow-xl"
                                     >
                                         Keep My Subscription
                                     </button>

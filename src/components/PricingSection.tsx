@@ -87,27 +87,27 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                             variants={cardVariants}
                             className={`relative rounded-[2.5rem] p-10 flex flex-col transition-all duration-500 h-full border ${
                                 isIndigo 
-                                    ? 'bg-slate-900 border-indigo-500/30 text-white shadow-2xl' 
+                                    ? 'bg-slate-900 border-slate-500/30 text-white shadow-2xl' 
                                     : isCurrent 
-                                        ? 'bg-white border-purple-500 shadow-xl ring-1 ring-purple-500' 
-                                        : 'bg-white border-slate-100 hover:border-purple-200 hover:shadow-xl'
+                                        ? 'bg-white border-lime-500 shadow-xl ring-1 ring-lime-500' 
+                                        : 'bg-white border-slate-100 hover:border-lime-200 hover:shadow-xl'
                             }`}
                         >
                             {isCurrent && (
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-500 text-slate-950 text-[10px] font-bold px-8 py-2 rounded-full tracking-[0.4em] shadow-xl z-10">
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-lime-500 text-slate-950 text-[10px] font-bold px-8 py-2 rounded-full tracking-[0.4em] shadow-xl z-10">
                                     CURRENT
                                 </div>
                             )}
 
                             <div className="mb-10">
-                                <span className={`text-[10px] font-bold tracking-[0.3em] uppercase mb-6 block italic ${isIndigo ? 'text-purple-500' : 'text-slate-400'}`}>
+                                <span className={`text-[10px] font-bold tracking-[0.3em] uppercase mb-6 block italic ${isIndigo ? 'text-lime-500' : 'text-slate-400'}`}>
                                     {plan.badge}
                                 </span>
                                 <div className="flex items-baseline gap-2">
                                     <span className="text-6xl font-sans font-bold">{plan.price}</span>
                                     <span className={`font-light italic text-xl ${isIndigo ? 'text-slate-400' : 'text-slate-300'}`}>{plan.period}</span>
                                 </div>
-                                <p className={`text-[10px] font-bold tracking-[0.3em] uppercase mt-4 italic ${isIndigo ? 'text-indigo-400' : 'text-purple-600'}`}>
+                                <p className={`text-[10px] font-bold tracking-[0.3em] uppercase mt-4 italic ${isIndigo ? 'text-slate-400' : 'text-lime-600'}`}>
                                     {plan.description}
                                 </p>
                             </div>
@@ -115,7 +115,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                             <ul className="space-y-5 mb-12 flex-grow">
                                 {plan.features.map((feature) => (
                                     <li key={feature} className="flex gap-4 text-sm font-medium opacity-80">
-                                        <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 ${isIndigo || plan.id === 'founding' ? 'bg-purple-500' : 'bg-slate-200'}`}></div>
+                                        <div className={`w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 ${isIndigo || plan.id === 'founding' ? 'bg-lime-500' : 'bg-slate-200'}`}></div>
                                         {feature}
                                     </li>
                                 ))}
@@ -126,8 +126,8 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                                     productId={plan.productId}
                                     className={`w-full py-6 text-[10px] font-bold uppercase tracking-[0.4em] transition-all rounded-2xl shadow-xl text-center ${
                                         isIndigo 
-                                            ? 'bg-purple-500 text-slate-950 hover:bg-white' 
-                                            : 'bg-indigo-950 text-white hover:bg-purple-500 hover:text-slate-950'
+                                            ? 'bg-lime-500 text-slate-950 hover:bg-white' 
+                                            : 'bg-slate-950 text-white hover:bg-lime-500 hover:text-slate-950'
                                     }`}
                                 >
                                     {plan.buttonText}
@@ -159,7 +159,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                         </div>
                         <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
                             <div 
-                                className="bg-purple-500 h-full transition-all duration-1000" 
+                                className="bg-lime-500 h-full transition-all duration-1000" 
                                 style={{ width: `${Math.min(100, (usage.scans / 3) * 100)}%` }} 
                             />
                         </div>
@@ -172,7 +172,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                         </div>
                         <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
                             <div 
-                                className="bg-indigo-600 h-full transition-all duration-1000" 
+                                className="bg-slate-600 h-full transition-all duration-1000" 
                                 style={{ width: `${Math.min(100, (usage.scripts / 3) * 100)}%` }} 
                             />
                         </div>

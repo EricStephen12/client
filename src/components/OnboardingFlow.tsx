@@ -50,7 +50,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                     <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${(step / 4) * 100}%` }}
-                        className="h-full bg-purple-500 transition-all duration-500"
+                        className="h-full bg-lime-500 transition-all duration-500"
                     />
                 </div>
 
@@ -65,7 +65,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                 className="space-y-10"
                             >
                                 <div className="space-y-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-600 block">Step 01</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-600 block">Step 01</span>
                                     <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900">
                                         Welcome, <span className="italic font-serif text-slate-400">{userName}.</span>
                                     </h2>
@@ -81,8 +81,8 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                             onClick={() => setNiche(item.id)}
                                             className={`p-6 rounded-2xl border text-left transition-all group ${
                                                 niche === item.id 
-                                                ? 'border-purple-500 bg-purple-50 ring-4 ring-purple-500/10' 
-                                                : 'border-slate-100 hover:border-purple-200'
+                                                ? 'border-lime-500 bg-lime-50 ring-4 ring-lime-500/10' 
+                                                : 'border-slate-100 hover:border-lime-200'
                                             }`}
                                         >
                                             <span className="text-2xl mb-4 block">{item.icon}</span>
@@ -94,7 +94,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                 <button
                                     disabled={!niche}
                                     onClick={handleNext}
-                                    className="w-full py-6 bg-slate-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-slate-950 transition-all disabled:opacity-30 disabled:hover:bg-slate-950 disabled:hover:text-white"
+                                    className="w-full py-6 bg-slate-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-lime-500 hover:text-slate-950 transition-all disabled:opacity-30 disabled:hover:bg-slate-950 disabled:hover:text-white"
                                 >
                                     Continue to Goals &rarr;
                                 </button>
@@ -110,7 +110,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                 className="space-y-10"
                             >
                                 <div className="space-y-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-600 block">Step 02</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-600 block">Step 02</span>
                                     <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
                                         What's your <br /><span className="italic font-serif text-slate-400">Primary Objective?</span>
                                     </h2>
@@ -126,8 +126,8 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                             onClick={() => setGoal(item.id)}
                                             className={`w-full p-8 rounded-2xl border text-left transition-all ${
                                                 goal === item.id 
-                                                ? 'border-purple-500 bg-purple-50 ring-4 ring-purple-500/10' 
-                                                : 'border-slate-100 hover:border-purple-200'
+                                                ? 'border-lime-500 bg-lime-50 ring-4 ring-lime-500/10' 
+                                                : 'border-slate-100 hover:border-lime-200'
                                             }`}
                                         >
                                             <div className="flex items-center justify-between">
@@ -136,7 +136,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                                     <p className="text-sm text-slate-500 font-light">{item.desc}</p>
                                                 </div>
                                                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                                                    goal === item.id ? 'border-purple-500 bg-purple-500' : 'border-slate-200'
+                                                    goal === item.id ? 'border-lime-500 bg-lime-500' : 'border-slate-200'
                                                 }`}>
                                                     {goal === item.id && <div className="w-2 h-2 bg-white rounded-full" />}
                                                 </div>
@@ -155,7 +155,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                     <button
                                         disabled={!goal}
                                         onClick={handleNext}
-                                        className="flex-[2] py-6 bg-slate-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-slate-950 transition-all disabled:opacity-30"
+                                        className="flex-[2] py-6 bg-slate-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-lime-500 hover:text-slate-950 transition-all disabled:opacity-30"
                                     >
                                         Next Step &rarr;
                                     </button>
@@ -172,7 +172,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                 className="space-y-10"
                             >
                                 <div className="space-y-4">
-                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-purple-600 block">Step 03</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-600 block">Step 03</span>
                                     <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
                                         Where did you <br /><span className="italic font-serif text-slate-400">Hear About Us?</span>
                                     </h2>
@@ -188,8 +188,8 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                             onClick={() => setSource(item.id)}
                                             className={`p-6 rounded-2xl border text-left transition-all group ${
                                                 source === item.id 
-                                                ? 'border-purple-500 bg-purple-50 ring-4 ring-purple-500/10' 
-                                                : 'border-slate-100 hover:border-purple-200'
+                                                ? 'border-lime-500 bg-lime-50 ring-4 ring-lime-500/10' 
+                                                : 'border-slate-100 hover:border-lime-200'
                                             }`}
                                         >
                                             <span className="text-2xl mb-4 block">{item.icon}</span>
@@ -208,7 +208,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                     <button
                                         disabled={!source}
                                         onClick={handleNext}
-                                        className="flex-[2] py-6 bg-slate-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-purple-500 hover:text-slate-950 transition-all disabled:opacity-30"
+                                        className="flex-[2] py-6 bg-slate-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-lime-500 hover:text-slate-950 transition-all disabled:opacity-30"
                                     >
                                         Finalize Setup &rarr;
                                     </button>
@@ -223,7 +223,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="text-center space-y-10"
                             >
-                                <div className="w-24 h-24 bg-purple-50 text-purple-500 rounded-full flex items-center justify-center mx-auto text-4xl shadow-xl shadow-purple-500/5">
+                                <div className="w-24 h-24 bg-lime-50 text-lime-500 rounded-full flex items-center justify-center mx-auto text-4xl shadow-xl shadow-lime-500/5">
                                     🏆
                                 </div>
                                 <div className="space-y-4">
@@ -237,7 +237,7 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
 
                                 <button
                                     onClick={handleNext}
-                                    className="w-full py-6 bg-gradient-to-r from-indigo-950 to-purple-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-purple-950/20"
+                                    className="w-full py-6 bg-gradient-to-r from-slate-950 to-lime-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-all shadow-2xl shadow-lime-950/20"
                                 >
                                     Enter Dashboard &rarr;
                                 </button>

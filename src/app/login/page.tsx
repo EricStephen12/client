@@ -16,12 +16,12 @@ export default function LoginPage() {
         }
     }, [isLoaded, user, router]);
     return (
-        <div className="min-h-screen grid md:grid-cols-2 bg-gradient-to-br from-purple-50 via-white to-blue-50 overflow-hidden text-gray-900">
+        <div className="min-h-screen grid md:grid-cols-2 bg-gradient-to-br from-lime-50 via-white to-lime-50 overflow-hidden text-gray-900">
 
             {}
             <Link 
                 href="/" 
-                className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-purple-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-purple-600 hover:bg-purple-600 hover:text-white transition-all shadow-sm group"
+                className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-lime-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-lime-600 hover:bg-lime-600 hover:text-white transition-all shadow-sm group"
             >
                 <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
@@ -43,11 +43,11 @@ export default function LoginPage() {
                                 elements: {
                                     rootBox: 'w-full',
                                     card: 'shadow-none bg-transparent w-full',
-                                    socialButtonsBlockButton: 'border border-purple-200 hover:bg-purple-50 rounded-xl py-3 text-xs uppercase tracking-widest font-bold transition-all',
-                                    formButtonPrimary: 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-4 text-xs uppercase tracking-[0.2em] font-bold rounded-xl shadow-lg shadow-purple-200/50 transition-all',
-                                    formFieldInput: 'border border-purple-200 rounded-xl px-4 py-3 text-gray-900 placeholder:text-gray-300 focus:border-purple-600 focus:outline-none focus:ring-1 focus:ring-purple-600 transition-colors text-sm',
-                                    formFieldLabel: 'text-[10px] uppercase tracking-[0.2em] text-purple-600/60 font-bold font-sans',
-                                    footerActionLink: 'text-purple-600 font-bold hover:underline underline-offset-4 decoration-1 decoration-purple-200',
+                                    socialButtonsBlockButton: 'border border-lime-200 hover:bg-lime-50 rounded-xl py-3 text-xs uppercase tracking-widest font-bold transition-all',
+                                    formButtonPrimary: 'bg-gradient-to-r from-lime-600 to-lime-600 hover:from-lime-700 hover:to-lime-700 text-white py-4 text-xs uppercase tracking-[0.2em] font-bold rounded-xl shadow-lg shadow-lime-200/50 transition-all',
+                                    formFieldInput: 'border border-lime-200 rounded-xl px-4 py-3 text-gray-900 placeholder:text-gray-300 focus:border-lime-600 focus:outline-none focus:ring-1 focus:ring-lime-600 transition-colors text-sm',
+                                    formFieldLabel: 'text-[10px] uppercase tracking-[0.2em] text-lime-600/60 font-bold font-sans',
+                                    footerActionLink: 'text-lime-600 font-bold hover:underline underline-offset-4 decoration-1 decoration-lime-200',
                                 }
                             }}
                             routing="hash"
@@ -57,7 +57,7 @@ export default function LoginPage() {
             </div>
 
             {}
-            <div className="relative bg-gradient-to-br from-purple-100 to-blue-100 overflow-hidden hidden md:block">
+            <div className="relative bg-gradient-to-br from-lime-100 to-lime-100 overflow-hidden hidden md:block">
                 <video
                     autoPlay
                     loop
@@ -67,7 +67,7 @@ export default function LoginPage() {
                 >
                     <source src="/videos/v1.webm" type="video/webm" />
                 </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-lime-900/40 to-transparent"></div>
                 <div className="absolute bottom-12 left-12 right-12 z-20 text-white drop-shadow-2xl">
                     <p className="text-4xl font-serif italic leading-[0.9] tracking-tight mb-4">&quot;Decoding the DNA of <br /> viral performance.&quot;</p>
                 </div>

@@ -161,12 +161,12 @@ const handleFinalGenerate = async () => {
                         >
                             <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-[2.5rem] bg-white p-8 md:p-12 shadow-2xl transition-all">
 
-                                <div className="mb-8 border-b border-purple-100 pb-6 flex justify-between items-start">
+                                <div className="mb-8 border-b border-lime-100 pb-6 flex justify-between items-start">
                                     <div>
-                                        <span className="text-xs font-bold tracking-[0.4em] uppercase text-purple-600 mb-2 block">AI Creative Director</span>
+                                        <span className="text-xs font-bold tracking-[0.4em] uppercase text-lime-600 mb-2 block">AI Creative Director</span>
                                         <h2 className="text-3xl lg:text-4xl font-serif text-gray-900 mb-3 tracking-tight">Intelligence Brief</h2>
                                         {adTitle && (
-                                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg shadow-lg">
+                                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-lime-600 to-lime-600 text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg shadow-lg">
                                                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
                                                 Analyzing Blueprint: "{adTitle}"
                                             </div>
@@ -186,7 +186,7 @@ const handleFinalGenerate = async () => {
 <div className="flex items-center gap-4 mb-8">
                                     {[1, 2, 3].map((s) => (
                                         <div key={s} className="flex items-center gap-2">
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border transition-all duration-500 ${step === s ? 'bg-purple-600 text-white border-purple-600 shadow-lg shadow-purple-100' : 'text-gray-400 border-gray-200'}`}>
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border transition-all duration-500 ${step === s ? 'bg-lime-600 text-white border-lime-600 shadow-lg shadow-lime-100' : 'text-gray-400 border-gray-200'}`}>
                                                 {s}
                                             </div>
                                             {s < 3 && <div className="w-8 h-[1px] bg-gray-100"></div>}
@@ -201,7 +201,7 @@ const handleFinalGenerate = async () => {
                                                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">What are you selling?</label>
                                                 <input
                                                     type="text"
-                                                    className="w-full bg-transparent border-b border-purple-100 py-3 text-2xl font-serif italic focus:border-purple-600 focus:outline-none transition-colors placeholder:text-gray-200 text-gray-900"
+                                                    className="w-full bg-transparent border-b border-lime-100 py-3 text-2xl font-serif italic focus:border-lime-600 focus:outline-none transition-colors placeholder:text-gray-200 text-gray-900"
                                                     placeholder="Product Name..."
                                                     value={productName}
                                                     onChange={(e) => setProductName(e.target.value)}
@@ -212,7 +212,7 @@ const handleFinalGenerate = async () => {
                                             <div className="space-y-2">
                                                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">The Problem / Solution</label>
                                                 <textarea
-                                                    className="w-full bg-transparent border border-gray-100 p-6 text-sm leading-relaxed focus:border-purple-600 focus:outline-none transition-colors min-h-[150px] rounded-2xl italic font-light"
+                                                    className="w-full bg-transparent border border-gray-100 p-6 text-sm leading-relaxed focus:border-lime-600 focus:outline-none transition-colors min-h-[150px] rounded-2xl italic font-light"
                                                     placeholder="Describe the main benefit..."
                                                     value={description}
                                                     onChange={(e) => setDescription(e.target.value)}
@@ -223,7 +223,7 @@ const handleFinalGenerate = async () => {
                                             <button
                                                 type="submit"
                                                 disabled={isLoading}
-                                                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl py-5 text-xs font-black uppercase tracking-[0.3em] hover:shadow-xl hover:shadow-purple-200 transition-all relative overflow-hidden group shadow-lg disabled:opacity-50"
+                                                className="w-full bg-gradient-to-r from-lime-600 to-lime-600 text-white rounded-2xl py-5 text-xs font-black uppercase tracking-[0.3em] hover:shadow-xl hover:shadow-lime-200 transition-all relative overflow-hidden group shadow-lg disabled:opacity-50"
                                             >
                                                 {isLoading ? (
                                                     <div className="flex flex-col items-center justify-center gap-2">
@@ -244,8 +244,8 @@ const handleFinalGenerate = async () => {
 
                                     {step === 2 && (
                                         <div className="space-y-10 text-gray-900">
-                                            <div className="p-8 bg-purple-50 border border-purple-100 rounded-3xl space-y-4 shadow-sm">
-                                                <div className="flex items-center gap-2 text-purple-600">
+                                            <div className="p-8 bg-lime-50 border border-lime-100 rounded-3xl space-y-4 shadow-sm">
+                                                <div className="flex items-center gap-2 text-lime-600">
                                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                                     <span className="text-[10px] font-black uppercase tracking-[0.2em]">Viral Blueprint Extracted</span>
                                                 </div>
@@ -261,7 +261,7 @@ const handleFinalGenerate = async () => {
                                                 <div key={i} className="space-y-4">
                                                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">{q}</label>
                                                     <textarea
-                                                        className="w-full bg-transparent border border-purple-100 p-4 text-sm focus:border-purple-600 focus:outline-none rounded-2xl italic font-light"
+                                                        className="w-full bg-transparent border border-lime-100 p-4 text-sm focus:border-lime-600 focus:outline-none rounded-2xl italic font-light"
                                                         rows={2}
                                                         onChange={(e) => setAnswers({ ...answers, [i]: e.target.value })}
                                                         placeholder="Your answer..."
@@ -272,7 +272,7 @@ const handleFinalGenerate = async () => {
                                             <button
                                                 onClick={handleFinalGenerate}
                                                 disabled={isLoading}
-                                                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl py-5 text-xs font-black uppercase tracking-[0.3em] hover:shadow-xl hover:shadow-purple-200 transition-all shadow-lg disabled:opacity-50"
+                                                className="w-full bg-gradient-to-r from-lime-600 to-lime-600 text-white rounded-2xl py-5 text-xs font-black uppercase tracking-[0.3em] hover:shadow-xl hover:shadow-lime-200 transition-all shadow-lg disabled:opacity-50"
                                             >
                                                 {isLoading ? 'Extracting Final DNA...' : 'Forge Director Brief'}
                                             </button>
@@ -281,7 +281,7 @@ const handleFinalGenerate = async () => {
 
                                     {step === 3 && isLoading && (
                                         <div className="py-20 text-center space-y-6">
-                                            <div className="w-16 h-16 border-2 border-purple-100 border-t-purple-600 rounded-full animate-spin mx-auto shadow-sm"></div>
+                                            <div className="w-16 h-16 border-2 border-lime-100 border-t-lime-600 rounded-full animate-spin mx-auto shadow-sm"></div>
                                             <p className="text-gray-500 font-serif italic text-2xl animate-pulse">Crafting your narrative masterpiece...</p>
                                         </div>
                                     )}
@@ -290,8 +290,8 @@ const handleFinalGenerate = async () => {
                                         <div className="space-y-8">
 
                                             {extraction.shot_list && extraction.shot_list.length > 0 && (
-                                                <div className="bg-white border border-purple-50 rounded-3xl overflow-hidden shadow-sm">
-                                                    <div className="p-8 bg-gradient-to-r from-purple-50 to-blue-50 border-b border-purple-100">
+                                                <div className="bg-white border border-lime-50 rounded-3xl overflow-hidden shadow-sm">
+                                                    <div className="p-8 bg-gradient-to-r from-lime-50 to-lime-50 border-b border-lime-100">
                                                         <h3 className="text-2xl font-serif text-gray-900 mb-2">Director's Blueprint</h3>
                                                         <p className="text-xs text-gray-500 uppercase tracking-widest font-bold">Frame-by-frame visual intelligence</p>
                                                     </div>
@@ -306,8 +306,8 @@ const handleFinalGenerate = async () => {
                                                             </thead>
                                                             <tbody className="divide-y divide-gray-50">
                                                                 {extraction.shot_list.map((scene: any, idx: number) => (
-                                                                    <tr key={idx} className="hover:bg-purple-50/30 transition-colors">
-                                                                        <td className="px-6 py-6 text-sm font-bold text-purple-600">#{idx + 1}</td>
+                                                                    <tr key={idx} className="hover:bg-lime-50/30 transition-colors">
+                                                                        <td className="px-6 py-6 text-sm font-bold text-lime-600">#{idx + 1}</td>
                                                                         <td className="px-6 py-6">
                                                                             <p className="text-sm text-gray-900 leading-relaxed font-medium">{scene.visual}</p>
                                                                         </td>
@@ -324,9 +324,9 @@ const handleFinalGenerate = async () => {
 
 {extraction.aesthetic_guide && (
                                                 <div className="p-10 bg-gradient-to-br from-gray-900 to-black text-white rounded-[2.5rem] shadow-2xl space-y-6 relative overflow-hidden border border-white/5">
-                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-lime-600/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
                                                     <div className="relative">
-                                                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-400 block mb-3">Aesthetic DNA</span>
+                                                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-lime-400 block mb-3">Aesthetic DNA</span>
                                                         <h3 className="text-2xl font-serif italic text-white mb-6">Visual & Tonal Blueprint</h3>
                                                         <div className="space-y-4 text-white/70 text-sm leading-relaxed font-light">
                                                             {(typeof extraction.aesthetic_guide === 'string' ? extraction.aesthetic_guide.split('\n') : [String(extraction.aesthetic_guide)]).map((line: string, i: number) => (
@@ -338,21 +338,21 @@ const handleFinalGenerate = async () => {
                                             )}
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
-                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-purple-600 block mb-4">The Hook</span>
+                                                <div className="p-6 bg-white border border-lime-50 rounded-2xl shadow-sm">
+                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-lime-600 block mb-4">The Hook</span>
                                                     <p className="text-lg font-serif italic text-gray-900">"{(extraction.summary || extraction).hook}"</p>
                                                 </div>
 
-                                                <div className="p-6 bg-white border border-purple-50 rounded-2xl shadow-sm">
-                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 block mb-4">The CTA</span>
+                                                <div className="p-6 bg-white border border-lime-50 rounded-2xl shadow-sm">
+                                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-lime-600 block mb-4">The CTA</span>
                                                     <p className="text-sm font-bold text-gray-900">"{(extraction.summary || extraction).cta}"</p>
                                                 </div>
                                             </div>
 
-<div className="space-y-4 pt-6 border-t border-purple-100">
+<div className="space-y-4 pt-6 border-t border-lime-100">
                                                 <button
                                                     onClick={() => window.location.href = `/dashboard/content-generator?productName=${encodeURIComponent(productName)}&description=${encodeURIComponent(description)}`}
-                                                    className="w-full p-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-2xl flex items-center justify-between hover:scale-[1.02] transition-all group shadow-lg shadow-purple-100"
+                                                    className="w-full p-5 bg-gradient-to-r from-lime-600 to-lime-600 text-white rounded-2xl flex items-center justify-between hover:scale-[1.02] transition-all group shadow-lg shadow-lime-100"
                                                 >
                                                     <span className="text-xs font-black uppercase tracking-[0.2em]">Generate Visual Assets</span>
                                                     <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
@@ -360,7 +360,7 @@ const handleFinalGenerate = async () => {
 
                                                 <button
                                                     onClick={() => window.location.href = '/dashboard/analyze'}
-                                                    className="w-full p-5 border border-purple-100 text-gray-900 rounded-2xl flex items-center justify-between hover:bg-purple-50 transition-all group"
+                                                    className="w-full p-5 border border-lime-100 text-gray-900 rounded-2xl flex items-center justify-between hover:bg-lime-50 transition-all group"
                                                 >
                                                     <span className="text-xs font-black uppercase tracking-[0.2em]">Private Video Scan</span>
                                                     <svg className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>

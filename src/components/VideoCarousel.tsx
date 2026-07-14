@@ -93,10 +93,10 @@ const SOCIAL_PROOF_DATA = [
 
 export default function VideoCarousel() {
     return (
-        <div className="py-12 bg-white border-b border-purple-100 overflow-hidden">
+        <div className="py-12 bg-white border-b border-lime-100 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 mb-8 flex flex-col md:flex-row items-baseline justify-between gap-4">
                 <div>
-                    <span className="text-[10px] font-black tracking-[0.5em] uppercase text-purple-600 mb-2 block">Reference Library</span>
+                    <span className="text-[10px] font-black tracking-[0.5em] uppercase text-lime-600 mb-2 block">Reference Library</span>
                     <h2 className="text-3xl md:text-4xl font-serif italic text-gray-900 tracking-tight">Viral Logic Studio</h2>
                 </div>
             </div>
@@ -143,7 +143,7 @@ export default function VideoCarousel() {
                                         <span className="text-[8px] font-bold tracking-tighter bg-white text-black px-1.5 py-0.5 rounded-sm uppercase">
                                             {item.results}
                                         </span>
-                                        <span className="text-[8px] font-bold tracking-tighter bg-purple-600 text-white px-1.5 py-0.5 rounded-sm uppercase">
+                                        <span className="text-[8px] font-bold tracking-tighter bg-lime-600 text-white px-1.5 py-0.5 rounded-sm uppercase">
                                             {item.views}
                                         </span>
                                     </div>
