@@ -637,7 +637,25 @@ function AnalyzeContent() {
                         ) : (
                             /* Unified Studio Layout */
                             <div className="flex flex-col xl:flex-row gap-8 w-full items-start">
-                                {/* Strategy Lounge Chat */}
+                                
+                                {/* CTA Button if not in chat mode */}
+                                {!isChatMode && (
+                                    <div className="w-full max-w-2xl mx-auto text-center space-y-8 py-20 animate-fade-in-up">
+                                        <div className="text-6xl mb-6">🎉</div>
+                                        <h3 className="text-3xl sm:text-4xl font-serif italic text-slate-900">Analysis Complete.</h3>
+                                        <p className="text-slate-500 font-medium">Your video's DNA has been fully extracted. Ready to discuss strategy?</p>
+                                        
+                                        <button
+                                            onClick={startChat}
+                                            className="w-full py-6 sm:py-8 bg-slate-950 text-white rounded-xl sm:rounded-[2rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs hover:bg-lime-500 hover:text-slate-950 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-slate-950/20 flex items-center justify-center gap-4 sm:gap-6 group mx-auto"
+                                        >
+                                            <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-lime-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
+                                            Enter Strategy Lounge
+                                            <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
+                                        </button>
+                                    </div>
+                                )}
+    {/* Strategy Lounge Chat */}
                                 {isChatMode && (
                                     <div className="w-full max-w-4xl mx-auto bg-white border border-slate-100 xl:rounded-[2.5rem] xl:shadow-sm animate-fade-in flex flex-col xl:p-8" style={{ height: 'calc(100dvh - 120px)', minHeight: '600px' }}>
                         <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-1 md:pr-4 custom-scrollbar">

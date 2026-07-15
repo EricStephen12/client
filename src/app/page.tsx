@@ -56,11 +56,22 @@ export default function LandingPage() {
             <CursorEffect />
 
 <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-lime-100 transition-all duration-300">
-                <div className="w-full px-6 h-20 flex items-center justify-between">
+                <div className="w-full max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <Link href="/" className="hover:opacity-70 transition-opacity flex items-center gap-3">
                         <img src="/app-icon.png" alt="Eixora Logo" className="w-10 h-10 object-contain" />
                         <span className="text-2xl font-black tracking-tighter">EIXORA</span>
                     </Link>
+                    <div className="flex items-center gap-4">
+                        {isLoggedIn ? (
+                            <Link href="/dashboard" className="px-6 py-2.5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <Link href="/signup" className="px-6 py-2.5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
+                                Get Started
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </nav>
 
