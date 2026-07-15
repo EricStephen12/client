@@ -147,7 +147,7 @@ function AnalyzeContent() {
                     const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
                     const res = await fetch(`${apiBase}/api/analyze-video-url`, {
                         method: 'POST',
-                        body: JSON.stringify({ videoUrl: queryUrl, userId }),
+                        body: JSON.stringify({ videoUrl: queryUrl, userId, userName: user?.firstName || user?.username || 'Creator' }),
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
@@ -241,36 +241,12 @@ function AnalyzeContent() {
 
     const startChat = async () => {
         setIsChatMode(true);
-        setIsSending(true);
-        try {
-            const token = await getToken();
-            const res = await fetch(`/api/main/api/creative-director-chat`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    messages: [],
-                    dna: result.analysis,
-                    userId,
-                    isRoastMode
-                })
-            });
+        const firstName = user?.firstName || user?.username || 'there';
+        const initialMsg = { role: 'assistant', content: `Hey ${firstName}! I've just watched this video. Ask me anything about its hook, pacing, or psychology!` };
+        setMessages([initialMsg]);
 
-            if (!res.ok) throw new Error('Intro failed');
-            const data = await res.json();
-            const initialMsg = { role: 'assistant', content: data.message };
-            setMessages([initialMsg]);
-
-            const savedId = await saveSessionState([initialMsg]);
-            if (savedId) setSessionId(savedId);
-        } catch (err) {
-            console.error(err);
-            setMessages([{ role: 'assistant', content: `I've deconstructed the DNA. What's the one thing you want your customers to feel when they see your product?` }]);
-        } finally {
-            setIsSending(false);
-        }
+        const savedId = await saveSessionState([initialMsg]);
+        if (savedId) setSessionId(savedId);
     };
 
     const sendMessage = async () => {
@@ -299,6 +275,7 @@ function AnalyzeContent() {
                         messages: newMessages,
                         dna: result.analysis,
                         userId,
+                        userName: user?.firstName || user?.username || 'Creator',
                         isRoastMode
                     }),
                     signal: controller.signal
@@ -660,201 +637,9 @@ function AnalyzeContent() {
                         ) : (
                             /* Unified Studio Layout */
                             <div className="flex flex-col xl:flex-row gap-8 w-full items-start">
-                                {/* Result Dashboard */}
-                                <div className={`w-full xl:w-1/2 space-y-6 md:space-y-10 animate-fade-in px-1 ${isChatMode ? 'hidden xl:block' : 'max-w-4xl mx-auto'}`}>
-                                    <div className="space-y-6 md:space-y-8">
-                                    {/* Metrics Bar */}
-                                    <div className="p-6 sm:p-10 md:p-16 bg-white border border-slate-100 rounded-2xl sm:rounded-[3rem] shadow-sm relative overflow-hidden group">
-                                        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-                                            <div className="text-center">
-                                                <h3 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-slate-400 mb-2 sm:mb-4">Hook Power</h3>
-                                                <div className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold text-slate-900">{result.analysis.metrics?.hook_power || 8}<span className="text-sm sm:text-xl text-slate-300 font-light ml-1">/10</span></div>
-                                            </div>
-                                            <div className="text-center">
-                                                <h3 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-slate-400 mb-2 sm:mb-4">Retention</h3>
-                                                <div className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold text-lime-500">{result.analysis.metrics?.retention_score || 7}<span className="text-sm sm:text-xl text-slate-200 font-light ml-1">/10</span></div>
-                                            </div>
-                                            <div className="text-center">
-                                                <h3 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-slate-400 mb-2 sm:mb-4">Conversion</h3>
-                                                <div className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold text-slate-900">{result.analysis.metrics?.conversion_trigger || 6}<span className="text-sm sm:text-xl text-slate-300 font-light ml-1">/10</span></div>
-                                            </div>
-                                        </div>
-                                        <div className="mt-6 pt-6 border-t border-slate-50 flex flex-wrap justify-center gap-4 text-[9px] font-bold uppercase tracking-widest text-slate-400">
-                                            <span className="bg-slate-50 px-3 py-1.5 rounded-full">{result.analysis.niche || 'General'}</span>
-                                            <span className="bg-lime-50 text-lime-500 px-3 py-1.5 rounded-full">{result.analysis.awareness_level || 'Problem-Aware'}</span>
-                                            <span className="bg-slate-50 px-3 py-1.5 rounded-full">{result.analysis.vibe_assessment?.style || 'UGC'}</span>
-                                        </div>
-                                        {benchmarks && benchmarks.total_ads > 1 && (
-                                            <div className="mt-4 pt-4 border-t border-slate-50 grid grid-cols-3 gap-4 text-center">
-                                                <div>
-                                                    <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block mb-1">vs Niche Avg</span>
-                                                    <span className={`text-sm font-bold ${(result.analysis.metrics?.hook_power || 0) >= (benchmarks.avg_hook || 0) ? 'text-emerald-500' : 'text-red-400'}`}>
-                                                        {(result.analysis.metrics?.hook_power || 0) >= (benchmarks.avg_hook || 0) ? '↑' : '↓'} Hook avg: {benchmarks.avg_hook}
-                                                    </span>
-                                                </div>
-                                                <div>
-                                                    <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block mb-1">vs Niche Avg</span>
-                                                    <span className={`text-sm font-bold ${(result.analysis.metrics?.retention_score || 0) >= (benchmarks.avg_retention || 0) ? 'text-emerald-500' : 'text-red-400'}`}>
-                                                        {(result.analysis.metrics?.retention_score || 0) >= (benchmarks.avg_retention || 0) ? '↑' : '↓'} Ret avg: {benchmarks.avg_retention}
-                                                    </span>
-                                                </div>
-                                                <div>
-                                                    <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block mb-1">vs Niche Avg</span>
-                                                    <span className={`text-sm font-bold ${(result.analysis.metrics?.conversion_trigger || 0) >= (benchmarks.avg_conversion || 0) ? 'text-emerald-500' : 'text-red-400'}`}>
-                                                        {(result.analysis.metrics?.conversion_trigger || 0) >= (benchmarks.avg_conversion || 0) ? '↑' : '↓'} CTA avg: {benchmarks.avg_conversion}
-                                                    </span>
-                                                </div>
-                                                <div className="col-span-3">
-                                                    <span className="text-[9px] text-slate-400">Based on {benchmarks.total_ads} {result.analysis.niche} ads analyzed</span>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Big Idea */}
-                                    <div className="p-6 sm:p-10 md:p-12 bg-lime-50 border border-lime-100 rounded-2xl sm:rounded-[2.5rem] relative overflow-hidden group">
-                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-lime-600 mb-3 sm:mb-4">The Big Idea</h4>
-                                        <p className="text-slate-900 text-lg sm:text-2xl md:text-3xl font-serif leading-relaxed italic">&quot;{result.analysis.big_idea}&quot;</p>
-                                        <div className="absolute top-0 right-0 p-6 sm:p-8 opacity-10 text-3xl sm:text-4xl">💡</div>
-                                    </div>
-
-                                    {/* Hook Verdict */}
-                                    {result.analysis.hook_verdict && (
-                                        <div className="p-6 sm:p-10 md:p-12 bg-white border border-slate-100 rounded-2xl sm:rounded-[2.5rem] shadow-sm space-y-4">
-                                            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-orange-500 italic">🎯 Hook Verdict</h4>
-                                            <p className="text-slate-900 font-medium text-sm sm:text-base leading-relaxed">{result.analysis.hook_verdict.what_stops_the_scroll}</p>
-                                            <div className="flex gap-4">
-                                                <span className="text-[9px] font-bold uppercase tracking-widest bg-orange-50 text-orange-600 px-3 py-1.5 rounded-full">Visual: {result.analysis.hook_verdict.visual_hook_grade}/10</span>
-                                                <span className="text-[9px] font-bold uppercase tracking-widest bg-lime-50 text-lime-600 px-3 py-1.5 rounded-full">Audio: {result.analysis.hook_verdict.spoken_hook_grade}/10</span>
-                                            </div>
-                                            {result.analysis.hook_verdict.improvement && (
-                                                <div className="mt-4 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
-                                                    <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 block mb-2">↑ How to Improve</span>
-                                                    <p className="text-emerald-900 text-sm font-medium">{result.analysis.hook_verdict.improvement}</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-
-                                    {/* Retention Map */}
-                                    {result.analysis.retention_map && (
-                                        <div className="p-6 sm:p-10 md:p-12 bg-white border border-slate-100 rounded-2xl sm:rounded-[2.5rem] shadow-sm space-y-4">
-                                            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-lime-500 italic">📊 Retention Map</h4>
-                                            {result.analysis.retention_map.attention_peaks?.length > 0 && (
-                                                <div>
-                                                    <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 block mb-2">Attention Peaks</span>
-                                                    {result.analysis.retention_map.attention_peaks.map((peak: string, i: number) => (
-                                                        <p key={i} className="text-sm text-slate-700 mb-1 pl-3 border-l-2 border-emerald-300">▲ {peak}</p>
-                                                    ))}
-                                                </div>
-                                            )}
-                                            {result.analysis.retention_map.dead_zones?.length > 0 && (
-                                                <div className="mt-4">
-                                                    <span className="text-[9px] font-bold uppercase tracking-widest text-red-500 block mb-2">Dead Zones</span>
-                                                    {result.analysis.retention_map.dead_zones.map((zone: string, i: number) => (
-                                                        <p key={i} className="text-sm text-slate-700 mb-1 pl-3 border-l-2 border-red-300">▼ {zone}</p>
-                                                    ))}
-                                                </div>
-                                            )}
-                                            <p className="text-slate-600 text-sm leading-relaxed mt-4 pt-4 border-t border-slate-50">{result.analysis.retention_map.critique}</p>
-                                        </div>
-                                    )}
-
-                                    {/* Steal-Worthy + Fatal Flaw */}
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                                        {result.analysis.steal_worthy && (
-                                            <div className="p-6 sm:p-8 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl sm:rounded-[2rem] space-y-3">
-                                                <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-emerald-600 italic">✨ Steal This</h4>
-                                                <p className="text-slate-900 font-medium text-sm leading-relaxed">{result.analysis.steal_worthy}</p>
-                                            </div>
-                                        )}
-                                        {result.analysis.fatal_flaw && (
-                                            <div className="p-6 sm:p-8 bg-gradient-to-br from-red-50 to-orange-50 border border-red-100 rounded-2xl sm:rounded-[2rem] space-y-3">
-                                                <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-red-500 italic">⚡ Fatal Flaw</h4>
-                                                <p className="text-slate-900 font-medium text-sm leading-relaxed">{result.analysis.fatal_flaw}</p>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Money Shot */}
-                                    {result.analysis.money_shot && (
-                                        <div className="p-6 sm:p-8 bg-amber-50 border border-amber-100 rounded-2xl sm:rounded-[2rem] flex items-start gap-4">
-                                            <span className="text-2xl">📸</span>
-                                            <div>
-                                                <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-600 italic mb-2">Money Shot — Frame {result.analysis.money_shot.frame_number} ({result.analysis.money_shot.timestamp})</h4>
-                                                <p className="text-slate-900 font-medium text-sm leading-relaxed">{result.analysis.money_shot.why}</p>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Secret Sauce */}
-                                    <div className="p-6 sm:p-10 md:p-12 bg-white border border-slate-100 rounded-2xl sm:rounded-[2.5rem] space-y-3 sm:space-y-4 shadow-sm">
-                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 italic">🔮 The Secret Sauce</h4>
-                                        <p className="text-slate-900 font-serif italic text-base sm:text-lg md:text-xl leading-relaxed">&quot;{result.analysis.the_secret_sauce}&quot;</p>
-                                    </div>
-
-                                    {/* Viral Checklist */}
-                                    {result.analysis.viral_checklist && (
-                                        <div className="p-6 sm:p-10 md:p-12 bg-white border border-slate-100 rounded-2xl sm:rounded-[2.5rem] shadow-sm">
-                                            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 mb-6 italic">🧬 Viral DNA Checklist</h4>
-                                            <div className="space-y-3">
-                                                {result.analysis.viral_checklist.map((item: any, i: number) => (
-                                                    <div key={i} className={`flex items-start gap-3 p-3 rounded-xl ${item.passed ? 'bg-emerald-50/50' : 'bg-red-50/50'}`}>
-                                                        <span className={`text-sm mt-0.5 ${item.passed ? 'text-emerald-500' : 'text-red-400'}`}>{item.passed ? '✓' : '✗'}</span>
-                                                        <div className="flex-1">
-                                                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-700 block">{item.label}</span>
-                                                            {item.note && <p className="text-[11px] text-slate-500 mt-1">{item.note}</p>}
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Actionable Directions */}
-                                    {result.analysis.actionable_directions && (
-                                        <div className="p-6 sm:p-10 md:p-12 bg-gradient-to-br from-slate-950 to-lime-950 text-white rounded-2xl sm:rounded-[2.5rem] shadow-2xl">
-                                            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-lime-400 mb-6 italic">🎬 Director's Orders</h4>
-                                            <div className="space-y-4">
-                                                {result.analysis.actionable_directions.map((dir: string, i: number) => (
-                                                    <div key={i} className="flex items-start gap-4">
-                                                        <span className="text-lime-400 font-bold text-lg mt-0.5">{i + 1}.</span>
-                                                        <p className="text-white/90 text-sm font-medium leading-relaxed">{dir}</p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* CTA Buttons */}
-                                    {!isChatMode && (
-                                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                                            <button
-                                                onClick={startChat}
-                                                className="flex-1 py-6 sm:py-8 bg-slate-950 text-white rounded-xl sm:rounded-[2rem] font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs hover:bg-lime-500 hover:text-slate-950 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-slate-950/20 flex items-center justify-center gap-4 sm:gap-6 group"
-                                            >
-                                                <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-lime-500 rounded-full animate-pulse shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
-                                                Strategy Lounge
-                                                <span className="group-hover:translate-x-2 transition-transform">&rarr;</span>
-                                            </button>
-
-                                            {(planTier === 'studio' || planTier === 'agency') && (
-                                                <Link
-                                                    href={`/dashboard/report/${sessionId || ''}`}
-                                                    className="px-6 sm:px-10 py-6 sm:py-8 border border-slate-100 text-slate-400 rounded-xl sm:rounded-[2rem] font-bold uppercase tracking-[0.3em] text-[10px] sm:text-xs hover:bg-white hover:text-lime-600 transition-all flex items-center justify-center gap-3"
-                                                >
-                                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-                                                    Expert Report
-                                                </Link>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                                </div>
-
                                 {/* Strategy Lounge Chat */}
                                 {isChatMode && (
-                                    <div className="w-full xl:w-1/2 xl:sticky xl:top-24 bg-white border border-slate-100 xl:rounded-[2.5rem] xl:shadow-sm animate-fade-in flex flex-col xl:p-8" style={{ height: 'calc(100dvh - 120px)', minHeight: '600px' }}>
+                                    <div className="w-full max-w-4xl mx-auto bg-white border border-slate-100 xl:rounded-[2.5rem] xl:shadow-sm animate-fade-in flex flex-col xl:p-8" style={{ height: 'calc(100dvh - 120px)', minHeight: '600px' }}>
                         <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-1 md:pr-4 custom-scrollbar">
                             {messages.map((msg, idx) => (
                                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>

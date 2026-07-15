@@ -23,6 +23,8 @@
   --animate-fade-in-up: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-scale-in: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-slide-down: slideDown 0.3s ease-out forwards;
+  --animate-gradient-x: gradientX 3s ease infinite;
+  --animate-gradient-xy: gradientXY 3s ease infinite;
 
   @keyframes slideDown {
     from {
@@ -57,6 +59,34 @@
     to {
       opacity: 1;
       transform: scale(1);
+    }
+  }
+
+  @keyframes gradientX {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes gradientXY {
+    0%, 100% {
+      background-size: 400% 400%;
+      background-position: 0% 0%;
+    }
+    25% {
+      background-size: 400% 400%;
+      background-position: 100% 0%;
+    }
+    50% {
+      background-size: 400% 400%;
+      background-position: 100% 100%;
+    }
+    75% {
+      background-size: 400% 400%;
+      background-position: 0% 100%;
     }
   }
 }

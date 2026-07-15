@@ -78,6 +78,12 @@ export default function DashboardPage() {
                                         const scans = profile?.monthly_usage?.scans ?? 0;
                                         return `${scans} / ${getPlanLimit(tier)}`;
                                     })(),
+                                    subtext: (() => {
+                                        const tier = profile?.plan_type || 'free';
+                                        if (tier === 'studio') return 'Max 30m video length';
+                                        if (tier === 'creator') return 'Max 5m video length';
+                                        return 'Max 90s video length';
+                                    })()
                                 },
                                 {
                                     label: 'Current Plan',
@@ -87,6 +93,7 @@ export default function DashboardPage() {
                                 <div key={i} className="flex-1 min-w-[120px] p-4 sm:p-5 bg-white border border-slate-100 rounded-2xl hover:shadow-lg hover:border-lime-200 transition-all group shadow-sm">
                                     <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 group-hover:text-lime-600 transition-colors">{stat.label}</p>
                                     <p className="text-lg sm:text-2xl font-sans font-bold text-slate-900">{stat.value}</p>
+                                    {stat.subtext && <p className="text-[10px] font-medium text-slate-500 mt-1">{stat.subtext}</p>}
                                 </div>
                             ))}
                         </div>

@@ -26,10 +26,10 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
             description: 'For individual creatives',
             features: [
                 '30 Studio Scans / mo',
+                'Up to 5 minute videos',
                 '30 Strategy Briefs / mo',
                 'Creative Lounge Access',
-                'Standard Report Suite',
-                'Community Support'
+                'Standard Report Suite'
             ],
             productId: process.env.NEXT_PUBLIC_POLAR_CREATOR_ID || 'creator_placeholder',
             buttonText: currentTier === 'creator' ? 'Active Plan' : 'Upgrade to Creator',
@@ -44,10 +44,10 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
             description: 'Full team collaboration',
             features: [
                 '250 Studio Scans / mo',
+                'Up to 30 minute videos',
                 '250 Strategy Briefs / mo',
                 'Priority AI Speed',
-                'Advanced PDF Exports',
-                'Direct Strategy Response'
+                'Advanced PDF Exports'
             ],
             productId: process.env.NEXT_PUBLIC_POLAR_STUDIO_ID || 'studio_placeholder',
             buttonText: currentTier === 'studio' ? 'Active Plan' : 'Enter The Studio',
