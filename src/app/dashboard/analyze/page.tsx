@@ -658,9 +658,9 @@ function AnalyzeContent() {
                                 
                                 {/* Strategy Lounge Chat */}
                                 {isChatMode && (
-                                    <div className="fixed top-[88px] bottom-0 right-0 left-0 lg:left-[288px] bg-slate-50 flex flex-col z-30 animate-fade-in">
-                                        <div className="flex-1 overflow-y-auto w-full custom-scrollbar pb-32">
-                                            <div className="max-w-7xl mx-auto w-full p-4 sm:p-8 space-y-4 md:space-y-6">
+                                    <div className="w-full flex flex-col animate-fade-in relative z-20" style={{ minHeight: 'calc(100vh - 220px)' }}>
+                                        <div className="flex-1 w-full pb-8">
+                                            <div className="max-w-7xl mx-auto w-full space-y-4 md:space-y-6">
                                                 {messages.map((msg, idx) => (
                                                     <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                                         <div className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-[2.5rem] shadow-sm ${msg.type === 'brief'
@@ -719,8 +719,8 @@ function AnalyzeContent() {
                                             </div>
                                         </div>
 
-                                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent">
-                                            <div className="max-w-7xl mx-auto relative group bg-white rounded-[2.5rem] border border-slate-200 p-2 focus-within:ring-2 focus-within:ring-lime-200 transition-all shadow-[0_-5px_30px_rgba(0,0,0,0.04)]">
+                                        <div className="sticky bottom-4 lg:bottom-8 mt-auto z-40 pointer-events-none pb-4 lg:pb-0">
+                                            <div className="pointer-events-auto max-w-5xl mx-auto relative group bg-white/90 backdrop-blur-xl rounded-[2.5rem] border border-slate-200/50 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.08)] focus-within:ring-2 focus-within:ring-lime-200 transition-all">
                                                 <div className="flex flex-col sm:flex-row gap-2">
                                                     <input
                                                         type="text"
@@ -765,13 +765,6 @@ function AnalyzeContent() {
                             </div>
                         )}
             </div>
-
-            <style jsx>{`
-                .custom-scrollbar::-webkit-scrollbar { width: 3px; }
-                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-                .custom-scrollbar::-webkit-scrollbar-thumb { background: #f3e8ff; border-radius: 10px; }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #e9d5ff; }
-            `}</style>
         </>
     );
 }

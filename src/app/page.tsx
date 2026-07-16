@@ -55,10 +55,10 @@ export default function LandingPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-lime-50 via-lime-50 to-slate-50 text-gray-900 selection:bg-lime-600 selection:text-white overflow-x-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 to-lime-950 text-white selection:bg-lime-600 selection:text-white overflow-x-hidden">
             <CursorEffect />
 
-<nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-lime-100 transition-all duration-300">
+<nav className="fixed w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10 transition-all duration-300">
                 <div className="w-full max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                     <Link href="/" className="hover:opacity-70 transition-opacity flex items-center gap-3">
                         <img src="/app-icon.png" alt="Eixora Logo" className="w-10 h-10 object-contain" />
@@ -66,11 +66,11 @@ export default function LandingPage() {
                     </Link>
                     <div className="flex items-center gap-4">
                         {isLoggedIn ? (
-                            <Link href="/dashboard" className="px-6 py-2.5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
+                            <Link href="/dashboard" className="px-6 py-2.5 bg-lime-500 text-slate-950 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-slate-950 transition-colors">
                                 Dashboard
                             </Link>
                         ) : (
-                            <Link href="/signup" className="px-6 py-2.5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
+                            <Link href="/signup" className="px-6 py-2.5 bg-lime-500 text-slate-950 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-white transition-colors">
                                 Get Started
                             </Link>
                         )}
@@ -79,7 +79,7 @@ export default function LandingPage() {
             </nav>
 
 <section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-lime-200 overflow-hidden">
-                <div className="flex flex-col justify-center px-5 sm:px-8 md:px-16 lg:px-24 py-12 sm:py-16 md:py-24 border-b md:border-b-0 md:border-r border-lime-200 bg-white">
+                <div className="flex flex-col justify-center px-5 sm:px-8 md:px-16 lg:px-24 py-12 sm:py-16 md:py-24 border-b md:border-b-0 md:border-r border-white/10 bg-transparent">
                     <RevealOnScroll delay={100}>
                         <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-lime-500 block">Your AI Creative Director</span>
                     </RevealOnScroll>
@@ -92,14 +92,14 @@ export default function LandingPage() {
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={300}>
-                        <p className="text-base sm:text-lg font-light leading-relaxed max-w-sm mb-8 md:mb-10 text-gray-500">
+                        <p className="text-base sm:text-lg font-light leading-relaxed max-w-sm mb-8 md:mb-10 text-white/70">
                             Eixora decodes it. See what others miss, frame by frame, insight by insight. Always on. Always watching.
                         </p>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={400}>
                         <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                            <button onClick={() => { setWaitlistPlatform('ios'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
+                            <button onClick={() => { setWaitlistPlatform('ios'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-lime-500 text-slate-950 px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
                                 <svg className="w-8 h-8 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                                     <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.79 3.59-.76 1.48.04 2.68.64 3.4 1.63-3.13 1.83-2.61 6.13.38 7.39-.7 1.77-1.49 3.02-2.45 3.91zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                                 </svg>
@@ -108,7 +108,7 @@ export default function LandingPage() {
                                     <p className="text-sm font-black tracking-tight">App Store</p>
                                 </div>
                             </button>
-                            <button onClick={() => { setWaitlistPlatform('android'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
+                            <button onClick={() => { setWaitlistPlatform('android'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-lime-500 text-slate-950 px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
                                 <svg className="w-8 h-8 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                                     <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12 3.84 21.85C3.34 21.61 3 21.09 3 20.5zM14.77 10.93l4.56-2.58c.84-.48.84-1.26 0-1.74l-4.56-2.58L4.85 2.1l9.92 8.83zM14.77 13.07l-9.92 8.83 9.92-5.63 4.56-2.58c.84-.48.84-1.26 0-1.74l-4.56-2.58-9.92 8.83z"/>
                                 </svg>
@@ -144,7 +144,7 @@ export default function LandingPage() {
 
 <BlueprintPreview />
 
-<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-transparent">
                 <div className="max-w-7xl mx-auto">
                     <div className="bg-gradient-to-br from-slate-950 via-lime-950 to-slate-900 rounded-2xl sm:rounded-[3rem] p-6 sm:p-12 md:p-24 text-white relative overflow-hidden group border border-lime-500/20 shadow-2xl">
                         <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-5 font-sans font-bold text-[20vw] sm:text-[12vw] pointer-events-none text-lime-200 select-none" aria-hidden="true">✦</div>
@@ -172,11 +172,11 @@ export default function LandingPage() {
                 </div>
             </section>
 
-<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-slate-50">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-transparent">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-12 sm:mb-16 md:mb-24">
-                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 mb-4 sm:mb-6">Built for High-Growth Teams.</h2>
-                        <p className="text-base sm:text-lg text-slate-500 font-light px-2">From discovery to production brief in 60 seconds.</p>
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold tracking-tight text-white mb-4 sm:mb-6">Built for High-Growth Teams.</h2>
+                        <p className="text-base sm:text-lg text-white/60 font-light px-2">From discovery to production brief in 60 seconds.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
@@ -185,10 +185,10 @@ export default function LandingPage() {
                             { step: "02", title: "Map Technical Brief", desc: "We convert visual data into a structured production blueprint. Direct shooting instructions, script variations, and audio cues." },
                             { step: "03", title: "Scale with Logic", desc: "Hand the brief to your creators. Stop guessing what will work and start filming ads backed by psychological data." }
                         ].map((item, i) => (
-                            <div key={i} className="bg-white p-8 sm:p-12 rounded-2xl sm:rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group">
+                            <div key={i} className="bg-white/5 backdrop-blur-sm p-8 sm:p-12 rounded-2xl sm:rounded-[2.5rem] border border-white/10 shadow-sm hover:shadow-lime-500/10 transition-all group hover:border-lime-500/30">
                                 <span className="text-5xl font-sans font-bold text-slate-100 group-hover:text-lime-100 transition-colors block mb-8">{item.step}</span>
-                                <h3 className="text-2xl font-bold text-slate-900 mb-6 group-hover:text-lime-600 transition-colors">{item.title}</h3>
-                                <p className="text-sm text-slate-500 font-light leading-relaxed">{item.desc}</p>
+                                <h3 className="text-2xl font-bold text-white mb-6 group-hover:text-lime-400 transition-colors">{item.title}</h3>
+                                <p className="text-sm text-white/60 font-light leading-relaxed">{item.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -196,32 +196,32 @@ export default function LandingPage() {
             </section>
 
 <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white overflow-hidden">
-                <div className="max-w-7xl mx-auto border-t border-slate-100 pt-16 sm:pt-24 md:pt-32">
+                <div className="max-w-7xl mx-auto border-t border-white/10 pt-16 sm:pt-24 md:pt-32">
                     <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 sm:gap-16 md:gap-20">
                         <div className="lg:col-span-5">
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-6 sm:mb-8">Performance Driven.</h2>
-                            <p className="text-lg text-slate-500 font-light leading-relaxed mb-12">
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-white mb-6 sm:mb-8">Performance Driven.</h2>
+                            <p className="text-lg text-white/60 font-light leading-relaxed mb-12">
                                 Eixora is trained on millions in ad spend data — so every brief you generate is backed by what's actually working right now, not guesswork.
                             </p>
                             <div className="space-y-6">
                                 <div className="flex items-center gap-4">
                                     <div className="w-10 h-10 bg-lime-50 rounded-full flex items-center justify-center text-lime-600 font-bold">✓</div>
-                                    <p className="text-slate-700 font-medium tracking-tight">Enterprise-Grade Security</p>
+                                    <p className="text-white/80 font-medium tracking-tight">Enterprise-Grade Security</p>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <div className="w-10 h-10 bg-lime-50 rounded-full flex items-center justify-center text-lime-600 font-bold">✓</div>
-                                    <p className="text-slate-700 font-medium tracking-tight">Dedicated Support for Agencies</p>
+                                    <p className="text-white/80 font-medium tracking-tight">Dedicated Support for Agencies</p>
                                 </div>
                             </div>
                         </div>
                         <div className="lg:col-span-7">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-                                <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
-                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">60s</p>
+                                <div className="bg-white/5 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-white/10">
+                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-white mb-2 sm:mb-4">60s</p>
                                     <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Blueprint from Any Viral URL</p>
                                 </div>
-                                <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
-                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">3→1</p>
+                                <div className="bg-white/5 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-white/10">
+                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-white mb-2 sm:mb-4">3→1</p>
                                     <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Hours of Research Replaced Per Brief</p>
                                 </div>
                                 <div className="bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] text-white sm:col-span-2">
@@ -240,10 +240,10 @@ export default function LandingPage() {
                 </div>
             </section>
 
-<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#F8FAFC]">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-transparent">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12 sm:mb-16 md:mb-24">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900">Questions & Answers.</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-white">Questions & Answers.</h2>
                     </div>
                     <div className="space-y-4">
                         {[
@@ -252,14 +252,14 @@ export default function LandingPage() {
                             { q: "Which platforms are supported?", a: "We fully support TikTok, Instagram Reels, YouTube Shorts, and Facebook/Meta video ads. Paste any public URL and we'll extract the DNA." },
                             { q: "Can I cancel anytime?", a: "Yes. Monthly plans are contract-free. Scale up or down as your needs change." }
                         ].map((faq, i) => (
-                            <details key={i} className="group bg-white border border-slate-200 rounded-2xl sm:rounded-3xl overflow-hidden hover:border-lime-400 transition-all duration-300">
+                            <details key={i} className="group bg-white border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:border-lime-400 transition-all duration-300">
                                 <summary className="flex items-center justify-between p-5 sm:p-8 md:p-10 cursor-pointer list-none">
-                                    <h3 className="text-base sm:text-lg font-bold text-slate-900 pr-4">{faq.q}</h3>
+                                    <h3 className="text-base sm:text-lg font-bold text-white pr-4">{faq.q}</h3>
                                     <span className="text-slate-400 group-open:rotate-180 transition-transform duration-300">
                                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" /></svg>
                                     </span>
                                 </summary>
-                                <div className="px-5 sm:px-8 md:px-10 pb-5 sm:pb-8 md:pb-10 text-sm sm:text-base text-slate-500 font-light leading-relaxed">
+                                <div className="px-5 sm:px-8 md:px-10 pb-5 sm:pb-8 md:pb-10 text-sm sm:text-base text-white/60 font-light leading-relaxed">
                                     {faq.a}
                                 </div>
                             </details>
