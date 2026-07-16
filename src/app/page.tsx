@@ -10,6 +10,7 @@ import RevealOnScroll from '@/components/RevealOnScroll';
 import VideoCarousel from '@/components/VideoCarousel';
 import FloatingHearts from '@/components/FloatingHearts';
 import BlueprintPreview from '@/components/BlueprintPreview';
+import WaitlistModal from '@/components/WaitlistModal';
 
 export default function LandingPage() {
     const [url, setUrl] = useState('');
@@ -17,6 +18,8 @@ export default function LandingPage() {
     const { user, isLoaded } = useUser();
     const isLoggedIn = isLoaded && !!user;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+    const [waitlistPlatform, setWaitlistPlatform] = useState<'ios'|'android'>('ios');
 
     // Redirect logged-in users straight to dashboard
     useEffect(() => {
@@ -96,7 +99,7 @@ export default function LandingPage() {
 
                     <RevealOnScroll delay={400}>
                         <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                            <a href="#" className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
+                            <button onClick={() => { setWaitlistPlatform('ios'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
                                 <svg className="w-8 h-8 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                                     <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.79 3.59-.76 1.48.04 2.68.64 3.4 1.63-3.13 1.83-2.61 6.13.38 7.39-.7 1.77-1.49 3.02-2.45 3.91zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                                 </svg>
@@ -104,8 +107,8 @@ export default function LandingPage() {
                                     <p className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-0.5">Download on the</p>
                                     <p className="text-sm font-black tracking-tight">App Store</p>
                                 </div>
-                            </a>
-                            <a href="#" className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
+                            </button>
+                            <button onClick={() => { setWaitlistPlatform('android'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
                                 <svg className="w-8 h-8 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                                     <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12 3.84 21.85C3.34 21.61 3 21.09 3 20.5zM14.77 10.93l4.56-2.58c.84-.48.84-1.26 0-1.74l-4.56-2.58L4.85 2.1l9.92 8.83zM14.77 13.07l-9.92 8.83 9.92-5.63 4.56-2.58c.84-.48.84-1.26 0-1.74l-4.56-2.58-9.92 8.83z"/>
                                 </svg>
@@ -113,7 +116,7 @@ export default function LandingPage() {
                                     <p className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-0.5">GET IT ON</p>
                                     <p className="text-sm font-black tracking-tight">Google Play</p>
                                 </div>
-                            </a>
+                            </button>
                         </div>
                     </RevealOnScroll>
                 </div>
@@ -308,6 +311,11 @@ export default function LandingPage() {
                     </div>
                 </div>
             </footer>
+            <WaitlistModal 
+                isOpen={isWaitlistOpen}
+                onClose={() => setIsWaitlistOpen(false)}
+                defaultPlatform={waitlistPlatform}
+            />
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
+import { Providers } from '@/components/Providers';
 
 export const metadata: Metadata = {
   title: "EIXORA — AI Ad Intelligence for Creators | Decode Viral TikTok Ads",
@@ -44,7 +45,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className="font-sans antialiased text-slate-900 bg-[#FAFAF9]">
-          {children}
+          <Providers>
+            {children}
+          </Providers>
         </body>
       </html>
     </ClerkProvider>
