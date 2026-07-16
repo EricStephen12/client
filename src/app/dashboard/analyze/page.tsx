@@ -552,21 +552,6 @@ function AnalyzeContent() {
                             <div className="max-w-5xl mx-auto space-y-6 md:space-y-12">
                                 {!sessionId && (
                                     <>
-                                        <div className="flex gap-2 sm:gap-4 overflow-x-auto pb-2 hide-scrollbar">
-                                            <button
-                                                onClick={() => setActiveTab('url')}
-                                                className={`flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold uppercase tracking-widest text-[9px] sm:text-[10px] transition-all ${activeTab === 'url' ? 'bg-lime-500 text-slate-950 shadow-xl shadow-lime-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-lime-200'}`}
-                                            >
-                                                Reference Scan
-                                            </button>
-                                            <button
-                                                onClick={() => setActiveTab('upload')}
-                                                className={`flex-shrink-0 px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold uppercase tracking-widest text-[9px] sm:text-[10px] transition-all ${activeTab === 'upload' ? 'bg-lime-500 text-slate-950 shadow-xl shadow-lime-500/20' : 'bg-white text-slate-400 border border-slate-100 hover:border-lime-200'}`}
-                                            >
-                                                Draft Audit
-                                            </button>
-                                        </div>
-
                                         {planTier === 'free' && (
                                             <div className="flex items-center gap-3 px-5 py-3 bg-lime-50 border border-lime-100 rounded-2xl">
                                                 <div className="w-2 h-2 rounded-full bg-lime-500 animate-pulse" />
@@ -580,49 +565,30 @@ function AnalyzeContent() {
                                             </div>
                                         )}
 
-                                        {activeTab === 'url' ? (
-                                            <div className="p-6 sm:p-10 md:p-20 bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-sm space-y-6 sm:space-y-8">
-                                                <div className="space-y-3 sm:space-y-4">
-                                                    <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Analyze Video URL</h3>
-                                                    <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will analyze structure and metrics from any public TikTok, Reels, or Shorts URL.</p>
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Paste TikTok, Instagram Reels, or YouTube Shorts URL..."
-                                                    value={url}
-                                                    onChange={(e) => setUrl(e.target.value)}
-                                                    className="w-full p-4 sm:p-6 md:p-8 bg-slate-50 border-none rounded-xl sm:rounded-3xl focus:ring-2 focus:ring-lime-500 transition-all font-medium text-sm sm:text-lg md:text-xl"
-                                                />
-                                                <button
-                                                    onClick={handleAnalyze}
-                                                    disabled={isAnalyzing || !url}
-                                                    className="w-full py-5 sm:py-6 md:py-8 bg-slate-950 text-white font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-xl sm:rounded-3xl hover:bg-lime-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
-                                                >
-                                                    {isAnalyzing ? 'Analyzing Video...' : 'Run Analysis'}
-                                                </button>
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-lime-500 animate-pulse" />
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sweet Spot: 15-60s Analysis</span>
-                                                </div>
+                                        <div className="p-6 sm:p-10 md:p-20 bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-sm space-y-6 sm:space-y-8">
+                                            <div className="space-y-3 sm:space-y-4">
+                                                <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Analyze Video URL</h3>
+                                                <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will analyze structure and metrics from any public TikTok, Reels, or Shorts URL.</p>
                                             </div>
-                                        ) : (
-                                            <div
-                                                {...getRootProps()}
-                                                className="h-[200px] sm:h-[280px] md:h-[400px] bg-white border-2 border-dashed border-lime-100 rounded-2xl sm:rounded-[3rem] flex flex-col items-center justify-center cursor-pointer hover:border-lime-400 transition-all"
+                                            <input
+                                                type="text"
+                                                placeholder="Paste TikTok, Instagram Reels, or YouTube Shorts URL..."
+                                                value={url}
+                                                onChange={(e) => setUrl(e.target.value)}
+                                                className="w-full p-4 sm:p-6 md:p-8 bg-slate-50 border-none rounded-xl sm:rounded-3xl focus:ring-2 focus:ring-lime-500 transition-all font-medium text-sm sm:text-lg md:text-xl"
+                                            />
+                                            <button
+                                                onClick={handleAnalyze}
+                                                disabled={isAnalyzing || !url}
+                                                className="w-full py-5 sm:py-6 md:py-8 bg-slate-950 text-white font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-xl sm:rounded-3xl hover:bg-lime-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
                                             >
-                                                <input {...getInputProps()} />
-                                                <div className="text-center p-4 sm:p-8 space-y-3 sm:space-y-4">
-                                                    <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-lime-50 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto text-lime-300">
-                                                        <svg className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
-                                                    </div>
-                                                    <p className="text-gray-900 font-bold text-base sm:text-lg md:text-xl font-serif">Upload MP4 Video</p>
-                                                    <div className="flex items-center justify-center gap-2">
-                                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                                        <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-gray-400">Sweet Spot: 15-60s</span>
-                                                    </div>
-                                                </div>
+                                                {isAnalyzing ? 'Analyzing Video...' : 'Run Analysis'}
+                                            </button>
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-lime-500 animate-pulse" />
+                                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sweet Spot: 15-60s Analysis</span>
                                             </div>
-                                        )}
+                                        </div>
                                     </>
                                 )}
 
@@ -734,14 +700,6 @@ function AnalyzeContent() {
                                                         disabled={isSending}
                                                     />
                                                     <div className="flex items-center justify-end gap-2 px-2 pb-2 sm:px-0 sm:pb-0">
-                                                        <button
-                                                            onClick={forgeDirectorBrief}
-                                                            disabled={isSending || messages.length < 1}
-                                                            title="Forge Director Brief"
-                                                            className="p-4 bg-lime-50 text-lime-600 rounded-2xl hover:bg-lime-100 transition-colors disabled:opacity-30 flex items-center justify-center"
-                                                        >
-                                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
-                                                        </button>
                                                         <button
                                                             onClick={sendMessage}
                                                             disabled={isSending || !chatInput.trim()}

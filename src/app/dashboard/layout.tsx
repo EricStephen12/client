@@ -216,7 +216,7 @@ if (data.onboarding_completed === false) {
                     </button>
                 </header>
 
-                <header className="hidden lg:flex items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
+                <header className="hidden lg:flex items-center justify-between p-6 border-b border-slate-100 bg-white/60 backdrop-blur-xl sticky top-0 z-40">
                     <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
                         <span className="text-slate-900 font-semibold text-lg">{navItems.find(i => i.href === pathname)?.name || 'Dashboard'}</span>
                     </div>
