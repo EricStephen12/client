@@ -655,36 +655,37 @@ function AnalyzeContent() {
                                         </button>
                                     </div>
                                 )}
-    {/* Strategy Lounge Chat */}
+                                
+                                {/* Strategy Lounge Chat */}
                                 {isChatMode && (
-                                    <div className="w-full max-w-4xl mx-auto bg-white border border-slate-100 xl:rounded-[2.5rem] xl:shadow-sm animate-fade-in flex flex-col xl:p-8" style={{ height: 'calc(100dvh - 120px)', minHeight: '600px' }}>
-                        <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-1 md:pr-4 custom-scrollbar">
-                            {messages.map((msg, idx) => (
-                                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-[2.5rem] shadow-sm ${msg.type === 'brief'
-                                        ? 'bg-gradient-to-br from-slate-950 to-lime-950 text-white border-2 sm:border-4 border-lime-500/20'
-                                        : msg.role === 'user'
-                                            ? 'bg-slate-900 text-white rounded-tr-none'
-                                            : 'bg-white text-slate-900 rounded-tl-none border border-slate-100'
-                                        }`}>
-                                        {msg.type === 'brief' && (
-                                            <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-white/10">
-                                                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-lime-500 text-slate-950 rounded-lg sm:rounded-xl flex items-center justify-center font-serif italic text-lg sm:text-xl shadow-lg">B</div>
-                                                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-lime-400">Director Brief Forged</span>
-                                            </div>
-                                        )}
-                                        <p className={`text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'brief' ? 'font-serif text-gray-100' : ''}`}>{msg.content}</p>
-                                        {msg.type === 'brief' && msg.raw && (
-                                            <div className="mt-6 pt-6 border-t border-white/10 flex flex-wrap gap-4">
-                                                <button
-                                                    onClick={() => generateHookVariations(msg.raw)}
-                                                    disabled={isSending}
-                                                    className="px-6 py-3 bg-lime-600 hover:bg-lime-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-md hover:shadow-lime-500/20 disabled:opacity-50 active:scale-95 flex items-center gap-2 cursor-pointer"
-                                                >
-                                                    ⚡ Generate Hook Variations
-                                                </button>
-                                            </div>
-                                        )}
+                                    <div className="w-full max-w-7xl mx-auto bg-white border border-slate-100 xl:rounded-[2.5rem] xl:shadow-sm animate-fade-in flex flex-col xl:p-8" style={{ height: 'calc(100dvh - 120px)', minHeight: '600px' }}>
+                                        <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-1 md:pr-4 custom-scrollbar">
+                                            {messages.map((msg, idx) => (
+                                                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                                                    <div className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-[2.5rem] shadow-sm ${msg.type === 'brief'
+                                                        ? 'bg-gradient-to-br from-slate-950 to-lime-950 text-white border-2 sm:border-4 border-lime-500/20'
+                                                        : msg.role === 'user'
+                                                            ? 'bg-slate-900 text-white rounded-tr-none'
+                                                            : 'bg-white text-slate-900 rounded-tl-none border border-slate-100'
+                                                        }`}>
+                                                        {msg.type === 'brief' && (
+                                                            <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-white/10">
+                                                                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-lime-500 text-slate-950 rounded-lg sm:rounded-xl flex items-center justify-center font-serif italic text-lg sm:text-xl shadow-lg">B</div>
+                                                                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.4em] text-lime-400">Director Brief Forged</span>
+                                                            </div>
+                                                        )}
+                                                        <p className={`text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${msg.type === 'brief' ? 'font-serif text-gray-100' : ''}`}>{msg.content}</p>
+                                                        {msg.type === 'brief' && msg.raw && (
+                                                            <div className="mt-6 pt-6 border-t border-white/10 flex flex-wrap gap-4">
+                                                                <button
+                                                                    onClick={() => generateHookVariations(msg.raw)}
+                                                                    disabled={isSending}
+                                                                    className="px-6 py-3 bg-lime-600 hover:bg-lime-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-md hover:shadow-lime-500/20 disabled:opacity-50 active:scale-95 flex items-center gap-2 cursor-pointer"
+                                                                >
+                                                                    ⚡ Generate Hook Variations
+                                                                </button>
+                                                            </div>
+                                                        )}
                                                  {msg.role === 'assistant' && msg.type !== 'brief' && (
                                             <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-slate-50 flex gap-4 sm:gap-6 items-center">
                                                 <button 
