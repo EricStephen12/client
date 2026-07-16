@@ -658,8 +658,9 @@ function AnalyzeContent() {
                                 
                                 {/* Strategy Lounge Chat */}
                                 {isChatMode && (
-                                    <div className="w-full max-w-7xl mx-auto bg-white border border-slate-100 xl:rounded-[2.5rem] xl:shadow-sm animate-fade-in flex flex-col xl:p-8" style={{ height: 'calc(100dvh - 120px)', minHeight: '600px' }}>
-                                        <div className="flex-1 overflow-y-auto space-y-4 md:space-y-6 pr-1 md:pr-4 custom-scrollbar">
+                                    <div className="fixed top-[88px] bottom-0 right-0 left-0 lg:left-[288px] bg-slate-50 flex flex-col z-30 animate-fade-in">
+                                        <div className="flex-1 overflow-y-auto w-full custom-scrollbar pb-32">
+                                            <div className="max-w-7xl mx-auto w-full p-4 sm:p-8 space-y-4 md:space-y-6">
                                             {messages.map((msg, idx) => (
                                                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                                     <div className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-[2.5rem] shadow-sm ${msg.type === 'brief'
@@ -706,54 +707,6 @@ function AnalyzeContent() {
                                     </div>
                                 </div>
                             ))}
-                            {isSending && (
-                                <div className="flex justify-start">
-                                    <div className="bg-white p-4 sm:p-6 rounded-xl sm:rounded-[2.5rem] rounded-tl-none border border-slate-100 shadow-sm flex gap-2">
-                                        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-lime-500 rounded-full animate-bounce" />
-                                        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-lime-500 rounded-full animate-bounce delay-75" />
-                                        <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-lime-500 rounded-full animate-bounce delay-150" />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="relative group bg-slate-50 rounded-[2.5rem] border border-slate-100 p-2 focus-within:ring-2 focus-within:ring-lime-200 transition-all shadow-sm">
-                            <div className="flex flex-col sm:flex-row gap-2">
-                                <input
-                                    type="text"
-                                    value={chatInput}
-                                    onChange={(e) => setChatInput(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') sendMessage();
-                                    }}
-                                    placeholder="Discuss strategy with your Creative Director..."
-                                    className="flex-1 bg-transparent border-none rounded-3xl px-6 py-4 text-slate-900 placeholder-slate-400 font-medium focus:outline-none focus:ring-0"
-                                    disabled={isSending}
-                                />
-                                <div className="flex items-center justify-end gap-2 px-2 pb-2 sm:px-0 sm:pb-0">
-                                    <button
-                                        onClick={forgeDirectorBrief}
-                                        disabled={isSending || messages.length < 1}
-                                        title="Forge Director Brief"
-                                        className="p-4 bg-lime-50 text-lime-600 rounded-2xl hover:bg-lime-100 transition-colors disabled:opacity-30 flex items-center justify-center"
-                                    >
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" /></svg>
-                                    </button>
-                                    <button
-                                        onClick={sendMessage}
-                                        disabled={isSending || !chatInput.trim()}
-                                        className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-lime-600 transition-all shadow-md disabled:opacity-50 flex items-center justify-center gap-2"
-                                    >
-                                        Send
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="px-5 pb-3 pt-1 flex items-center gap-3">
-                                <div className={`w-1.5 h-1.5 rounded-full ${isRoastMode ? 'bg-red-500 animate-pulse' : 'bg-lime-500'}`} />
-                                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                                    {isRoastMode ? 'Roast Mode' : 'Creative Lounge'}
-                                </span>
                             </div>
                         </div>
                                     </div>
