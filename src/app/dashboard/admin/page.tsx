@@ -8,11 +8,19 @@ export default function AdminDashboard() {
     const { getToken, userId: clerkUserId } = useAuth();
     const router = useRouter();
 
-    const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'support' | 'health'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'support' | 'intel' | 'health'>('overview');
     const [stats, setStats] = useState<any>(null);
     const [users, setUsers] = useState<any[]>([]);
     const [tickets, setTickets] = useState<any[]>([]);
     const [health, setHealth] = useState<any>(null);
+    const [prompt, setPrompt] = useState<any>({
+        roleDescriptionAd: "You are the most expensive Creative Director in digital advertising. You charge $2,000/hour. Clients pay because you see what others miss.",
+        roleDescriptionContent: "You are the most sought-after Viral Content Strategist and Storyteller. You charge $2,000/hour. Clients pay because you decode virality and pacing.",
+        modeInstructionAd: "YOU ARE WATCHING A VIDEO AD. Your goal is to analyze its hook power, pacing, conversion triggers, and ad strength.",
+        modeInstructionContent: "YOU ARE WATCHING A STORYTELLING/ORGANIC VIDEO (TikTok, Reel, or Short). Your goal is to analyze its hook power, narrative pacing, engagement triggers, and virality potential.",
+        structureInstructions: "Your analysis must be structured exactly around the following sections..."
+    });
+    const [isSavingPrompt, setIsSavingPrompt] = useState(false);
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState<string | null>(null);
 
@@ -51,17 +59,22 @@ export default function AdminDashboard() {
         try {
             const token = explicitToken || await getToken();
             const headers: Record<string, string> = { 'Authorization': `Bearer ${token}` };
-            const [statsRes, usersRes, ticketsRes, healthRes] = await Promise.all([
+            const [statsRes, usersRes, ticketsRes, healthRes, promptRes] = await Promise.all([
                 fetch(`/api/main/api/admin/stats`, { headers }),
                 fetch(`/api/main/api/admin/users`, { headers }),
                 fetch(`/api/main/api/admin/support`, { headers }),
-                fetch(`/api/main/api/health`)
+                fetch(`/api/main/api/health`),
+                fetch(`/api/main/api/admin/prompt`, { headers })
             ]);
 
             if (statsRes.ok) setStats(await statsRes.json());
             if (usersRes.ok) setUsers(await usersRes.json());
             if (ticketsRes.ok) setTickets(await ticketsRes.json());
             if (healthRes.ok) setHealth(await healthRes.json());
+            if (promptRes.ok) {
+                const p = await promptRes.json();
+                if (p.prompt) setPrompt(p.prompt);
+            }
 
             setLoading(false);
         } catch (err) {
@@ -161,6 +174,24 @@ export default function AdminDashboard() {
         } catch (err) { }
     };
 
+    const handleSavePrompt = async () => {
+        setIsSavingPrompt(true);
+        try {
+            const { token, headers } = await getAdminHeaders();
+            const res = await fetch(`/api/main/api/admin/prompt`, {
+                method: 'POST',
+                headers: { ...headers, 'Content-Type': 'application/json' },
+                body: JSON.stringify(prompt)
+            });
+            if (!res.ok) alert('Failed to save prompt');
+            else alert('Prompt saved successfully!');
+        } catch (err) {
+            alert('Error saving prompt');
+        } finally {
+            setIsSavingPrompt(false);
+        }
+    };
+
     if (loading) return (
         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-lime-600"></div>
@@ -176,7 +207,7 @@ export default function AdminDashboard() {
                     <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif italic text-gray-900 tracking-tight leading-tight">Superuser <br className="sm:hidden" /> Command Center.</h1>
                 </div>
                 <div className="flex bg-white p-1 rounded-xl sm:rounded-2xl border border-lime-100 shadow-sm overflow-x-auto hide-scrollbar self-start md:self-auto w-full sm:w-auto">
-                    {['overview', 'users', 'support', 'health'].map((tab) => (
+                    {['overview', 'users', 'support', 'intel', 'health'].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab as any)}
@@ -394,6 +425,44 @@ export default function AdminDashboard() {
                             )}
                         </div>
                     ))}
+                </div>
+            )}
+
+            {activeTab === 'intel' && (
+                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-lime-100 shadow-sm space-y-6">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <h2 className="text-xl font-serif italic text-gray-900">AI Vision Analyzer Core Prompt</h2>
+                                <p className="text-xs text-gray-500 mt-1">Change the psychological principles and grading matrix used by the AI engine.</p>
+                            </div>
+                            <button onClick={handleSavePrompt} disabled={isSavingPrompt} className="px-6 py-3 bg-lime-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-lime-100 hover:scale-105 transition-transform disabled:opacity-50">
+                                {isSavingPrompt ? 'Saving...' : 'Save AI Intel'}
+                            </button>
+                        </div>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-2">Role Description (Ad Mode)</label>
+                                <textarea value={prompt.roleDescriptionAd} onChange={e => setPrompt({...prompt, roleDescriptionAd: e.target.value})} className="w-full p-4 border border-gray-200 rounded-xl text-sm min-h-[80px]" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-2">Role Description (Content Mode)</label>
+                                <textarea value={prompt.roleDescriptionContent} onChange={e => setPrompt({...prompt, roleDescriptionContent: e.target.value})} className="w-full p-4 border border-gray-200 rounded-xl text-sm min-h-[80px]" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-2">Mode Instruction (Ad Mode)</label>
+                                <textarea value={prompt.modeInstructionAd} onChange={e => setPrompt({...prompt, modeInstructionAd: e.target.value})} className="w-full p-4 border border-gray-200 rounded-xl text-sm min-h-[80px]" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-2">Mode Instruction (Content Mode)</label>
+                                <textarea value={prompt.modeInstructionContent} onChange={e => setPrompt({...prompt, modeInstructionContent: e.target.value})} className="w-full p-4 border border-gray-200 rounded-xl text-sm min-h-[80px]" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-700 uppercase tracking-widest mb-2">Structure & Matrix Rules</label>
+                                <textarea value={prompt.structureInstructions} onChange={e => setPrompt({...prompt, structureInstructions: e.target.value})} className="w-full p-4 border border-gray-200 rounded-xl text-sm min-h-[400px] font-mono whitespace-pre" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
 
