@@ -420,7 +420,8 @@ function AnalyzeContent() {
         }
     };
 
-    const handleAnalyze = async () => {
+    const handleAnalyze = async (overrideMode?: 'ad' | 'content') => {
+        const currentMode = overrideMode || mode;
         if (activeTab === 'upload' && !file) return;
         if (activeTab === 'url' && !url) return;
 
@@ -434,14 +435,14 @@ function AnalyzeContent() {
         }
 
         if (userId) formData.append('userId', userId);
-        formData.append('mode', mode);
+        formData.append('mode', currentMode);
 
         try {
             const token = await getToken();
             const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
             const res = await fetch(`${apiBase}/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
                 method: 'POST',
-                body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId, mode }),
+                body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId, mode: currentMode }),
                 headers: {
                     ...(activeTab === 'url' ? { 'Content-Type': 'application/json' } : {}),
                     'Authorization': `Bearer ${token}`
@@ -472,6 +473,17 @@ function AnalyzeContent() {
             console.error(err);
             alert(`Analysis Error: ${err.message}`);
             setIsAnalyzing(false);
+        }
+    };
+
+    const switchMode = (newMode: 'ad' | 'content') => {
+        if (newMode === result?.mode) return;
+        setMode(newMode);
+        setIsChatMode(false);
+        setResult(null);
+        setSessionId(null);
+        if (url || file) {
+            setTimeout(() => handleAnalyze(newMode), 100);
         }
     };
 
@@ -593,7 +605,7 @@ function AnalyzeContent() {
                                                 className="w-full p-4 sm:p-6 md:p-8 bg-slate-50 border-none rounded-xl sm:rounded-3xl focus:ring-2 focus:ring-lime-500 transition-all font-medium text-sm sm:text-lg md:text-xl"
                                             />
                                             <button
-                                                onClick={handleAnalyze}
+                                                onClick={() => handleAnalyze()}
                                                 disabled={isAnalyzing || !url}
                                                 className="w-full py-5 sm:py-6 md:py-8 bg-slate-950 text-white font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-xl sm:rounded-3xl hover:bg-lime-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
                                             >
@@ -642,33 +654,53 @@ function AnalyzeContent() {
                                     <div className="w-full flex flex-col animate-fade-in relative z-20" style={{ minHeight: 'calc(100vh - 220px)' }}>
                                         <div className="flex-1 w-full pb-48 sm:pb-52">
                                             {result && (
-                                                <div className="max-w-7xl mx-auto w-full mb-4 sm:mb-8 bg-white border border-slate-100 p-4 sm:p-5 rounded-[1.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-4 z-30">
-                                                    <div className="flex items-center gap-4">
-                                                        {result.thumbnail ? (
-                                                            <img src={result.thumbnail} alt="Video Thumbnail" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-cover bg-slate-900" />
-                                                        ) : (
-                                                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300">
-                                                                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                                            </div>
-                                                        )}
-                                                        <div>
-                                                            <h3 className="font-bold text-slate-900 text-base sm:text-lg line-clamp-1">{result.title}</h3>
-                                                            <div className="flex items-center gap-2 mt-1">
-                                                                <span className="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[9px] sm:text-[10px] font-bold uppercase tracking-widest">
-                                                                    {result.mode === 'content' ? 'Content Intelligence' : 'Ad Intelligence'}
-                                                                </span>
-                                                            </div>
+                                                <div className="max-w-7xl mx-auto w-full mb-4 sm:mb-8 bg-white border-b sm:border border-slate-100 p-3 sm:p-4 sm:rounded-[1.5rem] shadow-sm flex items-center justify-between sticky top-0 lg:top-4 z-30">
+                                                    {/* Center/Left: Model Switcher */}
+                                                    <div className="relative group cursor-pointer flex items-center gap-2 bg-slate-50 hover:bg-slate-100 px-3 py-2 rounded-xl transition-colors">
+                                                        <div className="w-2 h-2 rounded-full bg-lime-500 animate-pulse"></div>
+                                                        <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-widest">
+                                                            {result.mode === 'content' ? 'Content Intel' : 'Ad Intel'}
+                                                        </span>
+                                                        <svg className="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" /></svg>
+                                                        
+                                                        <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all flex flex-col overflow-hidden z-50">
+                                                            <button 
+                                                                onClick={() => switchMode('ad')}
+                                                                className={`text-left px-4 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors ${result.mode === 'ad' ? 'bg-lime-50 text-lime-700' : 'text-slate-600 hover:text-slate-900'}`}
+                                                            >
+                                                                Ad Intelligence
+                                                            </button>
+                                                            <button 
+                                                                onClick={() => switchMode('content')}
+                                                                className={`text-left px-4 py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors ${result.mode === 'content' ? 'bg-lime-50 text-lime-700' : 'text-slate-600 hover:text-slate-900'}`}
+                                                            >
+                                                                Content Intelligence
+                                                            </button>
                                                         </div>
                                                     </div>
-                                                    <button
-                                                        onClick={() => setIsChatMode(false)}
-                                                        className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all active:scale-95 w-full sm:w-auto"
-                                                    >
-                                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-                                                        </svg>
-                                                        Close Lounge
-                                                    </button>
+
+                                                    {/* Right: Actions */}
+                                                    <div className="flex items-center gap-1 sm:gap-2">
+                                                        <button
+                                                            onClick={() => { setIsChatMode(false); setResult(null); setSessionId(null); setUrl(''); setFile(null); }}
+                                                            className="flex items-center justify-center p-2 sm:px-4 sm:py-2 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-all group"
+                                                            title="New Scan"
+                                                        >
+                                                            <svg className="w-5 h-5 sm:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                            </svg>
+                                                            <span className="hidden sm:block text-[10px] font-black uppercase tracking-widest">New Scan</span>
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setIsChatMode(false)}
+                                                            className="flex items-center justify-center p-2 sm:px-4 sm:py-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all"
+                                                            title="Close Lounge"
+                                                        >
+                                                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             )}
                                             
