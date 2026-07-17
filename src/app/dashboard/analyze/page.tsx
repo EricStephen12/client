@@ -25,6 +25,7 @@ function AnalyzeContent() {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState<any>(null);
     const [url, setUrl] = useState('');
+    const [mode, setMode] = useState<'ad' | 'content'>('ad');
     const [activeTab, setActiveTab] = useState<'upload' | 'url'>('url');
 
     const { user, isLoaded } = useUser();
@@ -113,7 +114,16 @@ function AnalyzeContent() {
                     return;
                 }
 
-                setResult({ analysis: parsedDna });
+                const sessionMode = data.mode || parsedDna?.mode || mode || 'ad';
+                const sessionThumb = parsedDna?.frames?.[0] || data.thumbnail || null;
+                const sessionTitle = data.title || 'Analysis Session';
+
+                setResult({ 
+                    analysis: parsedDna,
+                    title: sessionTitle,
+                    thumbnail: sessionThumb,
+                    mode: sessionMode
+                });
                 setMessages(parsedMessages);
                 setSessionId(data.id);
                 setIsAnalyzing(false);
@@ -147,7 +157,7 @@ function AnalyzeContent() {
                     const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
                     const res = await fetch(`${apiBase}/api/analyze-video-url`, {
                         method: 'POST',
-                        body: JSON.stringify({ videoUrl: queryUrl, userId, userName: user?.firstName || user?.username || 'Creator' }),
+                        body: JSON.stringify({ videoUrl: queryUrl, userId, userName: user?.firstName || user?.username || 'Creator', mode }),
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
@@ -424,13 +434,14 @@ function AnalyzeContent() {
         }
 
         if (userId) formData.append('userId', userId);
+        formData.append('mode', mode);
 
         try {
             const token = await getToken();
             const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
             const res = await fetch(`${apiBase}/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
                 method: 'POST',
-                body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId }),
+                body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId, mode }),
                 headers: {
                     ...(activeTab === 'url' ? { 'Content-Type': 'application/json' } : {}),
                     'Authorization': `Bearer ${token}`
@@ -567,8 +578,23 @@ function AnalyzeContent() {
 
                                         <div className="p-6 sm:p-10 md:p-20 bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-sm space-y-6 sm:space-y-8">
                                             <div className="space-y-3 sm:space-y-4">
-                                                <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Analyze Video URL</h3>
+                                                <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Studio Scan</h3>
                                                 <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will analyze structure and metrics from any public TikTok, Reels, or Shorts URL.</p>
+                                            </div>
+                                            
+                                            <div className="flex bg-slate-100 p-1.5 rounded-xl w-max">
+                                                <button 
+                                                    onClick={() => setMode('ad')}
+                                                    className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all ${mode === 'ad' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                                >
+                                                    Ad Intelligence
+                                                </button>
+                                                <button 
+                                                    onClick={() => setMode('content')}
+                                                    className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all ${mode === 'content' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                                >
+                                                    Content Intelligence
+                                                </button>
                                             </div>
                                             <input
                                                 type="text"
@@ -582,7 +608,7 @@ function AnalyzeContent() {
                                                 disabled={isAnalyzing || !url}
                                                 className="w-full py-5 sm:py-6 md:py-8 bg-slate-950 text-white font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-xl sm:rounded-3xl hover:bg-lime-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
                                             >
-                                                {isAnalyzing ? 'Analyzing Video...' : 'Run Analysis'}
+                                                {isAnalyzing ? 'Scanning...' : 'Start Studio Scan'}
                                             </button>
                                             <div className="flex items-center gap-3">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-lime-500 animate-pulse" />
@@ -626,6 +652,26 @@ function AnalyzeContent() {
                                 {isChatMode && (
                                     <div className="w-full flex flex-col animate-fade-in relative z-20" style={{ minHeight: 'calc(100vh - 220px)' }}>
                                         <div className="flex-1 w-full pb-8">
+                                            {result && (
+                                                <div className="max-w-7xl mx-auto w-full mb-8 bg-white border border-slate-100 p-4 sm:p-6 rounded-[2rem] shadow-sm flex items-center gap-4 sm:gap-6">
+                                                    {result.thumbnail ? (
+                                                        <img src={result.thumbnail} alt="Video Thumbnail" className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover bg-slate-900" />
+                                                    ) : (
+                                                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300">
+                                                            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                        </div>
+                                                    )}
+                                                    <div>
+                                                        <h3 className="font-bold text-slate-900 text-lg sm:text-xl line-clamp-1">{result.title}</h3>
+                                                        <div className="flex items-center gap-2 mt-2">
+                                                            <span className="px-3 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest">
+                                                                {result.mode === 'content' ? 'Content Intelligence' : 'Ad Intelligence'}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            
                                             <div className="max-w-7xl mx-auto w-full space-y-4 md:space-y-6">
                                                 {messages.map((msg, idx) => (
                                                     <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>

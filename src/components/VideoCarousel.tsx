@@ -96,8 +96,8 @@ export default function VideoCarousel() {
         <div className="py-12 bg-white border-b border-lime-100 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 mb-8 flex flex-col md:flex-row items-baseline justify-between gap-4">
                 <div>
-                    <span className="text-[10px] font-black tracking-[0.5em] uppercase text-lime-600 mb-2 block">Reference Library</span>
-                    <h2 className="text-3xl md:text-4xl font-serif italic text-gray-900 tracking-tight">Viral Logic Studio</h2>
+                    <span className="text-[10px] font-black tracking-[0.5em] uppercase text-lime-600 mb-2 block">Ad Intelligence</span>
+                    <h2 className="text-3xl md:text-4xl font-serif italic text-gray-900 tracking-tight">Studio Scan Library</h2>
                 </div>
             </div>
 

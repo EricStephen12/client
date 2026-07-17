@@ -176,14 +176,14 @@ export default function LandingPage() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-12 sm:mb-16 md:mb-24">
                         <h2 className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 mb-4 sm:mb-6">Built for High-Growth Teams.</h2>
-                        <p className="text-base sm:text-lg text-slate-500 font-light px-2">From discovery to production brief in 60 seconds.</p>
+                        <p className="text-base sm:text-lg text-slate-500 font-light px-2">From Studio Scan to Strategy Brief in 60 seconds.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                         {[
-                            { step: "01", title: "Extract Viral DNA", desc: "Share any viral TikTok or Reels URL to the Eixora app. Our engine deconstructs the hook, pacing, and visual triggers that drive the hold rate." },
-                            { step: "02", title: "Map Technical Brief", desc: "We convert visual data into a structured production blueprint. Direct shooting instructions, script variations, and audio cues." },
-                            { step: "03", title: "Scale with Logic", desc: "Hand the brief to your creators. Stop guessing what will work and start filming ads backed by psychological data." }
+                            { step: "01", title: "Studio Scan", desc: "Paste any viral TikTok, Reels, or YouTube Shorts URL. Choose Ad Intelligence or Content Intelligence mode. Our engine extracts every psychological trigger that drives performance." },
+                            { step: "02", title: "Map Strategy Brief", desc: "We convert the scan into a structured Strategy Brief — direct shooting instructions, hook variations, and audio cues ready to hand to any creator." },
+                            { step: "03", title: "Scale with Logic", desc: "Drop the brief into your Creative Lounge to refine it with AI. Stop guessing what works and start filming backed by real data." }
                         ].map((item, i) => (
                             <div key={i} className="bg-white p-8 sm:p-12 rounded-2xl sm:rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group">
                                 <span className="text-5xl font-sans font-bold text-slate-100 group-hover:text-lime-100 transition-colors block mb-8">{item.step}</span>
@@ -201,7 +201,7 @@ export default function LandingPage() {
                         <div className="lg:col-span-5">
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-6 sm:mb-8">Performance Driven.</h2>
                             <p className="text-lg text-slate-500 font-light leading-relaxed mb-12">
-                                Eixora is trained on millions in ad spend data — so every brief you generate is backed by what's actually working right now, not guesswork.
+                                Eixora is trained on millions in ad spend data — so every Strategy Brief you generate is backed by what's actually working right now, not guesswork.
                             </p>
                             <div className="space-y-6">
                                 <div className="flex items-center gap-4">
@@ -218,7 +218,7 @@ export default function LandingPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
                                 <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
                                     <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">60s</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Blueprint from Any Viral URL</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Strategy Brief from Any Viral URL</p>
                                 </div>
                                 <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
                                     <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">3→1</p>
@@ -247,7 +247,7 @@ export default function LandingPage() {
                     </div>
                     <div className="space-y-4">
                         {[
-                            { q: "How does it work?", a: "Share any viral TikTok, Reels, or YouTube Shorts URL to the Eixora app. Our AI breaks down the hook, pacing, and psychological triggers that make it work — then gives you a production brief you can hand to any creator." },
+                            { q: "How does it work?", a: "Paste any viral TikTok, Reels, or YouTube Shorts URL into the Eixora app. Choose Ad Intelligence or Content Intelligence mode. Our AI extracts the hook, pacing, and psychological triggers — then generates a Strategy Brief you can take straight into your Creative Lounge or hand to any creator." },
                             { q: "Do I need technical skills?", a: "No. The briefs are written for creators and editors of all levels. If you can read, you can shoot." },
                             { q: "Which platforms are supported?", a: "We fully support TikTok, Instagram Reels, YouTube Shorts, and Facebook/Meta video ads. Paste any public URL and we'll extract the DNA." },
                             { q: "Can I cancel anytime?", a: "Yes. Monthly plans are contract-free. Scale up or down as your needs change." }

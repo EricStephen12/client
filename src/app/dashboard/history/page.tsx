@@ -74,15 +74,26 @@ export default function HistoryPage() {
                         <div key={i} className="h-24 bg-slate-100 rounded-[1.5rem] animate-pulse"></div>
                     ))
                 ) : sessions && sessions.length > 0 ? (
-                    sessions.map((session: any) => (
+                    sessions.map((session: any) => {
+                        let parsedDna = session.dna;
+                        if (typeof parsedDna === 'string') {
+                            try { parsedDna = JSON.parse(parsedDna); } catch(e){}
+                        }
+                        const thumb = parsedDna?.frames?.[0] || session.thumbnail || null;
+                        
+                        return (
                         <RevealOnScroll key={session.id} delay={100}>
                             <Link href={`/dashboard/analyze?sessionId=${session.id}`} className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 bg-white border border-slate-100 rounded-[1.5rem] hover:border-lime-300 hover:shadow-lg hover:shadow-lime-500/10 transition-all gap-4">
                                 <div className="flex items-center gap-5">
-                                    <div className="w-12 h-12 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm flex-shrink-0">
-                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
+                                    <div className="w-12 h-12 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm flex-shrink-0 overflow-hidden">
+                                        {thumb ? (
+                                            <img src={thumb} alt="Thumbnail" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        )}
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-slate-900 text-lg mb-1">{session.title || 'Untitled Scan'}</h4>
@@ -110,7 +121,8 @@ export default function HistoryPage() {
                                 </div>
                             </Link>
                         </RevealOnScroll>
-                    ))
+                    );
+                })
                 ) : (
                     <div className="col-span-full p-16 text-center border-2 border-dashed border-slate-200 rounded-[3rem]">
                         <div className="w-20 h-20 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center mx-auto mb-6">

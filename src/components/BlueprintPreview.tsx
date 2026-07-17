@@ -15,7 +15,7 @@ export default function BlueprintPreview() {
                         <span className="text-transparent bg-gradient-to-r from-lime-600 to-lime-500 bg-clip-text underline decoration-lime-100 decoration-4 sm:decoration-8 underline-offset-4 sm:underline-offset-8">create with confidence.</span>
                     </h2>
                     <p className="text-base sm:text-lg text-slate-500 font-light max-w-2xl mx-auto leading-relaxed px-2">
-                        No more staring at a blank page. We partner with you to uncover the human patterns behind every viral hit, giving you a clear path to your next winning ad.
+                        No more staring at a blank page. We partner with you to uncover the human patterns behind every viral hit — giving you a clear Studio Scan and Strategy Brief, ready to shoot.
                     </p>
                 </div>
 
@@ -60,8 +60,8 @@ export default function BlueprintPreview() {
                                     <div className="p-4 sm:p-6 md:p-10 flex-grow">
                                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8 sm:mb-12">
                                             <div>
-                                                <h4 className="text-[10px] font-bold uppercase tracking-widest text-lime-600 mb-2">Viral Blueprint</h4>
-                                                <p className="text-xl sm:text-2xl md:text-3xl font-sans font-bold text-slate-900 leading-tight">Hook Analysis <br className="hidden sm:block" /> & Production Brief</p>
+                                                <h4 className="text-[10px] font-bold uppercase tracking-widest text-lime-600 mb-2">Studio Scan</h4>
+                                                <p className="text-xl sm:text-2xl md:text-3xl font-sans font-bold text-slate-900 leading-tight">Hook Analysis <br className="hidden sm:block" /> & Strategy Brief</p>
                                             </div>
                                             <div className="bg-lime-50 text-lime-700 px-3 sm:px-4 py-2 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest self-start whitespace-nowrap">
                                                 Hook Power: 9.2/10
