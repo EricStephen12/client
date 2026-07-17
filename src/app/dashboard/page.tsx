@@ -174,13 +174,7 @@ export default function DashboardPage() {
                     <h3 className="text-2xl font-serif italic text-slate-900 font-bold">More Tools</h3>
                     
                     <div className="space-y-4">
-                        <Link href="/dashboard/batch" className="block p-6 bg-gradient-to-br from-slate-950 to-slate-900 text-white rounded-3xl hover:shadow-2xl hover:scale-[1.02] transition-all relative overflow-hidden group">
-                            <div className="absolute -right-10 -top-10 w-32 h-32 bg-lime-500 rounded-full blur-[40px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                            <h4 className="font-bold text-xl mb-2">Batch Analysis</h4>
-                            <p className="text-white/60 text-sm mb-6">Analyze up to 10 video links in bulk.</p>
-                            <span className="inline-block px-4 py-2 bg-white/10 rounded-xl text-[10px] font-black uppercase tracking-widest">Open Tool &rarr;</span>
-                        </Link>
-                        
+
                         <Link href="/dashboard/analyze" className="block p-6 bg-lime-50 text-lime-900 rounded-3xl border border-lime-100 hover:border-lime-300 hover:shadow-lg transition-all group">
                             <h4 className="font-bold text-xl mb-2">Manual Upload</h4>
                             <p className="text-lime-600/70 text-sm mb-6">Upload an MP4 file for a detailed analysis.</p>
