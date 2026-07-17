@@ -268,7 +268,7 @@ export default function LandingPage() {
                 </div>
             </section>
 
-<footer className="bg-gradient-to-br from-slate-950 via-lime-950 to-slate-900 text-slate-900 pt-16 sm:pt-24 md:pt-32 pb-12 px-4 sm:px-6 border-t border-lime-500/20">
+<footer className="bg-gradient-to-br from-slate-950 via-lime-950 to-slate-900 text-white pt-16 sm:pt-24 md:pt-32 pb-12 px-4 sm:px-6 border-t border-lime-500/20">
                 <div className="max-w-[1400px] mx-auto">
                     <div className="flex flex-col md:grid md:grid-cols-3 gap-12 sm:gap-16 md:gap-32 mb-16 sm:mb-20 md:mb-32">
                         <div>
