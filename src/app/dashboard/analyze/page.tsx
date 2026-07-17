@@ -479,7 +479,7 @@ function AnalyzeContent() {
         <>
             <div className="w-full max-w-[1400px] mx-auto animate-fade-in-up pb-20 -mt-2 sm:-mt-4 md:-mt-8 space-y-6 sm:space-y-8 px-1 sm:px-2">
 
-                <div className={`mb-6 sm:mb-12 flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-8 sm:pb-12 ${isChatMode ? 'hidden' : 'flex'}`}>
+                <div className={`mb-6 sm:mb-12 flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-8 sm:pb-12 ${isChatMode ? 'hidden lg:flex' : 'flex'}`}>
                     <div>
                         <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-lime-600 mb-1 block italic">Workspace</span>
                         <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
@@ -490,17 +490,6 @@ function AnalyzeContent() {
                         </h2>
                     </div>
                     <div className="flex items-center gap-4">
-                        {isChatMode && (
-                            <button
-                                onClick={() => setIsChatMode(false)}
-                                className="flex items-center gap-2 px-4 py-2 bg-white border border-lime-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-lime-600 hover:bg-lime-50 transition-all shadow-sm"
-                            >
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                                Close Lounge
-                            </button>
-                        )}
                         {!isChatMode && result && (
                             <button
                                 onClick={() => { setIsChatMode(false); setResult(null); setSessionId(null); setUrl(''); setFile(null); }}
