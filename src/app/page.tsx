@@ -66,11 +66,11 @@ export default function LandingPage() {
                     </Link>
                     <div className="flex items-center gap-4">
                         {isLoggedIn ? (
-                            <Link href="/dashboard" className="px-6 py-2.5 bg-slate-900 text-slate-900 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
+                            <Link href="/dashboard" className="px-6 py-2.5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
                                 Dashboard
                             </Link>
                         ) : (
-                            <Link href="/signup" className="px-6 py-2.5 bg-slate-900 text-slate-900 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
+                            <Link href="/signup" className="px-6 py-2.5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
                                 Get Started
                             </Link>
                         )}
@@ -99,7 +99,7 @@ export default function LandingPage() {
 
                     <RevealOnScroll delay={400}>
                         <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                            <button onClick={() => { setWaitlistPlatform('ios'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-slate-900 px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
+                            <button onClick={() => { setWaitlistPlatform('ios'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
                                 <svg className="w-8 h-8 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                                     <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.79 3.59-.76 1.48.04 2.68.64 3.4 1.63-3.13 1.83-2.61 6.13.38 7.39-.7 1.77-1.49 3.02-2.45 3.91zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
                                 </svg>
@@ -108,7 +108,7 @@ export default function LandingPage() {
                                     <p className="text-sm font-black tracking-tight">App Store</p>
                                 </div>
                             </button>
-                            <button onClick={() => { setWaitlistPlatform('android'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-slate-900 px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
+                            <button onClick={() => { setWaitlistPlatform('android'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
                                 <svg className="w-8 h-8 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
                                     <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12 3.84 21.85C3.34 21.61 3 21.09 3 20.5zM14.77 10.93l4.56-2.58c.84-.48.84-1.26 0-1.74l-4.56-2.58L4.85 2.1l9.92 8.83zM14.77 13.07l-9.92 8.83 9.92-5.63 4.56-2.58c.84-.48.84-1.26 0-1.74l-4.56-2.58-9.92 8.83z"/>
                                 </svg>
@@ -154,17 +154,17 @@ export default function LandingPage() {
                                 Scale with <br />
                                 <span className="italic text-lime-200/60 font-serif">Total Peace.</span>
                             </h2>
-                            <p className="text-base sm:text-xl md:text-2xl font-light leading-relaxed text-slate-700 mb-10 sm:mb-16">
+                            <p className="text-base sm:text-xl md:text-2xl font-light leading-relaxed text-white/80 mb-10 sm:mb-16">
                                 We believe creative work should be rewarding, not exhausting. Eixora handles the heavy lifting of analysis so you can stay in your zone of genius—creating content that connects.
                             </p>
                             <div className="flex flex-wrap gap-8 sm:gap-12 border-t border-white/10 pt-8 sm:pt-12">
                                 <div>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-lime-500/40 mb-2">Focus On</p>
-                                    <p className="text-lg font-serif italic text-slate-900">Creative Strategy</p>
+                                    <p className="text-lg font-serif italic text-white">Creative Strategy</p>
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-lime-500/40 mb-2">Leave Us The</p>
-                                    <p className="text-lg font-serif italic text-slate-900">Technical Blueprinting</p>
+                                    <p className="text-lg font-serif italic text-white">Technical Blueprinting</p>
                                 </div>
                             </div>
                         </div>
@@ -216,21 +216,21 @@ export default function LandingPage() {
                         </div>
                         <div className="lg:col-span-7">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-                                <div className="bg-white/5 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-white/10">
+                                <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
                                     <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">60s</p>
                                     <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Blueprint from Any Viral URL</p>
                                 </div>
-                                <div className="bg-white/5 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-white/10">
+                                <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
                                     <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">3→1</p>
                                     <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Hours of Research Replaced Per Brief</p>
                                 </div>
-                                <div className="bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] text-slate-900 sm:col-span-2">
+                                <div className="bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] text-white sm:col-span-2">
                                     <p className="text-xl font-serif italic mb-6">"Before Eixora, I'd spend 3 hours reverse-engineering a viral video and still miss half the hooks. Now I paste the URL, get the full DNA in 60 seconds, and my briefs actually convert. My last campaign hit 2.1M views — I credit the hook structure directly to what Eixora extracted."</p>
                                     <div className="flex items-center gap-4">
-                                        <div className="w-8 h-8 bg-lime-500 rounded-full flex items-center justify-center text-slate-900 text-xs font-bold">R</div>
+                                        <div className="w-8 h-8 bg-lime-500 rounded-full flex items-center justify-center text-white text-xs font-bold">R</div>
                                         <div>
                                             <p className="text-xs font-bold uppercase tracking-widest">Rawlins Stephen</p>
-                                            <p className="text-[10px] text-slate-900/40 uppercase tracking-widest">Founder, AsrdollarBeatz</p>
+                                            <p className="text-[10px] text-white/40 uppercase tracking-widest">Founder, AsrdollarBeatz</p>
                                         </div>
                                     </div>
                                 </div>
