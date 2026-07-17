@@ -479,7 +479,7 @@ function AnalyzeContent() {
         <>
             <div className="w-full max-w-[1400px] mx-auto animate-fade-in-up pb-20 -mt-2 sm:-mt-4 md:-mt-8 space-y-6 sm:space-y-8 px-1 sm:px-2">
 
-                <div className="mb-6 sm:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-8 sm:pb-12">
+                <div className={`mb-6 sm:mb-12 flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-slate-100 pb-8 sm:pb-12 ${isChatMode ? 'hidden' : 'flex'}`}>
                     <div>
                         <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-lime-600 mb-1 block italic">Workspace</span>
                         <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
@@ -651,24 +651,35 @@ function AnalyzeContent() {
                                 {/* Strategy Lounge Chat */}
                                 {isChatMode && (
                                     <div className="w-full flex flex-col animate-fade-in relative z-20" style={{ minHeight: 'calc(100vh - 220px)' }}>
-                                        <div className="flex-1 w-full pb-8">
+                                        <div className="flex-1 w-full pb-36 sm:pb-40">
                                             {result && (
-                                                <div className="max-w-7xl mx-auto w-full mb-8 bg-white border border-slate-100 p-4 sm:p-6 rounded-[2rem] shadow-sm flex items-center gap-4 sm:gap-6">
-                                                    {result.thumbnail ? (
-                                                        <img src={result.thumbnail} alt="Video Thumbnail" className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover bg-slate-900" />
-                                                    ) : (
-                                                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300">
-                                                            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                                        </div>
-                                                    )}
-                                                    <div>
-                                                        <h3 className="font-bold text-slate-900 text-lg sm:text-xl line-clamp-1">{result.title}</h3>
-                                                        <div className="flex items-center gap-2 mt-2">
-                                                            <span className="px-3 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest">
-                                                                {result.mode === 'content' ? 'Content Intelligence' : 'Ad Intelligence'}
-                                                            </span>
+                                                <div className="max-w-7xl mx-auto w-full mb-4 sm:mb-8 bg-white/90 backdrop-blur-xl border border-slate-100 p-4 sm:p-5 rounded-[1.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-4 z-30">
+                                                    <div className="flex items-center gap-4">
+                                                        {result.thumbnail ? (
+                                                            <img src={result.thumbnail} alt="Video Thumbnail" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-cover bg-slate-900" />
+                                                        ) : (
+                                                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300">
+                                                                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                            </div>
+                                                        )}
+                                                        <div>
+                                                            <h3 className="font-bold text-slate-900 text-base sm:text-lg line-clamp-1">{result.title}</h3>
+                                                            <div className="flex items-center gap-2 mt-1">
+                                                                <span className="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[9px] sm:text-[10px] font-bold uppercase tracking-widest">
+                                                                    {result.mode === 'content' ? 'Content Intelligence' : 'Ad Intelligence'}
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <button
+                                                        onClick={() => setIsChatMode(false)}
+                                                        className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-all active:scale-95 w-full sm:w-auto"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                                                        </svg>
+                                                        Close Lounge
+                                                    </button>
                                                 </div>
                                             )}
                                             

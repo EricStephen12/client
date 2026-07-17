@@ -109,8 +109,8 @@ export default function LandingPage() {
                                 </div>
                             </button>
                             <button onClick={() => { setWaitlistPlatform('android'); setIsWaitlistOpen(true); }} className="flex items-center justify-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-xl hover:bg-lime-600 transition-all shadow-lg active:scale-95 group">
-                                <svg className="w-8 h-8 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
-                                    <path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.15L13.69 12 3.84 21.85C3.34 21.61 3 21.09 3 20.5zM14.77 10.93l4.56-2.58c.84-.48.84-1.26 0-1.74l-4.56-2.58L4.85 2.1l9.92 8.83zM14.77 13.07l-9.92 8.83 9.92-5.63 4.56-2.58c.84-.48.84-1.26 0-1.74l-4.56-2.58-9.92 8.83z"/>
+                                <svg className="w-8 h-8 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 512 512">
+                                    <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/>
                                 </svg>
                                 <div className="text-left">
                                     <p className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-0.5">GET IT ON</p>
