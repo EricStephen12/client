@@ -640,9 +640,9 @@ function AnalyzeContent() {
                                 {/* Strategy Lounge Chat */}
                                 {isChatMode && (
                                     <div className="w-full flex flex-col animate-fade-in relative z-20" style={{ minHeight: 'calc(100vh - 220px)' }}>
-                                        <div className="flex-1 w-full pb-36 sm:pb-40">
+                                        <div className="flex-1 w-full pb-48 sm:pb-52">
                                             {result && (
-                                                <div className="max-w-7xl mx-auto w-full mb-4 sm:mb-8 bg-white/90 backdrop-blur-xl border border-slate-100 p-4 sm:p-5 rounded-[1.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-4 z-30">
+                                                <div className="max-w-7xl mx-auto w-full mb-4 sm:mb-8 bg-white border border-slate-100 p-4 sm:p-5 rounded-[1.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky top-4 z-30">
                                                     <div className="flex items-center gap-4">
                                                         {result.thumbnail ? (
                                                             <img src={result.thumbnail} alt="Video Thumbnail" className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl object-cover bg-slate-900" />
@@ -732,7 +732,7 @@ function AnalyzeContent() {
                                         </div>
 
                                         <div className="sticky bottom-4 lg:bottom-8 mt-auto z-40 pointer-events-none pb-4 lg:pb-0">
-                                            <div className="pointer-events-auto max-w-5xl mx-auto relative group bg-white/90 backdrop-blur-xl rounded-[2.5rem] border border-slate-200/50 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.08)] focus-within:ring-2 focus-within:ring-lime-200 transition-all">
+                                            <div className="pointer-events-auto max-w-5xl mx-auto relative group bg-white rounded-[2.5rem] border border-slate-200 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.08)] focus-within:ring-2 focus-within:ring-lime-200 transition-all">
                                                 <div className="flex flex-col sm:flex-row gap-2">
                                                     <input
                                                         type="text"
