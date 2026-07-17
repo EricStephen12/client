@@ -68,8 +68,14 @@ if (data.onboarding_completed === false) {
             fetchLatestProfile();
         };
 
+        const handleOpenMobileMenu = () => setIsMobileMenuOpen(true);
+
         window.addEventListener('session-updated', handleSessionUpdate);
-        return () => window.removeEventListener('session-updated', handleSessionUpdate);
+        window.addEventListener('open-mobile-menu', handleOpenMobileMenu as EventListener);
+        return () => {
+            window.removeEventListener('session-updated', handleSessionUpdate);
+            window.removeEventListener('open-mobile-menu', handleOpenMobileMenu as EventListener);
+        };
     }, [userId]);
 
 
@@ -206,7 +212,7 @@ if (data.onboarding_completed === false) {
                 </div>
             )}
 <main className="flex-1 overflow-auto flex flex-col h-screen relative pb-20 lg:pb-0">
-                <header className="flex lg:hidden items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
+                <header id="global-mobile-header" className="flex lg:hidden items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
                     <Link href="/" className="text-2xl font-serif font-bold italic">Eixora<span className="text-lime-600">.</span></Link>
                     <button
                         onClick={() => setIsMobileMenuOpen(true)}

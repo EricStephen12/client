@@ -476,6 +476,16 @@ function AnalyzeContent() {
         }
     };
 
+    useEffect(() => {
+        const header = document.getElementById('global-mobile-header');
+        if (header) {
+            header.style.display = isChatMode ? 'none' : '';
+        }
+        return () => {
+            if (header) header.style.display = '';
+        };
+    }, [isChatMode]);
+
     const switchMode = (newMode: 'ad' | 'content') => {
         if (newMode === result?.mode) return;
         setMode(newMode);
@@ -655,8 +665,23 @@ function AnalyzeContent() {
                                         <div className="flex-1 w-full pb-48 sm:pb-52">
                                             {result && (
                                                 <div className="max-w-7xl mx-auto w-full mb-4 sm:mb-8 bg-white border-b sm:border border-slate-100 p-3 sm:p-4 sm:rounded-[1.5rem] shadow-sm flex items-center justify-between sticky top-0 lg:top-4 z-30">
-                                                    {/* Center/Left: Model Switcher */}
-                                                    <div className="relative group cursor-pointer flex items-center gap-2 bg-slate-50 hover:bg-slate-100 px-3 py-2 rounded-xl transition-colors">
+                                                    {/* Center/Left: Model Switcher & Thumbnail */}
+                                                    <div className="flex items-center gap-2 sm:gap-3">
+                                                        <button 
+                                                            onClick={() => window.dispatchEvent(new Event('open-mobile-menu'))}
+                                                            className="lg:hidden p-2 -ml-2 text-slate-400 hover:text-slate-900 transition-colors"
+                                                            title="Menu"
+                                                        >
+                                                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                                                        </button>
+                                                        {result.thumbnail ? (
+                                                            <img src={result.thumbnail} alt="Thumbnail" className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover bg-slate-900 shadow-sm" />
+                                                        ) : (
+                                                            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-slate-50 rounded-lg flex items-center justify-center text-slate-300">
+                                                                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                            </div>
+                                                        )}
+                                                        <div className="relative group cursor-pointer flex items-center gap-2 bg-slate-50 hover:bg-slate-100 px-3 py-2 rounded-xl transition-colors">
                                                         <div className="w-2 h-2 rounded-full bg-lime-500 animate-pulse"></div>
                                                         <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-widest">
                                                             {result.mode === 'content' ? 'Content Intel' : 'Ad Intel'}
@@ -676,6 +701,7 @@ function AnalyzeContent() {
                                                             >
                                                                 Content Intelligence
                                                             </button>
+                                                        </div>
                                                         </div>
                                                     </div>
 
