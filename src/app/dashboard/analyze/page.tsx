@@ -477,12 +477,15 @@ function AnalyzeContent() {
     };
 
     useEffect(() => {
-        const header = document.getElementById('global-mobile-header');
-        if (header) {
-            header.style.display = isChatMode ? 'none' : '';
-        }
+        const mobileHeader = document.getElementById('global-mobile-header');
+        const desktopHeader = document.getElementById('global-desktop-header');
+        
+        if (mobileHeader) mobileHeader.style.display = isChatMode ? 'none' : '';
+        if (desktopHeader) desktopHeader.style.display = isChatMode ? 'none' : '';
+        
         return () => {
-            if (header) header.style.display = '';
+            if (mobileHeader) mobileHeader.style.display = '';
+            if (desktopHeader) desktopHeader.style.display = '';
         };
     }, [isChatMode]);
 
