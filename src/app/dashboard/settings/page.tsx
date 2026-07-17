@@ -10,7 +10,7 @@ export default function SettingsPage() {
 
 function SettingsContent() {
     const { user, isLoaded } = useUser();
-    const { getToken, userId: clerkUserId } = useAuth();
+    const { getToken, userId: clerkUserId, signOut } = useAuth();
     const [profile, setProfile] = useState<any>(null);
     const router = useRouter();
     
@@ -20,6 +20,7 @@ function SettingsContent() {
     const [teamEmail, setTeamEmail] = useState('');
     const [isInviting, setIsInviting] = useState(false);
     const [teamMembers, setTeamMembers] = useState<any[]>([]);
+    const [notifications, setNotifications] = useState(true);
 
     useEffect(() => {
         if (profile?.subscription_tier === 'studio' || profile?.subscription_tier === 'agency') {
@@ -345,6 +346,79 @@ function SettingsContent() {
                 </div>
             </motion.section>
             */}
+
+            <motion.section variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
+                <div className="lg:col-span-4 space-y-3 sm:space-y-4">
+                    <h3 className="text-xl sm:text-2xl font-serif italic text-slate-900">Preferences</h3>
+                    <p className="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">
+                        Customize your workspace experience and toggle alerts.
+                    </p>
+                </div>
+
+                <div className="lg:col-span-8 bg-white rounded-2xl sm:rounded-[2.5rem] border border-slate-100 shadow-sm p-6 sm:p-10 md:p-12 space-y-8 sm:space-y-10">
+                    <div className="flex items-center justify-between">
+                        <div className="space-y-1">
+                            <h4 className="text-sm sm:text-base font-bold text-slate-900">Push Notifications</h4>
+                            <p className="text-[10px] sm:text-xs text-slate-400 font-medium">Receive alerts for completed analyses.</p>
+                        </div>
+                        <button 
+                            onClick={() => setNotifications(!notifications)}
+                            className={`w-12 h-6 sm:w-14 sm:h-7 rounded-full p-1 transition-colors ${notifications ? 'bg-lime-500' : 'bg-slate-200'}`}
+                        >
+                            <div className={`w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full transition-transform shadow-sm ${notifications ? 'translate-x-6 sm:translate-x-7' : 'translate-x-0'}`} />
+                        </button>
+                    </div>
+
+                    <div className="flex items-center justify-between border-t border-slate-50 pt-8 sm:pt-10">
+                        <div className="space-y-1">
+                            <h4 className="text-sm sm:text-base font-bold text-slate-900">Dark Mode</h4>
+                            <p className="text-[10px] sm:text-xs text-slate-400 font-medium">Coming in Eixora v2.0</p>
+                        </div>
+                        <button 
+                            disabled
+                            className="w-12 h-6 sm:w-14 sm:h-7 rounded-full p-1 bg-slate-100 transition-colors cursor-not-allowed opacity-50"
+                        >
+                            <div className="w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full shadow-sm" />
+                        </button>
+                    </div>
+                </div>
+            </motion.section>
+
+            <motion.section variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
+                <div className="lg:col-span-4 space-y-3 sm:space-y-4">
+                    <h3 className="text-xl sm:text-2xl font-serif italic text-slate-900">System</h3>
+                    <p className="text-xs sm:text-sm text-slate-400 font-medium leading-relaxed">
+                        App information and account actions.
+                    </p>
+                </div>
+
+                <div className="lg:col-span-8 bg-white rounded-2xl sm:rounded-[2.5rem] border border-slate-100 shadow-sm p-6 sm:p-10 md:p-12 space-y-6 sm:space-y-8">
+                    <button
+                        onClick={() => router.push('/about')}
+                        className="w-full text-left flex items-center justify-between p-4 sm:p-6 bg-slate-50 rounded-xl sm:rounded-2xl hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 group"
+                    >
+                        <div className="space-y-1">
+                            <h4 className="text-sm sm:text-base font-bold text-slate-900">About Eixora</h4>
+                            <p className="text-[10px] sm:text-xs text-slate-400 font-medium">Version 1.0.0</p>
+                        </div>
+                        <svg className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+
+                    <div className="pt-2">
+                        <button
+                            onClick={async () => {
+                                await signOut();
+                                router.push('/');
+                            }}
+                            className="w-full px-10 py-4 sm:py-5 border border-slate-100 bg-white text-slate-900 text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-slate-50 hover:border-slate-200 transition-all shadow-sm active:scale-95"
+                        >
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </motion.section>
 
             <AnimatePresence>
                 {showCancelModal && (
