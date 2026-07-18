@@ -120,8 +120,24 @@ if (data.onboarding_completed === false) {
         }
     };
 
-    const handleOnboardingComplete = async (data: { niche: string; goal: string; source: string }) => {
+    const handleOnboardingComplete = async (data: { niche: string; goal: string; name: string; source: string; lens: string }) => {
         try {
+            if (user && data.name) {
+                const nameParts = data.name.trim().split(' ');
+                const firstName = nameParts[0] || '';
+                const lastName = nameParts.slice(1).join(' ') || '';
+                await user.update({
+                    firstName,
+                    lastName,
+                    unsafeMetadata: {
+                        role: data.niche,
+                        goal: data.goal,
+                        lens: data.lens,
+                        onboardingComplete: true
+                    }
+                });
+            }
+
             const token = await getToken();
             const res = await fetch('/api/main/api/me', {
                 method: 'PATCH',

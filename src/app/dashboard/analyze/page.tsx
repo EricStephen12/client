@@ -154,10 +154,15 @@ function AnalyzeContent() {
                 setIsAnalyzing(true);
                 try {
                     const token = await getToken();
-                    const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-                    const res = await fetch(`${apiBase}/api/analyze-video-url`, {
+                    const res = await fetch(`/api/main/api/analyze`, {
                         method: 'POST',
-                        body: JSON.stringify({ videoUrl: queryUrl, userId, userName: user?.firstName || user?.username || 'Creator', mode }),
+                        body: JSON.stringify({ 
+                            sourceUrl: queryUrl, 
+                            userId, 
+                            userName: user?.firstName || user?.username || 'Creator', 
+                            mode,
+                            niche: user?.unsafeMetadata?.role || ''
+                        }),
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
@@ -422,29 +427,26 @@ function AnalyzeContent() {
 
     const handleAnalyze = async (overrideMode?: 'ad' | 'content') => {
         const currentMode = overrideMode || mode;
-        if (activeTab === 'upload' && !file) return;
+        if (activeTab === 'upload') {
+            alert('File upload is not supported yet. Please use a video URL.');
+            return;
+        }
         if (activeTab === 'url' && !url) return;
 
         setIsAnalyzing(true);
-        const formData = new FormData();
-
-        if (activeTab === 'upload' && file) {
-            formData.append('video', file);
-        } else {
-            formData.append('videoUrl', url);
-        }
-
-        if (userId) formData.append('userId', userId);
-        formData.append('mode', currentMode);
 
         try {
             const token = await getToken();
-            const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-            const res = await fetch(`${apiBase}/api/analyze-video${activeTab === 'url' ? '-url' : ''}`, {
+            const res = await fetch(`/api/main/api/analyze`, {
                 method: 'POST',
-                body: activeTab === 'upload' ? formData : JSON.stringify({ videoUrl: url, userId, mode: currentMode }),
+                body: JSON.stringify({ 
+                    sourceUrl: url, 
+                    userId, 
+                    mode: currentMode,
+                    niche: user?.unsafeMetadata?.role || ''
+                }),
                 headers: {
-                    ...(activeTab === 'url' ? { 'Content-Type': 'application/json' } : {}),
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
