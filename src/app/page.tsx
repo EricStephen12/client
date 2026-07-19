@@ -11,6 +11,7 @@ import VideoCarousel from '@/components/VideoCarousel';
 import FloatingHearts from '@/components/FloatingHearts';
 import BlueprintPreview from '@/components/BlueprintPreview';
 import WaitlistModal from '@/components/WaitlistModal';
+import AIComparisonSection from '@/components/AIComparisonSection';
 
 export default function LandingPage() {
     const [url, setUrl] = useState('');
@@ -143,6 +144,8 @@ export default function LandingPage() {
 <VideoCarousel />
 
 <BlueprintPreview />
+
+<AIComparisonSection />
 
 <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white">
                 <div className="max-w-7xl mx-auto">
