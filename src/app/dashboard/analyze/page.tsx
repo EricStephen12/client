@@ -704,7 +704,7 @@ function AnalyzeContent() {
                                                         <div className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-xl">
                                                             <div className="w-2 h-2 rounded-full bg-lime-500 animate-pulse"></div>
                                                             <span className="text-[10px] sm:text-xs font-bold text-slate-900 uppercase tracking-widest">
-                                                                {result.mode === 'content' ? 'Content Intel' : 'Ad Intel'}
+                                                                {result.mode === 'content' ? 'Content Intel' : result.mode === 'product-intel' ? 'Product Intel' : 'Ad Intel'}
                                                             </span>
                                                         </div>
                                                     </div>
@@ -735,6 +735,53 @@ function AnalyzeContent() {
                                             )}
                                             
                                             <div className="max-w-7xl mx-auto w-full space-y-4 md:space-y-6">
+                                                {/* Analysis Summary Card */}
+                                                {result.analysis && (
+                                                    <div className="w-full mb-8">
+                                                        {result.mode === 'product-intel' ? (
+                                                            <div className="bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-10 shadow-sm">
+                                                                <h3 className="text-2xl font-serif italic font-bold text-slate-900 mb-6">{result.analysis.productName || 'Product Analysis'}</h3>
+                                                                <div className="mb-8">
+                                                                    <p className="text-[10px] font-black uppercase tracking-widest text-lime-600 mb-2">Verdict</p>
+                                                                    <p className="text-slate-700 leading-relaxed font-medium">{result.analysis.verdict || 'Analysis pending.'}</p>
+                                                                </div>
+                                                                <div className="grid grid-cols-3 gap-4 border-t border-slate-100 pt-6">
+                                                                    <div>
+                                                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Saturation</p>
+                                                                        <p className="text-xl font-bold text-slate-900">{result.analysis.saturationScore || '-'}/10</p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Profitability</p>
+                                                                        <p className="text-xl font-bold text-slate-900">{result.analysis.profitViabilityScore || '-'}/10</p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Pain Fit</p>
+                                                                        <p className="text-xl font-bold text-slate-900">{result.analysis.audiencePainFitScore || '-'}/10</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="bg-white border border-slate-100 rounded-[2.5rem] p-8 md:p-10 shadow-sm">
+                                                                <h3 className="text-xl font-serif italic font-bold text-slate-900 mb-6">Performance Metrics</h3>
+                                                                <div className="grid grid-cols-3 gap-4">
+                                                                    <div>
+                                                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Hook Power</p>
+                                                                        <p className="text-xl font-bold text-slate-900">{result.analysis.metrics?.hook_power || '-'}/100</p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Retention</p>
+                                                                        <p className="text-xl font-bold text-slate-900">{result.analysis.metrics?.retention_score || '-'}/100</p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Conversion</p>
+                                                                        <p className="text-xl font-bold text-slate-900">{result.analysis.metrics?.conversion_trigger || '-'}/100</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+
                                                 {messages.map((msg, idx) => (
                                                     <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                                                         <div className={`max-w-[95%] sm:max-w-[90%] md:max-w-[85%] p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-[2.5rem] shadow-sm ${msg.type === 'brief'
