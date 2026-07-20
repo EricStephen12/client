@@ -118,16 +118,19 @@ export default function DashboardPage() {
                                 className="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 font-medium text-base sm:text-lg focus:outline-none focus:ring-0"
                             />
                         </div>
-                        <div className="w-full sm:w-auto px-4 sm:border-l border-slate-100">
+                        <div className="w-full sm:w-auto px-4 sm:border-l border-slate-100 relative flex items-center">
                             <select 
                                 value={quickScanMode}
                                 onChange={(e) => setQuickScanMode(e.target.value as any)}
-                                className="w-full bg-transparent border-none text-slate-600 font-bold uppercase tracking-widest text-[10px] sm:text-xs focus:ring-0 cursor-pointer appearance-none outline-none py-4 sm:py-0"
+                                className="w-full bg-transparent border-none text-slate-600 font-bold uppercase tracking-widest text-[10px] sm:text-xs focus:ring-0 cursor-pointer appearance-none outline-none py-4 sm:py-0 pr-8"
                             >
                                 <option value="ad">Ad Intel</option>
                                 <option value="content">Content Intel</option>
                                 <option value="product-intel">Product Intel</option>
                             </select>
+                            <svg className="w-4 h-4 text-slate-400 absolute right-6 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
                         </div>
                         <button type="submit" className="w-full sm:w-auto px-8 py-5 sm:py-0 h-full sm:h-16 m-1 sm:m-0 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-lime-600 transition-all shadow-lg hover:shadow-lime-500/30 whitespace-nowrap">
                             Analyze Video
