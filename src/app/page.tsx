@@ -243,6 +243,81 @@ export default function LandingPage() {
                 </div>
             </section>
 
+            {/* Pricing Section */}
+            <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white" id="pricing">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-16 sm:mb-24">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-6">Simple, Transparent Pricing.</h2>
+                        <p className="text-lg text-slate-500 font-light max-w-2xl mx-auto">Scale your creative output with predictable costs. Cancel anytime.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        {/* Free Tier */}
+                        <div className="bg-slate-50 rounded-[2rem] p-8 sm:p-10 border border-slate-200 flex flex-col">
+                            <h3 className="text-xl font-bold text-slate-900 mb-2">Free Trial</h3>
+                            <p className="text-sm text-slate-500 mb-8">Test the engine.</p>
+                            <div className="mb-8">
+                                <span className="text-4xl font-bold text-slate-900">$0</span>
+                                <span className="text-slate-500">/mo</span>
+                            </div>
+                            <ul className="space-y-4 mb-10 flex-1">
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> 3 Scans / Month</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Max 90s Video Length</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Ad & Content Intelligence</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Product Intelligence</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Standard AI Engine</li>
+                            </ul>
+                            <Link href="/signup" className="w-full py-4 rounded-xl border-2 border-slate-200 text-slate-600 font-bold text-center uppercase tracking-widest text-xs hover:border-slate-900 hover:text-slate-900 transition-colors">
+                                Start Free
+                            </Link>
+                        </div>
+
+                        {/* Creator Tier */}
+                        <div className="bg-slate-900 rounded-[2rem] p-8 sm:p-10 border border-slate-800 flex flex-col relative shadow-2xl transform md:-translate-y-4">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-lime-500 text-slate-900 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                                Most Popular
+                            </div>
+                            <h3 className="text-xl font-bold text-white mb-2">Creator</h3>
+                            <p className="text-sm text-slate-400 mb-8">For serious dropshippers.</p>
+                            <div className="mb-8">
+                                <span className="text-4xl font-bold text-white">$5</span>
+                                <span className="text-slate-400">/mo</span>
+                            </div>
+                            <ul className="space-y-4 mb-10 flex-1">
+                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> 30 Scans / Month</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> Max 5m Video Length</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> Ad & Content Intelligence</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> Product Intelligence Unlocked</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> Strategy Lounge Chat</li>
+                            </ul>
+                            <Link href="/signup" className="w-full py-4 rounded-xl bg-lime-500 text-slate-900 font-bold text-center uppercase tracking-widest text-xs hover:bg-lime-400 transition-colors">
+                                Upgrade to Creator
+                            </Link>
+                        </div>
+
+                        {/* Studio Tier */}
+                        <div className="bg-slate-50 rounded-[2rem] p-8 sm:p-10 border border-slate-200 flex flex-col">
+                            <h3 className="text-xl font-bold text-slate-900 mb-2">The Studio</h3>
+                            <p className="text-sm text-slate-500 mb-8">For high-volume agencies.</p>
+                            <div className="mb-8">
+                                <span className="text-4xl font-bold text-slate-900">$10</span>
+                                <span className="text-slate-500">/mo</span>
+                            </div>
+                            <ul className="space-y-4 mb-10 flex-1">
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> 250 Scans / Month</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Max 30m Video Length</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Ad, Content & Product Intel</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Premium AI Deep-Dive Engine</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Strategy Lounge Chat</li>
+                            </ul>
+                            <Link href="/signup" className="w-full py-4 rounded-xl bg-slate-900 text-white font-bold text-center uppercase tracking-widest text-xs hover:bg-slate-800 transition-colors">
+                                Go Studio
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#F8FAFC]">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12 sm:mb-16 md:mb-24">
@@ -253,7 +328,8 @@ export default function LandingPage() {
                             { q: "How does it work?", a: "Paste any viral TikTok, Reels, or YouTube Shorts URL into the Eixora app. Choose Ad Intelligence or Content Intelligence mode. Our AI extracts the hook, pacing, and psychological triggers — then generates a Strategy Brief you can take straight into your Creative Lounge or hand to any creator." },
                             { q: "Do I need technical skills?", a: "No. The briefs are written for creators and editors of all levels. If you can read, you can shoot." },
                             { q: "Which platforms are supported?", a: "We fully support TikTok, Instagram Reels, YouTube Shorts, and Facebook/Meta video ads. Paste any public URL and we'll extract the DNA." },
-                            { q: "Can I cancel anytime?", a: "Yes. Monthly plans are contract-free. Scale up or down as your needs change." }
+                            { q: "What happens when I hit my scan limit?", a: "Your scans reset at the beginning of your billing cycle. If you hit your limit early, you can instantly upgrade your plan in the dashboard to unlock more capacity." },
+                            { q: "Can I cancel anytime?", a: "Yes. Monthly plans are completely contract-free. Scale up or down as your needs change directly from your dashboard." }
                         ].map((faq, i) => (
                             <details key={i} className="group bg-white border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:border-lime-400 transition-all duration-300">
                                 <summary className="flex items-center justify-between p-5 sm:p-8 md:p-10 cursor-pointer list-none">

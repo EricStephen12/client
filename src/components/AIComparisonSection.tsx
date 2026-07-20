@@ -191,7 +191,7 @@ export default function AIComparisonSection() {
             speed={14}
             active={hasStarted}
             label="Studio Plan"
-            badge="Premium AI · Claude Sonnet 5"
+            badge="Premium AI"
             isStudio={true}
           />
         </div>
