@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "EIXORA — Decode Viral Ads with AI",
     description: "Paste any TikTok or Reels URL. Get the full psychological DNA — hook, pacing, triggers — in 60 seconds. Start free.",
-    url: "https://eixora.store",
+    url: "https://www.eixora.store",
     siteName: "Eixora",
     images: [
       {
-        url: "https://eixora.store/hero.png",
+        url: "https://www.eixora.store/hero.png",
         width: 1200,
         height: 630,
         alt: "Eixora — AI Ad Intelligence",
@@ -31,9 +31,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "EIXORA — Decode Viral Ads with AI",
     description: "Paste any TikTok or Reels URL. Get the full psychological DNA in 60 seconds.",
-    images: ["https://eixora.store/hero.png"],
+    images: ["https://www.eixora.store/hero.png"],
   },
-  metadataBase: new URL("https://eixora.store"),
+  metadataBase: new URL("https://www.eixora.store"),
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export default function RootLayout({
