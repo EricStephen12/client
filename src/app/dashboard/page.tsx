@@ -13,6 +13,7 @@ export default function DashboardPage() {
     const [sessions, setSessions] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [quickScanUrl, setQuickScanUrl] = useState('');
+    const [quickScanMode, setQuickScanMode] = useState<'ad' | 'content' | 'product-intel'>('ad');
     const router = useRouter();
     const loading = !isLoaded || isLoading;
     const userId = user?.id;
@@ -49,7 +50,7 @@ export default function DashboardPage() {
     const handleQuickScan = (e: React.FormEvent) => {
         e.preventDefault();
         if (quickScanUrl.trim()) {
-            router.push(`/dashboard/analyze?url=${encodeURIComponent(quickScanUrl)}`);
+            router.push(`/dashboard/analyze?url=${encodeURIComponent(quickScanUrl)}&mode=${quickScanMode}`);
         }
     };
 
@@ -105,7 +106,7 @@ export default function DashboardPage() {
             <RevealOnScroll delay={100}>
                 <div className="relative group">
                     <div className="absolute inset-0 bg-gradient-to-r from-lime-500 to-slate-500 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-                    <form onSubmit={handleQuickScan} className="relative flex flex-col sm:flex-row items-center bg-white border border-slate-100 rounded-3xl p-2 shadow-xl shadow-lime-900/5">
+                    <form onSubmit={handleQuickScan} className="relative flex flex-col sm:flex-row items-center bg-white border border-slate-100 rounded-3xl p-2 shadow-xl shadow-lime-900/5 gap-2">
                         <div className="flex-1 w-full flex items-center px-6 py-4">
                             <span className="text-2xl mr-4 opacity-50">⚡</span>
                             <input 
@@ -114,10 +115,21 @@ export default function DashboardPage() {
                                 value={quickScanUrl}
                                 onChange={(e) => setQuickScanUrl(e.target.value)}
                                 placeholder="Paste TikTok, Reels, or Shorts URL to analyze..."
-                                className="w-transparent bg-transparent border-none text-slate-900 placeholder-slate-400 font-medium text-base sm:text-lg focus:outline-none focus:ring-0"
+                                className="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 font-medium text-base sm:text-lg focus:outline-none focus:ring-0"
                             />
                         </div>
-                        <button type="submit" className="w-full sm:w-auto px-8 py-5 sm:py-0 h-full sm:h-16 m-1 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-lime-600 transition-all shadow-lg hover:shadow-lime-500/30 whitespace-nowrap">
+                        <div className="w-full sm:w-auto px-4 sm:border-l border-slate-100">
+                            <select 
+                                value={quickScanMode}
+                                onChange={(e) => setQuickScanMode(e.target.value as any)}
+                                className="w-full bg-transparent border-none text-slate-600 font-bold uppercase tracking-widest text-[10px] sm:text-xs focus:ring-0 cursor-pointer appearance-none outline-none py-4 sm:py-0"
+                            >
+                                <option value="ad">Ad Intel</option>
+                                <option value="content">Content Intel</option>
+                                <option value="product-intel">Product Intel</option>
+                            </select>
+                        </div>
+                        <button type="submit" className="w-full sm:w-auto px-8 py-5 sm:py-0 h-full sm:h-16 m-1 sm:m-0 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-lime-600 transition-all shadow-lg hover:shadow-lime-500/30 whitespace-nowrap">
                             Analyze Video
                         </button>
                     </form>

@@ -25,7 +25,7 @@ function AnalyzeContent() {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState<any>(null);
     const [url, setUrl] = useState('');
-    const [mode, setMode] = useState<'ad' | 'content'>('ad');
+    const [mode, setMode] = useState<'ad' | 'content' | 'product-intel'>('ad');
     const [activeTab, setActiveTab] = useState<'upload' | 'url'>('url');
 
     const { user, isLoaded } = useUser();
@@ -140,6 +140,7 @@ function AnalyzeContent() {
     useEffect(() => {
         const queryUrl = searchParams.get('url');
         const querySessionId = searchParams.get('sessionId');
+        const queryMode = searchParams.get('mode') as any;
 
         if (querySessionId && !sessionId && !isAnalyzing) {
             loadSession(querySessionId);
@@ -149,18 +150,25 @@ function AnalyzeContent() {
         if (queryUrl && !result && !isAnalyzing) {
             setUrl(queryUrl);
             setActiveTab('url');
+            
+            let activeMode = mode;
+            if (queryMode && ['ad', 'content', 'product-intel'].includes(queryMode)) {
+                activeMode = queryMode;
+                setMode(queryMode);
+            }
 
             const triggerInitialScan = async () => {
                 setIsAnalyzing(true);
                 try {
                     const token = await getToken();
-                    const res = await fetch(`/api/main/api/analyze`, {
+                    const endpoint = activeMode === 'product-intel' ? '/api/main/api/product-intel' : '/api/main/api/analyze';
+                    const res = await fetch(endpoint, {
                         method: 'POST',
                         body: JSON.stringify({ 
                             sourceUrl: queryUrl, 
                             userId, 
                             userName: user?.firstName || user?.username || 'Creator', 
-                            mode,
+                            mode: activeMode,
                             niche: user?.unsafeMetadata?.role || ''
                         }),
                         headers: {
@@ -425,7 +433,7 @@ function AnalyzeContent() {
         }
     };
 
-    const handleAnalyze = async (overrideMode?: 'ad' | 'content') => {
+    const handleAnalyze = async (overrideMode?: 'ad' | 'content' | 'product-intel') => {
         const currentMode = overrideMode || mode;
         if (activeTab === 'upload') {
             alert('File upload is not supported yet. Please use a video URL.');
@@ -437,7 +445,8 @@ function AnalyzeContent() {
 
         try {
             const token = await getToken();
-            const res = await fetch(`/api/main/api/analyze`, {
+            const endpoint = currentMode === 'product-intel' ? '/api/main/api/product-intel' : '/api/main/api/analyze';
+            const res = await fetch(endpoint, {
                 method: 'POST',
                 body: JSON.stringify({ 
                     sourceUrl: url, 
@@ -491,7 +500,7 @@ function AnalyzeContent() {
         };
     }, [isChatMode]);
 
-    const switchMode = (newMode: 'ad' | 'content') => {
+    const switchMode = (newMode: 'ad' | 'content' | 'product-intel') => {
         if (newMode === result?.mode) return;
         setMode(newMode);
         setIsChatMode(false);
@@ -598,18 +607,24 @@ function AnalyzeContent() {
                                                 <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will analyze structure and metrics from any public TikTok, Reels, or Shorts URL.</p>
                                             </div>
                                             
-                                            <div className="flex bg-slate-100 p-1.5 rounded-xl w-max">
+                                            <div className="flex flex-wrap gap-2 bg-slate-100 p-1.5 rounded-xl w-max">
                                                 <button 
                                                     onClick={() => setMode('ad')}
                                                     className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all ${mode === 'ad' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                                                 >
-                                                    Ad Intelligence
+                                                    Ad Intel
                                                 </button>
                                                 <button 
                                                     onClick={() => setMode('content')}
                                                     className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all ${mode === 'content' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                                                 >
-                                                    Content Intelligence
+                                                    Content Intel
+                                                </button>
+                                                <button 
+                                                    onClick={() => setMode('product-intel')}
+                                                    className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all ${mode === 'product-intel' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                                >
+                                                    Product Intel
                                                 </button>
                                             </div>
                                             <input
