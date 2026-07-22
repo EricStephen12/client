@@ -37,8 +37,9 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
     ];
 
     const lenses = [
-        { id: 'ad', label: 'Ad Intelligence', icon: '📊' },
-        { id: 'content', label: 'Content Intelligence', icon: '🎨' },
+        { id: 'product-intel', label: 'Product Intelligence', desc: 'Analyze product viability, margins & ecommerce DNA.', icon: '🛍️' },
+        { id: 'ad', label: 'Ad Intelligence', desc: 'Deconstruct high-performing paid ads & hooks.', icon: '📊' },
+        { id: 'content', label: 'Content Intelligence', desc: 'Analyze organic viral hooks & creator strategy.', icon: '🎨' },
     ];
 
     const handleNext = () => {
@@ -173,25 +174,44 @@ export default function OnboardingFlow({ onComplete, userName }: OnboardingFlowP
                         )}
 
                         {step === 5 && (
-                            <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-10">
-                                <div className="space-y-4">
+                            <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
+                                <div className="space-y-3">
                                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-600 block">Step 05</span>
                                     <h2 className="text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 leading-tight">
                                         Choose your <br /><span className="italic font-serif text-slate-400">Intelligence Lens</span>
                                     </h2>
-                                    <p className="text-lg text-slate-500 font-light leading-relaxed">Select your primary workspace.</p>
+                                    <p className="text-sm text-slate-500 font-light leading-relaxed">Select your default workspace lens. You can switch modes anytime inside the app.</p>
                                 </div>
-                                <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <motion.div variants={containerVariants} initial="hidden" animate="show" className="space-y-3">
                                     {lenses.map((item) => (
-                                        <motion.button key={item.id} variants={itemVariants} onClick={() => setLens(item.id)} className={`p-6 rounded-2xl border text-left transition-all duration-300 group ${lens === item.id ? 'border-lime-500 bg-lime-50/50 ring-4 ring-lime-500/10 shadow-lg shadow-lime-500/5 scale-[1.02]' : 'border-slate-100 hover:border-lime-200 hover:shadow-md hover:scale-[1.01]'}`}>
-                                            <span className="text-3xl mb-4 block group-hover:scale-110 transition-transform">{item.icon}</span>
-                                            <span className="text-xs font-bold uppercase tracking-widest text-slate-900">{item.label}</span>
+                                        <motion.button 
+                                            key={item.id} 
+                                            variants={itemVariants} 
+                                            onClick={() => setLens(item.id)} 
+                                            className={`w-full p-5 sm:p-6 rounded-2xl border text-left transition-all duration-300 ${
+                                                lens === item.id 
+                                                ? 'border-lime-500 bg-lime-50/40 ring-4 ring-lime-500/10 shadow-md shadow-lime-500/5' 
+                                                : 'border-slate-100 hover:border-slate-300 hover:bg-slate-50/50'
+                                            }`}
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 transition-transform ${lens === item.id ? 'scale-110 bg-white shadow-sm' : 'bg-slate-50'}`}>
+                                                    {item.icon}
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <span className="text-sm font-bold uppercase tracking-wider text-slate-900 block mb-1">{item.label}</span>
+                                                    <p className="text-xs text-slate-500 font-light leading-snug">{item.desc}</p>
+                                                </div>
+                                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-300 ${lens === item.id ? 'border-lime-500 bg-lime-500' : 'border-slate-200'}`}>
+                                                    {lens === item.id && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                                </div>
+                                            </div>
                                         </motion.button>
                                     ))}
                                 </motion.div>
-                                <div className="flex gap-3">
-                                    <button onClick={() => setStep(4)} className="flex-1 py-5 border border-slate-100 text-slate-400 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-all">Go Back</button>
-                                    <button disabled={!lens} onClick={handleNext} className="flex-[2] py-5 bg-slate-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-lime-400 hover:text-slate-950 transition-all disabled:opacity-30">Finalize Setup &rarr;</button>
+                                <div className="flex gap-3 pt-2">
+                                    <button onClick={() => setStep(4)} className="flex-1 py-4 border border-slate-100 text-slate-400 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition-all">Go Back</button>
+                                    <button disabled={!lens} onClick={handleNext} className="flex-[2] py-4 bg-slate-950 text-white rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-lime-400 hover:text-slate-950 transition-all disabled:opacity-30">Finalize Setup &rarr;</button>
                                 </div>
                             </motion.div>
                         )}

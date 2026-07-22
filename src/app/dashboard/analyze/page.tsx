@@ -10,7 +10,12 @@ export default function AnalyzePage() {
     return (
         <Suspense fallback={
             <div className="max-w-6xl mx-auto pt-24 text-center px-4">
-                <div className="w-12 h-12 border-4 border-lime-100 border-t-lime-500 rounded-full animate-spin mx-auto mb-6"></div>
+                <div className="relative mx-auto w-14 h-14 mb-6">
+                    <div className="absolute inset-0 bg-lime-500 rounded-2xl blur-lg opacity-30 animate-pulse" />
+                    <div className="relative w-14 h-14 bg-slate-950 rounded-2xl flex items-center justify-center">
+                        <svg className="w-7 h-7 text-lime-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                    </div>
+                </div>
                 <p className="font-serif text-lg sm:text-xl italic text-slate-400">Loading Video Analyzer...</p>
             </div>
         }>
@@ -519,17 +524,22 @@ function AnalyzeContent() {
                     <div>
                         <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-lime-600 mb-1 block italic">Workspace</span>
                         <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold text-slate-900 leading-tight tracking-tight">
-                            {isChatMode ? 'Strategy ' : 'Video '}
+                            {isChatMode ? 'Strategy ' : 'Creative '}
                             <span className="italic font-serif text-slate-400">
-                                {isChatMode ? 'Assistant.' : 'Analyzer.'}
+                                {isChatMode ? 'Lounge.' : 'Studio.'}
                             </span>
                         </h2>
+                        {!isChatMode && (
+                            <p className="text-slate-400 font-medium text-sm mt-3 max-w-lg">
+                                Analyze any short-form video for ad intelligence, content structure, or product insights.
+                            </p>
+                        )}
                     </div>
                     <div className="flex items-center gap-4">
                         {!isChatMode && result && (
                             <button
                                 onClick={() => { setIsChatMode(false); setResult(null); setSessionId(null); setUrl(''); setFile(null); }}
-                                className="px-4 py-2 bg-gray-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-105"
+                                className="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:bg-lime-500 hover:text-slate-950 hover:scale-105 shadow-sm"
                             >
                                 + New Scan
                             </button>
@@ -601,49 +611,66 @@ function AnalyzeContent() {
                                             </div>
                                         )}
 
-                                        <div className="p-6 sm:p-10 md:p-20 bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-sm space-y-6 sm:space-y-8">
-                                            <div className="space-y-3 sm:space-y-4">
-                                                <h3 className="font-serif text-xl sm:text-3xl md:text-5xl text-slate-900 italic">Studio Scan</h3>
-                                                <p className="text-slate-400 font-light text-base sm:text-lg">Our engine will analyze structure and metrics from any public TikTok, Reels, or Shorts URL.</p>
-                                            </div>
-                                            
-                                            <div className="flex flex-wrap gap-2 bg-slate-100 p-1.5 rounded-xl w-max">
-                                                <button 
-                                                    onClick={() => setMode('ad')}
-                                                    className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all ${mode === 'ad' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                        {/* Premium scan panel */}
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-gradient-to-br from-slate-100 to-lime-50 rounded-[2.5rem] sm:rounded-[3rem] blur-sm opacity-60" />
+                                            <div className="relative bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-900/5 p-6 sm:p-10 md:p-14 space-y-6 sm:space-y-8">
+                                                <div className="space-y-2">
+                                                    <h3 className="font-serif text-xl sm:text-3xl md:text-4xl text-slate-900 italic font-bold">Studio Scan</h3>
+                                                    <p className="text-slate-400 font-medium text-sm sm:text-base">Our AI engine will analyze structure and signals from any public TikTok, Reels, or Shorts URL.</p>
+                                                </div>
+
+                                                {/* Mode pills */}
+                                                <div className="flex flex-wrap gap-2">
+                                                    {[
+                                                        { id: 'ad', label: 'Ad Intel', icon: '📣' },
+                                                        { id: 'content', label: 'Content Intel', icon: '🎬' },
+                                                        { id: 'product-intel', label: 'Product Intel', icon: '📦' },
+                                                    ].map(m => (
+                                                        <button
+                                                            key={m.id}
+                                                            onClick={() => setMode(m.id as any)}
+                                                            className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all duration-200 ${
+                                                                mode === m.id
+                                                                    ? 'bg-slate-950 text-white shadow-md'
+                                                                    : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                                                            }`}
+                                                        >
+                                                            <span>{m.icon}</span>
+                                                            {m.label}
+                                                        </button>
+                                                    ))}
+                                                </div>
+
+                                                {/* URL input */}
+                                                <div className={`flex items-center gap-4 bg-slate-50 rounded-2xl px-5 py-4 border-2 transition-all duration-200 ${url ? 'border-lime-400' : 'border-transparent focus-within:border-lime-300'}`}>
+                                                    <svg className="w-5 h-5 text-slate-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Paste TikTok, Instagram Reels, or YouTube Shorts URL..."
+                                                        value={url}
+                                                        onChange={(e) => setUrl(e.target.value)}
+                                                        className="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 font-medium text-sm sm:text-base focus:outline-none focus:ring-0"
+                                                    />
+                                                </div>
+
+                                                <button
+                                                    onClick={() => handleAnalyze()}
+                                                    disabled={isAnalyzing || !url}
+                                                    className="w-full py-5 sm:py-6 bg-slate-950 text-white font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-2xl hover:bg-lime-500 hover:text-slate-950 hover:shadow-2xl hover:shadow-lime-500/20 transition-all duration-200 disabled:opacity-40 active:scale-95"
                                                 >
-                                                    Ad Intel
+                                                    {isAnalyzing ? (
+                                                        <span className="flex items-center justify-center gap-3">
+                                                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                            Processing...
+                                                        </span>
+                                                    ) : 'Start Studio Scan'}
                                                 </button>
-                                                <button 
-                                                    onClick={() => setMode('content')}
-                                                    className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all ${mode === 'content' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                                                >
-                                                    Content Intel
-                                                </button>
-                                                <button 
-                                                    onClick={() => setMode('product-intel')}
-                                                    className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-widest transition-all ${mode === 'product-intel' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                                                >
-                                                    Product Intel
-                                                </button>
-                                            </div>
-                                            <input
-                                                type="text"
-                                                placeholder="Paste TikTok, Instagram Reels, or YouTube Shorts URL..."
-                                                value={url}
-                                                onChange={(e) => setUrl(e.target.value)}
-                                                className="w-full p-4 sm:p-6 md:p-8 bg-slate-50 border-none rounded-xl sm:rounded-3xl focus:ring-2 focus:ring-lime-500 transition-all font-medium text-sm sm:text-lg md:text-xl"
-                                            />
-                                            <button
-                                                onClick={() => handleAnalyze()}
-                                                disabled={isAnalyzing || !url}
-                                                className="w-full py-5 sm:py-6 md:py-8 bg-slate-950 text-white font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-xl sm:rounded-3xl hover:bg-lime-500 hover:text-slate-950 hover:shadow-2xl transition-all disabled:opacity-50 active:scale-95"
-                                            >
-                                                {isAnalyzing ? 'Scanning...' : 'Start Studio Scan'}
-                                            </button>
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-lime-500 animate-pulse" />
-                                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sweet Spot: 15-60s Analysis</span>
+
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-lime-500 animate-pulse" />
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Sweet Spot: 15–60s Analysis</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </>

@@ -6,6 +6,8 @@ import { useUser, useClerk, useAuth } from '@clerk/nextjs';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import OnboardingFlow from '@/components/OnboardingFlow';
 import { AnimatePresence } from 'framer-motion';
+import { LayoutDashboard, Sparkles, CreditCard, HelpCircle, Bell, ChevronRight, LogOut } from 'lucide-react';
+import { getPlanLimit } from '@/utils/plan';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
@@ -40,6 +42,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         const fetchLatestProfile = async () => {
             if (!userId) return;
             try {
+                // Check local storage fallback first
+                const localDone = typeof window !== 'undefined' && localStorage.getItem(`eixora_onboarding_done_${userId}`) === 'true';
+
                 const token = await getToken();
                 const res = await fetch(`/api/main/api/me?userId=${userId}&email=${encodeURIComponent(user?.primaryEmailAddress?.emailAddress || '')}&name=${encodeURIComponent(user?.fullName || '')}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -48,12 +53,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     const data = await res.json();
                     setProfileData(data);
 
-if (data.onboarding_completed === false) {
+                    if (data.onboarding_completed === true) {
+                        if (typeof window !== 'undefined') {
+                            localStorage.setItem(`eixora_onboarding_done_${userId}`, 'true');
+                        }
+                    } else if (data.onboarding_completed === false && !localDone) {
                         setShowOnboarding(true);
                     }
                 }
             } catch (err) {
-
+                console.error('Failed to fetch profile', err);
             }
         };
 
@@ -84,29 +93,17 @@ if (data.onboarding_completed === false) {
         { 
             name: 'Dashboard', 
             href: '/dashboard',
-            icon: (
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
-                </svg>
-            )
+            icon: <LayoutDashboard className="w-4 h-4" />
         },
         { 
             name: 'Lounge', 
             href: '/dashboard/analyze',
-            icon: (
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-            )
+            icon: <Sparkles className="w-4 h-4" />
         },
         { 
             name: 'Billing & Plans', 
             href: '/dashboard/upgrade',
-            icon: (
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z" />
-                </svg>
-            )
+            icon: <CreditCard className="w-4 h-4" />
         }
     ];
 
@@ -121,6 +118,13 @@ if (data.onboarding_completed === false) {
     };
 
     const handleOnboardingComplete = async (data: { niche: string; goal: string; name: string; source: string; lens: string }) => {
+        // Immediately persist locally & close UI
+        if (typeof window !== 'undefined' && userId) {
+            localStorage.setItem(`eixora_onboarding_done_${userId}`, 'true');
+        }
+        setShowOnboarding(false);
+
+        // Update Clerk metadata safely
         try {
             if (user && data.name) {
                 const nameParts = data.name.trim().split(' ');
@@ -137,7 +141,12 @@ if (data.onboarding_completed === false) {
                     }
                 });
             }
+        } catch (clerkErr) {
+            console.warn("Clerk metadata update deferred:", clerkErr);
+        }
 
+        // Persist to Postgres database
+        try {
             const token = await getToken();
             const res = await fetch('/api/main/api/me', {
                 method: 'PATCH',
@@ -147,6 +156,8 @@ if (data.onboarding_completed === false) {
                 },
                 body: JSON.stringify({
                     userId: user?.id,
+                    email: user?.primaryEmailAddress?.emailAddress,
+                    name: user?.fullName || data.name,
                     onboarding_completed: true,
                     brand_niche: data.niche,
                     primary_goal: data.goal,
@@ -156,10 +167,9 @@ if (data.onboarding_completed === false) {
             if (res.ok) {
                 const updated = await res.json();
                 setProfileData(updated);
-                setShowOnboarding(false);
             }
         } catch (err) {
-
+            console.error("Failed to persist onboarding to database:", err);
         }
     };
 
@@ -238,17 +248,45 @@ if (data.onboarding_completed === false) {
                     </button>
                 </header>
 
-                <header id="global-desktop-header" className="hidden lg:flex items-center justify-between p-6 border-b border-slate-100 bg-white/60 backdrop-blur-xl sticky top-0 z-40">
-                    <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-                        <span className="text-slate-900 font-semibold text-lg">{navItems.find(i => i.href === pathname)?.name || 'Dashboard'}</span>
+                <header id="global-desktop-header" className="hidden lg:flex items-center justify-between px-8 py-5 border-b border-slate-100 bg-white/70 backdrop-blur-2xl sticky top-0 z-40">
+                    <div className="flex items-center gap-3">
+                        <span className="text-slate-400 text-sm font-medium">Eixora</span>
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+                        <span className="text-slate-900 font-semibold text-sm">{navItems.find((i: any) => i.href === pathname)?.name || 'Dashboard'}</span>
                     </div>
+
                     <div className="flex items-center gap-4">
-                        {profileData && (
-                            <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-4 py-1.5 text-xs font-medium text-slate-600 shadow-sm">
-                                <svg className="w-4 h-4 text-lime-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                                <span>Scans: {profileData.scan_count || 0} / {profileData.scan_limit || 10}</span>
-                            </div>
-                        )}
+                        {profileData && (() => {
+                            const scans = profileData.monthly_usage?.scans ?? 0;
+                            const limit = getPlanLimit(profileData.plan_type || 'free');
+                            const pct = limit > 0 ? Math.min((scans / limit) * 100, 100) : 0;
+                            const isHigh = pct > 80;
+                            return (
+                                <div className={`flex items-center gap-3 border rounded-full px-4 py-2 text-xs font-bold shadow-sm cursor-default transition-all hover:scale-105 ${
+                                    isHigh
+                                        ? 'bg-red-50/80 border-red-200 text-red-700'
+                                        : 'bg-lime-50/80 border-lime-200 text-lime-700'
+                                }`}>
+                                    <div className="relative w-4 h-4">
+                                        <svg className="w-4 h-4 -rotate-90" viewBox="0 0 16 16">
+                                            <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeOpacity="0.2" strokeWidth="2.5"/>
+                                            <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="2.5"
+                                                strokeDasharray={`${2 * Math.PI * 6}`}
+                                                strokeDashoffset={`${2 * Math.PI * 6 * (1 - pct / 100)}`}
+                                                strokeLinecap="round"
+                                                style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+                                            />
+                                        </svg>
+                                    </div>
+                                    <span>{scans} / {limit} Scans</span>
+                                </div>
+                            );
+                        })()}
+
+                        <button className="relative p-2 text-slate-400 hover:text-slate-900 transition-colors hover:bg-slate-100 rounded-full">
+                            <Bell className="w-4.5 h-4.5" />
+                            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-lime-500 rounded-full"></span>
+                        </button>
                     </div>
                 </header>
 
@@ -274,37 +312,45 @@ if (data.onboarding_completed === false) {
                     userId={user?.id}
                 />
 
-                <button
-                    onClick={() => setIsSupportOpen(true)}
-                    className="fixed bottom-24 right-6 lg:bottom-6 lg:right-6 lg:hidden w-14 h-14 bg-lime-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40"
-                >
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
-                </button>
-
-                <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 pb-4 z-50 flex justify-around items-center px-2 py-3 shadow-[0_-4px_15px_-5px_rgba(0,0,0,0.05)]">
-                    {navItems.slice(0, 3).map((item: any) => {
-                        const isActive = pathname === item.href;
-                        return (
-                            <Link key={item.href} href={item.href} className={`flex flex-col items-center p-2 rounded-lg transition-colors ${isActive ? 'text-lime-600' : 'text-slate-400 hover:text-slate-900'}`}>
-                                <span className={`${isActive ? 'scale-110' : ''} transition-transform`}>{item.icon}</span>
-                                <span className="text-[10px] mt-1.5 font-medium">{item.name.split(' ')[0]}</span>
-                            </Link>
-                        );
-                    })}
-                    <button onClick={() => setIsMobileMenuOpen(true)} className="flex flex-col items-center p-2 rounded-lg text-slate-400 hover:text-slate-900 transition-colors">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                        <span className="text-[10px] mt-1.5 font-medium">More</span>
-                    </button>
-                    <button
-                        onClick={handleLogout}
-                        disabled={isLoggingOut}
-                        className="flex flex-col items-center p-2 rounded-lg text-slate-400 hover:text-red-500 transition-colors disabled:opacity-50"
-                    >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        <span className="text-[10px] mt-1.5 font-medium">{isLoggingOut ? '...' : 'Sign Out'}</span>
-                    </button>
+                {/* ── Floating bottom tab bar ── */}
+                <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+                    <div className="flex items-center gap-1 bg-white/90 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl shadow-slate-950/15 px-2 py-2">
+                        {navItems.slice(0, 3).map((item: any) => {
+                            const isActive = pathname === item.href;
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={`relative flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
+                                        isActive
+                                            ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/20'
+                                            : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'
+                                    }`}
+                                >
+                                    <span className={`transition-transform duration-200 ${isActive ? 'scale-110' : ''}`}>{item.icon}</span>
+                                    <span className={`text-[9px] font-black uppercase tracking-wider leading-none ${
+                                        isActive ? 'text-white' : 'text-slate-400'
+                                    }`}>{item.name.split(' ')[0]}</span>
+                                </Link>
+                            );
+                        })}
+                        {/* Divider */}
+                        <div className="w-px h-8 bg-slate-100 mx-1" />
+                        <button
+                            onClick={() => setIsSupportOpen(true)}
+                            className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-all"
+                        >
+                            <HelpCircle className="w-4 h-4" />
+                            <span className="text-[9px] font-black uppercase tracking-wider leading-none">Help</span>
+                        </button>
+                        <button
+                            onClick={() => setIsMobileMenuOpen(true)}
+                            className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-all"
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                            <span className="text-[9px] font-black uppercase tracking-wider leading-none">More</span>
+                        </button>
+                    </div>
                 </div>
             </main>
         </div>
@@ -414,97 +460,161 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
 
 function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClose, profile, sessions, onOpenSupport }: any) {
     const searchParams = useSearchParams();
-    const currentSessionId = searchParams.get('sessionId');
 
     return (
-        <div className="flex flex-col h-full overflow-hidden">
-            <div className="p-8 border-b border-slate-100 flex-shrink-0">
-                <Link href="/" className="text-2xl font-serif font-bold italic hover:opacity-70 transition-opacity">
-                    Eixora<span className="text-lime-600">.</span>
+        <div className="flex flex-col h-full overflow-hidden bg-white">
+
+            {/* ── Logo strip ── */}
+            <div className="px-6 pt-7 pb-5 flex-shrink-0">
+                <Link href="/" onClick={onClose} className="flex items-center gap-2.5 group">
+                    <div className="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center shadow-sm group-hover:bg-lime-500 transition-colors duration-200">
+                        <Sparkles className="w-3.5 h-3.5 text-white" />
+                    </div>
+                    <span className="text-lg font-serif font-bold italic tracking-tight text-slate-900">
+                        Eixora<span className="text-lime-500">.</span>
+                    </span>
                 </Link>
             </div>
 
-            <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col p-8 space-y-10 min-h-0">
+            {/* ── Nav ── */}
+            <div className="flex-1 overflow-y-auto flex flex-col px-3 pb-4 space-y-0.5 min-h-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-3 pb-2 pt-1">Menu</p>
 
-                <div className="space-y-4">
-                    <span className="text-xs font-semibold tracking-wider uppercase text-slate-400 mb-3 block">Workspace</span>
-                    {navItems.map((item: any) => {
-                        const isActive = pathname === item.href;
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                onClick={onClose}
-                                className={`group flex items-center gap-3 px-4 py-3.5 text-sm font-medium transition-all duration-300 rounded-xl ${isActive
-                                    ? 'bg-lime-600 text-white shadow-md shadow-lime-600/10 font-semibold'
-                                    : 'text-slate-500 hover:bg-slate-50 hover:text-lime-600'
-                                    } ${item.id || ''}`}
-                            >
-                                <span className={`transition-all ${isActive ? 'text-white scale-110' : 'text-slate-400 group-hover:text-lime-500 group-hover:scale-110'}`}>
-                                    {item.icon}
-                                </span>
-                                <div className="flex items-center justify-between w-full">
-                                    <span>{item.name}</span>
-                                    {item.comingSoon && (
-                                        <span className="text-[8px] font-black bg-lime-100 text-lime-600 px-2 py-0.5 rounded-full tracking-normal lowercase">soon</span>
-                                    )}
-                                </div>
-                            </Link>
-                        );
-                    })}
+                {navItems.map((item: any) => {
+                    const isActive = pathname === item.href;
+                    return (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={onClose}
+                            className={`group flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150 rounded-xl ${
+                                isActive
+                                    ? 'bg-slate-950 text-white shadow-sm'
+                                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                            } ${item.id || ''}`}
+                        >
+                            <span className={`flex-shrink-0 transition-all ${
+                                isActive ? 'text-lime-400' : 'text-slate-400 group-hover:text-slate-600'
+                            }`}>
+                                {item.icon}
+                            </span>
+                            <span className="flex-1">{item.name}</span>
+                            {isActive && (
+                                <span className="w-1.5 h-1.5 rounded-full bg-lime-400 flex-shrink-0" />
+                            )}
+                            {item.comingSoon && (
+                                <span className="text-[8px] font-black bg-slate-100 text-slate-400 px-2 py-0.5 rounded-full tracking-normal">soon</span>
+                            )}
+                        </Link>
+                    );
+                })}
+
+                {/* Divider */}
+                <div className="pt-3 pb-1">
+                    <div className="h-px bg-slate-100" />
                 </div>
 
                 <button
                     onClick={() => { onOpenSupport(); onClose?.(); }}
-                    className="w-full tour-support group flex items-center gap-3 px-4 py-3.5 text-sm font-medium transition-all duration-300 rounded-xl text-slate-500 hover:bg-lime-50 hover:text-lime-600"
+                    className="tour-support group flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-900 w-full text-left"
                 >
-                    <span className="text-slate-400 group-hover:text-lime-600 group-hover:scale-110 transition-all">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
+                    <span className="text-slate-400 group-hover:text-slate-600 flex-shrink-0">
+                        <HelpCircle className="w-4 h-4" />
                     </span>
                     <span>Help & Support</span>
                 </button>
             </div>
 
-            <div className="p-8 border-t border-slate-100 space-y-6 flex-shrink-0 bg-slate-50/50">
+            {/* ── Scan usage card ── */}
+            {profile && (
+                <div className="px-4 pb-3 flex-shrink-0">
+                    <ScanUsageBar profile={profile} />
+                </div>
+            )}
+
+            {/* ── Profile footer ── */}
+            <div className="px-3 pb-4 pt-2 border-t border-slate-100 flex-shrink-0">
                 {profile ? (
-                    <div className="flex items-center gap-4">
-                        {profile.image ? (
-                            <img src={profile.image} alt={profile.full_name} className="w-10 h-10 rounded-full border border-slate-200" />
-                        ) : (
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-950 to-lime-950 text-white flex items-center justify-center font-semibold text-lg shadow-md">
-                                {profile.full_name ? profile.full_name[0] : 'U'}
+                    <div className="group flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors cursor-default">
+                        <div className="flex items-center gap-3 min-w-0">
+                            {profile.image ? (
+                                <img
+                                    src={profile.image}
+                                    alt={profile.full_name}
+                                    className="w-8 h-8 rounded-full object-cover ring-2 ring-white shadow-sm"
+                                />
+                            ) : (
+                                <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs shadow-sm flex-shrink-0">
+                                    {profile.full_name ? profile.full_name[0].toUpperCase() : 'U'}
+                                </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold truncate text-slate-900 leading-tight">{profile.full_name || 'User'}</p>
+                                <p className="text-[10px] font-bold uppercase tracking-wider text-lime-600 leading-tight mt-0.5">{
+                                    !profile.plan_type || profile.plan_type === 'free' ? 'Free' :
+                                    profile.plan_type === 'creator' ? 'Creator' :
+                                    'Studio'
+                                }</p>
                             </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold truncate text-slate-900">{profile.full_name || 'User'}</p>
-                            <p className="text-xs text-lime-600 font-medium tracking-wide">{
-                                !profile.plan_type || profile.plan_type === 'free' ? 'Free Trial' :
-                                profile.plan_type === 'creator' ? 'Creator Plan' :
-                                (profile.plan_type === 'studio' || profile.plan_type === 'agency') ? 'Studio Plan' :
-                                'Premium Member'
-                            }</p>
                         </div>
+                        <button
+                            onClick={handleLogout}
+                            disabled={isLoggingOut}
+                            className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:bg-red-50 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0"
+                            title="Sign out"
+                        >
+                            <LogOut className="w-3.5 h-3.5" />
+                        </button>
                     </div>
                 ) : (
-                    <div className="flex items-center gap-4 animate-pulse">
-                        <div className="w-10 h-10 rounded-full bg-slate-200"></div>
-                        <div className="space-y-2 flex-1">
-                            <div className="h-3 w-20 bg-slate-200 rounded"></div>
-                            <div className="h-2 w-12 bg-slate-200 rounded"></div>
+                    <div className="flex items-center gap-3 px-3 py-2.5 animate-pulse">
+                        <div className="w-8 h-8 rounded-full bg-slate-100 flex-shrink-0" />
+                        <div className="space-y-1.5 flex-1">
+                            <div className="h-2.5 w-24 bg-slate-100 rounded" />
+                            <div className="h-2 w-14 bg-slate-100 rounded" />
                         </div>
                     </div>
                 )}
-
-                <button
-                    onClick={handleLogout}
-                    disabled={isLoggingOut}
-                    className="w-full py-3 px-4 border border-slate-200 text-xs font-semibold text-slate-400 hover:border-lime-200 hover:text-lime-600 hover:bg-white transition-all rounded-xl disabled:opacity-50"
-                >
-                    {isLoggingOut ? 'Signing out...' : 'Sign Out'}
-                </button>
             </div>
+        </div>
+    );
+}
+
+function ScanUsageBar({ profile }: { profile: any }) {
+    const used   = profile?.monthly_usage?.scans ?? profile?.scan_count ?? 0;
+    const limit  = getPlanLimit(profile?.plan_type || 'free');
+    const pct    = limit > 0 ? Math.min((used / limit) * 100, 100) : 0;
+    const isHigh = pct > 80;
+    const isMid  = pct > 50;
+    const planLabel =
+        !profile?.plan_type || profile.plan_type === 'free' ? 'Free Trial'
+        : profile.plan_type === 'creator' ? 'Creator'
+        : 'Studio';
+
+    return (
+        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+            <div className="flex items-center justify-between">
+                <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Scan Usage</p>
+                    <p className="text-base font-bold text-slate-900 leading-tight mt-0.5">
+                        {used} <span className="text-slate-400 font-normal text-sm">/ {limit}</span>
+                    </p>
+                </div>
+                <span className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
+                    isHigh ? 'bg-red-100 text-red-600' : 'bg-lime-100 text-lime-700'
+                }`}>{planLabel}</span>
+            </div>
+            <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                <div
+                    className={`h-full rounded-full transition-all duration-700 ${
+                        isHigh ? 'bg-red-500' : isMid ? 'bg-amber-500' : 'bg-lime-500'
+                    }`}
+                    style={{ width: `${pct}%` }}
+                />
+            </div>
+            <p className="text-[10px] text-slate-400 font-medium">
+                {Math.max(0, limit - used)} scan{limit - used !== 1 ? 's' : ''} remaining this period
+            </p>
         </div>
     );
 }

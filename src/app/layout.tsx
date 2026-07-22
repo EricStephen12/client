@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
 import { Providers } from '@/components/Providers';
+import localFont from 'next/font/local';
+
+const singsong = localFont({
+  src: '../../public/fonts/Singsong.otf',
+  variable: '--font-singsong',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "EIXORA — AI Ad Intelligence for Creators | Decode Viral TikTok Ads",
@@ -46,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className={`${singsong.variable}`}>
         <body className="font-sans antialiased text-slate-900 bg-[#FAFAF9]">
           <Providers>
             {children}
