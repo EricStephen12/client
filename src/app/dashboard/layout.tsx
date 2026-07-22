@@ -212,14 +212,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 <div className="fixed inset-0 z-50 lg:hidden">
                     <div className="absolute inset-0 bg-lime-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
                     <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in flex flex-col">
-                        <div className="flex justify-between items-center p-6 border-b border-slate-100 flex-shrink-0">
-                            <Link href="/" className="text-2xl font-serif font-bold italic" onClick={() => setIsMobileMenuOpen(false)}>
-                                Eixora<span className="text-lime-600">.</span>
-                            </Link>
-                            <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-lime-600 transition-colors">
-                                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
-                            </button>
-                        </div>
+                            {/* Header removed from here to reduce duplicate logos */}
                         <div className="flex-1 overflow-y-auto">
                         <Suspense fallback={<div className="p-8 w-full h-full bg-white animate-pulse" />}>
                             <SidebarContent
@@ -313,45 +306,47 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 />
 
                 {/* ── Floating bottom tab bar ── */}
-                <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-                    <div className="flex items-center gap-1 bg-white/90 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl shadow-slate-950/15 px-2 py-2">
-                        {navItems.slice(0, 3).map((item: any) => {
-                            const isActive = pathname === item.href;
-                            return (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    className={`relative flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
-                                        isActive
-                                            ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/20'
-                                            : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'
-                                    }`}
-                                >
-                                    <span className={`transition-transform duration-200 ${isActive ? 'scale-110' : ''}`}>{item.icon}</span>
-                                    <span className={`text-[9px] font-black uppercase tracking-wider leading-none ${
-                                        isActive ? 'text-white' : 'text-slate-400'
-                                    }`}>{item.name.split(' ')[0]}</span>
-                                </Link>
-                            );
-                        })}
-                        {/* Divider */}
-                        <div className="w-px h-8 bg-slate-100 mx-1" />
-                        <button
-                            onClick={() => setIsSupportOpen(true)}
-                            className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-all"
-                        >
-                            <HelpCircle className="w-4 h-4" />
-                            <span className="text-[9px] font-black uppercase tracking-wider leading-none">Help</span>
-                        </button>
-                        <button
-                            onClick={() => setIsMobileMenuOpen(true)}
-                            className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-all"
-                        >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                            <span className="text-[9px] font-black uppercase tracking-wider leading-none">More</span>
-                        </button>
+                {!isMobileMenuOpen && (
+                    <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+                        <div className="flex items-center gap-1 bg-white/90 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl shadow-slate-950/15 px-2 py-2">
+                            {navItems.slice(0, 3).map((item: any) => {
+                                const isActive = pathname === item.href;
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className={`relative flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
+                                            isActive
+                                                ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/20'
+                                                : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'
+                                        }`}
+                                    >
+                                        <span className={`transition-transform duration-200 ${isActive ? 'scale-110' : ''}`}>{item.icon}</span>
+                                        <span className={`text-[9px] font-black uppercase tracking-wider leading-none ${
+                                            isActive ? 'text-white' : 'text-slate-400'
+                                        }`}>{item.name.split(' ')[0]}</span>
+                                    </Link>
+                                );
+                            })}
+                            {/* Divider */}
+                            <div className="w-px h-8 bg-slate-100 mx-1" />
+                            <button
+                                onClick={() => setIsSupportOpen(true)}
+                                className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-all"
+                            >
+                                <HelpCircle className="w-4 h-4" />
+                                <span className="text-[9px] font-black uppercase tracking-wider leading-none">Help</span>
+                            </button>
+                            <button
+                                onClick={() => setIsMobileMenuOpen(true)}
+                                className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-all"
+                            >
+                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                                <span className="text-[9px] font-black uppercase tracking-wider leading-none">More</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                )}
             </main>
         </div>
     );
@@ -465,7 +460,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
         <div className="flex flex-col h-full overflow-hidden bg-white">
 
             {/* ── Logo strip ── */}
-            <div className="px-6 pt-7 pb-5 flex-shrink-0">
+            <div className="px-6 pt-7 pb-5 flex-shrink-0 flex items-center justify-between">
                 <Link href="/" onClick={onClose} className="flex items-center gap-2.5 group">
                     <div className="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center shadow-sm group-hover:bg-lime-500 transition-colors duration-200">
                         <Sparkles className="w-3.5 h-3.5 text-white" />
@@ -474,6 +469,11 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         Eixora<span className="text-lime-500">.</span>
                     </span>
                 </Link>
+                {onClose && (
+                    <button onClick={onClose} className="lg:hidden w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-900 hover:bg-slate-200 transition-all">
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                )}
             </div>
 
             {/* ── Nav ── */}
