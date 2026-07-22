@@ -440,10 +440,54 @@ function AnalyzeContent() {
 
     const handleAnalyze = async (overrideMode?: 'ad' | 'content' | 'product-intel') => {
         const currentMode = overrideMode || mode;
+
         if (activeTab === 'upload') {
-            alert('File upload is not supported yet. Please use a video URL.');
+            // — File upload path —
+            if (!file) return;
+            setIsAnalyzing(true);
+            try {
+                const token = await getToken();
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('userId', userId || '');
+                formData.append('mode', currentMode);
+                formData.append('niche', (user?.unsafeMetadata?.role as string) || '');
+
+                const res = await fetch('/api/main/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                let errorMessage = 'Failed to upload video. Please try again.';
+                if (!res.ok) {
+                    try {
+                        const text = await res.text();
+                        try {
+                            const errData = JSON.parse(text);
+                            errorMessage = errData.details || errData.error || errorMessage;
+                        } catch (e) {
+                            errorMessage = `Server Error (${res.status}): ${text.substring(0, 100)}`;
+                        }
+                    } catch (e) {}
+                    throw new Error(errorMessage);
+                }
+
+                const data = await res.json();
+                if (data.sessionId) {
+                    window.history.pushState({}, '', `?sessionId=${data.sessionId}`);
+                    setSessionId(data.sessionId);
+                    loadSession(data.sessionId);
+                }
+            } catch (err: any) {
+                console.error(err);
+                alert(`Upload Error: ${err.message}`);
+                setIsAnalyzing(false);
+            }
             return;
         }
+
+        // — URL analysis path —
         if (activeTab === 'url' && !url) return;
 
         setIsAnalyzing(true);
