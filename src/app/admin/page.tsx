@@ -34,6 +34,7 @@ export default function AdminDashboardPage() {
     const { getToken } = useAuth();
     const [stats, setStats] = useState<any>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         async function fetchStats() {
@@ -44,9 +45,13 @@ export default function AdminDashboardPage() {
                 });
                 if (res.ok) {
                     setStats(await res.json());
+                } else {
+                    const body = await res.json().catch(() => ({}));
+                    setError(`Server returned ${res.status}: ${body?.error || res.statusText}`);
                 }
-            } catch (error) {
-                console.error("Failed to fetch admin stats", error);
+            } catch (error: any) {
+                setError(`Network error: ${error.message}`);
+                console.error('Failed to fetch admin stats', error);
             } finally {
                 setLoading(false);
             }
@@ -65,7 +70,15 @@ export default function AdminDashboardPage() {
         );
     }
 
-    if (!stats) return <p className="text-slate-500 text-center py-20">Failed to load statistics.</p>;
+    if (!stats) return (
+        <div className="flex flex-col items-center justify-center h-64 gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-red-50 flex items-center justify-center">
+                <span className="text-2xl">⚠️</span>
+            </div>
+            <p className="text-slate-700 font-semibold">Failed to load statistics</p>
+            <p className="text-xs text-red-500 font-mono bg-red-50 px-3 py-1.5 rounded-lg">{error || 'Unknown error — check browser console and server logs'}</p>
+        </div>
+    );
 
     // Time-based greeting
     const hour = new Date().getHours();
