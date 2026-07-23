@@ -124,26 +124,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         }
         setShowOnboarding(false);
 
-        // Update Clerk metadata safely
-        try {
-            if (user && data.name) {
-                const nameParts = data.name.trim().split(' ');
-                const firstName = nameParts[0] || '';
-                const lastName = nameParts.slice(1).join(' ') || '';
-                await user.update({
-                    firstName,
-                    lastName,
-                    unsafeMetadata: {
-                        role: data.niche,
-                        goal: data.goal,
-                        lens: data.lens,
-                        onboardingComplete: true
-                    }
-                });
-            }
-        } catch (clerkErr) {
-            console.warn("Clerk metadata update deferred:", clerkErr);
-        }
+        // (Removed Clerk unsafeMetadata update — migrating fully to Neon Postgres)
 
         // Persist to Postgres database
         try {
