@@ -541,7 +541,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         <button
                             onClick={handleLogout}
                             disabled={isLoggingOut}
-                            className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:bg-red-50 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100 flex-shrink-0"
+                            className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all flex-shrink-0"
                             title="Sign out"
                         >
                             <LogOut className="w-3.5 h-3.5" />
