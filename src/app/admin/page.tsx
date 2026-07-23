@@ -40,6 +40,11 @@ export default function AdminDashboardPage() {
         async function fetchStats() {
             try {
                 const token = await getToken();
+                if (!token) {
+                    setError('Authentication token unavailable. Please refresh the page.');
+                    setLoading(false);
+                    return;
+                }
                 const res = await fetch('/api/main/api/admin/stats', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });

@@ -14,11 +14,18 @@ export default function WaitlistAdminPage() {
         async function fetchWaitlist() {
             try {
                 const token = await getToken();
+                if (!token) {
+                    console.error('Auth token unavailable');
+                    setLoading(false);
+                    return;
+                }
                 const res = await fetch('/api/main/api/admin/waitlist', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
                     setWaitlist(await res.json());
+                } else {
+                    console.error(`Failed to fetch waitlist: ${res.status} ${res.statusText}`);
                 }
             } catch (error) {
                 console.error("Failed to fetch waitlist", error);

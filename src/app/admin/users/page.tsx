@@ -15,11 +15,18 @@ export default function AdminUsersPage() {
         async function fetchUsers() {
             try {
                 const token = await getToken();
+                if (!token) {
+                    console.error('Auth token unavailable');
+                    setLoading(false);
+                    return;
+                }
                 const res = await fetch('/api/main/api/admin/users', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) {
                     setUsers(await res.json());
+                } else {
+                    console.error(`Failed to fetch users: ${res.status} ${res.statusText}`);
                 }
             } catch (error) {
                 console.error("Failed to fetch users", error);

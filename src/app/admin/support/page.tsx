@@ -16,11 +16,18 @@ export default function AdminSupportPage() {
     async function fetchTickets() {
         try {
             const token = await getToken();
+            if (!token) {
+                console.error('Auth token unavailable');
+                setLoading(false);
+                return;
+            }
             const res = await fetch('/api/main/api/admin/support', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
                 setTickets(await res.json());
+            } else {
+                console.error(`Failed to fetch tickets: ${res.status} ${res.statusText}`);
             }
         } catch (error) {
             console.error("Failed to fetch tickets", error);
@@ -32,6 +39,10 @@ export default function AdminSupportPage() {
     async function resolveTicket(id: string) {
         try {
             const token = await getToken();
+            if (!token) {
+                console.error('Auth token unavailable');
+                return;
+            }
             const res = await fetch(`/api/main/api/admin/support/${id}/resolve`, {
                 method: 'PATCH',
                 headers: { 'Authorization': `Bearer ${token}` }
