@@ -270,7 +270,46 @@ function AnalyzeContent() {
     const startChat = async () => {
         setIsChatMode(true);
         const firstName = user?.firstName || user?.username || 'there';
-        const initialMsg = { role: 'assistant', content: `Hey ${firstName}! I've just watched this video. Ask me anything about its hook, pacing, or psychology!` };
+        const dna = result?.analysis;
+
+        // Build a rich summary message from the actual analysis data
+        const hook       = dna?.metrics?.hook_power       ?? '—';
+        const retention  = dna?.metrics?.retention_score  ?? '—';
+        const conversion = dna?.metrics?.conversion_trigger ?? '—';
+        const bigIdea    = dna?.big_idea || dna?.verdict || null;
+        const hookCrit   = dna?.hook_analysis?.critique   || null;
+        const triggers   = dna?.psychological_triggers?.slice(0, 3) || [];
+        const mode       = result?.mode || 'ad';
+        const isProduct  = mode === 'product-intel';
+
+        let summaryContent = `Hey ${firstName}! I've finished analyzing this video. Here's what I found:\n\n`;
+
+        if (isProduct) {
+            summaryContent += `**📦 Product Intelligence Report**\n\n`;
+            if (bigIdea) summaryContent += `> "${bigIdea}"\n\n`;
+            if (dna?.marketStage)   summaryContent += `**Market Stage:** ${dna.marketStage}\n`;
+            if (dna?.saturationScore !== undefined) summaryContent += `**Saturation:** ${dna.saturationScore}/10\n`;
+            if (dna?.audiencePainFitScore !== undefined) summaryContent += `**Pain Fit:** ${dna.audiencePainFitScore}/10\n`;
+            if (dna?.profitViabilityScore !== undefined) summaryContent += `**Profit Viability:** ${dna.profitViabilityScore}/10\n`;
+        } else {
+            summaryContent += `**📊 Performance Scores**\n`;
+            summaryContent += `• Hook Power: **${hook}/10**\n`;
+            summaryContent += `• Retention Logic: **${retention}/10**\n`;
+            summaryContent += `• Conversion Trigger: **${conversion}/10**\n\n`;
+
+            if (bigIdea) summaryContent += `**💡 Big Idea**\n> "${bigIdea}"\n\n`;
+
+            if (hookCrit) summaryContent += `**🎣 Hook Analysis**\n${hookCrit}\n\n`;
+
+            if (triggers.length > 0) {
+                summaryContent += `**🧠 Key Psychological Triggers**\n`;
+                triggers.forEach((t: string) => { summaryContent += `• ${t}\n`; });
+            }
+        }
+
+        summaryContent += `\n---\nAsk me anything — why the hook works, how to replicate it, script ideas, or a full strategy brief.`;
+
+        const initialMsg = { role: 'assistant', content: summaryContent };
         setMessages([initialMsg]);
 
         const savedId = await saveSessionState([initialMsg]);
