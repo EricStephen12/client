@@ -41,6 +41,21 @@ export default function ReportPage() {
     if (!data) return <div className="p-10 sm:p-20 text-center font-serif italic text-gray-400 px-4">Report not found. Verify session ID.</div>;
 
     const audit = data.dna;
+    // Mode can be on the session directly or nested inside the DNA object
+    const mode = data.mode || audit?.mode || 'ad';
+    const isProductIntel = mode === 'product-intel';
+
+    // Clean title — strip the "Product Intel: " prefix and raw URLs
+    const rawTitle = data.title || '';
+    const cleanTitle = (() => {
+        if (isProductIntel) return audit?.productName || rawTitle.replace(/^Product Intel:\s*/i, '').trim() || 'Product Evaluation';
+        return rawTitle.replace(/^Analysis:\s*/i, '').trim() || 'Viral Analysis Report';
+    })();
+
+    // Truncate long URLs shown as titles
+    const displayTitle = cleanTitle.startsWith('http')
+        ? cleanTitle.split('/').filter(Boolean).pop()?.replace(/[?#].*/, '') || 'Video Analysis'
+        : cleanTitle;
 
     return (
         <div className="min-h-screen bg-neutral-50 py-6 sm:py-12 px-4 sm:px-6 md:px-12 print:bg-white print:p-0">
@@ -69,17 +84,17 @@ export default function ReportPage() {
                         <div className="flex items-center gap-3">
                             <span className="w-6 sm:w-8 h-1 bg-lime-500 rounded-full"></span>
                             <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase text-lime-400">
-                                {data.mode === 'product-intel' ? 'Product Intelligence Report' : 'Strategic Ad Audit'}
+                                {isProductIntel ? 'Product Intelligence Report' : 'Strategic Ad Audit'}
                             </span>
                         </div>
                         <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif italic tracking-tight leading-tight">
-                            {data.mode === 'product-intel' ? (audit.productName || 'Product Evaluation') : (data.title || 'Viral Analysis Report')}
+                            {displayTitle}
                         </h1>
                         <p className="text-[9px] sm:text-sm font-light opacity-50 uppercase tracking-widest border-t border-white/10 pt-4 inline-block">Ref: {sessionId?.toString().slice(0, 8)} • {new Date(data.created_at).toLocaleDateString()}</p>
                     </div>
                 </header>
 
-                {data.mode === 'product-intel' ? (
+                {isProductIntel ? (
                     <div className="p-8 sm:p-12 md:p-16 space-y-12 sm:space-y-16">
                         {/* Verdict Dashboard */}
                         <section className="space-y-6">
