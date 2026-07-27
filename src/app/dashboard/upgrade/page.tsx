@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import PricingSection from '@/components/PricingSection';
 import { Shield, Zap, Star, CheckCircle2, ArrowRight } from 'lucide-react';
+import { getPlanLimit } from '@/utils/plan';
 
 const features = [
     { icon: Zap,   label: 'Instant AI Analysis',   desc: 'Get viral DNA in seconds' },
@@ -36,6 +37,7 @@ export default function UpgradePage() {
     const scanCount  = profileData?.monthly_usage?.scans ?? 0;
     const scriptCount = profileData?.monthly_usage?.scripts ?? 0;
     const isFree = !currentTier || currentTier === 'free';
+    const scanLimit = getPlanLimit(currentTier);
 
     return (
         <div className="max-w-6xl mx-auto pb-24">
@@ -86,11 +88,11 @@ export default function UpgradePage() {
                     <div className="flex items-center gap-3">
                         <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
                         <span className="text-sm font-bold text-amber-800">You're on the Free Trial</span>
-                        <span className="text-xs text-amber-600 font-medium">— {Math.max(0, 3 - scanCount)} scan{Math.max(0, 3 - scanCount) !== 1 ? 's' : ''} remaining this period</span>
+                        <span className="text-xs text-amber-600 font-medium">— {Math.max(0, scanLimit - scanCount)} scan{Math.max(0, scanLimit - scanCount) !== 1 ? 's' : ''} remaining this period</span>
                     </div>
                     <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-amber-600">
-                        <span>{scanCount} / 3 Scans Used</span>
-                        <span>{scriptCount} / 3 Briefs Used</span>
+                        <span>{scanCount} / {scanLimit} Scans Used</span>
+                        <span>{scriptCount} / {scanLimit} Briefs Used</span>
                     </div>
                 </motion.div>
             )}
