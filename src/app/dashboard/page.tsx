@@ -263,24 +263,23 @@ export default function DashboardPage() {
                                 <motion.div key={session.id} variants={itemVariants}>
                                     <Link
                                         href={`/dashboard/analyze?sessionId=${session.id}`}
-                                        className="group flex items-center justify-between p-4 sm:p-5 bg-white border border-slate-100 rounded-2xl hover:border-lime-300 hover:shadow-lg hover:shadow-lime-500/10 transition-all duration-200"
+                                        className="group flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl hover:border-lime-300 hover:shadow-lg hover:shadow-lime-500/10 transition-all duration-200"
                                     >
-                                        <div className="flex items-center gap-4">
-                                            <div className="relative w-10 h-10 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm flex-shrink-0">
+                                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                                            <div className="relative w-9 h-9 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm flex-shrink-0">
                                                 <Play className="w-4 h-4 fill-current" />
-                                                {/* ready dot */}
                                                 <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-lime-500 rounded-full border-2 border-white" />
                                             </div>
-                                            <div>
-                                                <h4 className="font-bold text-slate-900 truncate pr-4 text-sm sm:text-base leading-tight">
+                                            <div className="min-w-0 flex-1">
+                                                <h4 className="font-bold text-slate-900 text-sm leading-tight truncate">
                                                     {session.title || 'Untitled Scan'}
                                                 </h4>
-                                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                                <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mt-0.5">
                                                     {new Date(session.created_at || session.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                                 </span>
                                             </div>
                                         </div>
-                                        <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-lime-500 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                                        <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-lime-500 group-hover:translate-x-1 transition-all flex-shrink-0 ml-2" />
                                     </Link>
                                 </motion.div>
                             ))
