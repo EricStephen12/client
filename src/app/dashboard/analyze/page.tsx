@@ -231,7 +231,7 @@ function AnalyzeContent() {
         onDrop,
         accept: { 'video/*': [] },
         maxFiles: 1,
-        maxSize: 50 * 1024 * 1024 // 50MB
+        maxSize: planTier === 'studio' ? 500 * 1024 * 1024 : planTier === 'creator' ? 200 * 1024 * 1024 : 50 * 1024 * 1024
     });
 
     const saveSessionState = async (updatedMessages: any[], currentId?: string | null) => {
@@ -698,7 +698,7 @@ function AnalyzeContent() {
                                             <div className="relative bg-white rounded-2xl sm:rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-900/5 p-6 sm:p-10 md:p-14 space-y-6 sm:space-y-8">
                                                 <div className="space-y-2">
                                                     <h3 className="font-serif text-xl sm:text-3xl md:text-4xl text-slate-900 italic font-bold">Studio Scan</h3>
-                                                    <p className="text-slate-400 font-medium text-sm sm:text-base">Our AI engine will analyze structure and signals from any public TikTok, Reels, or Shorts URL.</p>
+                                                    <p className="text-slate-400 font-medium text-sm sm:text-base">Analyze any public TikTok, Reels, Shorts URL — or upload an MP4 directly.</p>
                                                 </div>
 
                                                 {/* Mode pills */}
@@ -723,7 +723,24 @@ function AnalyzeContent() {
                                                     ))}
                                                 </div>
 
+                                                {/* Tab switcher — URL vs Upload */}
+                                                <div className="flex items-center gap-1 bg-slate-100 rounded-xl p-1 w-fit">
+                                                    <button
+                                                        onClick={() => setActiveTab('url')}
+                                                        className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'url' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                                    >
+                                                        🔗 Paste URL
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setActiveTab('upload')}
+                                                        className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'upload' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                                    >
+                                                        📁 Upload MP4
+                                                    </button>
+                                                </div>
+
                                                 {/* URL input */}
+                                                {activeTab === 'url' && (
                                                 <div className={`flex items-center gap-4 bg-slate-50 rounded-2xl px-5 py-4 border-2 transition-all duration-200 ${url ? 'border-lime-400' : 'border-transparent focus-within:border-lime-300'}`}>
                                                     <svg className="w-5 h-5 text-slate-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                                                     <input
@@ -734,10 +751,44 @@ function AnalyzeContent() {
                                                         className="w-full bg-transparent border-none text-slate-900 placeholder-slate-400 font-medium text-sm sm:text-base focus:outline-none focus:ring-0"
                                                     />
                                                 </div>
+                                                )}
+
+                                                {/* Upload dropzone */}
+                                                {activeTab === 'upload' && (
+                                                <div
+                                                    {...getRootProps()}
+                                                    className={`border-2 border-dashed rounded-2xl px-6 py-10 text-center cursor-pointer transition-all duration-200 ${
+                                                        isDragActive ? 'border-lime-400 bg-lime-50' : file ? 'border-lime-300 bg-lime-50/50' : 'border-slate-200 bg-slate-50 hover:border-lime-300 hover:bg-lime-50/30'
+                                                    }`}
+                                                >
+                                                    <input {...getInputProps()} />
+                                                    {file ? (
+                                                        <div className="space-y-2">
+                                                            <div className="text-3xl">🎬</div>
+                                                            <p className="font-bold text-slate-900 text-sm truncate">{file.name}</p>
+                                                            <p className="text-xs text-slate-400">{(file.size / (1024 * 1024)).toFixed(1)} MB</p>
+                                                            <button
+                                                                onClick={(e) => { e.stopPropagation(); setFile(null); setPreviewUrl(null); }}
+                                                                className="text-[10px] font-bold text-red-400 hover:text-red-600 uppercase tracking-widest mt-2"
+                                                            >
+                                                                Remove
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="space-y-3">
+                                                            <div className="text-4xl">📁</div>
+                                                            <p className="font-bold text-slate-700 text-sm">
+                                                                {isDragActive ? 'Drop it here' : 'Drag & drop your MP4 here'}
+                                                            </p>
+                                                            <p className="text-xs text-slate-400">or click to browse — max {planTier === 'studio' ? '500MB' : planTier === 'creator' ? '200MB' : '50MB'}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                )}
 
                                                 <button
                                                     onClick={() => handleAnalyze()}
-                                                    disabled={isAnalyzing || !url}
+                                                    disabled={isAnalyzing || (activeTab === 'url' ? !url : !file)}
                                                     className="w-full py-5 sm:py-6 bg-slate-950 text-white font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[10px] sm:text-xs rounded-2xl hover:bg-lime-500 hover:text-slate-950 hover:shadow-2xl hover:shadow-lime-500/20 transition-all duration-200 disabled:opacity-40 active:scale-95"
                                                 >
                                                     {isAnalyzing ? (
