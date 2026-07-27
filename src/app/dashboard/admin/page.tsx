@@ -34,7 +34,7 @@ export default function AdminDashboard() {
                     return;
                 }
 
-                const res = await fetch(`/api/main/api/me`, {
+                const res = await fetch(`/api/main/api/me?userId=${clerkUserId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 

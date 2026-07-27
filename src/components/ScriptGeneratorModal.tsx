@@ -71,7 +71,7 @@ const handleNextToQuestions = async (e: React.FormEvent) => {
         ]);
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/script-strategy-questions`, {
+            const res = await fetch(`/api/main/api/script-strategy-questions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -99,7 +99,7 @@ const handleFinalGenerate = async () => {
         setStep(3);
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/generate-script`, {
+            const response = await fetch(`/api/main/api/generate-script`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

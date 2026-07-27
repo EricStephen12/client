@@ -262,7 +262,7 @@ export default function DashboardPage() {
                             sessions.slice(0, 6).map((session: any) => (
                                 <motion.div key={session.id} variants={itemVariants}>
                                     <Link
-                                        href={`/dashboard/analyze?sessionId=${session.id}`}
+                                        href={`/dashboard/report/${session.id}`}
                                         className="group flex items-center justify-between p-4 sm:p-5 bg-white border border-slate-100 rounded-2xl hover:border-lime-300 hover:shadow-lg hover:shadow-lime-500/10 transition-all duration-200"
                                     >
                                         <div className="flex items-center gap-4">

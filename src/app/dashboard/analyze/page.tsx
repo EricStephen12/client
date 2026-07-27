@@ -353,8 +353,7 @@ function AnalyzeContent() {
         setIsSending(true);
         try {
             const token = await getToken();
-            const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-            const res = await fetch(`${apiBase}/api/generate-final-script`, {
+            const res = await fetch(`/api/main/api/generate-final-script`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -395,8 +394,7 @@ function AnalyzeContent() {
         setIsSending(true);
         try {
             const token = await getToken();
-            const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-            const res = await fetch(`${apiBase}/api/generate-hook-variations`, {
+            const res = await fetch(`/api/main/api/generate-hook-variations`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
