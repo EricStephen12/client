@@ -58,7 +58,7 @@ export default function UpgradePage() {
                 </h1>
 
                 <p className="text-slate-400 max-w-xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
-                    Access the complete Viral DNA engine, elite creative briefs, and priority AI processing — starting at just $5/mo.
+                    Access the complete Viral DNA engine, elite creative briefs, and priority AI processing — starting at just $9/mo.
                 </p>
 
                 {/* Feature highlights row */}

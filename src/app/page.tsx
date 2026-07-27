@@ -298,7 +298,7 @@ export default function LandingPage() {
                         {/* Studio Tier */}
                         <div className="bg-slate-50 rounded-[2rem] p-8 sm:p-10 border border-slate-200 flex flex-col">
                             <h3 className="text-xl font-bold text-slate-900 mb-2">The Studio</h3>
-                            <p className="text-sm text-slate-500 mb-8">For high-volume creators & teams.</p>
+                            <p className="text-sm text-slate-500 mb-8">For high-volume creators.</p>
                             <div className="mb-8">
                                 <span className="text-4xl font-bold text-slate-900">$29</span>
                                 <span className="text-slate-500">/mo</span>

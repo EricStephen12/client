@@ -2,7 +2,7 @@
  * Simple plan utility — one place for all plan logic.
  * free = 3 scans/mo
  * creator = 30 scans/mo  
- * studio = 250 scans/mo
+ * studio = 100 scans/mo
  */
 
 export type PlanTier = 'free' | 'creator' | 'studio';
@@ -10,9 +10,9 @@ export type PlanTier = 'free' | 'creator' | 'studio';
 const LIMITS: Record<string, number> = {
   free: 3,
   creator: 30,
-  studio: 250,
-  agency: 250, // legacy
-  founding: 30, // legacy
+  studio: 100,
+  agency: 100,    // legacy — treated as studio
+  founding: 30,   // legacy — treated as creator
 };
 
 const LABELS: Record<string, string> = {
