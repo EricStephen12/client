@@ -298,13 +298,13 @@ export default function LandingPage() {
                         {/* Studio Tier */}
                         <div className="bg-slate-50 rounded-[2rem] p-8 sm:p-10 border border-slate-200 flex flex-col">
                             <h3 className="text-xl font-bold text-slate-900 mb-2">The Studio</h3>
-                            <p className="text-sm text-slate-500 mb-8">For high-volume agencies.</p>
+                            <p className="text-sm text-slate-500 mb-8">For high-volume creators & teams.</p>
                             <div className="mb-8">
                                 <span className="text-4xl font-bold text-slate-900">$29</span>
                                 <span className="text-slate-500">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> 250 Scans / Month</li>
+                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> 100 Scans / Month</li>
                                 <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Max 30m Video Length</li>
                                 <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Ad, Content & Product Intel</li>
                                 <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Premium AI Deep-Dive Engine</li>
