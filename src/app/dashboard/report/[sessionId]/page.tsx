@@ -211,19 +211,26 @@ export default function ReportPage() {
                     <section className="space-y-4 sm:space-y-6">
                         <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 border-b border-gray-100 pb-3 sm:pb-4">Executive Summary</h2>
                         <div className="bg-lime-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-lime-100 italic">
-                            <p className="text-xl sm:text-2xl md:text-3xl font-serif text-gray-900 leading-tight">&quot;{audit.big_idea}&quot;</p>
+                            <p className="text-xl sm:text-2xl md:text-3xl font-serif text-gray-900 leading-tight">
+                                {audit?.big_idea
+                                    ? `"${audit.big_idea}"`
+                                    : <span className="text-gray-400 not-italic text-base">No summary available for this report.</span>
+                                }
+                            </p>
                         </div>
                     </section>
 
                     <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                         {[
-                            { label: 'Hook Power', score: audit.metrics?.hook_power || 8, color: 'text-lime-600' },
-                            { label: 'Retention Logic', score: audit.metrics?.retention_score || 7, color: 'text-lime-600' },
-                            { label: 'Conversion Trigger', score: audit.metrics?.conversion_trigger || 6, color: 'text-emerald-600' }
+                            { label: 'Hook Power', score: audit?.metrics?.hook_power ?? '—', color: 'text-lime-600' },
+                            { label: 'Retention Logic', score: audit?.metrics?.retention_score ?? '—', color: 'text-lime-600' },
+                            { label: 'Conversion Trigger', score: audit?.metrics?.conversion_trigger ?? '—', color: 'text-emerald-600' }
                         ].map((m, i) => (
                             <div key={i} className="border border-gray-100 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center space-y-2">
                                 <h3 className="text-[9px] font-black uppercase tracking-widest text-gray-400">{m.label}</h3>
-                                <div className={`text-3xl sm:text-5xl font-serif italic ${m.color}`}>{m.score}/10</div>
+                                <div className={`text-3xl sm:text-5xl font-serif italic ${m.color}`}>
+                                    {typeof m.score === 'number' ? `${m.score}/10` : m.score}
+                                </div>
                             </div>
                         ))}
                     </section>
@@ -232,28 +239,33 @@ export default function ReportPage() {
                         <div className="space-y-4 sm:space-y-6">
                             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Psychological Triggers</h2>
                             <ul className="space-y-3 sm:space-y-4">
-                                {audit.psychological_triggers?.map((t: string, i: number) => (
-                                    <li key={i} className="flex gap-3 sm:gap-4 items-start">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-lime-600 mt-2 flex-shrink-0"></div>
-                                        <p className="text-sm font-medium text-gray-700 leading-relaxed font-serif italic">&quot;{t}&quot;</p>
-                                    </li>
-                                ))}
+                                {audit?.psychological_triggers?.length > 0
+                                    ? audit.psychological_triggers.map((t: string, i: number) => (
+                                        <li key={i} className="flex gap-3 sm:gap-4 items-start">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-600 mt-2 flex-shrink-0"></div>
+                                            <p className="text-sm font-medium text-gray-700 leading-relaxed font-serif italic">&quot;{t}&quot;</p>
+                                        </li>
+                                    ))
+                                    : <p className="text-sm text-gray-400 italic">No triggers extracted.</p>
+                                }
                             </ul>
                         </div>
                         <div className="space-y-4 sm:space-y-6">
                             <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">The Secret Sauce</h2>
                             <div className="bg-gray-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-sm text-gray-600 font-serif italic leading-relaxed">
-                                {audit.hook_analysis?.critique}
+                                {audit?.hook_analysis?.critique || <span className="text-gray-400">No critique available.</span>}
                             </div>
                         </div>
                     </section>
 
+                    {audit?.transcript && (
                     <section className="space-y-4 sm:space-y-6 pt-6 sm:pt-8 border-t border-gray-100">
                         <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Full Audio Blueprint</h2>
                         <div className="text-gray-900 text-base sm:text-lg font-serif italic leading-loose opacity-80 decoration-lime-100 underline underline-offset-8">
                             {audit.transcript}
                         </div>
                     </section>
+                    )}
 
                     <footer className="pt-12 sm:pt-16 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 border-t border-gray-100 opacity-40">
                         <div className="space-y-1">
