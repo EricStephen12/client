@@ -280,7 +280,7 @@ export default function LandingPage() {
                             <h3 className="text-xl font-bold text-white mb-2">Creator</h3>
                             <p className="text-sm text-slate-400 mb-8">For serious dropshippers.</p>
                             <div className="mb-8">
-                                <span className="text-4xl font-bold text-white">$5</span>
+                                <span className="text-4xl font-bold text-white">$9</span>
                                 <span className="text-slate-400">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
@@ -300,7 +300,7 @@ export default function LandingPage() {
                             <h3 className="text-xl font-bold text-slate-900 mb-2">The Studio</h3>
                             <p className="text-sm text-slate-500 mb-8">For high-volume agencies.</p>
                             <div className="mb-8">
-                                <span className="text-4xl font-bold text-slate-900">$10</span>
+                                <span className="text-4xl font-bold text-slate-900">$29</span>
                                 <span className="text-slate-500">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">

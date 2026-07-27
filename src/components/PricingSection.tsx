@@ -17,38 +17,60 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
 
     const plans = [
         {
+            id: 'free',
+            name: 'Free Trial',
+            price: '$0',
+            period: '/mo',
+            badge: 'Get Started',
+            description: 'Test the engine — no card needed',
+            features: [
+                '3 Studio Scans / month',
+                'Up to 90 second videos',
+                'Ad & Content Intelligence',
+                'Product Intelligence',
+            ],
+            productId: null,
+            buttonText: currentTier === 'free' ? 'Current Plan ✓' : 'Start Free',
+            buttonHref: '/signup',
+            highlight: false,
+        },
+        {
             id: 'creator',
             name: 'The Creator',
-            price: '$5',
+            price: '$9',
             period: '/mo',
-            badge: 'Essential Access',
-            description: 'For individual creatives getting started',
+            badge: 'Most Popular',
+            description: 'For serious creators and dropshippers',
             features: [
                 '30 Studio Scans / month',
                 'Up to 5 minute videos',
                 '30 Strategy Briefs / month',
-                'Creative Lounge Access',
+                'Creative Lounge Chat',
+                'Niche Benchmark Reports',
             ],
             productId: process.env.NEXT_PUBLIC_POLAR_CREATOR_ID || 'creator_placeholder',
             buttonText: currentTier === 'creator' ? 'Current Plan ✓' : 'Upgrade to Creator',
+            buttonHref: null,
             highlight: false,
         },
         {
             id: 'studio',
             name: 'The Studio',
-            price: '$10',
+            price: '$29',
             period: '/mo',
             badge: 'Best Value',
-            description: 'Full creative arsenal, unlimited potential',
+            description: 'Full arsenal for high-volume teams',
             features: [
-                '250 Studio Scans / month',
+                '100 Studio Scans / month',
                 'Up to 30 minute videos',
-                '250 Strategy Briefs / month',
+                '100 Strategy Briefs / month',
                 'Priority AI Processing',
                 'Niche Benchmark Reports',
+                'Batch Analysis (up to 10 URLs)',
             ],
             productId: process.env.NEXT_PUBLIC_POLAR_STUDIO_ID || 'studio_placeholder',
             buttonText: currentTier === 'studio' || currentTier === 'agency' ? 'Current Plan ✓' : 'Enter The Studio',
+            buttonHref: null,
             highlight: true,
         }
     ];
@@ -62,7 +84,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                     hidden: { opacity: 0 },
                     visible: { opacity: 1, transition: { staggerChildren: 0.12 } }
                 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
             >
                 {plans.map((plan) => {
                     const isCurrent = currentTier === plan.id || (plan.id === 'studio' && currentTier === 'agency');
@@ -124,7 +146,20 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                                 </ul>
 
                                 {/* CTA */}
-                                {plan.productId && !isCurrent ? (
+                                {plan.buttonHref ? (
+                                    <a
+                                        href={plan.buttonHref}
+                                        className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-2xl text-center flex items-center justify-center gap-2 active:scale-95 ${
+                                            isHighlight
+                                                ? 'bg-lime-500 text-slate-950 hover:bg-lime-400 shadow-xl shadow-lime-500/20'
+                                                : 'bg-slate-950 text-white hover:bg-lime-500 hover:text-slate-950'
+                                        }`}
+                                    >
+                                        {plan.buttonText}
+                                        <ArrowRight className="w-3.5 h-3.5" />
+                                    </a>
+                                ) : plan.productId && !isCurrent ? (
+                                ) : plan.productId && !isCurrent ? (
                                     <CheckoutButton
                                         productId={plan.productId}
                                         className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-2xl text-center flex items-center justify-center gap-2 active:scale-95 ${
