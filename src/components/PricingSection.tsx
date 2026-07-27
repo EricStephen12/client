@@ -158,7 +158,6 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                                         <ArrowRight className="w-3.5 h-3.5" />
                                     </a>
                                 ) : plan.productId && !isCurrent ? (
-                                ) : plan.productId && !isCurrent ? (
                                     <CheckoutButton
                                         productId={plan.productId}
                                         className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-2xl text-center flex items-center justify-center gap-2 active:scale-95 ${
