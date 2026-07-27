@@ -37,7 +37,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
         {
             id: 'creator',
             name: 'The Creator',
-            price: '$9',
+            price: '$5',
             period: '/mo',
             badge: 'Most Popular',
             description: 'For serious creators and dropshippers',
@@ -56,7 +56,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
         {
             id: 'studio',
             name: 'The Studio',
-            price: '$29',
+            price: '$10',
             period: '/mo',
             badge: 'Best Value',
             description: 'Full arsenal for high-volume creators',
