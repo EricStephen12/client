@@ -83,7 +83,7 @@ export default function HistoryPage() {
                         
                         return (
                         <RevealOnScroll key={session.id} delay={100}>
-                            <Link href={`/dashboard/report/${session.id}`} className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 bg-white border border-slate-100 rounded-[1.5rem] hover:border-lime-300 hover:shadow-lg hover:shadow-lime-500/10 transition-all gap-4">
+                            <Link href={`/dashboard/analyze?sessionId=${session.id}`} className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 bg-white border border-slate-100 rounded-[1.5rem] hover:border-lime-300 hover:shadow-lg hover:shadow-lime-500/10 transition-all gap-4">
                                 <div className="flex items-center gap-5">
                                     <div className="w-12 h-12 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm flex-shrink-0 overflow-hidden">
                                         {thumb ? (

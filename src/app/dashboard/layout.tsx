@@ -252,7 +252,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                             />
                                         </svg>
                                     </div>
-                                    <span>{scans} / {limit} Scans</span>
+                                    <div className="flex flex-col leading-tight">
+                                        <span>{scans} / {limit} Scans</span>
+                                        {profileData?.monthly_usage?.cycle_reset_day && (
+                                            <span className="text-[9px] font-medium opacity-60">
+                                                resets day {profileData.monthly_usage.cycle_reset_day}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })()}
