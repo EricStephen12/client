@@ -50,7 +50,7 @@ const nextConfig: NextConfig = {
           // Referrer policy
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           // Permissions policy
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(self), geolocation=()' },
         ],
       },
       // Cache static assets aggressively

@@ -91,19 +91,19 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     const navItems = [
         { 
-            name: 'Dashboard', 
-            href: '/dashboard',
-            icon: <LayoutDashboard className="w-4 h-4" />
-        },
-        { 
-            name: 'Lounge', 
+            name: 'Analyze', 
             href: '/dashboard/analyze',
             icon: <Sparkles className="w-4 h-4" />
         },
         { 
-            name: 'Billing & Plans', 
+            name: 'Billing', 
             href: '/dashboard/upgrade',
             icon: <CreditCard className="w-4 h-4" />
+        },
+        {
+            name: 'Settings',
+            href: '/dashboard/settings',
+            icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
         }
     ];
 
@@ -190,7 +190,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             </aside>
 
 {isMobileMenuOpen && (
-                <div className="fixed inset-0 z-50 lg:hidden">
+                <div className="fixed inset-0 z-[55] lg:hidden">
                     <div className="absolute inset-0 bg-lime-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
                     <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in flex flex-col">
                             {/* Header removed from here to reduce duplicate logos */}
@@ -211,18 +211,22 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     </aside>
                 </div>
             )}
-<main className="flex-1 overflow-auto flex flex-col h-screen relative pb-20 lg:pb-0">
-                <header id="global-mobile-header" className="flex lg:hidden items-center justify-between p-6 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-40">
-                    <Link href="/" className="text-2xl font-serif font-bold italic">Eixora<span className="text-lime-600">.</span></Link>
-                    <button
-                        onClick={() => setIsMobileMenuOpen(true)}
-                        className="w-10 h-10 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center hover:bg-lime-100 transition-colors"
-                    >
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </button>
+<main className="flex-1 overflow-auto flex flex-col h-screen relative">
+                <header id="global-mobile-header" className="flex lg:hidden items-center justify-between px-5 py-4 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-30">
+                    <Link href="/" className="text-xl font-serif font-bold italic">Eixora<span className="text-lime-600">.</span></Link>
+                    {profileData && (() => {
+                        const scans = profileData.monthly_usage?.scans ?? 0;
+                        const limit = getPlanLimit(profileData.plan_type || 'free');
+                        return (
+                            <div className="flex items-center gap-1.5 border border-lime-200 bg-lime-50 rounded-full px-3 py-1 text-[10px] font-bold text-lime-700">
+                                <div className="w-1.5 h-1.5 rounded-full bg-lime-500 animate-pulse" />
+                                {scans}/{limit} scans
+                            </div>
+                        );
+                    })()}
                 </header>
 
-                <header id="global-desktop-header" className="hidden lg:flex items-center justify-between px-8 py-5 border-b border-slate-100 bg-white/70 backdrop-blur-2xl sticky top-0 z-40">
+                <header id="global-desktop-header" className="hidden lg:flex items-center justify-between px-8 py-5 border-b border-slate-100 bg-white/70 backdrop-blur-2xl sticky top-0 z-30">
                     <div className="flex items-center gap-3">
                         <span className="text-slate-400 text-sm font-medium">Eixora</span>
                         <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
@@ -293,47 +297,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     userId={user?.id}
                 />
 
-                {/* ── Floating bottom tab bar ── */}
+                {/* ── Floating menu button — top-right on mobile only ── */}
                 {!isMobileMenuOpen && (
-                    <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
-                        <div className="flex items-center gap-1 bg-white/90 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl shadow-slate-950/15 px-2 py-2">
-                            {navItems.slice(0, 3).map((item: any) => {
-                                const isActive = pathname === item.href;
-                                return (
-                                    <Link
-                                        key={item.href}
-                                        href={item.href}
-                                        className={`relative flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
-                                            isActive
-                                                ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/20'
-                                                : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'
-                                        }`}
-                                    >
-                                        <span className={`transition-transform duration-200 ${isActive ? 'scale-110' : ''}`}>{item.icon}</span>
-                                        <span className={`text-[9px] font-black uppercase tracking-wider leading-none ${
-                                            isActive ? 'text-white' : 'text-slate-400'
-                                        }`}>{item.name.split(' ')[0]}</span>
-                                    </Link>
-                                );
-                            })}
-                            {/* Divider */}
-                            <div className="w-px h-8 bg-slate-100 mx-1" />
-                            <button
-                                onClick={() => setIsSupportOpen(true)}
-                                className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-all"
-                            >
-                                <HelpCircle className="w-4 h-4" />
-                                <span className="text-[9px] font-black uppercase tracking-wider leading-none">Help</span>
-                            </button>
-                            <button
-                                onClick={() => setIsMobileMenuOpen(true)}
-                                className="flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-50 transition-all"
-                            >
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                                <span className="text-[9px] font-black uppercase tracking-wider leading-none">More</span>
-                            </button>
-                        </div>
-                    </div>
+                    <button
+                        onClick={() => setIsMobileMenuOpen(true)}
+                        className="lg:hidden fixed top-4 right-4 z-50 w-9 h-9 bg-white border border-slate-200 text-slate-600 rounded-xl shadow-sm flex items-center justify-center hover:bg-slate-50 active:scale-90 transition-all duration-150"
+                        aria-label="Open menu"
+                    >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                 )}
             </main>
         </div>
@@ -448,20 +422,35 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
         <div className="flex flex-col h-full overflow-hidden bg-white">
 
             {/* ── Logo strip ── */}
-            <div className="px-6 pt-7 pb-5 flex-shrink-0 flex items-center justify-between">
-                <Link href="/" onClick={onClose} className="flex items-center gap-2.5 group">
-                    <div className="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center shadow-sm group-hover:bg-lime-500 transition-colors duration-200">
-                        <Sparkles className="w-3.5 h-3.5 text-white" />
-                    </div>
-                    <span className="text-lg font-serif font-bold italic tracking-tight text-slate-900">
-                        Eixora<span className="text-lime-500">.</span>
-                    </span>
+            <div className="px-4 pt-5 pb-3 flex-shrink-0">
+                <div className="flex items-center justify-between mb-4">
+                    <Link href="/" onClick={onClose} className="flex items-center gap-2 group">
+                        <div className="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center shadow-sm group-hover:bg-lime-500 transition-colors duration-200">
+                            <Sparkles className="w-3.5 h-3.5 text-white" />
+                        </div>
+                        <span className="text-base font-serif font-bold italic tracking-tight text-slate-900">
+                            Eixora<span className="text-lime-500">.</span>
+                        </span>
+                    </Link>
+                    {onClose && (
+                        <button onClick={onClose} className="lg:hidden w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-900 hover:bg-slate-200 transition-all">
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    )}
+                </div>
+                {/* + New Scan — like Claude's + New Chat */}
+                <Link
+                    href="/dashboard/analyze"
+                    onClick={() => {
+                        onClose?.();
+                        // If already on analyze page, dispatch event to reset state
+                        window.dispatchEvent(new CustomEvent('new-scan'));
+                    }}
+                    className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-slate-950 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-lime-500 hover:text-slate-900 transition-all duration-150 shadow-sm"
+                >
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
+                    New Scan
                 </Link>
-                {onClose && (
-                    <button onClick={onClose} className="lg:hidden w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-900 hover:bg-slate-200 transition-all">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                    </button>
-                )}
             </div>
 
             {/* ── Nav ── */}
@@ -511,6 +500,49 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                     </span>
                     <span>Help & Support</span>
                 </button>
+
+                {/* ── Recent sessions — Claude-style ── */}
+                {sessions && sessions.length > 0 && (
+                    <>
+                        <div className="pt-4 pb-1">
+                            <div className="h-px bg-slate-100" />
+                        </div>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-3 pb-1 pt-2">Recent</p>
+                        {sessions.slice(0, 8).map((s: any) => {
+                            const modeColors: Record<string, string> = {
+                                'ad': 'text-orange-400',
+                                'content': 'text-blue-400',
+                                'product-intel': 'text-purple-400',
+                            };
+                            const modeLabel: Record<string, string> = {
+                                'ad': 'Ad',
+                                'content': 'Content',
+                                'product-intel': 'Product',
+                            };
+                            const title = s.title || s.video_url || 'Untitled scan';
+                            const displayTitle = title.length > 28 ? title.slice(0, 28) + '…' : title;
+                            const mode = s.mode || 'ad';
+                            const isActive = searchParams.get('sessionId') === s.id;
+                            return (
+                                <Link
+                                    key={s.id}
+                                    href={`/dashboard/analyze?sessionId=${s.id}`}
+                                    onClick={onClose}
+                                    className={`group flex items-center gap-2.5 px-3 py-2 rounded-xl transition-all duration-150 ${
+                                        isActive
+                                            ? 'bg-slate-100 text-slate-900'
+                                            : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                                    }`}
+                                >
+                                    <span className={`text-[9px] font-black uppercase flex-shrink-0 ${modeColors[mode] || 'text-slate-400'}`}>
+                                        {modeLabel[mode] || 'Scan'}
+                                    </span>
+                                    <span className="text-xs font-medium truncate flex-1">{displayTitle}</span>
+                                </Link>
+                            );
+                        })}
+                    </>
+                )}
             </div>
 
             {/* ── Scan usage card ── */}
