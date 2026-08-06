@@ -38,8 +38,8 @@ function pickRecorderMime(): string {
   return candidates.find((t) => MediaRecorder.isTypeSupported(t)) || '';
 }
 
-/** Voice replies are already short; speak at most one tight sentence for fast first audio. */
-const SPEAK_MAX_CHARS = 110;
+/** Per-request TTS limit (mirrors server / proxy / engine). Longer replies are spoken in sequence. */
+const TTS_CHUNK_CHARS = 4800;
 
 function stripMarkdownForSpeech(raw: string): string {
   return raw
@@ -56,21 +56,33 @@ function stripMarkdownForSpeech(raw: string): string {
     .trim();
 }
 
-function truncateForSpeech(cleaned: string, maxChars: number): string {
-  // Prefer a single sentence — faster TTS, ChatGPT-voice feel
-  const firstStop = cleaned.search(/[.!?](?:\s|$)/);
-  if (firstStop > 12 && firstStop + 1 <= maxChars) {
-    return cleaned.slice(0, firstStop + 1).trim();
+/** Split long speakable text on sentence boundaries so every word can be read aloud. */
+function chunkForSpeech(cleaned: string, maxChars: number): string[] {
+  if (!cleaned) return [];
+  if (cleaned.length <= maxChars) return [cleaned];
+  const chunks: string[] = [];
+  let rest = cleaned;
+  while (rest.length > maxChars) {
+    const slice = rest.slice(0, maxChars);
+    const lastSentence = Math.max(
+      slice.lastIndexOf('. '),
+      slice.lastIndexOf('! '),
+      slice.lastIndexOf('? '),
+    );
+    const cut =
+      lastSentence > maxChars * 0.4
+        ? lastSentence + 1
+        : Math.max(slice.lastIndexOf(' '), maxChars);
+    chunks.push(rest.slice(0, cut).trim());
+    rest = rest.slice(cut).trim();
   }
-  if (cleaned.length <= maxChars) return cleaned;
-  const slice = cleaned.slice(0, maxChars);
-  const lastSpace = slice.lastIndexOf(' ');
-  return (lastSpace > 0 ? slice.slice(0, lastSpace) : slice).trim();
+  if (rest) chunks.push(rest);
+  return chunks;
 }
 
 /**
  * Turn assistant markdown into speakable text.
- * Initial analysis dumps get a short score summary; normal chat replies are spoken for real.
+ * Initial analysis dumps get a short score summary; normal chat replies are spoken in full.
  */
 function prepareSpeakText(raw: string): string {
   const isInitialReport =
@@ -83,15 +95,14 @@ function prepareSpeakText(raw: string): string {
     if (hook && retention && conversion) {
       return `I've finished analyzing this video. Hook power ${hook} out of 10, retention ${retention}, conversion ${conversion}. Ask me anything about the hook, retention, or scripts.`;
     }
-    const greeting = stripMarkdownForSpeech(raw).slice(0, 180);
-    return truncateForSpeech(
-      greeting ||
-        "I've finished analyzing this video. Ask me anything about the hook, retention, or scripts.",
-      220,
+    return (
+      stripMarkdownForSpeech(raw).slice(0, 220) ||
+      "I've finished analyzing this video. Ask me anything about the hook, retention, or scripts."
     );
   }
 
-  return truncateForSpeech(stripMarkdownForSpeech(raw), SPEAK_MAX_CHARS);
+  // Full reply — no artificial short-sentence cut
+  return stripMarkdownForSpeech(raw);
 }
 
 export default function VoiceLounge({
@@ -252,6 +263,8 @@ export default function VoiceLounge({
     if (!text.trim()) return;
     const speakable = prepareSpeakText(text);
     if (!speakable) return;
+    const textChunks = chunkForSpeech(speakable, TTS_CHUNK_CHARS);
+    if (textChunks.length === 0) return;
 
     ttsAbortRef.current?.abort();
     stopStreamSources();
@@ -270,45 +283,6 @@ export default function VoiceLounge({
       const analyser = analyserRef.current;
       if (!ctx || !analyser || abort.signal.aborted) return;
 
-      // Custom Kokoro stream — play the first PCM chunk as soon as Railway produces it
-      const res = await fetch('/api/tts/stream', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: speakable,
-          voice: 'af_heart',
-          lang: 'en-us',
-          emotion: 'neutral',
-          speed: 1.12, // slight speed-up = snappier feel, same voice
-        }),
-        signal: abort.signal,
-      });
-      if (abort.signal.aborted) return;
-
-      const contentType = res.headers.get('Content-Type') || '';
-      // OpenAI opt-in returns mp3 here; custom Kokoro returns NDJSON PCM
-      if (contentType.includes('audio/')) {
-        const blob = await res.blob();
-        if (!audioRef.current) return;
-        const url = URL.createObjectURL(blob);
-        if (audioRef.current.src) URL.revokeObjectURL(audioRef.current.src);
-        audioRef.current.src = url;
-        audioRef.current.onended = () => { setIsSpeaking(false); onSpeakEnd?.(); };
-        await audioRef.current.play();
-        setIsSpeaking(true);
-        return;
-      }
-
-      if (!res.ok || !res.body) {
-        console.error(`[VoiceLounge] Kokoro stream failed with status ${res.status}`);
-        setVoiceError(res.status === 401 ? 'auth' : 'unavailable');
-        onSpeakEnd?.();
-        return;
-      }
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let lineBuf = '';
       let sampleRate = 24000;
       let nextStart = 0;
       let startedPlayback = false;
@@ -338,30 +312,74 @@ export default function VoiceLounge({
         }
       };
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        if (abort.signal.aborted) {
-          await reader.cancel();
-          break;
+      // Stream every chunk in order so long AI replies are read completely
+      for (let i = 0; i < textChunks.length; i++) {
+        if (abort.signal.aborted) return;
+
+        const res = await fetch('/api/tts/stream', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: textChunks[i],
+            voice: 'af_heart',
+            lang: 'en-us',
+            emotion: 'neutral',
+            speed: 1.12,
+          }),
+          signal: abort.signal,
+        });
+        if (abort.signal.aborted) return;
+
+        const contentType = res.headers.get('Content-Type') || '';
+        if (contentType.includes('audio/')) {
+          const blob = await res.blob();
+          if (!audioRef.current) return;
+          const url = URL.createObjectURL(blob);
+          if (audioRef.current.src) URL.revokeObjectURL(audioRef.current.src);
+          audioRef.current.src = url;
+          audioRef.current.onended = () => { setIsSpeaking(false); onSpeakEnd?.(); };
+          await audioRef.current.play();
+          setIsSpeaking(true);
+          setIsLoading(false);
+          return;
         }
-        lineBuf += decoder.decode(value, { stream: true });
-        const lines = lineBuf.split('\n');
-        lineBuf = lines.pop() ?? '';
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          let ev: { type: string; sample_rate?: number; data?: string; pause_after_ms?: number; message?: string };
-          try {
-            ev = JSON.parse(line) as typeof ev;
-          } catch {
-            continue;
+
+        if (!res.ok || !res.body) {
+          console.error(`[VoiceLounge] Kokoro stream failed with status ${res.status}`);
+          setVoiceError(res.status === 401 ? 'auth' : 'unavailable');
+          onSpeakEnd?.();
+          return;
+        }
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let lineBuf = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (abort.signal.aborted) {
+            await reader.cancel();
+            break;
           }
-          if (ev.type === 'start' && typeof ev.sample_rate === 'number') {
-            sampleRate = ev.sample_rate;
-          } else if (ev.type === 'audio_chunk' && typeof ev.data === 'string') {
-            schedulePcm(ev.data, ev.pause_after_ms ?? 0);
-          } else if (ev.type === 'error') {
-            throw new Error(ev.message || 'TTS stream error');
+          lineBuf += decoder.decode(value, { stream: true });
+          const lines = lineBuf.split('\n');
+          lineBuf = lines.pop() ?? '';
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            let ev: { type: string; sample_rate?: number; data?: string; pause_after_ms?: number; message?: string };
+            try {
+              ev = JSON.parse(line) as typeof ev;
+            } catch {
+              continue;
+            }
+            if (ev.type === 'start' && typeof ev.sample_rate === 'number') {
+              sampleRate = ev.sample_rate;
+            } else if (ev.type === 'audio_chunk' && typeof ev.data === 'string') {
+              schedulePcm(ev.data, ev.pause_after_ms ?? 0);
+            } else if (ev.type === 'error') {
+              throw new Error(ev.message || 'TTS stream error');
+            }
           }
         }
       }
