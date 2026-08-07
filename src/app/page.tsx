@@ -56,22 +56,22 @@ export default function LandingPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-lime-50 via-lime-50 to-slate-50 text-gray-900 selection:bg-lime-600 selection:text-slate-900 overflow-x-hidden">
+        <div className="min-h-screen bg-[#0a0c0b] text-stone-100 selection:bg-lime-400 selection:text-slate-950 overflow-x-hidden">
             <CursorEffect />
 
-<nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-lime-100 transition-all duration-300">
+<nav className="fixed w-full z-50 bg-[#0a0c0b]/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
                 <div className="w-full max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link href="/" className="hover:opacity-70 transition-opacity flex items-center gap-3">
+                    <Link href="/" className="hover:opacity-80 transition-opacity flex items-center gap-3">
                         <img src="/app-icon.png" alt="Eixora Logo" className="w-10 h-10 object-contain" />
-                        <span className="text-2xl font-black tracking-tighter">EIXORA</span>
+                        <span className="text-2xl font-black tracking-[0.12em] text-stone-50">EIXORA</span>
                     </Link>
                     <div className="flex items-center gap-4">
                         {isLoggedIn ? (
-                            <Link href="/dashboard" className="px-6 py-2.5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
+                            <Link href="/dashboard" className="px-6 py-2.5 bg-lime-400 text-slate-950 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-300 transition-colors">
                                 Dashboard
                             </Link>
                         ) : (
-                            <Link href="/signup" className="px-6 py-2.5 bg-slate-900 text-white rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-500 hover:text-slate-900 transition-colors">
+                            <Link href="/signup" className="px-6 py-2.5 bg-lime-400 text-slate-950 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-lime-300 transition-colors">
                                 Get Started
                             </Link>
                         )}
@@ -79,22 +79,23 @@ export default function LandingPage() {
                 </div>
             </nav>
 
-<section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-lime-200 overflow-hidden">
-                <div className="flex flex-col justify-center px-5 sm:px-8 md:px-16 lg:px-24 py-12 sm:py-16 md:py-24 border-b md:border-b-0 md:border-r border-lime-200 bg-white">
+<section className="pt-20 min-h-[85vh] flex flex-col md:grid md:grid-cols-2 border-b border-white/5 overflow-hidden">
+                <div className="relative flex flex-col justify-center px-5 sm:px-8 md:px-16 lg:px-24 py-12 sm:py-16 md:py-24 border-b md:border-b-0 md:border-r border-white/5 bg-[#0e1210]">
+                    <div className="pointer-events-none absolute inset-0 opacity-40" style={{ background: 'radial-gradient(ellipse 70% 60% at 20% 30%, rgba(163,230,53,0.12), transparent 60%)' }} />
                     <RevealOnScroll delay={100}>
-                        <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase mb-4 md:mb-6 text-lime-500 block">Your AI Creative Director</span>
+                        <span className="relative text-[11px] sm:text-xs font-bold tracking-[0.45em] uppercase mb-5 md:mb-7 text-lime-400/90 block">Eixora · AI Creative Director</span>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={200}>
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif leading-[1.2] md:leading-[1.1] mb-6 md:mb-8 tracking-tight">
+                        <h1 className="relative text-4xl sm:text-5xl md:text-6xl lg:text-[4.6rem] font-serif leading-[1.15] md:leading-[1.08] mb-6 md:mb-8 tracking-tight text-stone-50">
                             Every video has a <br className="hidden sm:block" />
-                            <span className="italic bg-gradient-to-r from-lime-600 via-rose-500 to-lime-500 bg-clip-text text-transparent underline decoration-lime-200 decoration-4 underline-offset-8">Secret.</span>
+                            <span className="italic text-lime-300">Secret.</span>
                         </h1>
                     </RevealOnScroll>
 
                     <RevealOnScroll delay={300}>
-                        <p className="text-base sm:text-lg font-light leading-relaxed max-w-sm mb-8 md:mb-10 text-gray-500">
-                            Eixora decodes it. See what others miss, frame by frame, insight by insight. Always on. Always watching.
+                        <p className="relative text-base sm:text-lg font-light leading-relaxed max-w-sm mb-8 md:mb-10 text-stone-400">
+                            Decode the hook, pacing, and psychology — then leave with a Strategy Brief you can shoot.
                         </p>
                     </RevealOnScroll>
 
@@ -147,94 +148,83 @@ export default function LandingPage() {
 
 <AIComparisonSection />
 
-<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white">
-                <div className="max-w-7xl mx-auto">
-                    <div className="bg-gradient-to-br from-slate-950 via-lime-950 to-slate-900 rounded-2xl sm:rounded-[3rem] p-6 sm:p-12 md:p-24 text-white relative overflow-hidden group border border-lime-500/20 shadow-2xl">
-                        <div className="absolute top-0 right-0 p-6 sm:p-12 opacity-5 font-sans font-bold text-[20vw] sm:text-[12vw] pointer-events-none text-lime-200 select-none" aria-hidden="true">✦</div>
-                        <div className="max-w-3xl relative z-10">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 mb-8 block">Our Vision</span>
-                            <h2 className="text-3xl sm:text-4xl md:text-7xl font-sans font-bold leading-tight tracking-tight mb-8 sm:mb-12">
-                                Scale with <br />
-                                <span className="italic text-lime-200/60 font-serif">Total Peace.</span>
-                            </h2>
-                            <p className="text-base sm:text-xl md:text-2xl font-light leading-relaxed text-white/80 mb-10 sm:mb-16">
-                                We believe creative work should be rewarding, not exhausting. Eixora handles the heavy lifting of analysis so you can stay in your zone of genius—creating content that connects.
-                            </p>
-                            <div className="flex flex-wrap gap-8 sm:gap-12 border-t border-white/10 pt-8 sm:pt-12">
-                                <div>
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-lime-500/40 mb-2">Focus On</p>
-                                    <p className="text-lg font-serif italic text-white">Creative Strategy</p>
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-bold uppercase tracking-widest text-lime-500/40 mb-2">Leave Us The</p>
-                                    <p className="text-lg font-serif italic text-white">Technical Blueprinting</p>
-                                </div>
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#0a0c0b]">
+                <div className="max-w-7xl mx-auto border-y border-white/10 py-16 sm:py-24">
+                    <div className="max-w-3xl">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400/80 mb-8 block">Our Vision</span>
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif leading-tight tracking-tight mb-8 sm:mb-10 text-stone-50">
+                            Scale with <span className="italic text-lime-300/90">Total Peace.</span>
+                        </h2>
+                        <p className="text-base sm:text-xl font-light leading-relaxed text-stone-400 mb-10 sm:mb-14 max-w-2xl">
+                            Creative work should be rewarding, not exhausting. Eixora handles the analysis so you stay in the zone — creating content that connects.
+                        </p>
+                        <div className="flex flex-wrap gap-10 sm:gap-16 border-t border-white/10 pt-8 sm:pt-10">
+                            <div>
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-2">Focus On</p>
+                                <p className="text-lg font-serif italic text-stone-100">Creative Strategy</p>
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-2">Leave Us The</p>
+                                <p className="text-lg font-serif italic text-stone-100">Technical Blueprinting</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#F8FAFC]">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#0e1210]">
                 <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-12 sm:mb-16 md:mb-24">
-                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-sans font-bold tracking-tight text-slate-900 mb-4 sm:mb-6">Built for High-Growth Teams.</h2>
-                        <p className="text-base sm:text-lg text-slate-500 font-light px-2">From Studio Scan to Strategy Brief in 60 seconds.</p>
+                    <div className="mb-12 sm:mb-16 md:mb-20 max-w-2xl">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif tracking-tight text-stone-50 mb-4 sm:mb-5">From scan to brief.</h2>
+                        <p className="text-base sm:text-lg text-stone-500 font-light">Studio Scan → Strategy Brief in about a minute.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+                    <div className="divide-y divide-white/10 border-y border-white/10">
                         {[
                             { step: "01", title: "Studio Scan", desc: "Paste any viral TikTok, Reels, or YouTube Shorts URL. Choose Ad Intelligence or Content Intelligence mode. Our engine extracts every psychological trigger that drives performance." },
                             { step: "02", title: "Map Strategy Brief", desc: "We convert the scan into a structured Strategy Brief — direct shooting instructions, hook variations, and audio cues ready to hand to any creator." },
                             { step: "03", title: "Scale with Logic", desc: "Drop the brief into your Creative Lounge to refine it with AI. Stop guessing what works and start filming backed by real data." }
-                        ].map((item, i) => (
-                            <div key={i} className="bg-white p-8 sm:p-12 rounded-2xl sm:rounded-[2.5rem] border border-slate-200 shadow-sm hover:shadow-xl transition-all group">
-                                <span className="text-5xl font-sans font-bold text-slate-100 group-hover:text-lime-100 transition-colors block mb-8">{item.step}</span>
-                                <h3 className="text-2xl font-bold text-slate-900 mb-6 group-hover:text-lime-600 transition-colors">{item.title}</h3>
-                                <p className="text-sm text-slate-500 font-light leading-relaxed">{item.desc}</p>
+                        ].map((item) => (
+                            <div key={item.step} className="grid grid-cols-[auto_1fr] gap-6 sm:gap-10 py-8 sm:py-10 group">
+                                <span className="text-sm font-mono tracking-[0.2em] text-lime-400/70 pt-1">{item.step}</span>
+                                <div>
+                                    <h3 className="text-xl sm:text-2xl font-serif text-stone-50 mb-3 group-hover:text-lime-300 transition-colors">{item.title}</h3>
+                                    <p className="text-sm sm:text-base text-stone-500 font-light leading-relaxed max-w-xl">{item.desc}</p>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white overflow-hidden">
-                <div className="max-w-7xl mx-auto border-t border-white/10 pt-16 sm:pt-24 md:pt-32">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#0a0c0b] overflow-hidden">
+                <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 sm:gap-16 md:gap-20">
                         <div className="lg:col-span-5">
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-6 sm:mb-8">Performance Driven.</h2>
-                            <p className="text-lg text-slate-500 font-light leading-relaxed mb-12">
-                                Eixora is trained on millions in ad spend data — so every Strategy Brief you generate is backed by what's actually working right now, not guesswork.
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif tracking-tight text-stone-50 mb-6 sm:mb-8">Performance Driven.</h2>
+                            <p className="text-lg text-stone-500 font-light leading-relaxed mb-12">
+                                Every Strategy Brief is backed by what&apos;s actually working — not guesswork.
                             </p>
-                            <div className="space-y-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-lime-50 rounded-full flex items-center justify-center text-lime-600 font-bold">✓</div>
-                                    <p className="text-slate-700 font-medium tracking-tight">Enterprise-Grade Security</p>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-lime-50 rounded-full flex items-center justify-center text-lime-600 font-bold">✓</div>
-                                    <p className="text-slate-700 font-medium tracking-tight">Dedicated Support for Agencies</p>
-                                </div>
+                            <div className="space-y-5">
+                                <p className="text-stone-300 font-medium tracking-tight flex gap-3"><span className="text-lime-400">✓</span> Enterprise-grade security</p>
+                                <p className="text-stone-300 font-medium tracking-tight flex gap-3"><span className="text-lime-400">✓</span> Dedicated support for agencies</p>
                             </div>
                         </div>
                         <div className="lg:col-span-7">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-                                <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
-                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">60s</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Full Strategy Brief from Any Viral URL</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                <div className="p-6 sm:p-10 border border-white/10 bg-white/[0.02]">
+                                    <p className="text-4xl sm:text-5xl font-serif text-stone-50 mb-2 sm:mb-4">60s</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-stone-500">Full Strategy Brief from any viral URL</p>
                                 </div>
-                                <div className="bg-slate-50 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] border border-slate-100">
-                                    <p className="text-4xl sm:text-5xl font-sans font-bold text-slate-900 mb-2 sm:mb-4">3→1</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Hours of Research Replaced Per Brief</p>
+                                <div className="p-6 sm:p-10 border border-white/10 bg-white/[0.02]">
+                                    <p className="text-4xl sm:text-5xl font-serif text-stone-50 mb-2 sm:mb-4">3→1</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-stone-500">Hours of research replaced per brief</p>
                                 </div>
-                                <div className="bg-slate-900 p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] text-white sm:col-span-2">
-                                    <p className="text-xl font-serif italic mb-6">"Before Eixora, I'd spend 3 hours reverse-engineering a viral video and still miss half the hooks. Now I paste the URL, get the full DNA in 60 seconds, and my briefs actually convert. My last campaign hit 2.1M views — I credit the hook structure directly to what Eixora extracted."</p>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-8 h-8 bg-lime-500 rounded-full flex items-center justify-center text-white text-xs font-bold">R</div>
-                                        <div>
-                                            <p className="text-xs font-bold uppercase tracking-widest">Rawlins Stephen</p>
-                                            <p className="text-[10px] text-white/40 uppercase tracking-widest">Founder, AsrdollarBeatz</p>
-                                        </div>
+                                <div className="p-6 sm:p-10 border border-lime-400/20 bg-lime-400/[0.04] text-stone-100 sm:col-span-2">
+                                    <p className="text-xl font-serif italic mb-6 text-stone-200">&ldquo;Before Eixora, I&apos;d spend 3 hours reverse-engineering a viral video and still miss half the hooks. Now I paste the URL, get the full DNA in 60 seconds, and my briefs actually convert.&rdquo;</p>
+                                    <div>
+                                        <p className="text-xs font-bold uppercase tracking-widest text-lime-300">Rawlins Stephen</p>
+                                        <p className="text-[10px] text-stone-500 uppercase tracking-widest mt-1">Founder, AsrdollarBeatz</p>
                                     </div>
                                 </div>
                             </div>
@@ -243,74 +233,70 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* Pricing Section */}
-            <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-white" id="pricing">
+            <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#0e1210]" id="pricing">
                 <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-16 sm:mb-24">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900 mb-6">Simple, Transparent Pricing.</h2>
-                        <p className="text-lg text-slate-500 font-light max-w-2xl mx-auto">Scale your creative output with predictable costs. Cancel anytime.</p>
+                    <div className="mb-16 sm:mb-20 max-w-2xl">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif tracking-tight text-stone-50 mb-5">Simple pricing.</h2>
+                        <p className="text-lg text-stone-500 font-light">Predictable costs. Cancel anytime.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                        {/* Free Tier */}
-                        <div className="bg-slate-50 rounded-[2rem] p-8 sm:p-10 border border-slate-200 flex flex-col">
-                            <h3 className="text-xl font-bold text-slate-900 mb-2">Free Trial</h3>
-                            <p className="text-sm text-slate-500 mb-8">Test the engine.</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                        <div className="bg-white/[0.03] rounded-2xl p-8 sm:p-10 border border-white/10 flex flex-col">
+                            <h3 className="text-xl font-bold text-stone-50 mb-2">Free Trial</h3>
+                            <p className="text-sm text-stone-500 mb-8">Test the engine.</p>
                             <div className="mb-8">
-                                <span className="text-4xl font-bold text-slate-900">$0</span>
-                                <span className="text-slate-500">/mo</span>
+                                <span className="text-4xl font-serif text-stone-50">$0</span>
+                                <span className="text-stone-500">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> 3 Scans / Month</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Max 90s Video Length</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Ad & Content Intelligence</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Product Intelligence</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Standard AI Engine</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> 3 Scans / Month</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> Max 90s Video Length</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> Ad & Content Intelligence</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> Product Intelligence</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> Standard AI Engine</li>
                             </ul>
-                            <Link href="/signup" className="w-full py-4 rounded-xl border-2 border-slate-200 text-slate-600 font-bold text-center uppercase tracking-widest text-xs hover:border-slate-900 hover:text-slate-900 transition-colors">
+                            <Link href="/signup" className="w-full py-4 rounded-xl border border-white/15 text-stone-300 font-bold text-center uppercase tracking-widest text-xs hover:border-lime-400/50 hover:text-lime-300 transition-colors">
                                 Start Free
                             </Link>
                         </div>
 
-                        {/* Creator Tier */}
-                        <div className="bg-slate-900 rounded-[2rem] p-8 sm:p-10 border border-slate-800 flex flex-col relative shadow-2xl transform md:-translate-y-4">
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-lime-500 text-slate-900 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                        <div className="bg-[#141a16] rounded-2xl p-8 sm:p-10 border border-lime-400/30 flex flex-col relative md:-translate-y-2">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-lime-400 text-slate-950 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
                                 Most Popular
                             </div>
-                            <h3 className="text-xl font-bold text-white mb-2">Creator</h3>
-                            <p className="text-sm text-slate-400 mb-8">For serious dropshippers.</p>
+                            <h3 className="text-xl font-bold text-stone-50 mb-2">Creator</h3>
+                            <p className="text-sm text-stone-500 mb-8">For serious dropshippers.</p>
                             <div className="mb-8">
-                                <span className="text-4xl font-bold text-white">$5</span>
-                                <span className="text-slate-400">/mo</span>
+                                <span className="text-4xl font-serif text-stone-50">$5</span>
+                                <span className="text-stone-500">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
-                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> 30 Scans / Month</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> Max 5m Video Length</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> Ad & Content Intelligence</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> Product Intelligence Unlocked</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-300"><span className="text-lime-400">✓</span> Strategy Lounge Chat</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-300"><span className="text-lime-400">✓</span> 30 Scans / Month</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-300"><span className="text-lime-400">✓</span> Max 5m Video Length</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-300"><span className="text-lime-400">✓</span> Ad & Content Intelligence</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-300"><span className="text-lime-400">✓</span> Product Intelligence Unlocked</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-300"><span className="text-lime-400">✓</span> Strategy Lounge Chat</li>
                             </ul>
-                            <Link href="/signup" className="w-full py-4 rounded-xl bg-lime-500 text-slate-900 font-bold text-center uppercase tracking-widest text-xs hover:bg-lime-400 transition-colors">
+                            <Link href="/signup" className="w-full py-4 rounded-xl bg-lime-400 text-slate-950 font-bold text-center uppercase tracking-widest text-xs hover:bg-lime-300 transition-colors">
                                 Upgrade to Creator
                             </Link>
                         </div>
 
-                        {/* Studio Tier */}
-                        <div className="bg-slate-50 rounded-[2rem] p-8 sm:p-10 border border-slate-200 flex flex-col">
-                            <h3 className="text-xl font-bold text-slate-900 mb-2">The Studio</h3>
-                            <p className="text-sm text-slate-500 mb-8">For high-volume creators.</p>
+                        <div className="bg-white/[0.03] rounded-2xl p-8 sm:p-10 border border-white/10 flex flex-col">
+                            <h3 className="text-xl font-bold text-stone-50 mb-2">The Studio</h3>
+                            <p className="text-sm text-stone-500 mb-8">For high-volume creators.</p>
                             <div className="mb-8">
-                                <span className="text-4xl font-bold text-slate-900">$10</span>
-                                <span className="text-slate-500">/mo</span>
+                                <span className="text-4xl font-serif text-stone-50">$10</span>
+                                <span className="text-stone-500">/mo</span>
                             </div>
                             <ul className="space-y-4 mb-10 flex-1">
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> 100 Scans / Month</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Max 30m Video Length</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Ad, Content & Product Intel</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Premium AI Deep-Dive Engine</li>
-                                <li className="flex items-center gap-3 text-sm text-slate-600"><span className="text-lime-600">✓</span> Strategy Lounge Chat</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> 100 Scans / Month</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> Max 30m Video Length</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> Ad, Content & Product Intel</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> Premium AI Deep-Dive Engine</li>
+                                <li className="flex items-center gap-3 text-sm text-stone-400"><span className="text-lime-400">✓</span> Strategy Lounge Chat</li>
                             </ul>
-                            <Link href="/signup" className="w-full py-4 rounded-xl bg-slate-900 text-white font-bold text-center uppercase tracking-widest text-xs hover:bg-slate-800 transition-colors">
+                            <Link href="/signup" className="w-full py-4 rounded-xl border border-white/15 text-stone-100 font-bold text-center uppercase tracking-widest text-xs hover:bg-white/5 transition-colors">
                                 Go Studio
                             </Link>
                         </div>
@@ -318,12 +304,12 @@ export default function LandingPage() {
                 </div>
             </section>
 
-<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#F8FAFC]">
+<section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#0a0c0b]">
                 <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-12 sm:mb-16 md:mb-24">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-sans font-bold tracking-tight text-slate-900">Questions & Answers.</h2>
+                    <div className="mb-12 sm:mb-16">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif tracking-tight text-stone-50">Questions & Answers.</h2>
                     </div>
-                    <div className="space-y-4">
+                    <div className="divide-y divide-white/10 border-y border-white/10">
                         {[
                             { q: "How does it work?", a: "Paste any viral TikTok, Reels, or YouTube Shorts URL into the Eixora app. Choose Ad Intelligence or Content Intelligence mode. Our AI extracts the hook, pacing, and psychological triggers — then generates a Strategy Brief you can take straight into your Creative Lounge or hand to any creator." },
                             { q: "Do I need technical skills?", a: "No. The briefs are written for creators and editors of all levels. If you can read, you can shoot." },
@@ -331,14 +317,14 @@ export default function LandingPage() {
                             { q: "What happens when I hit my scan limit?", a: "Your scans reset at the beginning of your billing cycle. If you hit your limit early, you can instantly upgrade your plan in the dashboard to unlock more capacity." },
                             { q: "Can I cancel anytime?", a: "Yes. Monthly plans are completely contract-free. Scale up or down as your needs change directly from your dashboard." }
                         ].map((faq, i) => (
-                            <details key={i} className="group bg-white border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:border-lime-400 transition-all duration-300">
-                                <summary className="flex items-center justify-between p-5 sm:p-8 md:p-10 cursor-pointer list-none">
-                                    <h3 className="text-base sm:text-lg font-bold text-slate-900 pr-4">{faq.q}</h3>
-                                    <span className="text-slate-400 group-open:rotate-180 transition-transform duration-300">
-                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" /></svg>
+                            <details key={i} className="group py-1">
+                                <summary className="flex items-center justify-between py-6 sm:py-8 cursor-pointer list-none">
+                                    <h3 className="text-base sm:text-lg font-medium text-stone-100 pr-4">{faq.q}</h3>
+                                    <span className="text-stone-500 group-open:rotate-180 transition-transform duration-300">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" /></svg>
                                     </span>
                                 </summary>
-                                <div className="px-5 sm:px-8 md:px-10 pb-5 sm:pb-8 md:pb-10 text-sm sm:text-base text-slate-500 font-light leading-relaxed">
+                                <div className="pb-6 sm:pb-8 text-sm sm:text-base text-stone-500 font-light leading-relaxed max-w-2xl">
                                     {faq.a}
                                 </div>
                             </details>

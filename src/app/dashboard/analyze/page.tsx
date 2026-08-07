@@ -17,7 +17,7 @@ export default function AnalyzePage() {
                         <svg className="w-7 h-7 text-lime-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
                     </div>
                 </div>
-                <p className="font-serif text-lg sm:text-xl italic text-slate-400">Loading Video Analyzer...</p>
+                <p className="font-serif text-lg sm:text-xl italic text-stone-500">Loading Video Analyzer...</p>
             </div>
         }>
             <AnalyzeContent />
@@ -626,7 +626,7 @@ function AnalyzeContent() {
                     <div className="flex justify-end mb-6">
                         <button
                             onClick={() => { setIsChatMode(false); setResult(null); setSessionId(null); setUrl(''); setFile(null); }}
-                            className="px-4 py-2 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-lime-500 hover:text-slate-950 transition-all shadow-sm"
+                            className="px-4 py-2 bg-lime-400 text-slate-950 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-lime-300 transition-all"
                         >
                             + New Scan
                         </button>
@@ -635,46 +635,46 @@ function AnalyzeContent() {
 
                 {isCheckingPlan ? (
                             <div className="max-w-5xl mx-auto pt-24 text-center px-4">
-                                <div className="w-10 h-10 border-4 border-lime-100 border-t-lime-500 rounded-full animate-spin mx-auto mb-6"></div>
-                                <p className="font-serif text-lg italic text-slate-400">Checking scans limit...</p>
+                                <div className="w-10 h-10 border-4 border-lime-400/20 border-t-lime-400 rounded-full animate-spin mx-auto mb-6"></div>
+                                <p className="font-serif text-lg italic text-stone-500">Checking scans limit...</p>
                             </div>
                         ) : scansUsed >= scanLimit ? (
-                            <div className="max-w-4xl mx-auto text-center space-y-8 py-16 bg-white border border-slate-100 rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-lime-900/5 relative overflow-hidden group">
-                                <div className="absolute inset-0 bg-gradient-to-br from-lime-500/5 to-slate-500/5 opacity-50"></div>
+                            <div className="max-w-4xl mx-auto text-center space-y-8 py-16 bg-white/[0.03] border border-white/10 rounded-[2.5rem] p-8 sm:p-12 relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 to-transparent opacity-50"></div>
                                 <div className="relative z-10 space-y-6">
-                                    <div className="w-20 h-20 bg-lime-50 rounded-full flex items-center justify-center mx-auto text-lime-600 shadow-inner">
+                                    <div className="w-20 h-20 bg-lime-400/10 rounded-full flex items-center justify-center mx-auto text-lime-400 border border-lime-400/20">
                                         <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                         </svg>
                                     </div>
-                                    <h3 className="font-serif text-3xl sm:text-5xl text-slate-900 italic">
+                                    <h3 className="font-serif text-3xl sm:text-5xl text-stone-100 italic">
                                         {planTier === 'free' ? 'Trial Limit Reached' : 'Scans Limit Reached'}
                                     </h3>
-                                    <p className="text-slate-500 font-light text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+                                    <p className="text-stone-500 font-light text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
                                         {planTier === 'free' 
-                                            ? <>You've used all <strong>3 free scans</strong>. Upgrade to keep running analyses and unlock unlimited strategy sessions.</>
-                                            : <>You've reached your <strong>{scanLimit} monthly scans</strong>. Upgrade your plan to increase your limit.</>
+                                            ? <>You've used all <strong className="text-stone-300">3 free scans</strong>. Upgrade to keep running analyses and unlock unlimited strategy sessions.</>
+                                            : <>You've reached your <strong className="text-stone-300">{scanLimit} monthly scans</strong>. Upgrade your plan to increase your limit.</>
                                         }
                                     </p>
                                     <div className="pt-4 max-w-sm mx-auto">
                                         <Link
                                             href="/dashboard/upgrade"
-                                            className="w-full py-5 block bg-slate-900 text-white font-bold uppercase tracking-[0.3em] text-xs rounded-2xl hover:bg-lime-500 hover:text-slate-950 transition-all shadow-xl hover:shadow-lime-500/20 active:scale-95 text-center"
+                                            className="w-full py-5 block bg-lime-400 text-slate-950 font-bold uppercase tracking-[0.3em] text-xs rounded-2xl hover:bg-lime-300 transition-all active:scale-95 text-center"
                                         >
                                             {planTier === 'free' ? 'Upgrade — Starting at $5/mo' : 'Upgrade Plan'}
                                         </Link>
                                     </div>
-                                    <div className="flex flex-wrap justify-center gap-6 pt-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                    <div className="flex flex-wrap justify-center gap-6 pt-8 text-[10px] font-bold uppercase tracking-widest text-stone-500">
                                         <div className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-500" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-400" />
                                             <span>30+ Scans/mo</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-500" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-400" />
                                             <span>AI Strategy Assistant</span>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-500" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-400" />
                                             <span>Director Reports</span>
                                         </div>
                                     </div>
@@ -697,8 +697,8 @@ function AnalyzeContent() {
                                                     onClick={() => setMode(m.id as any)}
                                                     className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-150 ${
                                                         mode === m.id
-                                                            ? 'bg-slate-900 text-lime-400 shadow-sm'
-                                                            : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                                                            ? 'bg-lime-400 text-slate-950'
+                                                            : 'bg-white/[0.04] text-stone-500 hover:bg-white/[0.08] hover:text-stone-300 border border-white/10'
                                                     }`}
                                                 >
                                                     <span>{m.icon}</span>{m.label}
@@ -708,18 +708,18 @@ function AnalyzeContent() {
 
                                         {/* URL input */}
                                         {activeTab === 'url' && (
-                                            <div className={`flex items-center gap-3 bg-white rounded-2xl px-5 py-4 border-2 shadow-sm transition-all duration-200 ${url ? 'border-lime-400' : 'border-slate-200 focus-within:border-lime-300'}`}>
-                                                <svg className="w-4 h-4 text-slate-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                                            <div className={`flex items-center gap-3 bg-white/[0.04] rounded-2xl px-5 py-4 border transition-all duration-200 ${url ? 'border-lime-400' : 'border-white/10 focus-within:border-lime-400/60'}`}>
+                                                <svg className="w-4 h-4 text-stone-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                                                 <input
                                                     type="text"
                                                     placeholder="Paste TikTok, Reels, or Shorts URL…"
                                                     value={url}
                                                     onChange={(e) => setUrl(e.target.value)}
                                                     onKeyDown={(e) => { if (e.key === 'Enter' && url) handleAnalyze(); }}
-                                                    className="flex-1 bg-transparent border-none text-slate-900 placeholder-slate-300 font-medium text-sm focus:outline-none focus:ring-0"
+                                                    className="flex-1 bg-transparent border-none text-stone-100 placeholder-stone-600 font-medium text-sm focus:outline-none focus:ring-0"
                                                 />
                                                 {url && (
-                                                    <button onClick={() => setUrl('')} className="text-slate-300 hover:text-slate-500 transition-colors">
+                                                    <button onClick={() => setUrl('')} className="text-stone-500 hover:text-stone-300 transition-colors">
                                                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                                                     </button>
                                                 )}
@@ -731,7 +731,7 @@ function AnalyzeContent() {
                                             <div
                                                 {...getRootProps()}
                                                 className={`border-2 border-dashed rounded-2xl px-6 py-8 text-center cursor-pointer transition-all duration-200 ${
-                                                    isDragActive ? 'border-lime-400 bg-lime-50' : file ? 'border-lime-300 bg-lime-50/40' : 'border-slate-200 bg-slate-50 hover:border-lime-300'
+                                                    isDragActive ? 'border-lime-400 bg-lime-400/10' : file ? 'border-lime-400/40 bg-lime-400/5' : 'border-white/10 bg-white/[0.03] hover:border-lime-400/40'
                                                 }`}
                                             >
                                                 <input {...getInputProps()} />
@@ -740,18 +740,18 @@ function AnalyzeContent() {
                                                         <div className="flex items-center gap-3 min-w-0">
                                                             <span className="text-2xl">🎬</span>
                                                             <div className="min-w-0 text-left">
-                                                                <p className="font-bold text-slate-900 text-sm truncate">{file.name}</p>
-                                                                <p className="text-xs text-slate-400">{(file.size / (1024 * 1024)).toFixed(1)} MB</p>
+                                                                <p className="font-bold text-stone-100 text-sm truncate">{file.name}</p>
+                                                                <p className="text-xs text-stone-500">{(file.size / (1024 * 1024)).toFixed(1)} MB</p>
                                                             </div>
                                                         </div>
-                                                        <button onClick={(e) => { e.stopPropagation(); setFile(null); setPreviewUrl(null); }} className="text-slate-300 hover:text-red-400 transition-colors flex-shrink-0">
+                                                        <button onClick={(e) => { e.stopPropagation(); setFile(null); setPreviewUrl(null); }} className="text-stone-500 hover:text-red-400 transition-colors flex-shrink-0">
                                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                                                         </button>
                                                     </div>
                                                 ) : (
                                                     <div className="space-y-1">
-                                                        <p className="font-bold text-slate-600 text-sm">{isDragActive ? 'Drop it' : 'Drop MP4 or click to browse'}</p>
-                                                        <p className="text-xs text-slate-400">Max {planTier === 'studio' ? '500MB' : planTier === 'creator' ? '200MB' : '50MB'}</p>
+                                                        <p className="font-bold text-stone-300 text-sm">{isDragActive ? 'Drop it' : 'Drop MP4 or click to browse'}</p>
+                                                        <p className="text-xs text-stone-500">Max {planTier === 'studio' ? '500MB' : planTier === 'creator' ? '200MB' : '50MB'}</p>
                                                     </div>
                                                 )}
                                             </div>
@@ -760,7 +760,7 @@ function AnalyzeContent() {
                                         {/* Switch URL / Upload */}
                                         <button
                                             onClick={() => setActiveTab(activeTab === 'url' ? 'upload' : 'url')}
-                                            className="text-[10px] font-bold text-slate-400 hover:text-slate-600 uppercase tracking-widest transition-colors"
+                                            className="text-[10px] font-bold text-stone-500 hover:text-stone-300 uppercase tracking-widest transition-colors"
                                         >
                                             {activeTab === 'url' ? '📁 Upload a file instead' : '🔗 Paste a URL instead'}
                                         </button>
@@ -769,7 +769,7 @@ function AnalyzeContent() {
                                         <button
                                             onClick={() => handleAnalyze()}
                                             disabled={isAnalyzing || (activeTab === 'url' ? !url : !file)}
-                                            className="w-full py-4 bg-slate-900 text-white font-black uppercase tracking-[0.3em] text-[11px] rounded-2xl hover:bg-lime-500 hover:text-slate-900 transition-all duration-200 disabled:opacity-30 active:scale-95"
+                                            className="w-full py-4 bg-lime-400 text-slate-950 font-black uppercase tracking-[0.3em] text-[11px] rounded-2xl hover:bg-lime-300 transition-all duration-200 disabled:opacity-30 active:scale-95"
                                         >
                                             {isAnalyzing ? (
                                                 <span className="flex items-center justify-center gap-3">
@@ -782,10 +782,10 @@ function AnalyzeContent() {
                                 )}
 
                                         {isAnalyzing && (
-                                    <div className="mt-8 text-center py-16 bg-slate-900 rounded-2xl text-white relative overflow-hidden">
-                                        <div className="w-8 h-8 border-4 border-lime-500/20 border-t-lime-500 rounded-full animate-spin mx-auto mb-4"></div>
-                                        <p className="text-sm font-medium text-slate-300">Analyzing your video…</p>
-                                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-lime-500 rounded-full blur-[60px] opacity-10"></div>
+                                    <div className="mt-8 text-center py-16 bg-[#0e1210] border border-white/10 rounded-2xl text-stone-100 relative overflow-hidden">
+                                        <div className="w-8 h-8 border-4 border-lime-400/20 border-t-lime-400 rounded-full animate-spin mx-auto mb-4"></div>
+                                        <p className="text-sm font-medium text-stone-300">Analyzing your video…</p>
+                                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-lime-400 rounded-full blur-[60px] opacity-10"></div>
                                     </div>
                                 )}
                             </div>
@@ -802,25 +802,24 @@ function AnalyzeContent() {
                                         {/* Video preview card */}
                                         {result?.thumbnail && (
                                             <div className="relative mx-auto w-28 h-28">
-                                                <img src={result.thumbnail} alt="" className="w-full h-full object-cover rounded-2xl shadow-xl" />
-                                                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-md -z-10" />
+                                                <img src={result.thumbnail} alt="" className="w-full h-full object-cover rounded-2xl border border-white/10" />
+                                                <div className="absolute -inset-1 rounded-2xl bg-lime-400/10 blur-md -z-10" />
                                             </div>
                                         )}
                                         <div className="space-y-2">
-                                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-200 rounded-full mb-4">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                                <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Analysis Ready</span>
+                                            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-lime-400/10 border border-lime-400/20 rounded-full mb-4">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse" />
+                                                <span className="text-[10px] font-bold text-lime-400 uppercase tracking-widest">Analysis Ready</span>
                                             </div>
-                                            <h3 className="text-4xl font-bold text-slate-900 tracking-tight">Your Video DNA<br/><span className="text-slate-400 font-light italic">has been extracted.</span></h3>
-                                            <p className="text-slate-500 text-sm max-w-sm mx-auto">Enter the Strategy Lounge to talk through your results, get hooks, scripts, and a full Director Brief — all via voice.</p>
+                                            <h3 className="text-4xl font-bold text-stone-100 tracking-tight">Your Video DNA<br/><span className="text-stone-500 font-light italic">has been extracted.</span></h3>
+                                            <p className="text-stone-500 text-sm max-w-sm mx-auto">Enter the Strategy Lounge to talk through your results, get hooks, scripts, and a full Director Brief — all via voice.</p>
                                         </div>
                                         <button
                                             onClick={startChat}
-                                            className="group relative w-full overflow-hidden py-5 bg-slate-950 text-white rounded-2xl font-bold uppercase tracking-[0.3em] text-[11px] hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-slate-950/30"
+                                            className="group relative w-full overflow-hidden py-5 bg-lime-400 text-slate-950 rounded-2xl font-bold uppercase tracking-[0.3em] text-[11px] hover:bg-lime-300 hover:scale-[1.02] active:scale-95 transition-all"
                                         >
-                                            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 via-purple-600/20 to-blue-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                             <span className="relative flex items-center justify-center gap-3">
-                                                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+                                                <span className="w-2 h-2 bg-slate-950 rounded-full animate-pulse" />
                                                 Enter Strategy Lounge
                                                 <span className="group-hover:translate-x-1 transition-transform">→</span>
                                             </span>

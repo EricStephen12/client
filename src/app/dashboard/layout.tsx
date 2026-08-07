@@ -163,20 +163,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
     if (!isLoaded) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-white text-gray-900">
+            <div className="flex min-h-screen items-center justify-center bg-[#0a0c0b] text-stone-100">
                 <div className="text-center space-y-4">
-                    <div className="w-12 h-12 border-2 border-lime-100 border-t-lime-600 rounded-full animate-spin mx-auto"></div>
-                    <p className="text-gray-400 font-serif italic text-lg">Authenticating...</p>
+                    <div className="w-12 h-12 border-2 border-white/10 border-t-lime-400 rounded-full animate-spin mx-auto"></div>
+                    <p className="text-stone-500 font-serif italic text-lg">Authenticating...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="flex min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-lime-100 selection:text-lime-900">
+        <div className="flex min-h-screen bg-[#0a0c0b] text-stone-100 font-sans selection:bg-lime-400 selection:text-slate-950">
 
-<aside className="w-72 border-r border-slate-100 hidden lg:flex flex-col sticky top-0 h-screen bg-white">
-                <Suspense fallback={<div className="p-8 w-full h-full bg-white animate-pulse" />}>
+<aside className="w-72 border-r border-white/10 hidden lg:flex flex-col sticky top-0 h-screen bg-[#0e1210]">
+                <Suspense fallback={<div className="p-8 w-full h-full bg-[#0e1210] animate-pulse" />}>
                     <SidebarContent
                         pathname={pathname}
                         navItems={navItems}
@@ -191,11 +191,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
 {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-[55] lg:hidden">
-                    <div className="absolute inset-0 bg-lime-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
-                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in flex flex-col">
-                            {/* Header removed from here to reduce duplicate logos */}
+                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
+                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-[#0e1210] border-l border-white/10 animate-slide-in flex flex-col">
                         <div className="flex-1 overflow-y-auto">
-                        <Suspense fallback={<div className="p-8 w-full h-full bg-white animate-pulse" />}>
+                        <Suspense fallback={<div className="p-8 w-full h-full bg-[#0e1210] animate-pulse" />}>
                             <SidebarContent
                                 pathname={pathname}
                                 navItems={navItems}
@@ -211,26 +210,26 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     </aside>
                 </div>
             )}
-<main className="flex-1 overflow-auto flex flex-col h-screen relative">
-                <header id="global-mobile-header" className="flex lg:hidden items-center justify-between px-5 py-4 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-30">
-                    <Link href="/" className="text-xl font-serif font-bold italic">Eixora<span className="text-lime-600">.</span></Link>
+<main className="flex-1 overflow-auto flex flex-col h-screen relative bg-[#0a0c0b]">
+                <header id="global-mobile-header" className="flex lg:hidden items-center justify-between px-5 py-4 border-b border-white/10 bg-[#0a0c0b]/90 backdrop-blur-md sticky top-0 z-30">
+                    <Link href="/" className="text-xl font-serif font-bold italic text-stone-50">Eixora<span className="text-lime-400">.</span></Link>
                     {profileData && (() => {
                         const scans = profileData.monthly_usage?.scans ?? 0;
                         const limit = getPlanLimit(profileData.plan_type || 'free');
                         return (
-                            <div className="flex items-center gap-1.5 border border-lime-200 bg-lime-50 rounded-full px-3 py-1 text-[10px] font-bold text-lime-700">
-                                <div className="w-1.5 h-1.5 rounded-full bg-lime-500 animate-pulse" />
+                            <div className="flex items-center gap-1.5 border border-lime-400/30 bg-lime-400/10 rounded-full px-3 py-1 text-[10px] font-bold text-lime-300">
+                                <div className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse" />
                                 {scans}/{limit} scans
                             </div>
                         );
                     })()}
                 </header>
 
-                <header id="global-desktop-header" className="hidden lg:flex items-center justify-between px-8 py-5 border-b border-slate-100 bg-white/70 backdrop-blur-2xl sticky top-0 z-30">
+                <header id="global-desktop-header" className="hidden lg:flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[#0a0c0b]/80 backdrop-blur-2xl sticky top-0 z-30">
                     <div className="flex items-center gap-3">
-                        <span className="text-slate-400 text-sm font-medium">Eixora</span>
-                        <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-                        <span className="text-slate-900 font-semibold text-sm">{navItems.find((i: any) => i.href === pathname)?.name || 'Dashboard'}</span>
+                        <span className="text-stone-500 text-sm font-medium">Eixora</span>
+                        <ChevronRight className="w-3.5 h-3.5 text-stone-600" />
+                        <span className="text-stone-100 font-semibold text-sm">{navItems.find((i: any) => i.href === pathname)?.name || 'Dashboard'}</span>
                     </div>
 
                     <div className="flex items-center gap-4">
@@ -240,10 +239,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                             const pct = limit > 0 ? Math.min((scans / limit) * 100, 100) : 0;
                             const isHigh = pct > 80;
                             return (
-                                <div className={`flex items-center gap-3 border rounded-full px-4 py-2 text-xs font-bold shadow-sm cursor-default transition-all hover:scale-105 ${
+                                <div className={`flex items-center gap-3 border rounded-full px-4 py-2 text-xs font-bold cursor-default transition-all hover:scale-105 ${
                                     isHigh
-                                        ? 'bg-red-50/80 border-red-200 text-red-700'
-                                        : 'bg-lime-50/80 border-lime-200 text-lime-700'
+                                        ? 'bg-red-500/10 border-red-400/30 text-red-300'
+                                        : 'bg-lime-400/10 border-lime-400/30 text-lime-300'
                                 }`}>
                                     <div className="relative w-4 h-4">
                                         <svg className="w-4 h-4 -rotate-90" viewBox="0 0 16 16">
@@ -268,9 +267,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                             );
                         })()}
 
-                        <button className="relative p-2 text-slate-400 hover:text-slate-900 transition-colors hover:bg-slate-100 rounded-full">
+                        <button className="relative p-2 text-stone-500 hover:text-stone-100 transition-colors hover:bg-white/5 rounded-full">
                             <Bell className="w-4.5 h-4.5" />
-                            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-lime-500 rounded-full"></span>
+                            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-lime-400 rounded-full"></span>
                         </button>
                     </div>
                 </header>
@@ -301,7 +300,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 {!isMobileMenuOpen && (
                     <button
                         onClick={() => setIsMobileMenuOpen(true)}
-                        className="lg:hidden fixed top-4 right-4 z-50 w-9 h-9 bg-white border border-slate-200 text-slate-600 rounded-xl shadow-sm flex items-center justify-center hover:bg-slate-50 active:scale-90 transition-all duration-150"
+                        className="lg:hidden fixed top-4 right-4 z-50 w-9 h-9 bg-[#0e1210] border border-white/10 text-stone-300 rounded-xl flex items-center justify-center hover:bg-white/5 active:scale-90 transition-all duration-150"
                         aria-label="Open menu"
                     >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -341,61 +340,61 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 pb-20 md:pb-6">
-            <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-md" onClick={onClose}></div>
-            <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-200 border border-slate-100">
+            <div className="absolute inset-0 bg-black/70 backdrop-blur-md" onClick={onClose}></div>
+            <div className="bg-[#121816] w-full max-w-lg rounded-[2rem] relative overflow-hidden animate-in zoom-in-95 duration-200 border border-white/10">
                 <div className="p-8 sm:p-10">
                     {sent ? (
                         <div className="text-center space-y-6 py-12">
-                            <div className="w-24 h-24 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <div className="w-24 h-24 bg-lime-400/10 text-lime-400 rounded-full flex items-center justify-center mx-auto mb-6 border border-lime-400/20">
                                 <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" /></svg>
                             </div>
-                            <h2 className="text-3xl font-serif italic text-slate-900">Message Transmitted.</h2>
-                            <p className="text-slate-400 text-sm font-medium">Our support team has received your signal. Expect a response in your inbox soon.</p>
-                            <button onClick={onClose} className="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-lime-600 transition-all shadow-xl">Close Relay</button>
+                            <h2 className="text-3xl font-serif italic text-stone-50">Message Transmitted.</h2>
+                            <p className="text-stone-500 text-sm font-medium">Our support team has received your signal. Expect a response in your inbox soon.</p>
+                            <button onClick={onClose} className="mt-8 w-full py-4 bg-lime-400 text-slate-950 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-lime-300 transition-all">Close Relay</button>
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-8">
                             <div className="flex justify-between items-start mb-2">
                                 <div className="space-y-1">
-                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-lime-600 italic">Concierge</span>
-                                    <h2 className="text-3xl sm:text-4xl font-sans font-bold text-slate-900 leading-tight tracking-tight">Direct Support.</h2>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-lime-400 italic">Concierge</span>
+                                    <h2 className="text-3xl sm:text-4xl font-serif text-stone-50 leading-tight tracking-tight">Direct Support.</h2>
                                 </div>
-                                <button type="button" onClick={onClose} className="w-10 h-10 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center hover:bg-slate-100 hover:text-slate-900 transition-colors">
+                                <button type="button" onClick={onClose} className="w-10 h-10 bg-white/5 text-stone-400 rounded-full flex items-center justify-center hover:bg-white/10 hover:text-stone-100 transition-colors">
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
                                 </button>
                             </div>
-                            <p className="text-slate-400 text-xs sm:text-sm font-medium leading-relaxed">Direct line to the Eixora team. Report issues, request features, or ask for strategy advice.</p>
+                            <p className="text-stone-500 text-xs sm:text-sm font-medium leading-relaxed">Direct line to the Eixora team. Report issues, request features, or ask for strategy advice.</p>
                             
-                            <div className="bg-slate-50 rounded-2xl p-5 flex items-center justify-between border border-slate-100 group hover:border-lime-200 transition-colors">
+                            <div className="bg-white/[0.03] rounded-2xl p-5 flex items-center justify-between border border-white/10 group hover:border-lime-400/30 transition-colors">
                                 <div>
-                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 mb-1">Need immediate help?</h4>
-                                    <p className="text-xs text-slate-500 font-medium">Email us at <a href="mailto:hello@eixora.store" className="text-lime-600 hover:text-lime-800 transition-colors">hello@eixora.store</a></p>
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-100 mb-1">Need immediate help?</h4>
+                                    <p className="text-xs text-stone-500 font-medium">Email us at <a href="mailto:hello@eixora.store" className="text-lime-400 hover:text-lime-300 transition-colors">hello@eixora.store</a></p>
                                 </div>
-                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-400 group-hover:text-lime-600 group-hover:scale-110 transition-all shadow-sm">
+                                <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-stone-500 group-hover:text-lime-400 group-hover:scale-110 transition-all">
                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                 </div>
                             </div>
 
                             <div className="space-y-5">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black tracking-[0.2em] uppercase text-slate-400 ml-1">Subject of Inquiry</label>
+                                    <label className="text-[10px] font-black tracking-[0.2em] uppercase text-stone-500 ml-1">Subject of Inquiry</label>
                                     <input
                                         required
                                         value={subject}
                                         onChange={e => setSubject(e.target.value)}
                                         placeholder="Brief summary..."
-                                        className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition-all font-medium text-slate-900 placeholder-slate-400"
+                                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-lime-400/40 transition-all font-medium text-stone-100 placeholder-stone-600"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black tracking-[0.2em] uppercase text-slate-400 ml-1">Message Details</label>
+                                    <label className="text-[10px] font-black tracking-[0.2em] uppercase text-stone-500 ml-1">Message Details</label>
                                     <textarea
                                         required
                                         value={message}
                                         onChange={e => setMessage(e.target.value)}
                                         rows={4}
                                         placeholder="How can our team help you succeed today?"
-                                        className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-lime-500 transition-all font-medium text-slate-900 placeholder-slate-400 resize-none"
+                                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-lime-400/40 transition-all font-medium text-stone-100 placeholder-stone-600 resize-none"
                                     />
                                 </div>
                             </div>
@@ -403,7 +402,7 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
                             <button
                                 type="submit"
                                 disabled={sending}
-                                className="w-full py-5 bg-slate-950 text-white rounded-xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-slate-950/10 hover:bg-lime-500 hover:text-slate-950 transition-all disabled:opacity-50 active:scale-95"
+                                className="w-full py-5 bg-lime-400 text-slate-950 rounded-xl text-[10px] font-black uppercase tracking-[0.3em] hover:bg-lime-300 transition-all disabled:opacity-50 active:scale-95"
                             >
                                 {sending ? 'Transmitting...' : 'Send Priority Message'}
                             </button>
@@ -419,43 +418,39 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
     const searchParams = useSearchParams();
 
     return (
-        <div className="flex flex-col h-full overflow-hidden bg-white">
+        <div className="flex flex-col h-full overflow-hidden bg-[#0e1210] text-stone-100">
 
-            {/* ── Logo strip ── */}
             <div className="px-4 pt-5 pb-3 flex-shrink-0">
                 <div className="flex items-center justify-between mb-4">
                     <Link href="/" onClick={onClose} className="flex items-center gap-2 group">
-                        <div className="w-7 h-7 rounded-lg bg-slate-950 flex items-center justify-center shadow-sm group-hover:bg-lime-500 transition-colors duration-200">
-                            <Sparkles className="w-3.5 h-3.5 text-white" />
+                        <div className="w-7 h-7 rounded-lg bg-lime-400 flex items-center justify-center group-hover:bg-lime-300 transition-colors duration-200">
+                            <Sparkles className="w-3.5 h-3.5 text-slate-950" />
                         </div>
-                        <span className="text-base font-serif font-bold italic tracking-tight text-slate-900">
-                            Eixora<span className="text-lime-500">.</span>
+                        <span className="text-base font-serif font-bold italic tracking-tight text-stone-50">
+                            Eixora<span className="text-lime-400">.</span>
                         </span>
                     </Link>
                     {onClose && (
-                        <button onClick={onClose} className="lg:hidden w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:text-slate-900 hover:bg-slate-200 transition-all">
+                        <button onClick={onClose} className="lg:hidden w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-stone-400 hover:text-stone-100 hover:bg-white/10 transition-all">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>
                     )}
                 </div>
-                {/* + New Scan — like Claude's + New Chat */}
                 <Link
                     href="/dashboard/analyze"
                     onClick={() => {
                         onClose?.();
-                        // If already on analyze page, dispatch event to reset state
                         window.dispatchEvent(new CustomEvent('new-scan'));
                     }}
-                    className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-slate-950 text-white text-[10px] font-black uppercase tracking-[0.2em] hover:bg-lime-500 hover:text-slate-900 transition-all duration-150 shadow-sm"
+                    className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-lime-400 text-slate-950 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-lime-300 transition-all duration-150"
                 >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
                     New Scan
                 </Link>
             </div>
 
-            {/* ── Nav ── */}
             <div className="flex-1 overflow-y-auto flex flex-col px-3 pb-4 space-y-0.5 min-h-0">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-3 pb-2 pt-1">Menu</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500 px-3 pb-2 pt-1">Menu</p>
 
                 {navItems.map((item: any) => {
                     const isActive = pathname === item.href;
@@ -466,12 +461,12 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                             onClick={onClose}
                             className={`group flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150 rounded-xl ${
                                 isActive
-                                    ? 'bg-slate-950 text-white shadow-sm'
-                                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
+                                    ? 'bg-white/[0.06] text-stone-50 border border-white/10'
+                                    : 'text-stone-500 hover:bg-white/[0.04] hover:text-stone-200 border border-transparent'
                             } ${item.id || ''}`}
                         >
                             <span className={`flex-shrink-0 transition-all ${
-                                isActive ? 'text-lime-400' : 'text-slate-400 group-hover:text-slate-600'
+                                isActive ? 'text-lime-400' : 'text-stone-500 group-hover:text-stone-300'
                             }`}>
                                 {item.icon}
                             </span>
@@ -480,39 +475,37 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                 <span className="w-1.5 h-1.5 rounded-full bg-lime-400 flex-shrink-0" />
                             )}
                             {item.comingSoon && (
-                                <span className="text-[8px] font-black bg-slate-100 text-slate-400 px-2 py-0.5 rounded-full tracking-normal">soon</span>
+                                <span className="text-[8px] font-black bg-white/5 text-stone-500 px-2 py-0.5 rounded-full tracking-normal">soon</span>
                             )}
                         </Link>
                     );
                 })}
 
-                {/* Divider */}
                 <div className="pt-3 pb-1">
-                    <div className="h-px bg-slate-100" />
+                    <div className="h-px bg-white/10" />
                 </div>
 
                 <button
                     onClick={() => { onOpenSupport(); onClose?.(); }}
-                    className="tour-support group flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-900 w-full text-left"
+                    className="btn-support group flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150 rounded-xl text-stone-500 hover:bg-white/[0.04] hover:text-stone-200 w-full text-left"
                 >
-                    <span className="text-slate-400 group-hover:text-slate-600 flex-shrink-0">
+                    <span className="text-stone-500 group-hover:text-stone-300 flex-shrink-0">
                         <HelpCircle className="w-4 h-4" />
                     </span>
                     <span>Help & Support</span>
                 </button>
 
-                {/* ── Recent sessions — Claude-style ── */}
                 {sessions && sessions.length > 0 && (
                     <>
                         <div className="pt-4 pb-1">
-                            <div className="h-px bg-slate-100" />
+                            <div className="h-px bg-white/10" />
                         </div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 px-3 pb-1 pt-2">Recent</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500 px-3 pb-1 pt-2">Recent</p>
                         {sessions.slice(0, 8).map((s: any) => {
                             const modeColors: Record<string, string> = {
-                                'ad': 'text-orange-400',
-                                'content': 'text-blue-400',
-                                'product-intel': 'text-purple-400',
+                                'ad': 'text-orange-300',
+                                'content': 'text-sky-300',
+                                'product-intel': 'text-lime-300',
                             };
                             const modeLabel: Record<string, string> = {
                                 'ad': 'Ad',
@@ -530,11 +523,11 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                                     onClick={onClose}
                                     className={`group flex items-center gap-2.5 px-3 py-2 rounded-xl transition-all duration-150 ${
                                         isActive
-                                            ? 'bg-slate-100 text-slate-900'
-                                            : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                                            ? 'bg-white/[0.06] text-stone-50'
+                                            : 'text-stone-500 hover:bg-white/[0.04] hover:text-stone-300'
                                     }`}
                                 >
-                                    <span className={`text-[9px] font-black uppercase flex-shrink-0 ${modeColors[mode] || 'text-slate-400'}`}>
+                                    <span className={`text-[9px] font-black uppercase flex-shrink-0 ${modeColors[mode] || 'text-stone-500'}`}>
                                         {modeLabel[mode] || 'Scan'}
                                     </span>
                                     <span className="text-xs font-medium truncate flex-1">{displayTitle}</span>
@@ -545,32 +538,30 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 )}
             </div>
 
-            {/* ── Scan usage card ── */}
             {profile && (
                 <div className="px-4 pb-3 flex-shrink-0">
                     <ScanUsageBar profile={profile} />
                 </div>
             )}
 
-            {/* ── Profile footer ── */}
-            <div className="px-3 pb-4 pt-2 border-t border-slate-100 flex-shrink-0">
+            <div className="px-3 pb-4 pt-2 border-t border-white/10 flex-shrink-0">
                 {profile ? (
-                    <div className="group flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors cursor-default">
+                    <div className="group flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors cursor-default">
                         <div className="flex items-center gap-3 min-w-0">
                             {profile.image ? (
                                 <img
                                     src={profile.image}
                                     alt={profile.full_name}
-                                    className="w-8 h-8 rounded-full object-cover ring-2 ring-white shadow-sm"
+                                    className="w-8 h-8 rounded-full object-cover ring-2 ring-white/10"
                                 />
                             ) : (
-                                <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs shadow-sm flex-shrink-0">
+                                <div className="w-8 h-8 rounded-full bg-lime-400 text-slate-950 flex items-center justify-center font-bold text-xs flex-shrink-0">
                                     {profile.full_name ? profile.full_name[0].toUpperCase() : 'U'}
                                 </div>
                             )}
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold truncate text-slate-900 leading-tight">{profile.full_name || 'User'}</p>
-                                <p className="text-[10px] font-bold uppercase tracking-wider text-lime-600 leading-tight mt-0.5">{
+                                <p className="text-sm font-semibold truncate text-stone-100 leading-tight">{profile.full_name || 'User'}</p>
+                                <p className="text-[10px] font-bold uppercase tracking-wider text-lime-400 leading-tight mt-0.5">{
                                     !profile.plan_type || profile.plan_type === 'free' ? 'Free' :
                                     profile.plan_type === 'creator' ? 'Creator' :
                                     'Studio'
@@ -580,7 +571,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                         <button
                             onClick={handleLogout}
                             disabled={isLoggingOut}
-                            className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all flex-shrink-0"
+                            className="w-7 h-7 rounded-lg flex items-center justify-center text-stone-500 hover:bg-red-500/10 hover:text-red-400 transition-all flex-shrink-0"
                             title="Sign out"
                         >
                             <LogOut className="w-3.5 h-3.5" />
@@ -588,10 +579,10 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                     </div>
                 ) : (
                     <div className="flex items-center gap-3 px-3 py-2.5 animate-pulse">
-                        <div className="w-8 h-8 rounded-full bg-slate-100 flex-shrink-0" />
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex-shrink-0" />
                         <div className="space-y-1.5 flex-1">
-                            <div className="h-2.5 w-24 bg-slate-100 rounded" />
-                            <div className="h-2 w-14 bg-slate-100 rounded" />
+                            <div className="h-2.5 w-24 bg-white/10 rounded" />
+                            <div className="h-2 w-14 bg-white/10 rounded" />
                         </div>
                     </div>
                 )}
@@ -612,27 +603,27 @@ function ScanUsageBar({ profile }: { profile: any }) {
         : 'Studio';
 
     return (
-        <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+        <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/10 space-y-3">
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Scan Usage</p>
-                    <p className="text-base font-bold text-slate-900 leading-tight mt-0.5">
-                        {used} <span className="text-slate-400 font-normal text-sm">/ {limit}</span>
+                    <p className="text-[9px] font-black uppercase tracking-widest text-stone-500">Scan Usage</p>
+                    <p className="text-base font-bold text-stone-50 leading-tight mt-0.5">
+                        {used} <span className="text-stone-500 font-normal text-sm">/ {limit}</span>
                     </p>
                 </div>
                 <span className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
-                    isHigh ? 'bg-red-100 text-red-600' : 'bg-lime-100 text-lime-700'
+                    isHigh ? 'bg-red-500/15 text-red-300' : 'bg-lime-400/15 text-lime-300'
                 }`}>{planLabel}</span>
             </div>
-            <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                 <div
                     className={`h-full rounded-full transition-all duration-700 ${
-                        isHigh ? 'bg-red-500' : isMid ? 'bg-amber-500' : 'bg-lime-500'
+                        isHigh ? 'bg-red-400' : isMid ? 'bg-amber-400' : 'bg-lime-400'
                     }`}
                     style={{ width: `${pct}%` }}
                 />
             </div>
-            <p className="text-[10px] text-slate-400 font-medium">
+            <p className="text-[10px] text-stone-500 font-medium">
                 {Math.max(0, limit - used)} scan{limit - used !== 1 ? 's' : ''} remaining this period
             </p>
         </div>

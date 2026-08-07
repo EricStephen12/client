@@ -95,10 +95,10 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                             variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
                             whileHover={{ y: -4 }}
                             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                            className={`relative rounded-3xl flex flex-col overflow-hidden transition-shadow duration-300 ${
+                            className={`relative rounded-3xl flex flex-col overflow-hidden transition-shadow duration-300 border ${
                                 isHighlight
-                                    ? 'bg-slate-950 text-white shadow-2xl shadow-slate-950/30'
-                                    : 'bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-slate-200'
+                                    ? 'bg-[#141a16] text-stone-100 border-lime-400/30'
+                                    : 'bg-white/[0.03] border-white/10 hover:border-white/20'
                             }`}
                         >
                             {/* Popular badge */}
@@ -106,12 +106,12 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                                 <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-lime-400 via-emerald-400 to-lime-500" />
                             )}
                             {isCurrent && (
-                                <div className="absolute top-5 right-5 bg-lime-500 text-slate-950 text-[9px] font-black px-3 py-1.5 rounded-full tracking-widest uppercase shadow-md">
+                                <div className="absolute top-5 right-5 bg-lime-400 text-slate-950 text-[9px] font-black px-3 py-1.5 rounded-full tracking-widest uppercase shadow-md">
                                     Active
                                 </div>
                             )}
                             {isHighlight && !isCurrent && (
-                                <div className="absolute top-5 right-5 flex items-center gap-1.5 bg-lime-500/20 text-lime-400 text-[9px] font-black px-3 py-1.5 rounded-full tracking-widest uppercase">
+                                <div className="absolute top-5 right-5 flex items-center gap-1.5 bg-lime-400/20 text-lime-400 text-[9px] font-black px-3 py-1.5 rounded-full tracking-widest uppercase">
                                     <Sparkles className="w-3 h-3" />
                                     Popular
                                 </div>
@@ -120,15 +120,15 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                             <div className="p-8 sm:p-10 flex-1 flex flex-col">
                                 {/* Plan header */}
                                 <div className="mb-8">
-                                    <span className={`text-[10px] font-black tracking-[0.3em] uppercase italic block mb-4 ${isHighlight ? 'text-lime-500' : 'text-slate-400'}`}>
+                                    <span className={`text-[10px] font-black tracking-[0.3em] uppercase italic block mb-4 ${isHighlight ? 'text-lime-500' : 'text-stone-500'}`}>
                                         {plan.badge}
                                     </span>
-                                    <h3 className={`text-2xl font-bold mb-1 ${isHighlight ? 'text-white' : 'text-slate-900'}`}>{plan.name}</h3>
-                                    <p className={`text-sm font-medium ${isHighlight ? 'text-slate-400' : 'text-slate-500'}`}>{plan.description}</p>
+                                    <h3 className={`text-2xl font-bold mb-1 ${isHighlight ? 'text-white' : 'text-stone-50'}`}>{plan.name}</h3>
+                                    <p className={`text-sm font-medium ${isHighlight ? 'text-stone-500' : 'text-stone-500'}`}>{plan.description}</p>
                                     
                                     <div className="flex items-baseline gap-1.5 mt-6">
-                                        <span className={`text-5xl sm:text-6xl font-bold ${isHighlight ? 'text-white' : 'text-slate-900'}`}>{plan.price}</span>
-                                        <span className={`text-xl font-light italic ${isHighlight ? 'text-slate-500' : 'text-slate-400'}`}>{plan.period}</span>
+                                        <span className={`text-5xl sm:text-6xl font-bold ${isHighlight ? 'text-white' : 'text-stone-50'}`}>{plan.price}</span>
+                                        <span className={`text-xl font-light italic ${isHighlight ? 'text-stone-500' : 'text-stone-500'}`}>{plan.period}</span>
                                     </div>
                                 </div>
 
@@ -136,10 +136,10 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                                 <ul className="space-y-4 mb-10 flex-1">
                                     {plan.features.map((f) => (
                                         <li key={f} className="flex items-start gap-3">
-                                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${isHighlight ? 'bg-lime-500/20 text-lime-400' : 'bg-slate-100 text-slate-600'}`}>
+                                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${isHighlight ? 'bg-lime-400/20 text-lime-400' : 'bg-white/10 text-stone-400'}`}>
                                                 <Check className="w-3 h-3" strokeWidth={3} />
                                             </div>
-                                            <span className={`text-sm font-medium leading-snug ${isHighlight ? 'text-slate-300' : 'text-slate-700'}`}>{f}</span>
+                                            <span className={`text-sm font-medium leading-snug ${isHighlight ? 'text-stone-400' : 'text-stone-300'}`}>{f}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -150,8 +150,8 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                                         href={plan.buttonHref}
                                         className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-2xl text-center flex items-center justify-center gap-2 active:scale-95 ${
                                             isHighlight
-                                                ? 'bg-lime-500 text-slate-950 hover:bg-lime-400 shadow-xl shadow-lime-500/20'
-                                                : 'bg-slate-950 text-white hover:bg-lime-500 hover:text-slate-950'
+                                                ? 'bg-lime-400 text-slate-950 hover:bg-lime-300 shadow-xl shadow-lime-500/20'
+                                                : 'bg-lime-400 text-slate-950 hover:bg-lime-300 hover:text-slate-950'
                                         }`}
                                     >
                                         {plan.buttonText}
@@ -162,8 +162,8 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                                         productId={plan.productId}
                                         className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-2xl text-center flex items-center justify-center gap-2 active:scale-95 ${
                                             isHighlight
-                                                ? 'bg-lime-500 text-slate-950 hover:bg-lime-400 shadow-xl shadow-lime-500/20'
-                                                : 'bg-slate-950 text-white hover:bg-lime-500 hover:text-slate-950'
+                                                ? 'bg-lime-400 text-slate-950 hover:bg-lime-300 shadow-xl shadow-lime-500/20'
+                                                : 'bg-lime-400 text-slate-950 hover:bg-lime-300 hover:text-slate-950'
                                         }`}
                                     >
                                         {plan.buttonText}
@@ -174,8 +174,8 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                                         disabled
                                         className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] rounded-2xl cursor-not-allowed flex items-center justify-center gap-2 ${
                                             isCurrent
-                                                ? isHighlight ? 'bg-lime-500/20 text-lime-400 border border-lime-500/30' : 'bg-lime-50 text-lime-600 border border-lime-200'
-                                                : 'bg-slate-50 text-slate-300 border border-slate-100'
+                                                ? isHighlight ? 'bg-lime-400/20 text-lime-400 border border-lime-500/30' : 'bg-lime-400/15 text-lime-300 border border-lime-400/30'
+                                                : 'bg-white/5 text-stone-600 border border-white/10'
                                         }`}
                                     >
                                         {plan.buttonText}
@@ -199,15 +199,15 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                         { label: 'Studio Scans Remaining', used: usage.scans, max: 3, color: 'lime' },
                         { label: 'Strategy Briefs Remaining', used: usage.scripts, max: 3, color: 'slate' },
                     ].map(({ label, used, max, color }) => (
-                        <div key={label} className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-3">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">{label}</span>
+                        <div key={label} className="bg-white/[0.03] rounded-2xl border border-white/10 p-6 space-y-3">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-stone-500 block">{label}</span>
                             <div className="flex items-end gap-2">
-                                <span className="text-4xl font-bold text-slate-900">{Math.max(0, max - used)}</span>
-                                <span className="text-slate-300 font-light mb-1 text-xl">/ {max}</span>
+                                <span className="text-4xl font-serif text-stone-50">{Math.max(0, max - used)}</span>
+                                <span className="text-stone-500 font-light mb-1 text-xl">/ {max}</span>
                             </div>
-                            <div className="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
+                            <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
                                 <div
-                                    className={`h-full rounded-full transition-all duration-1000 ${color === 'lime' ? 'bg-lime-500' : 'bg-slate-600'}`}
+                                    className={`h-full rounded-full transition-all duration-1000 ${color === 'lime' ? 'bg-lime-400' : 'bg-stone-400'}`}
                                     style={{ width: `${Math.min(100, (used / max) * 100)}%` }}
                                 />
                             </div>

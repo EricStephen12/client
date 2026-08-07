@@ -37,9 +37,9 @@ const handleLogout = async () => {
     };
 
     return (
-        <div className="flex min-h-screen bg-gradient-to-br from-lime-50 via-white to-lime-50 text-gray-900 font-sans selection:bg-lime-600 selection:text-white">
+        <div className="flex min-h-screen bg-[#0a0c0b] text-stone-100 font-sans selection:bg-lime-400 selection:text-slate-950">
 
-<aside className="w-72 border-r border-lime-50 hidden lg:flex flex-col sticky top-0 h-screen bg-white shadow-[20px_0_40px_-20px_rgba(168,85,247,0.05)]">
+<aside className="w-72 border-r border-white/10 hidden lg:flex flex-col sticky top-0 h-screen bg-[#0e1210]">
                 <SidebarContent
                     pathname={pathname}
                     navItems={displayNavItems}
@@ -51,10 +51,10 @@ const handleLogout = async () => {
 
 {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-50 lg:hidden">
-                    <div className="absolute inset-0 bg-lime-900/40 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
-                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-white animate-slide-in">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
+                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-[#0e1210] border-l border-white/10 animate-slide-in">
                         <div className="flex justify-end p-6">
-                            <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-400 hover:text-lime-600 transition-colors">
+                            <button onClick={() => setIsMobileMenuOpen(false)} className="text-stone-500 hover:text-lime-400 transition-colors">
                                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" /></svg>
                             </button>
                         </div>
@@ -71,23 +71,23 @@ const handleLogout = async () => {
             )}
 
 <main className="flex-1 overflow-auto">
-                <header className="flex lg:hidden items-center justify-between p-6 border-b border-lime-50 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+                <header className="flex lg:hidden items-center justify-between p-6 border-b border-white/10 bg-[#0a0c0b]/80 backdrop-blur-md sticky top-0 z-50">
                     <div className="flex items-center gap-4">
                         {pathname !== '/dashboard' && (
                             <button 
                                 onClick={() => router.back()}
-                                className="w-10 h-10 rounded-xl bg-white border border-lime-100 flex items-center justify-center text-lime-600 shadow-sm"
+                                className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-lime-400"
                             >
                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
                                 </svg>
                             </button>
                         )}
-                        <Link href="/" className="text-3xl font-signature">Eixora.</Link>
+                        <Link href="/" className="text-3xl font-signature text-stone-100">Eixora.</Link>
                     </div>
                     <button
                         onClick={() => setIsMobileMenuOpen(true)}
-                        className="w-12 h-12 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center hover:bg-lime-100 transition-colors"
+                        className="w-12 h-12 rounded-xl bg-lime-400/10 text-lime-400 flex items-center justify-center hover:bg-lime-400/20 transition-colors"
                     >
                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
@@ -106,14 +106,14 @@ const handleLogout = async () => {
 function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClose, profile }: any) {
     return (
         <div className="flex flex-col h-full">
-            <div className="p-8 border-b border-lime-50">
-                <Link href="/" className="text-4xl font-signature hover:opacity-70 transition-opacity">
+            <div className="p-8 border-b border-white/10">
+                <Link href="/" className="text-4xl font-signature text-stone-100 hover:opacity-70 transition-opacity">
                     Eixora.
                 </Link>
             </div>
 
             <nav className="flex-1 flex flex-col p-8 space-y-4">
-                <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-lime-600/40 mb-2">Workspace</span>
+                <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-lime-400/40 mb-2">Workspace</span>
                 {navItems.map((item: any) => {
                     const isActive = pathname === item.href;
                     return (
@@ -122,34 +122,34 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                             href={item.href}
                             onClick={onClose}
                             className={`group flex items-center gap-3 px-4 py-3 text-xs tracking-[0.1em] uppercase transition-all duration-300 rounded-xl ${isActive
-                                ? 'bg-gradient-to-r from-lime-600 to-lime-600 text-white font-bold shadow-lg shadow-lime-200'
-                                : 'font-medium text-gray-500 hover:bg-lime-50 hover:text-lime-600'
+                                ? 'bg-lime-400 text-slate-950 font-bold'
+                                : 'font-medium text-stone-500 hover:bg-white/[0.04] hover:text-lime-400'
                                 }`}
                         >
-                            <span className={`w-1.5 h-1.5 rounded-full transition-all ${isActive ? 'bg-white' : 'bg-gray-300 group-hover:bg-lime-400'}`}></span>
+                            <span className={`w-1.5 h-1.5 rounded-full transition-all ${isActive ? 'bg-slate-950' : 'bg-stone-600 group-hover:bg-lime-400'}`}></span>
                             {item.name}
                         </Link>
                     );
                 })}
             </nav>
 
-            <div className="p-8 border-t border-lime-50 space-y-6">
+            <div className="p-8 border-t border-white/10 space-y-6">
                 {profile ? (
                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lime-600 to-lime-600 text-white flex items-center justify-center font-serif italic text-lg shadow-md">
+                        <div className="w-10 h-10 rounded-xl bg-lime-400 text-slate-950 flex items-center justify-center font-serif italic text-lg">
                             {profile.full_name ? profile.full_name[0] : 'C'}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-xs font-bold uppercase tracking-widest truncate text-gray-900">{profile.full_name || 'Creator'}</p>
-                            <p className="text-[10px] text-lime-600 font-medium uppercase tracking-wider">{profile.plan_type || 'Free'} • {(profile as any).total_scripts || 0} Briefs</p>
+                            <p className="text-xs font-bold uppercase tracking-widest truncate text-stone-100">{profile.full_name || 'Creator'}</p>
+                            <p className="text-[10px] text-lime-400 font-medium uppercase tracking-wider">{profile.plan_type || 'Free'} • {(profile as any).total_scripts || 0} Briefs</p>
                         </div>
                     </div>
                 ) : (
                     <div className="flex items-center gap-4 animate-pulse">
-                        <div className="w-10 h-10 rounded-xl bg-gray-200"></div>
+                        <div className="w-10 h-10 rounded-xl bg-white/[0.06]"></div>
                         <div className="space-y-2 flex-1">
-                            <div className="h-3 w-20 bg-gray-200 rounded"></div>
-                            <div className="h-2 w-12 bg-gray-200 rounded"></div>
+                            <div className="h-3 w-20 bg-white/[0.06] rounded"></div>
+                            <div className="h-2 w-12 bg-white/[0.06] rounded"></div>
                         </div>
                     </div>
                 )}
@@ -157,7 +157,7 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className="w-full py-3 px-4 border border-lime-100 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:border-red-200 hover:text-red-500 hover:bg-red-50 transition-all rounded-xl disabled:opacity-50"
+                    className="w-full py-3 px-4 border border-white/10 text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 hover:border-red-400/40 hover:text-red-400 hover:bg-red-400/10 transition-all rounded-xl disabled:opacity-50"
                 >
                     {isLoggingOut ? 'Signing out...' : 'Logout Account'}
                 </button>

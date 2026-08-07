@@ -201,17 +201,17 @@ export default function AdminDashboard() {
 
     return (
         <div className="space-y-8 sm:space-y-12 pb-20 px-1 sm:px-2">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 pt-2 sm:pt-6 border-b border-slate-100 pb-8">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 pt-2 sm:pt-6 border-b border-white/10 pb-8">
                 <div className="space-y-3">
-                    <span className="text-[10px] font-black tracking-[0.4em] uppercase text-lime-600 mb-1 block">Master Control 💎🛡️</span>
-                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif italic text-gray-900 tracking-tight leading-tight">Superuser <br className="sm:hidden" /> Command Center.</h1>
+                    <span className="text-[10px] font-black tracking-[0.4em] uppercase text-lime-400 mb-1 block">Master Control 💎🛡️</span>
+                    <h1 className="text-3xl sm:text-4xl md:text-6xl font-serif italic text-stone-50 tracking-tight leading-tight">Superuser <br className="sm:hidden" /> Command Center.</h1>
                 </div>
-                <div className="flex bg-white p-1 rounded-xl sm:rounded-2xl border border-lime-100 shadow-sm overflow-x-auto hide-scrollbar self-start md:self-auto w-full sm:w-auto">
+                <div className="flex bg-white/[0.03] p-1 rounded-xl sm:rounded-2xl border border-white/10 shadow-sm overflow-x-auto hide-scrollbar self-start md:self-auto w-full sm:w-auto">
                     {['overview', 'users', 'support', 'intel', 'health'].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab as any)}
-                            className={`flex-shrink-0 px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === tab ? 'bg-lime-600 text-white shadow-lg' : 'text-gray-400 hover:text-lime-600'
+                            className={`flex-shrink-0 px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === tab ? 'bg-lime-600 text-white shadow-lg' : 'text-gray-400 hover:text-lime-400'
                                 }`}
                         >
                             {tab}
@@ -224,11 +224,11 @@ export default function AdminDashboard() {
                 <div className="space-y-8 sm:space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                         {[
-                            { label: 'Total Users', value: stats?.totalUsers || 0, color: 'text-lime-600', desc: 'Total accounts registered' },
-                            { label: 'Platform Scans', value: stats?.totalScans || 0, color: 'text-lime-600', desc: 'Viral blueprints extracted' },
+                            { label: 'Total Users', value: stats?.totalUsers || 0, color: 'text-lime-400', desc: 'Total accounts registered' },
+                            { label: 'Platform Scans', value: stats?.totalScans || 0, color: 'text-lime-400', desc: 'Viral blueprints extracted' },
                             { label: 'Open Tickets', value: tickets.filter(t => t.status === 'open').length, color: 'text-orange-600', desc: 'Requires support attention' }
                         ].map((stat, i) => (
-                            <div key={i} className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-lime-100 shadow-sm relative overflow-hidden group hover:border-lime-300 transition-all duration-300">
+                            <div key={i} className="bg-white/[0.03] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/10 shadow-sm relative overflow-hidden group hover:border-lime-300 transition-all duration-300">
                                 <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3 sm:mb-4">{stat.label}</p>
                                 <p className={`text-3xl sm:text-5xl font-serif italic ${stat.color} relative z-10`}>{stat.value}</p>
                                 <p className="text-[10px] text-gray-400 mt-2 font-light">{stat.desc}</p>
@@ -252,7 +252,7 @@ export default function AdminDashboard() {
                                 { period: 'Yearly Revenue', value: stats?.revenue?.yearly, color: 'text-cyan-400' }
                             ].map((item, idx) => (
                                 <div key={idx} className="bg-white/5 backdrop-blur-md p-5 sm:p-6 rounded-2xl border border-white/10 hover:border-lime-500/30 transition-all">
-                                    <p className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">{item.period}</p>
+                                    <p className="text-[9px] font-bold uppercase tracking-widest text-stone-500 mb-2">{item.period}</p>
                                     <p className={`text-2xl sm:text-3xl font-mono font-bold ${item.color}`}>
                                         ${typeof item.value === 'number' ? item.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '0.00'}
                                     </p>
@@ -262,19 +262,19 @@ export default function AdminDashboard() {
                     </div>
 
                     {/* User growth stats */}
-                    <div className="bg-white p-6 sm:p-10 rounded-2xl sm:rounded-[2.5rem] border border-lime-100 shadow-sm relative overflow-hidden">
+                    <div className="bg-white/[0.03] p-6 sm:p-10 rounded-2xl sm:rounded-[2.5rem] border border-white/10 shadow-sm relative overflow-hidden">
                         <div className="relative z-10 mb-8 border-b border-lime-50 pb-6">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-600 mb-2 block">Acquisition Engine</span>
-                            <h2 className="text-xl sm:text-2xl font-serif italic text-gray-900">User Growth Speed</h2>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 mb-2 block">Acquisition Engine</span>
+                            <h2 className="text-xl sm:text-2xl font-serif italic text-stone-50">User Growth Speed</h2>
                         </div>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
                             {[
-                                { period: 'Daily Signups', value: stats?.signups?.daily, color: 'text-lime-600', unit: 'new users' },
-                                { period: 'Weekly Signups', value: stats?.signups?.weekly, color: 'text-slate-600', unit: 'new users' },
-                                { period: 'Monthly Signups', value: stats?.signups?.monthly, color: 'text-lime-600', unit: 'new users' },
+                                { period: 'Daily Signups', value: stats?.signups?.daily, color: 'text-lime-400', unit: 'new users' },
+                                { period: 'Weekly Signups', value: stats?.signups?.weekly, color: 'text-stone-400', unit: 'new users' },
+                                { period: 'Monthly Signups', value: stats?.signups?.monthly, color: 'text-lime-400', unit: 'new users' },
                                 { period: 'Yearly Signups', value: stats?.signups?.yearly, color: 'text-pink-600', unit: 'new users' }
                             ].map((item, idx) => (
-                                <div key={idx} className="bg-lime-50/20 p-5 sm:p-6 rounded-2xl border border-lime-50/50 hover:border-lime-200 transition-all">
+                                <div key={idx} className="bg-lime-400/10 p-5 sm:p-6 rounded-2xl border border-white/10 hover:border-lime-400/30 transition-all">
                                     <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-2">{item.period}</p>
                                     <p className={`text-3xl font-serif italic font-bold ${item.color}`}>
                                         +{item.value || 0}
@@ -288,10 +288,10 @@ export default function AdminDashboard() {
             )}
 
             {activeTab === 'users' && (
-                <div className="bg-white rounded-2xl sm:rounded-3xl border border-lime-100 shadow-sm overflow-x-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="bg-white/[0.03] rounded-2xl sm:rounded-3xl border border-white/10 shadow-sm overflow-x-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <table className="w-full text-left min-w-[600px]">
                         <thead>
-                            <tr className="bg-lime-50/30 text-[10px] font-bold uppercase tracking-widest text-gray-400 border-b border-lime-50">
+                            <tr className="bg-lime-400/10 text-[10px] font-bold uppercase tracking-widest text-gray-400 border-b border-lime-50">
                                 <th className="p-4 sm:p-6">User / Identity</th>
                                 <th className="p-4 sm:p-6">Tier & Scans</th>
                                 <th className="p-4 sm:p-6">Role & Status</th>
@@ -301,14 +301,14 @@ export default function AdminDashboard() {
                         </thead>
                         <tbody className="divide-y divide-lime-50">
                             {users.map((u) => (
-                                <tr key={u.id} className="hover:bg-lime-50/20 transition-colors">
+                                <tr key={u.id} className="hover:bg-white/[0.04] transition-colors">
                                     <td className="p-4 sm:p-6">
-                                        <p className="text-sm font-bold text-gray-900">{u.name || 'Anonymous'}</p>
+                                        <p className="text-sm font-bold text-stone-50">{u.name || 'Anonymous'}</p>
                                         <p className="text-[10px] text-gray-400 font-mono italic">{u.email}</p>
                                     </td>
                                     <td className="p-4 sm:p-6">
                                         <div className="flex flex-col gap-1">
-                                            <span className={`self-start px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${u.plan_type === 'free' ? 'bg-gray-100 text-gray-500' : 'bg-lime-100 text-lime-600'}`}>
+                                            <span className={`self-start px-2 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${u.plan_type === 'free' ? 'bg-gray-100 text-gray-500' : 'bg-lime-100 text-lime-400'}`}>
                                                 {u.plan_type}
                                             </span>
                                             <span className="text-xs text-gray-500 font-mono mt-1">{u.credits_remaining || 0} creds / {u.scans || 0} scans</span>
@@ -316,15 +316,15 @@ export default function AdminDashboard() {
                                     </td>
                                     <td className="p-4 sm:p-6">
                                         <div className="flex flex-col gap-1 text-[10px] uppercase font-bold tracking-wider">
-                                            <span className={u.is_admin ? 'text-lime-600' : 'text-gray-400'}>{u.is_admin ? 'Admin' : 'User'}</span>
+                                            <span className={u.is_admin ? 'text-lime-400' : 'text-gray-400'}>{u.is_admin ? 'Admin' : 'User'}</span>
                                             <span className={u.status === 'blocked' ? 'text-red-500' : u.status === 'suspended' ? 'text-orange-500' : 'text-green-500'}>{u.status || 'Active'}</span>
                                         </div>
                                     </td>
                                     <td className="p-4 sm:p-6">
                                         <div className="flex flex-col gap-1 text-[10px] text-gray-500">
-                                            {u.brand_niche && <span><strong className="text-lime-600 uppercase">Niche:</strong> {u.brand_niche}</span>}
-                                            {u.primary_goal && <span><strong className="text-lime-600 uppercase">Goal:</strong> {u.primary_goal}</span>}
-                                            {u.source && <span><strong className="text-lime-600 uppercase">Source:</strong> {u.source}</span>}
+                                            {u.brand_niche && <span><strong className="text-lime-400 uppercase">Niche:</strong> {u.brand_niche}</span>}
+                                            {u.primary_goal && <span><strong className="text-lime-400 uppercase">Goal:</strong> {u.primary_goal}</span>}
+                                            {u.source && <span><strong className="text-lime-400 uppercase">Source:</strong> {u.source}</span>}
                                             {!u.brand_niche && !u.primary_goal && !u.source && <span className="italic text-gray-400">Incomplete</span>}
                                         </div>
                                     </td>
@@ -334,7 +334,7 @@ export default function AdminDashboard() {
                                                 <button
                                                     onClick={() => handlePromote(u.id, u.plan_type === 'studio' ? 'free' : 'studio')}
                                                     disabled={actionLoading === u.id}
-                                                    className="px-3 py-1 bg-lime-100 text-lime-600 rounded-lg text-[8px] font-black uppercase hover:bg-lime-600 hover:text-white transition-all disabled:opacity-30"
+                                                    className="px-3 py-1 bg-lime-100 text-lime-400 rounded-lg text-[8px] font-black uppercase hover:bg-lime-600 hover:text-white transition-all disabled:opacity-30"
                                                 >
                                                     {u.plan_type === 'studio' ? 'Revoke Pro' : 'Make Pro'}
                                                 </button>
@@ -348,7 +348,7 @@ export default function AdminDashboard() {
                                                 <button
                                                     onClick={() => handleToggleAdmin(u.id, !u.is_admin)}
                                                     disabled={actionLoading === u.id}
-                                                    className="px-3 py-1 bg-lime-100 text-lime-600 rounded-lg text-[8px] font-black uppercase hover:bg-lime-600 hover:text-white transition-all disabled:opacity-30"
+                                                    className="px-3 py-1 bg-lime-100 text-lime-400 rounded-lg text-[8px] font-black uppercase hover:bg-lime-600 hover:text-white transition-all disabled:opacity-30"
                                                 >
                                                     {u.is_admin ? 'Remove Admin' : 'Make Admin'}
                                                 </button>
@@ -400,13 +400,13 @@ export default function AdminDashboard() {
 
             {activeTab === 'support' && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    {tickets.length === 0 && <div className="p-12 text-center text-gray-400 font-serif italic border-2 border-dashed border-lime-100 rounded-2xl sm:rounded-3xl">No support tickets found in the secure vault.</div>}
+                    {tickets.length === 0 && <div className="p-12 text-center text-gray-400 font-serif italic border-2 border-dashed border-white/10 rounded-2xl sm:rounded-3xl">No support tickets found in the secure vault.</div>}
                     {tickets.map(t => (
-                        <div key={t.id} className={`bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border ${t.status === 'open' ? 'border-orange-200 shadow-orange-50' : 'border-lime-100'} shadow-sm flex flex-col sm:flex-row justify-between items-start gap-6`}>
+                        <div key={t.id} className={`bg-white/[0.03] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border ${t.status === 'open' ? 'border-orange-200 shadow-orange-50' : 'border-white/10'} shadow-sm flex flex-col sm:flex-row justify-between items-start gap-6`}>
                             <div className="space-y-4 max-w-2xl">
                                 <div className="flex items-center gap-3">
                                     <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${t.status === 'open' ? 'bg-orange-100 text-orange-600' : 'bg-green-100 text-green-600'}`}>{t.status}</span>
-                                    <h3 className="text-lg sm:text-xl font-serif italic text-gray-900">{t.subject}</h3>
+                                    <h3 className="text-lg sm:text-xl font-serif italic text-stone-50">{t.subject}</h3>
                                 </div>
                                 <p className="text-gray-600 text-sm leading-relaxed">{t.message}</p>
                                 <div className="flex flex-wrap gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
@@ -430,10 +430,10 @@ export default function AdminDashboard() {
 
             {activeTab === 'intel' && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-lime-100 shadow-sm space-y-6">
+                    <div className="bg-white/[0.03] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/10 shadow-sm space-y-6">
                         <div className="flex justify-between items-center">
                             <div>
-                                <h2 className="text-xl font-serif italic text-gray-900">AI Vision Analyzer Core Prompt</h2>
+                                <h2 className="text-xl font-serif italic text-stone-50">AI Vision Analyzer Core Prompt</h2>
                                 <p className="text-xs text-gray-500 mt-1">Change the psychological principles and grading matrix used by the AI engine.</p>
                             </div>
                             <button onClick={handleSavePrompt} disabled={isSavingPrompt} className="px-6 py-3 bg-lime-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-lime-100 hover:scale-105 transition-transform disabled:opacity-50">
@@ -468,8 +468,8 @@ export default function AdminDashboard() {
 
             {activeTab === 'health' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-lime-100 shadow-sm">
-                        <h3 className="text-lg sm:text-xl font-serif italic text-gray-900 mb-6">Security Engine Health</h3>
+                    <div className="bg-white/[0.03] p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-white/10 shadow-sm">
+                        <h3 className="text-lg sm:text-xl font-serif italic text-stone-50 mb-6">Security Engine Health</h3>
                         <div className="space-y-4">
                             <div className="flex justify-between items-center text-xs font-mono">
                                 <span className="text-gray-400 uppercase tracking-widest">Status</span>
@@ -477,7 +477,7 @@ export default function AdminDashboard() {
                             </div>
                             <div className="flex justify-between items-center text-xs font-mono">
                                 <span className="text-gray-400 uppercase tracking-widest">Latency</span>
-                                <span className="text-gray-900">{health?.latency || 'Calculating...'} ms</span>
+                                <span className="text-stone-50">{health?.latency || 'Calculating...'} ms</span>
                             </div>
                             <div className="flex justify-between items-center text-xs font-mono">
                                 <span className="text-gray-400 uppercase tracking-widest">Database</span>

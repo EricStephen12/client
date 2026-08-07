@@ -49,28 +49,28 @@ export default function UpgradePage() {
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="text-center py-16 sm:py-20 space-y-6"
             >
-                <div className="inline-flex items-center gap-2 bg-lime-50 border border-lime-200 text-lime-700 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest">
+                <div className="inline-flex items-center gap-2 bg-lime-400/10 border border-lime-400/20 text-lime-400 px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest">
                     <Zap className="w-3.5 h-3.5" />
                     Plans & Pricing
                 </div>
 
-                <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight text-slate-900 leading-[0.95]">
+                <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight text-stone-100 leading-[0.95]">
                     Unlock Your{' '}
-                    <span className="font-serif italic text-slate-400">Full Studio.</span>
+                    <span className="font-serif italic text-stone-500">Full Studio.</span>
                 </h1>
 
-                <p className="text-slate-400 max-w-xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
+                <p className="text-stone-500 max-w-xl mx-auto text-base sm:text-lg leading-relaxed font-medium">
                     Access the complete Viral DNA engine, elite creative briefs, and priority AI processing — starting at just $5/mo.
                 </p>
 
                 {/* Feature highlights row */}
                 <div className="flex flex-wrap justify-center gap-4 pt-4">
                     {features.map((f) => (
-                        <div key={f.label} className="flex items-center gap-2.5 bg-white border border-slate-100 rounded-full px-5 py-2.5 shadow-sm">
-                            <f.icon className="w-4 h-4 text-lime-500" />
+                        <div key={f.label} className="flex items-center gap-2.5 bg-white/[0.03] border border-white/10 rounded-full px-5 py-2.5">
+                            <f.icon className="w-4 h-4 text-lime-400" />
                             <div className="text-left">
-                                <p className="text-xs font-bold text-slate-900 leading-none">{f.label}</p>
-                                <p className="text-[10px] text-slate-400 font-medium mt-0.5">{f.desc}</p>
+                                <p className="text-xs font-bold text-stone-100 leading-none">{f.label}</p>
+                                <p className="text-[10px] text-stone-500 font-medium mt-0.5">{f.desc}</p>
                             </div>
                         </div>
                     ))}
@@ -83,14 +83,14 @@ export default function UpgradePage() {
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.4 }}
-                    className="mb-12 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-5 flex flex-wrap gap-6 items-center justify-between"
+                    className="mb-12 bg-amber-400/10 border border-amber-400/20 rounded-2xl p-5 flex flex-wrap gap-6 items-center justify-between"
                 >
                     <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-                        <span className="text-sm font-bold text-amber-800">You're on the Free Trial</span>
-                        <span className="text-xs text-amber-600 font-medium">— {Math.max(0, scanLimit - scanCount)} scan{Math.max(0, scanLimit - scanCount) !== 1 ? 's' : ''} remaining this period</span>
+                        <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                        <span className="text-sm font-bold text-amber-200">You're on the Free Trial</span>
+                        <span className="text-xs text-amber-400/80 font-medium">— {Math.max(0, scanLimit - scanCount)} scan{Math.max(0, scanLimit - scanCount) !== 1 ? 's' : ''} remaining this period</span>
                     </div>
-                    <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-amber-600">
+                    <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-amber-400/80">
                         <span>{scanCount} / {scanLimit} Scans Used</span>
                         <span>{scriptCount} / {scanLimit} Briefs Used</span>
                     </div>
@@ -116,15 +116,15 @@ export default function UpgradePage() {
                 transition={{ delay: 0.5 }}
                 className="mt-20 text-center space-y-6"
             >
-                <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-widest text-stone-500">
                     {['Cancel Anytime', 'Instant Access', 'Secure Checkout', 'Live Support'].map(t => (
                         <div key={t} className="flex items-center gap-1.5">
-                            <CheckCircle2 className="w-3 h-3 text-lime-500" />
+                            <CheckCircle2 className="w-3 h-3 text-lime-400" />
                             <span>{t}</span>
                         </div>
                     ))}
                 </div>
-                <p className="text-xs text-slate-300 font-medium">
+                <p className="text-xs text-stone-500 font-medium">
                     Eixora &bull; Powering the next generation of viral creators
                 </p>
             </motion.div>

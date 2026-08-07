@@ -32,13 +32,13 @@ export default function ReportPage() {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-white px-4">
-                <div className="w-8 h-8 border-2 border-lime-600 border-t-transparent rounded-full animate-spin"></div>
+            <div className="flex items-center justify-center min-h-screen bg-[#0a0c0b] px-4">
+                <div className="w-8 h-8 border-2 border-lime-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
 
-    if (!data) return <div className="p-10 sm:p-20 text-center font-serif italic text-gray-400 px-4">Report not found. Verify session ID.</div>;
+    if (!data) return <div className="p-10 sm:p-20 text-center font-serif italic text-stone-500 px-4">Report not found. Verify session ID.</div>;
 
     const audit = data.dna;
     // Mode can be on the session directly or nested inside the DNA object
@@ -58,31 +58,31 @@ export default function ReportPage() {
         : cleanTitle;
 
     return (
-        <div className="min-h-screen bg-neutral-50 py-6 sm:py-12 px-4 sm:px-6 md:px-12 print:bg-white print:p-0">
+        <div className="min-h-screen bg-[#0a0c0b] text-stone-100 py-6 sm:py-12 px-4 sm:px-6 md:px-12 print:bg-white/[0.03] print:text-stone-50 print:p-0">
 
             <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 print:hidden">
                 <Link
                     href="/dashboard/analyze"
-                    className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-lime-600 transition-colors flex items-center gap-2 self-start sm:self-auto"
+                    className="text-[10px] font-bold uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors flex items-center gap-2 self-start sm:self-auto"
                 >
                     &larr; Back to Studio
                 </Link>
                 <button
                     onClick={() => window.print()}
-                    className="w-full sm:w-auto px-6 py-3 bg-gray-900 text-white text-[10px] font-bold uppercase tracking-widest rounded-xl hover:scale-105 transition-all shadow-lg flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-6 py-3 bg-lime-400 text-slate-950 text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-lime-300 transition-all flex items-center justify-center gap-2"
                 >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
                     Print / Save PDF
                 </button>
             </div>
 
-            <article className="max-w-4xl mx-auto bg-white shadow-2xl rounded-2xl sm:rounded-[3rem] overflow-hidden border border-gray-100 print:shadow-none print:border-none print:rounded-none">
+            <article className="max-w-4xl mx-auto bg-[#0e1210] rounded-2xl sm:rounded-[3rem] overflow-hidden border border-white/10 print:bg-white/[0.03] print:shadow-none print:border-none print:rounded-none">
 
-                <header className="bg-gray-900 text-white p-8 sm:p-12 md:p-16 relative overflow-hidden">
+                <header className="bg-[#0a0c0b] text-stone-100 p-8 sm:p-12 md:p-16 relative overflow-hidden border-b border-white/10 print:bg-gray-900 print:text-white">
                     <div className="absolute top-0 right-0 p-8 sm:p-12 opacity-10 font-signature text-6xl sm:text-8xl">Eixora.</div>
                     <div className="relative z-10 space-y-4 sm:space-y-6">
                         <div className="flex items-center gap-3">
-                            <span className="w-6 sm:w-8 h-1 bg-lime-500 rounded-full"></span>
+                            <span className="w-6 sm:w-8 h-1 bg-lime-400 rounded-full"></span>
                             <span className="text-[10px] sm:text-xs font-bold tracking-[0.4em] uppercase text-lime-400">
                                 {isProductIntel ? 'Product Intelligence Report' : 'Strategic Ad Audit'}
                             </span>
@@ -90,7 +90,7 @@ export default function ReportPage() {
                         <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif italic tracking-tight leading-tight">
                             {displayTitle}
                         </h1>
-                        <p className="text-[9px] sm:text-sm font-light opacity-50 uppercase tracking-widest border-t border-white/10 pt-4 inline-block">Ref: {sessionId?.toString().slice(0, 8)} • {new Date(data.created_at).toLocaleDateString()}</p>
+                        <p className="text-[9px] sm:text-sm font-light text-stone-500 uppercase tracking-widest border-t border-white/10 pt-4 inline-block">Ref: {sessionId?.toString().slice(0, 8)} • {new Date(data.created_at).toLocaleDateString()}</p>
                     </div>
                 </header>
 
@@ -98,29 +98,29 @@ export default function ReportPage() {
                     <div className="p-8 sm:p-12 md:p-16 space-y-12 sm:space-y-16">
                         {/* Verdict Dashboard */}
                         <section className="space-y-6">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 border-b border-gray-100 pb-3 sm:pb-4">The Verdict</h2>
-                            <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 border border-slate-800 shadow-xl relative overflow-hidden">
-                                <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-lime-500 rounded-full blur-[100px] opacity-20"></div>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500 border-b border-white/10 pb-3 sm:pb-4">The Verdict</h2>
+                            <div className="bg-white/[0.04] text-stone-100 rounded-3xl p-8 sm:p-10 border border-white/10 relative overflow-hidden">
+                                <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-lime-400 rounded-full blur-[100px] opacity-10"></div>
                                 <div className="relative z-10">
-                                    <p className="text-2xl sm:text-4xl font-serif italic text-white leading-tight mb-8">
+                                    <p className="text-2xl sm:text-4xl font-serif italic text-stone-100 leading-tight mb-8">
                                         "{audit.verdict}"
                                     </p>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-white/10">
                                         <div>
-                                            <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Market Stage</p>
+                                            <p className="text-[9px] font-black uppercase tracking-widest text-stone-500 mb-1">Market Stage</p>
                                             <p className="text-lg font-bold text-lime-400">{audit.marketStage}</p>
                                         </div>
                                         <div>
-                                            <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Saturation</p>
-                                            <p className="text-lg font-bold text-white">{audit.saturationScore}/10</p>
+                                            <p className="text-[9px] font-black uppercase tracking-widest text-stone-500 mb-1">Saturation</p>
+                                            <p className="text-lg font-bold text-stone-100">{audit.saturationScore}/10</p>
                                         </div>
                                         <div>
-                                            <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Pain Fit</p>
-                                            <p className="text-lg font-bold text-white">{audit.audiencePainFitScore}/10</p>
+                                            <p className="text-[9px] font-black uppercase tracking-widest text-stone-500 mb-1">Pain Fit</p>
+                                            <p className="text-lg font-bold text-stone-100">{audit.audiencePainFitScore}/10</p>
                                         </div>
                                         <div>
-                                            <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Profit Viability</p>
-                                            <p className="text-lg font-bold text-white">{audit.profitViabilityScore}/10</p>
+                                            <p className="text-[9px] font-black uppercase tracking-widest text-stone-500 mb-1">Profit Viability</p>
+                                            <p className="text-lg font-bold text-stone-100">{audit.profitViabilityScore}/10</p>
                                         </div>
                                     </div>
                                 </div>
@@ -130,71 +130,71 @@ export default function ReportPage() {
                         {/* Consultant's Breakdown */}
                         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
                             <div className="space-y-4 sm:space-y-6">
-                                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Market Position & Saturation</h2>
+                                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500">Market Position & Saturation</h2>
                                 <div className="space-y-6">
                                     <div>
-                                        <h3 className="text-sm font-bold text-slate-900 mb-2">Trend Direction</h3>
-                                        <p className="text-sm text-slate-600 leading-relaxed">{audit.marketPosition}</p>
+                                        <h3 className="text-sm font-bold text-stone-100 mb-2">Trend Direction</h3>
+                                        <p className="text-sm text-stone-300 leading-relaxed">{audit.marketPosition}</p>
                                     </div>
                                     <div>
-                                        <h3 className="text-sm font-bold text-slate-900 mb-2">Saturation Reality</h3>
-                                        <p className="text-sm text-slate-600 leading-relaxed">{audit.saturationReality}</p>
+                                        <h3 className="text-sm font-bold text-stone-100 mb-2">Saturation Reality</h3>
+                                        <p className="text-sm text-stone-300 leading-relaxed">{audit.saturationReality}</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="space-y-4 sm:space-y-6">
-                                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Audience & Authenticity</h2>
+                                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500">Audience & Authenticity</h2>
                                 <div className="space-y-6">
                                     <div>
-                                        <h3 className="text-sm font-bold text-slate-900 mb-2">Pain Point Resolution</h3>
-                                        <p className="text-sm text-slate-600 leading-relaxed">{audit.audienceAndPainPoint}</p>
+                                        <h3 className="text-sm font-bold text-stone-100 mb-2">Pain Point Resolution</h3>
+                                        <p className="text-sm text-stone-300 leading-relaxed">{audit.audienceAndPainPoint}</p>
                                     </div>
                                     <div>
-                                        <h3 className="text-sm font-bold text-slate-900 mb-2">Authenticity Check</h3>
-                                        <p className="text-sm text-slate-600 leading-relaxed">{audit.authenticityCheck}</p>
+                                        <h3 className="text-sm font-bold text-stone-100 mb-2">Authenticity Check</h3>
+                                        <p className="text-sm text-stone-300 leading-relaxed">{audit.authenticityCheck}</p>
                                     </div>
                                 </div>
                             </div>
                         </section>
 
                         {/* Money Risk & Actionable Steps */}
-                        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 pt-8 border-t border-slate-100">
+                        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 pt-8 border-t border-white/10">
                             <div className="space-y-6">
-                                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-red-500">The Money Risk</h2>
-                                <div className="bg-red-50 rounded-2xl p-6 sm:p-8 border border-red-100">
-                                    <p className="text-sm text-red-900 leading-relaxed font-serif italic">
+                                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-red-400">The Money Risk</h2>
+                                <div className="bg-red-400/10 rounded-2xl p-6 sm:p-8 border border-red-400/20">
+                                    <p className="text-sm text-red-200 leading-relaxed font-serif italic">
                                         {audit.moneyRisk}
                                     </p>
                                 </div>
                             </div>
                             <div className="space-y-6">
-                                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Actionable Steps</h2>
+                                <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500">Actionable Steps</h2>
                                 <ul className="space-y-4">
                                     {audit.actionableSteps?.map((step: string, i: number) => (
                                         <li key={i} className="flex gap-4 items-start">
-                                            <div className="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</div>
-                                            <p className="text-sm text-slate-700 leading-relaxed">{step}</p>
+                                            <div className="w-6 h-6 rounded-full bg-white/[0.06] text-stone-500 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</div>
+                                            <p className="text-sm text-stone-300 leading-relaxed">{step}</p>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
                         </section>
 
-                        <section className="space-y-6 pt-8 border-t border-slate-100">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">The Bottom Line</h2>
-                            <div className="bg-slate-50 rounded-2xl p-6 sm:p-8">
-                                <p className="text-lg sm:text-xl font-bold text-slate-900 mb-4">{audit.bottomLine?.truth}</p>
-                                <div className="flex gap-3 items-start p-4 bg-white rounded-xl border border-slate-200">
+                        <section className="space-y-6 pt-8 border-t border-white/10">
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500">The Bottom Line</h2>
+                            <div className="bg-white/[0.03] rounded-2xl p-6 sm:p-8 border border-white/10">
+                                <p className="text-lg sm:text-xl font-bold text-stone-100 mb-4">{audit.bottomLine?.truth}</p>
+                                <div className="flex gap-3 items-start p-4 bg-white/[0.04] rounded-xl border border-white/10">
                                     <span className="text-lg">👀</span>
                                     <div>
-                                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">What to watch for</p>
-                                        <p className="text-sm text-slate-600">{audit.bottomLine?.watchFor}</p>
+                                        <p className="text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-1">What to watch for</p>
+                                        <p className="text-sm text-stone-300">{audit.bottomLine?.watchFor}</p>
                                     </div>
                                 </div>
                             </div>
                         </section>
 
-                        <footer className="pt-12 sm:pt-16 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 border-t border-gray-100 opacity-40">
+                        <footer className="pt-12 sm:pt-16 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 border-t border-white/10 opacity-40">
                             <div className="space-y-1">
                                 <p className="text-base sm:text-lg font-signature italic">Eixora by EXRICX.</p>
                                 <p className="text-[8px] font-bold uppercase tracking-widest">Confidential Strategy Document • 2026</p>
@@ -209,12 +209,12 @@ export default function ReportPage() {
                 <div className="p-8 sm:p-12 md:p-16 space-y-12 sm:space-y-16">
 
                     <section className="space-y-4 sm:space-y-6">
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 border-b border-gray-100 pb-3 sm:pb-4">Executive Summary</h2>
-                        <div className="bg-lime-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-lime-100 italic">
-                            <p className="text-xl sm:text-2xl md:text-3xl font-serif text-gray-900 leading-tight">
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500 border-b border-white/10 pb-3 sm:pb-4">Executive Summary</h2>
+                        <div className="bg-lime-400/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-lime-400/20 italic">
+                            <p className="text-xl sm:text-2xl md:text-3xl font-serif text-stone-100 leading-tight">
                                 {audit?.big_idea
                                     ? `"${audit.big_idea}"`
-                                    : <span className="text-gray-400 not-italic text-base">No summary available for this report.</span>
+                                    : <span className="text-stone-500 not-italic text-base">No summary available for this report.</span>
                                 }
                             </p>
                         </div>
@@ -222,12 +222,12 @@ export default function ReportPage() {
 
                     <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
                         {[
-                            { label: 'Hook Power', score: audit?.metrics?.hook_power ?? '—', color: 'text-lime-600' },
-                            { label: 'Retention Logic', score: audit?.metrics?.retention_score ?? '—', color: 'text-lime-600' },
-                            { label: 'Conversion Trigger', score: audit?.metrics?.conversion_trigger ?? '—', color: 'text-emerald-600' }
+                            { label: 'Hook Power', score: audit?.metrics?.hook_power ?? '—', color: 'text-lime-400' },
+                            { label: 'Retention Logic', score: audit?.metrics?.retention_score ?? '—', color: 'text-lime-400' },
+                            { label: 'Conversion Trigger', score: audit?.metrics?.conversion_trigger ?? '—', color: 'text-emerald-400' }
                         ].map((m, i) => (
-                            <div key={i} className="border border-gray-100 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center space-y-2">
-                                <h3 className="text-[9px] font-black uppercase tracking-widest text-gray-400">{m.label}</h3>
+                            <div key={i} className="border border-white/10 bg-white/[0.03] rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-center space-y-2">
+                                <h3 className="text-[9px] font-black uppercase tracking-widest text-stone-500">{m.label}</h3>
                                 <div className={`text-3xl sm:text-5xl font-serif italic ${m.color}`}>
                                     {typeof m.score === 'number' ? `${m.score}/10` : m.score}
                                 </div>
@@ -237,37 +237,37 @@ export default function ReportPage() {
 
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
                         <div className="space-y-4 sm:space-y-6">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Psychological Triggers</h2>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500">Psychological Triggers</h2>
                             <ul className="space-y-3 sm:space-y-4">
                                 {audit?.psychological_triggers?.length > 0
                                     ? audit.psychological_triggers.map((t: string, i: number) => (
                                         <li key={i} className="flex gap-3 sm:gap-4 items-start">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-600 mt-2 flex-shrink-0"></div>
-                                            <p className="text-sm font-medium text-gray-700 leading-relaxed font-serif italic">&quot;{t}&quot;</p>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-lime-400 mt-2 flex-shrink-0"></div>
+                                            <p className="text-sm font-medium text-stone-300 leading-relaxed font-serif italic">&quot;{t}&quot;</p>
                                         </li>
                                     ))
-                                    : <p className="text-sm text-gray-400 italic">No triggers extracted.</p>
+                                    : <p className="text-sm text-stone-500 italic">No triggers extracted.</p>
                                 }
                             </ul>
                         </div>
                         <div className="space-y-4 sm:space-y-6">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">The Secret Sauce</h2>
-                            <div className="bg-gray-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-sm text-gray-600 font-serif italic leading-relaxed">
-                                {audit?.hook_analysis?.critique || <span className="text-gray-400">No critique available.</span>}
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500">The Secret Sauce</h2>
+                            <div className="bg-white/[0.03] border border-white/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-sm text-stone-300 font-serif italic leading-relaxed">
+                                {audit?.hook_analysis?.critique || <span className="text-stone-500">No critique available.</span>}
                             </div>
                         </div>
                     </section>
 
                     {audit?.transcript && (
-                    <section className="space-y-4 sm:space-y-6 pt-6 sm:pt-8 border-t border-gray-100">
-                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Full Audio Blueprint</h2>
-                        <div className="text-gray-900 text-base sm:text-lg font-serif italic leading-loose opacity-80 decoration-lime-100 underline underline-offset-8">
+                    <section className="space-y-4 sm:space-y-6 pt-6 sm:pt-8 border-t border-white/10">
+                        <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-stone-500">Full Audio Blueprint</h2>
+                        <div className="text-stone-100 text-base sm:text-lg font-serif italic leading-loose opacity-80 decoration-lime-400/30 underline underline-offset-8">
                             {audit.transcript}
                         </div>
                     </section>
                     )}
 
-                    <footer className="pt-12 sm:pt-16 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 border-t border-gray-100 opacity-40">
+                    <footer className="pt-12 sm:pt-16 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 border-t border-white/10 opacity-40">
                         <div className="space-y-1">
                             <p className="text-base sm:text-lg font-signature italic">Eixora by EXRICX.</p>
                             <p className="text-[8px] font-bold uppercase tracking-widest">Confidential Strategy Document • 2026</p>

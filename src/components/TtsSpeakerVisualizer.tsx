@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useAuth } from '@clerk/nextjs';
-import Orb from './Orb';
+import VoiceAgentVisualizer from './VoiceAgentVisualizer';
 
 interface Props {
   textToSpeak?: string;
@@ -610,9 +610,21 @@ export default function VoiceLounge({
   };
 
   const isActive = isSpeaking || isLoading || isThinking || isListening || isTranscribing;
-  const ORB_W = 500;
-  const ORB_H = 500;
-  // On mobile use a smaller orb via inline style override below
+  const AGENT_SIZE = 340;
+
+  const handleAgentTap = () => {
+    if (isListening) {
+      stopListening();
+      return;
+    }
+    if (isSpeaking || isLoading) {
+      stopSpeaking();
+      void startListening();
+      return;
+    }
+    if (resumeOrRetryVoice()) return;
+    if (!isTranscribing) void startListening();
+  };
 
   return (
     <>
@@ -622,15 +634,20 @@ export default function VoiceLounge({
         .vl-msg { animation: vl-fadein 0.2s ease both }
         .vl-scroll::-webkit-scrollbar { width: 3px }
         .vl-scroll::-webkit-scrollbar-track { background: transparent }
-        .vl-scroll::-webkit-scrollbar-thumb { background: rgba(163,230,53,0.3); border-radius: 99px }
+        .vl-scroll::-webkit-scrollbar-thumb { background: rgba(163,230,53,0.35); border-radius: 99px }
       `}</style>
 
-      {/* Root — fixed height = viewport, no page scroll, input stays pinned */}
-      <div className="w-full bg-slate-50 flex flex-col items-center" style={{ height: '100svh', overflow: 'hidden' }}>
-
-        {/* Toggle */}
+      <div
+        className="w-full flex flex-col items-center text-stone-100"
+        style={{
+          height: '100svh',
+          overflow: 'hidden',
+          background:
+            'radial-gradient(ellipse 80% 55% at 50% 35%, #1a2118 0%, #0c0f0d 45%, #070908 100%)',
+        }}
+      >
         <div className="pt-6 pb-4 flex-shrink-0">
-          <div className="inline-flex p-1 rounded-full border border-slate-200 bg-white/80 shadow-sm">
+          <div className="inline-flex p-1 rounded-full border border-white/10 bg-black/40 backdrop-blur-md">
             {(['Voice', 'Transcript'] as const).map(tab => {
               const active = tab === 'Voice' ? !showTranscript : showTranscript;
               return (
@@ -638,7 +655,7 @@ export default function VoiceLounge({
                   key={tab}
                   onClick={() => setShowTranscript(tab === 'Transcript')}
                   className={`px-6 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] transition-all duration-200 ${
-                    active ? 'bg-slate-900 text-lime-400 shadow-sm' : 'text-slate-400 hover:text-slate-600'
+                    active ? 'bg-lime-400 text-slate-950 shadow-sm' : 'text-stone-400 hover:text-stone-200'
                   }`}
                 >
                   {tab}
@@ -648,67 +665,28 @@ export default function VoiceLounge({
           </div>
         </div>
 
-        {/* Main content — scrollable middle, input stays at bottom */}
         <div className="flex-1 w-full flex items-center justify-center px-4 overflow-y-auto min-h-0">
 
           {!showTranscript ? (
-            /* Orb — fixed pixel size, centered, no layout tricks */
-            <div className="relative" style={{ width: ORB_W, height: ORB_H, maxWidth: '95vw', maxHeight: '50vh' }}>
-
-              {/* Glow */}
-              {isActive && (
-                <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: -40,
-                  background: 'radial-gradient(circle, rgba(163,230,53,0.15) 0%, transparent 70%)',
-                  transform: `scale(${glowScale})`,
-                }} />
-              )}
-
-              {/* Ring 1 */}
-              <div className="absolute rounded-full pointer-events-none" style={{
-                inset: 6,
-                border: `1px solid rgba(163,230,53,${isActive ? Math.min(0.15 + (glowScale - 1) * 2, 0.55) : 0.08})`,
-                transform: `scale(${isActive ? glowScale : 1})`,
-                transition: 'border-color 0.2s',
-              }} />
-
-              {/* Ring 2 */}
-              <div className="absolute rounded-full pointer-events-none" style={{
-                inset: 20,
-                border: `1px solid rgba(101,163,13,${isActive ? Math.min(0.1 + (glowScale - 1) * 1.5, 0.4) : 0.05})`,
-                transform: `scale(${isActive ? glowScale * 0.97 : 1})`,
-                transition: 'border-color 0.2s',
-              }} />
-
-              {/* Orb canvas — tap to listen when idle, tap to stop when speaking */}
+            <div
+              className="relative flex flex-col items-center justify-center"
+              style={{ width: AGENT_SIZE, height: AGENT_SIZE, maxWidth: '88vw', maxHeight: '46vh' }}
+            >
               <div
                 className="absolute inset-0"
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  if (isListening) {
-                    stopListening();
-                    return;
-                  }
-                  if (isSpeaking || isLoading) {
-                    stopSpeaking();
-                    void startListening();
-                    return;
-                  }
-                  if (resumeOrRetryVoice()) return;
-                  if (!isTranscribing) void startListening();
-                }}
+                style={{ transform: `scale(${isActive ? Math.min(glowScale, 1.12) : 1})`, transition: 'transform 0.2s ease' }}
               >
-                <Orb
-                  forceHoverState={isActive}
-                  hoverIntensity={isActive ? 2.5 : 0.8}
+                <VoiceAgentVisualizer
                   audioIntensityRef={audioIntensityRef}
-                  rotateOnHover
-                  backgroundColor="#f8fafc"
+                  isActive={isActive}
+                  isListening={isListening}
+                  isSpeaking={isSpeaking}
+                  isThinking={isThinking || isLoading}
+                  onActivate={handleAgentTap}
                 />
               </div>
 
-              {/* Status */}
-              <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none">
+              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none">
                 {isListening && (
                   <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-red-400">
                     <span className="relative flex h-1.5 w-1.5">
@@ -719,44 +697,44 @@ export default function VoiceLounge({
                   </span>
                 )}
                 {isTranscribing && !isListening && (
-                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 animate-pulse">
-                    Groq Whisper…
+                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-stone-400 animate-pulse">
+                    Transcribing…
                   </span>
                 )}
                 {isLoading && !isListening && !isTranscribing && (
-                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-slate-400 animate-pulse">
-                    Streaming voice…
+                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-stone-400 animate-pulse">
+                    Connecting voice…
                   </span>
                 )}
                 {isSpeaking && !isLoading && !isListening && !isTranscribing && (
-                  <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-lime-500">
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.35em] text-lime-400">
                     <span className="relative flex h-1.5 w-1.5">
                       <span className="animate-ping absolute inset-0 rounded-full bg-lime-400 opacity-75" />
                       <span className="rounded-full bg-lime-500 w-1.5 h-1.5" />
                     </span>
-                    Speaking — tap to stop
+                    Speaking — tap to interrupt
                   </span>
                 )}
                 {isThinking && !isSpeaking && !isLoading && !isListening && !isTranscribing && (
-                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-lime-400 animate-pulse">Thinking…</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-lime-400/80 animate-pulse">Thinking…</span>
                 )}
                 {!isActive && voiceError === 'auth' && (
-                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-amber-500">Sign in to use voice</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-amber-400">Sign in to use voice</span>
                 )}
                 {!isActive && voiceError === 'unavailable' && (
-                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-amber-500">Voice unavailable — tap orb to retry</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-amber-400">Voice unavailable — tap to retry</span>
                 )}
                 {!isActive && voiceError === 'blocked-autoplay' && (
-                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-lime-500 animate-pulse">Tap orb to hear the reply</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-lime-400 animate-pulse">Tap to hear the reply</span>
                 )}
                 {!isActive && insecureContext && (
-                  <span className="max-w-xs text-center text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 leading-relaxed">
+                  <span className="max-w-xs text-center text-[10px] font-black uppercase tracking-[0.2em] text-amber-400 leading-relaxed">
                     Open localhost:3000 for mic
                   </span>
                 )}
                 {!isActive && !voiceError && !insecureContext && (
-                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-slate-300">
-                    Hold mic or tap orb · speak · tap again
+                  <span className="text-[10px] font-black uppercase tracking-[0.35em] text-stone-500">
+                    Hold mic or tap · speak · tap again
                   </span>
                 )}
               </div>
@@ -772,37 +750,30 @@ export default function VoiceLounge({
               >
                 {messages.length === 0 ? (
                   <div className="flex flex-col items-center gap-3 py-20 text-center">
-                    <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center">
-                      <svg className="w-5 h-5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                      </svg>
-                    </div>
-                    <p className="text-slate-400 text-xs font-medium tracking-wide">Your conversation will appear here</p>
+                    <p className="text-stone-500 text-xs font-medium tracking-wide">Your conversation will appear here</p>
                   </div>
                 ) : (
                   <div className="space-y-5 py-3">
                     {messages.map((msg, i) => (
                       <div key={i} className={`vl-msg flex gap-2.5 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                         <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-black mt-0.5 ${
-                          msg.role === 'user' ? 'bg-slate-900 text-white' : 'bg-lime-400 text-slate-900'
+                          msg.role === 'user' ? 'bg-stone-700 text-stone-100' : 'bg-lime-400 text-slate-950'
                         }`}>
                           {msg.role === 'user' ? 'U' : 'E'}
                         </div>
                         <div className={`max-w-[80%] px-4 py-3.5 ${
                           msg.role === 'user'
-                            ? 'bg-slate-900 text-white rounded-2xl rounded-tr-sm'
-                            : 'bg-white border border-slate-100 text-slate-800 rounded-2xl rounded-tl-sm shadow-sm'
+                            ? 'bg-stone-800/80 text-stone-100 rounded-2xl rounded-tr-sm'
+                            : 'bg-white/[0.04] border border-white/10 text-stone-200 rounded-2xl rounded-tl-sm'
                         }`} style={{ wordBreak: 'break-word' }}>
                           <p className={`text-[9px] font-black uppercase tracking-[0.2em] mb-1.5 ${
-                            msg.role === 'user' ? 'text-slate-400' : 'text-lime-500'
+                            msg.role === 'user' ? 'text-stone-500' : 'text-lime-400'
                           }`}>
                             {msg.role === 'user' ? 'You' : 'Eixora'}
                           </p>
-                      {/* Content — clean readable text */}
-                          <p className="text-[13.5px] leading-[1.75] font-normal" style={{
-                            fontFamily: "-apple-system, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif",
-                            letterSpacing: '0.005em',
-                            color: msg.role === 'user' ? 'rgba(255,255,255,0.92)' : '#1e293b',
+                          <p className="text-[13.5px] leading-[1.75] font-normal text-inherit" style={{
+                            fontFamily: "var(--font-bodoni), 'Bodoni Moda', Georgia, serif",
+                            letterSpacing: '0.01em',
                           }}>
                             {msg.content}
                           </p>
@@ -811,8 +782,8 @@ export default function VoiceLounge({
                     ))}
                     {isThinking && (
                       <div className="vl-msg flex gap-2.5">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-lime-400 flex items-center justify-center text-[9px] font-black text-slate-900 mt-0.5">E</div>
-                        <div className="bg-white border border-slate-100 shadow-sm rounded-2xl rounded-tl-sm px-4 py-3.5 flex items-center gap-1.5">
+                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-lime-400 flex items-center justify-center text-[9px] font-black text-slate-950 mt-0.5">E</div>
+                        <div className="bg-white/[0.04] border border-white/10 rounded-2xl rounded-tl-sm px-4 py-3.5 flex items-center gap-1.5">
                           {[0, 140, 280].map(d => (
                             <div key={d} style={{ width: 6, height: 6, borderRadius: '50%', background: '#a3e635', animation: `vl-bounce 1.1s ${d}ms ease-in-out infinite` }} />
                           ))}
@@ -826,10 +797,9 @@ export default function VoiceLounge({
           )}
         </div>
 
-        {/* Input bar */}
         <div className="w-full max-w-lg px-4 pb-8 pt-2 space-y-2 flex-shrink-0">
           {insecureContext && (
-            <p className="text-[12px] text-red-600 text-center font-semibold leading-snug px-2">
+            <p className="text-[12px] text-red-400 text-center font-semibold leading-snug px-2">
               Mic will not work on this URL. Open{' '}
               <a className="underline" href="http://localhost:3000/dashboard/analyze">
                 http://localhost:3000
@@ -837,7 +807,7 @@ export default function VoiceLounge({
             </p>
           )}
           {micHint && (
-            <p className="text-[11px] text-amber-600 text-center leading-snug px-2">
+            <p className="text-[11px] text-amber-400/90 text-center leading-snug px-2">
               {micHint}
             </p>
           )}
@@ -848,13 +818,12 @@ export default function VoiceLounge({
                 const toPlay = lastTextRef.current || lastSpoken;
                 if (toPlay) speakText(toPlay);
               }}
-              className="w-full py-2 rounded-xl border border-slate-200 bg-white text-slate-600 text-[10px] font-black uppercase tracking-[0.2em] hover:border-lime-300 hover:text-lime-700 transition-all"
+              className="w-full py-2 rounded-xl border border-white/10 bg-white/[0.04] text-stone-300 text-[10px] font-black uppercase tracking-[0.2em] hover:border-lime-400/40 hover:text-lime-300 transition-all"
             >
               ▶ Play latest reply aloud
             </button>
           )}
-          <div className="flex items-center gap-2 bg-white rounded-2xl border border-slate-200 px-4 py-3 shadow-sm transition-all focus-within:border-lime-300 focus-within:ring-2 focus-within:ring-lime-100">
-            {/* Hold-to-talk mic — never disabled by TTS loading */}
+          <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md px-4 py-3 transition-all focus-within:border-lime-400/40 focus-within:ring-1 focus-within:ring-lime-400/20">
             <button
               type="button"
               onPointerDown={(e) => {
@@ -870,15 +839,14 @@ export default function VoiceLounge({
                 if (isListening) stopListening();
               }}
               onClick={(e) => {
-                // Fallback for keyboard / accessibility: toggle
                 if (e.detail === 0) return;
               }}
               disabled={isTranscribing}
-              title="Hold to talk · release to send (Groq Whisper)"
+              title="Hold to talk · release to send"
               className={`flex-shrink-0 p-2 rounded-lg transition-all duration-150 touch-none select-none ${
                 isListening
                   ? 'bg-red-500 text-white scale-110 shadow-md'
-                  : 'text-slate-500 hover:text-lime-600 hover:bg-lime-50'
+                  : 'text-stone-400 hover:text-lime-300 hover:bg-white/5'
               } disabled:opacity-30`}
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -894,18 +862,18 @@ export default function VoiceLounge({
                 isListening
                   ? 'Listening… release mic to send'
                   : isTranscribing
-                    ? 'Whisper transcribing…'
+                    ? 'Transcribing…'
                     : 'Hold mic to talk, or type…'
               }
               disabled={isSending || isListening || isTranscribing}
-              className="flex-1 bg-transparent border-none outline-none text-sm text-slate-700 placeholder-slate-300 focus:ring-0"
+              className="flex-1 bg-transparent border-none outline-none text-sm text-stone-100 placeholder-stone-600 focus:ring-0"
             />
             <button
               onClick={handleSend}
               disabled={isSending || !chatInput.trim()}
-              className="p-2 rounded-xl bg-slate-900 hover:bg-lime-500 active:scale-90 disabled:opacity-25 transition-all duration-150"
+              className="p-2 rounded-xl bg-lime-400 text-slate-950 hover:bg-lime-300 active:scale-90 disabled:opacity-25 transition-all duration-150"
             >
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </button>
@@ -914,9 +882,9 @@ export default function VoiceLounge({
             <button
               onClick={onForgeBrief}
               disabled={isSending}
-              className="w-full py-2.5 rounded-xl border border-lime-100 bg-lime-50/60 text-lime-600 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-lime-100 disabled:opacity-40 transition-all"
+              className="w-full py-2.5 rounded-xl border border-lime-400/25 bg-lime-400/10 text-lime-300 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-lime-400/20 disabled:opacity-40 transition-all"
             >
-              ⚡ Forge Director Brief
+              Forge Director Brief
             </button>
           )}
         </div>
