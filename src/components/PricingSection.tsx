@@ -26,8 +26,8 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
             features: [
                 '3 Studio Scans / month',
                 'Up to 90 second videos',
-                'Ad & Content Intelligence',
-                'Product Intelligence',
+                'Ad, Content & Product Intel',
+                'Voice Lounge',
             ],
             productId: null,
             buttonText: currentTier === 'free' ? 'Current Plan ✓' : 'Start Free',
@@ -44,8 +44,8 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
             features: [
                 '30 Studio Scans / month',
                 'Up to 5 minute videos',
-                '30 Strategy Briefs / month',
-                'Creative Lounge Chat',
+                'All three scan modes',
+                'Voice Lounge',
                 'Niche Benchmark Reports',
             ],
             productId: process.env.NEXT_PUBLIC_POLAR_CREATOR_ID || 'creator_placeholder',
@@ -63,7 +63,7 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
             features: [
                 '100 Studio Scans / month',
                 'Up to 30 minute videos',
-                '100 Strategy Briefs / month',
+                'Voice Lounge',
                 'Priority AI Processing',
                 'Niche Benchmark Reports',
             ],

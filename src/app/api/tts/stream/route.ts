@@ -1,9 +1,18 @@
-import { getAuth } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const BACKEND_URL = (process.env.BACKEND_URL || 'http://localhost:4000').replace(/\/$/, '');
 const MAX_TEXT_LENGTH = 5000;
+
+async function resolveBearerToken(req: NextRequest): Promise<string | null> {
+  const header = req.headers.get('authorization');
+  if (header?.startsWith('Bearer ') && header.length > 14) {
+    return header.slice(7);
+  }
+  const session = await auth();
+  return (await session.getToken()) ?? null;
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -18,8 +27,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { getToken } = getAuth(req);
-  const token = await getToken();
+  const token = await resolveBearerToken(req);
   if (!token) {
     return NextResponse.json({ error: 'Sign in required' }, { status: 401 });
   }

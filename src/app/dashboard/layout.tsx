@@ -6,7 +6,7 @@ import { useUser, useClerk, useAuth } from '@clerk/nextjs';
 import RevealOnScroll from '@/components/RevealOnScroll';
 import OnboardingFlow from '@/components/OnboardingFlow';
 import { AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Sparkles, CreditCard, HelpCircle, Bell, ChevronRight, LogOut } from 'lucide-react';
+import { Sparkles, CreditCard, HelpCircle, LogOut, Plus, Settings2, History } from 'lucide-react';
 import { getPlanLimit } from '@/utils/plan';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
@@ -90,21 +90,26 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
 
     const navItems = [
-        { 
-            name: 'Analyze', 
+        {
+            name: 'Analyze',
             href: '/dashboard/analyze',
-            icon: <Sparkles className="w-4 h-4" />
+            icon: <Sparkles className="w-4 h-4" />,
         },
-        { 
-            name: 'Billing', 
+        {
+            name: 'History',
+            href: '/dashboard/history',
+            icon: <History className="w-4 h-4" />,
+        },
+        {
+            name: 'Billing',
             href: '/dashboard/upgrade',
-            icon: <CreditCard className="w-4 h-4" />
+            icon: <CreditCard className="w-4 h-4" />,
         },
         {
             name: 'Settings',
             href: '/dashboard/settings',
-            icon: <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-        }
+            icon: <Settings2 className="w-4 h-4" />,
+        },
     ];
 
     const handleLogout = async () => {
@@ -161,28 +166,34 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         plan_type: profileData?.plan_type || profileData?.subscription_tier || (user.publicMetadata as any)?.plan_type || 'free'
     } : null;
 
+    const isAnalyzeHome = pathname === '/dashboard/analyze' || pathname === '/dashboard';
+    const firstName = user?.firstName || profile?.full_name?.split(' ')[0] || 'there';
+    const planType = profileData?.plan_type || profile?.plan_type || 'free';
+    const showUpgrade = !planType || planType === 'free' || planType === 'creator';
+
     if (!isLoaded) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-[#0a0c0b] text-stone-100">
+            <div className="flex min-h-screen items-center justify-center bg-black text-stone-100">
                 <div className="text-center space-y-4">
-                    <div className="w-12 h-12 border-2 border-white/10 border-t-lime-400 rounded-full animate-spin mx-auto"></div>
-                    <p className="text-stone-500 font-serif italic text-lg">Authenticating...</p>
+                    <div className="w-10 h-10 border-2 border-white/10 border-t-lime-400 rounded-full animate-spin mx-auto"></div>
+                    <p className="text-stone-500 text-sm">Authenticating…</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="flex min-h-screen bg-[#0a0c0b] text-stone-100 font-sans selection:bg-lime-400 selection:text-slate-950">
+        <div className="flex min-h-screen bg-black text-stone-100 font-sans selection:bg-lime-400 selection:text-slate-950">
 
-<aside className="w-72 border-r border-white/10 hidden lg:flex flex-col sticky top-0 h-screen bg-[#0e1210]">
-                <Suspense fallback={<div className="p-8 w-full h-full bg-[#0e1210] animate-pulse" />}>
+<aside className="w-[260px] hidden lg:flex flex-col sticky top-0 h-screen bg-[#0e0e0e]">
+                <Suspense fallback={<div className="p-6 w-full h-full bg-[#0e0e0e] animate-pulse" />}>
                     <SidebarContent
                         pathname={pathname}
                         navItems={navItems}
                         handleLogout={handleLogout}
                         isLoggingOut={isLoggingOut}
                         profile={profile}
+                        profileData={profileData}
                         sessions={sessions}
                         onOpenSupport={() => setIsSupportOpen(true)}
                     />
@@ -191,10 +202,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
 {isMobileMenuOpen && (
                 <div className="fixed inset-0 z-[55] lg:hidden">
-                    <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
-                    <aside className="absolute right-0 top-0 bottom-0 w-80 bg-[#0e1210] border-l border-white/10 animate-slide-in flex flex-col">
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)}></div>
+                    <aside className="absolute left-0 top-0 bottom-0 w-[280px] bg-[#0e0e0e] animate-slide-in flex flex-col">
                         <div className="flex-1 overflow-y-auto">
-                        <Suspense fallback={<div className="p-8 w-full h-full bg-[#0e1210] animate-pulse" />}>
+                        <Suspense fallback={<div className="p-6 w-full h-full bg-[#0e0e0e] animate-pulse" />}>
                             <SidebarContent
                                 pathname={pathname}
                                 navItems={navItems}
@@ -202,6 +213,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                 isLoggingOut={isLoggingOut}
                                 onClose={() => setIsMobileMenuOpen(false)}
                                 profile={profile}
+                                profileData={profileData}
                                 sessions={sessions}
                                 onOpenSupport={() => setIsSupportOpen(true)}
                             />
@@ -210,72 +222,91 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     </aside>
                 </div>
             )}
-<main className="flex-1 overflow-auto flex flex-col h-screen relative bg-[#0a0c0b]">
-                <header id="global-mobile-header" className="flex lg:hidden items-center justify-between px-5 py-4 border-b border-white/10 bg-[#0a0c0b]/90 backdrop-blur-md sticky top-0 z-30">
-                    <Link href="/" className="text-xl font-serif font-bold italic text-stone-50">Eixora<span className="text-lime-400">.</span></Link>
+<main className={`flex-1 flex flex-col h-screen relative bg-black ${isAnalyzeHome ? 'overflow-hidden' : 'overflow-auto'}`}>
+                {/* Soft center glow — Gemini-style atmosphere */}
+                <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 z-0"
+                    style={{
+                        background:
+                            'radial-gradient(ellipse 55% 45% at 50% 42%, rgba(30,58,95,0.45) 0%, rgba(0,0,0,0) 70%)',
+                    }}
+                />
+
+                <header id="global-mobile-header" className="relative z-30 flex lg:hidden items-center justify-between px-4 py-3 sticky top-0 bg-black/60 backdrop-blur-md gap-2">
+                    <button
+                        onClick={() => setIsMobileMenuOpen(true)}
+                        className="w-9 h-9 rounded-full text-stone-300 hover:bg-white/5 flex items-center justify-center flex-shrink-0"
+                        aria-label="Open menu"
+                    >
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                    {profileData ? (() => {
+                        const scans = profileData.monthly_usage?.scans ?? 0;
+                        const limit = getPlanLimit(profileData.plan_type || 'free');
+                        const remaining = Math.max(0, limit - scans);
+                        return (
+                            <span className="text-xs text-[#c4c7c5] tabular-nums flex-1 text-center">
+                                {remaining}/{limit} credits
+                            </span>
+                        );
+                    })() : (
+                        <span className="text-sm font-medium text-stone-200 flex-1 text-center">Eixora</span>
+                    )}
+                    {showUpgrade ? (
+                        <Link href="/dashboard/upgrade" className="px-3 py-1.5 rounded-full bg-lime-400 text-slate-950 text-xs font-semibold flex-shrink-0">
+                            Upgrade
+                        </Link>
+                    ) : (
+                        <Link href="/dashboard/history" className="text-xs text-[#c4c7c5] flex-shrink-0 px-2">
+                            History
+                        </Link>
+                    )}
+                </header>
+
+                <header id="global-desktop-header" className="relative z-30 hidden lg:flex items-center justify-end gap-3 px-6 py-4 sticky top-0">
                     {profileData && (() => {
                         const scans = profileData.monthly_usage?.scans ?? 0;
                         const limit = getPlanLimit(profileData.plan_type || 'free');
+                        const remaining = Math.max(0, limit - scans);
+                        const pct = limit > 0 ? Math.min((scans / limit) * 100, 100) : 0;
+                        const isHigh = pct > 80;
                         return (
-                            <div className="flex items-center gap-1.5 border border-lime-400/30 bg-lime-400/10 rounded-full px-3 py-1 text-[10px] font-bold text-lime-300">
-                                <div className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse" />
-                                {scans}/{limit} scans
+                            <div
+                                className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium border tabular-nums ${
+                                    isHigh
+                                        ? 'border-red-400/30 bg-red-500/10 text-red-300'
+                                        : 'border-white/10 bg-white/[0.06] text-[#e3e3e3]'
+                                }`}
+                                title={`${scans} used · ${remaining} left this period`}
+                            >
+                                <span className={`w-1.5 h-1.5 rounded-full ${isHigh ? 'bg-red-400' : 'bg-lime-400'}`} />
+                                {remaining} / {limit} credits
                             </div>
                         );
                     })()}
+                    {showUpgrade && (
+                        <Link
+                            href="/dashboard/upgrade"
+                            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-lime-400 hover:bg-lime-300 text-slate-950 text-sm font-semibold transition-colors"
+                        >
+                            <Sparkles className="w-3.5 h-3.5" />
+                            Upgrade
+                        </Link>
+                    )}
                 </header>
 
-                <header id="global-desktop-header" className="hidden lg:flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[#0a0c0b]/80 backdrop-blur-2xl sticky top-0 z-30">
-                    <div className="flex items-center gap-3">
-                        <span className="text-stone-500 text-sm font-medium">Eixora</span>
-                        <ChevronRight className="w-3.5 h-3.5 text-stone-600" />
-                        <span className="text-stone-100 font-semibold text-sm">{navItems.find((i: any) => i.href === pathname)?.name || 'Dashboard'}</span>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        {profileData && (() => {
-                            const scans = profileData.monthly_usage?.scans ?? 0;
-                            const limit = getPlanLimit(profileData.plan_type || 'free');
-                            const pct = limit > 0 ? Math.min((scans / limit) * 100, 100) : 0;
-                            const isHigh = pct > 80;
-                            return (
-                                <div className={`flex items-center gap-3 border rounded-full px-4 py-2 text-xs font-bold cursor-default transition-all hover:scale-105 ${
-                                    isHigh
-                                        ? 'bg-red-500/10 border-red-400/30 text-red-300'
-                                        : 'bg-lime-400/10 border-lime-400/30 text-lime-300'
-                                }`}>
-                                    <div className="relative w-4 h-4">
-                                        <svg className="w-4 h-4 -rotate-90" viewBox="0 0 16 16">
-                                            <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeOpacity="0.2" strokeWidth="2.5"/>
-                                            <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="2.5"
-                                                strokeDasharray={`${2 * Math.PI * 6}`}
-                                                strokeDashoffset={`${2 * Math.PI * 6 * (1 - pct / 100)}`}
-                                                strokeLinecap="round"
-                                                style={{ transition: 'stroke-dashoffset 0.6s ease' }}
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div className="flex flex-col leading-tight">
-                                        <span>{scans} / {limit} Scans</span>
-                                        {profileData?.monthly_usage?.cycle_reset_day && (
-                                            <span className="text-[9px] font-medium opacity-60">
-                                                resets day {profileData.monthly_usage.cycle_reset_day}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-                            );
-                        })()}
-
-                        <button className="relative p-2 text-stone-500 hover:text-stone-100 transition-colors hover:bg-white/5 rounded-full">
-                            <Bell className="w-4.5 h-4.5" />
-                            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-lime-400 rounded-full"></span>
-                        </button>
-                    </div>
-                </header>
-
-                <div className="p-6 md:p-12 lg:p-16 max-w-[1600px] mx-auto flex-1 w-full">
-                    <RevealOnScroll>
+                <div
+                    className={`relative z-10 flex-1 w-full min-h-0 ${
+                        isAnalyzeHome
+                            ? 'flex flex-col'
+                            : 'p-6 md:p-10 lg:px-14 lg:py-8 max-w-[1400px] mx-auto'
+                    }`}
+                    data-greeting-name={firstName}
+                >
+                    <RevealOnScroll className={isAnalyzeHome ? 'flex-1 flex flex-col min-h-0 h-full' : undefined}>
                         {children}
                     </RevealOnScroll>
                 </div>
@@ -296,18 +327,6 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     userId={user?.id}
                 />
 
-                {/* ── Floating menu button — top-right on mobile only ── */}
-                {!isMobileMenuOpen && (
-                    <button
-                        onClick={() => setIsMobileMenuOpen(true)}
-                        className="lg:hidden fixed top-4 right-4 z-50 w-9 h-9 bg-[#0e1210] border border-white/10 text-stone-300 rounded-xl flex items-center justify-center hover:bg-white/5 active:scale-90 transition-all duration-150"
-                        aria-label="Open menu"
-                    >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                )}
             </main>
         </div>
     );
@@ -414,44 +433,44 @@ function SupportModal({ isOpen, onClose, userAddress, userId }: any) {
     );
 }
 
-function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClose, profile, sessions, onOpenSupport }: any) {
+function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClose, profile, profileData, sessions, onOpenSupport }: any) {
     const searchParams = useSearchParams();
+    const used = profileData?.monthly_usage?.scans ?? profile?.monthly_usage?.scans ?? 0;
+    const limit = getPlanLimit(profileData?.plan_type || profile?.plan_type || 'free');
+    const remaining = Math.max(0, limit - used);
+    const pct = limit > 0 ? Math.min((used / limit) * 100, 100) : 0;
 
     return (
-        <div className="flex flex-col h-full overflow-hidden bg-[#0e1210] text-stone-100">
-
-            <div className="px-4 pt-5 pb-3 flex-shrink-0">
-                <div className="flex items-center justify-between mb-4">
-                    <Link href="/" onClick={onClose} className="flex items-center gap-2 group">
-                        <div className="w-7 h-7 rounded-lg bg-lime-400 flex items-center justify-center group-hover:bg-lime-300 transition-colors duration-200">
+        <div className="flex flex-col h-full overflow-hidden bg-[#0e0e0e] text-[#e3e3e3]">
+            <div className="px-3 pt-4 pb-2 flex-shrink-0">
+                <div className="flex items-center justify-between px-2 mb-3">
+                    <Link href="/" onClick={onClose} className="flex items-center gap-2.5 group">
+                        <div className="w-7 h-7 rounded-full bg-lime-400 flex items-center justify-center">
                             <Sparkles className="w-3.5 h-3.5 text-slate-950" />
                         </div>
-                        <span className="text-base font-serif font-bold italic tracking-tight text-stone-50">
-                            Eixora<span className="text-lime-400">.</span>
-                        </span>
+                        <span className="text-[15px] font-medium text-white tracking-tight">Eixora</span>
                     </Link>
                     {onClose && (
-                        <button onClick={onClose} className="lg:hidden w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-stone-400 hover:text-stone-100 hover:bg-white/10 transition-all">
+                        <button onClick={onClose} className="lg:hidden w-8 h-8 flex items-center justify-center rounded-full text-stone-400 hover:bg-white/5">
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
                         </button>
                     )}
                 </div>
+
                 <Link
                     href="/dashboard/analyze"
                     onClick={() => {
                         onClose?.();
                         window.dispatchEvent(new CustomEvent('new-scan'));
                     }}
-                    className="flex items-center justify-center gap-2 w-full py-2 rounded-xl bg-lime-400 text-slate-950 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-lime-300 transition-all duration-150"
+                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-full text-[14px] text-[#e3e3e3] hover:bg-white/[0.06] transition-colors"
                 >
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
-                    New Scan
+                    <Plus className="w-4 h-4" />
+                    New scan
                 </Link>
             </div>
 
-            <div className="flex-1 overflow-y-auto flex flex-col px-3 pb-4 space-y-0.5 min-h-0">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500 px-3 pb-2 pt-1">Menu</p>
-
+            <div className="flex-1 overflow-y-auto flex flex-col px-2 pb-3 min-h-0">
                 {navItems.map((item: any) => {
                     const isActive = pathname === item.href;
                     return (
@@ -459,78 +478,45 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                             key={item.href}
                             href={item.href}
                             onClick={onClose}
-                            className={`group flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150 rounded-xl ${
+                            className={`flex items-center gap-3 px-3 py-2.5 text-[14px] rounded-full transition-colors ${
                                 isActive
-                                    ? 'bg-white/[0.06] text-stone-50 border border-white/10'
-                                    : 'text-stone-500 hover:bg-white/[0.04] hover:text-stone-200 border border-transparent'
-                            } ${item.id || ''}`}
+                                    ? 'bg-white/[0.08] text-white'
+                                    : 'text-[#c4c7c5] hover:bg-white/[0.06] hover:text-white'
+                            }`}
                         >
-                            <span className={`flex-shrink-0 transition-all ${
-                                isActive ? 'text-lime-400' : 'text-stone-500 group-hover:text-stone-300'
-                            }`}>
-                                {item.icon}
-                            </span>
-                            <span className="flex-1">{item.name}</span>
-                            {isActive && (
-                                <span className="w-1.5 h-1.5 rounded-full bg-lime-400 flex-shrink-0" />
-                            )}
-                            {item.comingSoon && (
-                                <span className="text-[8px] font-black bg-white/5 text-stone-500 px-2 py-0.5 rounded-full tracking-normal">soon</span>
-                            )}
+                            <span className="flex-shrink-0 opacity-90">{item.icon}</span>
+                            <span>{item.name}</span>
                         </Link>
                     );
                 })}
 
-                <div className="pt-3 pb-1">
-                    <div className="h-px bg-white/10" />
-                </div>
-
                 <button
                     onClick={() => { onOpenSupport(); onClose?.(); }}
-                    className="btn-support group flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150 rounded-xl text-stone-500 hover:bg-white/[0.04] hover:text-stone-200 w-full text-left"
+                    className="flex items-center gap-3 px-3 py-2.5 text-[14px] rounded-full text-[#c4c7c5] hover:bg-white/[0.06] hover:text-white w-full text-left transition-colors"
                 >
-                    <span className="text-stone-500 group-hover:text-stone-300 flex-shrink-0">
-                        <HelpCircle className="w-4 h-4" />
-                    </span>
-                    <span>Help & Support</span>
+                    <HelpCircle className="w-4 h-4" />
+                    Help & support
                 </button>
 
                 {sessions && sessions.length > 0 && (
                     <>
-                        <div className="pt-4 pb-1">
-                            <div className="h-px bg-white/10" />
-                        </div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-500 px-3 pb-1 pt-2">Recent</p>
-                        {sessions.slice(0, 8).map((s: any) => {
-                            const modeColors: Record<string, string> = {
-                                'ad': 'text-orange-300',
-                                'content': 'text-sky-300',
-                                'product-intel': 'text-lime-300',
-                            };
-                            const modeLabel: Record<string, string> = {
-                                'ad': 'Ad',
-                                'content': 'Content',
-                                'product-intel': 'Product',
-                            };
+                        <p className="text-[12px] text-[#8e918f] px-3 pt-5 pb-1.5">Recents</p>
+                        {sessions.slice(0, 10).map((s: any) => {
                             const title = s.title || s.video_url || 'Untitled scan';
-                            const displayTitle = title.length > 28 ? title.slice(0, 28) + '…' : title;
-                            const mode = s.mode || 'ad';
+                            const displayTitle = title.length > 32 ? `${title.slice(0, 32)}…` : title;
                             const isActive = searchParams.get('sessionId') === s.id;
                             return (
                                 <Link
                                     key={s.id}
                                     href={`/dashboard/analyze?sessionId=${s.id}`}
                                     onClick={onClose}
-                                    className={`group flex items-center gap-2.5 px-3 py-2 rounded-xl transition-all duration-150 ${
+                                    className={`block px-3 py-2 rounded-full text-[13px] truncate transition-colors ${
                                         isActive
-                                            ? 'bg-white/[0.06] text-stone-50'
-                                            : 'text-stone-500 hover:bg-white/[0.04] hover:text-stone-300'
+                                            ? 'bg-white/[0.08] text-white'
+                                            : 'text-[#c4c7c5] hover:bg-white/[0.06] hover:text-white'
                                     }`}
                                 >
-                                    <span className={`text-[9px] font-black uppercase flex-shrink-0 ${modeColors[mode] || 'text-stone-500'}`}>
-                                        {modeLabel[mode] || 'Scan'}
-                                    </span>
-                                    <span className="text-xs font-medium truncate flex-1">{displayTitle}</span>
+                                    {displayTitle}
                                 </Link>
                             );
                         })}
@@ -538,94 +524,49 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                 )}
             </div>
 
-            {profile && (
-                <div className="px-4 pb-3 flex-shrink-0">
-                    <ScanUsageBar profile={profile} />
+            <div className="px-3 pb-3 pt-1 flex-shrink-0 space-y-2">
+                <div className="rounded-2xl bg-white/[0.04] px-3 py-2.5 space-y-1.5">
+                    <div className="flex items-center justify-between text-[12px]">
+                        <span className="text-[#8e918f]">Credits</span>
+                        <span className="text-white font-medium tabular-nums">{remaining} left</span>
+                    </div>
+                    <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                        <div
+                            className={`h-full rounded-full ${pct > 80 ? 'bg-red-400' : 'bg-lime-400'}`}
+                            style={{ width: `${pct}%` }}
+                        />
+                    </div>
+                    <p className="text-[11px] text-[#8e918f] tabular-nums">{used} / {limit} used</p>
                 </div>
-            )}
 
-            <div className="px-3 pb-4 pt-2 border-t border-white/10 flex-shrink-0">
                 {profile ? (
-                    <div className="group flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors cursor-default">
-                        <div className="flex items-center gap-3 min-w-0">
-                            {profile.image ? (
-                                <img
-                                    src={profile.image}
-                                    alt={profile.full_name}
-                                    className="w-8 h-8 rounded-full object-cover ring-2 ring-white/10"
-                                />
-                            ) : (
-                                <div className="w-8 h-8 rounded-full bg-lime-400 text-slate-950 flex items-center justify-center font-bold text-xs flex-shrink-0">
-                                    {profile.full_name ? profile.full_name[0].toUpperCase() : 'U'}
-                                </div>
-                            )}
-                            <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold truncate text-stone-100 leading-tight">{profile.full_name || 'User'}</p>
-                                <p className="text-[10px] font-bold uppercase tracking-wider text-lime-400 leading-tight mt-0.5">{
-                                    !profile.plan_type || profile.plan_type === 'free' ? 'Free' :
-                                    profile.plan_type === 'creator' ? 'Creator' :
-                                    'Studio'
-                                }</p>
+                    <div className="flex items-center gap-3 px-1 py-1.5 rounded-full hover:bg-white/[0.06] transition-colors">
+                        {profile.image ? (
+                            <img src={profile.image} alt={profile.full_name} className="w-8 h-8 rounded-full object-cover" />
+                        ) : (
+                            <div className="w-8 h-8 rounded-full bg-lime-400 text-slate-950 flex items-center justify-center font-semibold text-xs">
+                                {profile.full_name ? profile.full_name[0].toUpperCase() : 'U'}
                             </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                            <p className="text-[13px] font-medium truncate text-white">{profile.full_name || 'User'}</p>
                         </div>
                         <button
                             onClick={handleLogout}
                             disabled={isLoggingOut}
-                            className="w-7 h-7 rounded-lg flex items-center justify-center text-stone-500 hover:bg-red-500/10 hover:text-red-400 transition-all flex-shrink-0"
+                            className="w-8 h-8 rounded-full flex items-center justify-center text-[#8e918f] hover:text-white hover:bg-white/5"
                             title="Sign out"
                         >
                             <LogOut className="w-3.5 h-3.5" />
                         </button>
                     </div>
                 ) : (
-                    <div className="flex items-center gap-3 px-3 py-2.5 animate-pulse">
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex-shrink-0" />
-                        <div className="space-y-1.5 flex-1">
-                            <div className="h-2.5 w-24 bg-white/10 rounded" />
-                            <div className="h-2 w-14 bg-white/10 rounded" />
-                        </div>
+                    <div className="flex items-center gap-3 px-2 py-2 animate-pulse">
+                        <div className="w-8 h-8 rounded-full bg-white/10" />
+                        <div className="h-3 w-24 bg-white/10 rounded" />
                     </div>
                 )}
             </div>
-        </div>
-    );
-}
-
-function ScanUsageBar({ profile }: { profile: any }) {
-    const used   = profile?.monthly_usage?.scans ?? profile?.scan_count ?? 0;
-    const limit  = getPlanLimit(profile?.plan_type || 'free');
-    const pct    = limit > 0 ? Math.min((used / limit) * 100, 100) : 0;
-    const isHigh = pct > 80;
-    const isMid  = pct > 50;
-    const planLabel =
-        !profile?.plan_type || profile.plan_type === 'free' ? 'Free Trial'
-        : profile.plan_type === 'creator' ? 'Creator'
-        : 'Studio';
-
-    return (
-        <div className="bg-white/[0.03] rounded-2xl p-4 border border-white/10 space-y-3">
-            <div className="flex items-center justify-between">
-                <div>
-                    <p className="text-[9px] font-black uppercase tracking-widest text-stone-500">Scan Usage</p>
-                    <p className="text-base font-bold text-stone-50 leading-tight mt-0.5">
-                        {used} <span className="text-stone-500 font-normal text-sm">/ {limit}</span>
-                    </p>
-                </div>
-                <span className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
-                    isHigh ? 'bg-red-500/15 text-red-300' : 'bg-lime-400/15 text-lime-300'
-                }`}>{planLabel}</span>
-            </div>
-            <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                <div
-                    className={`h-full rounded-full transition-all duration-700 ${
-                        isHigh ? 'bg-red-400' : isMid ? 'bg-amber-400' : 'bg-lime-400'
-                    }`}
-                    style={{ width: `${pct}%` }}
-                />
-            </div>
-            <p className="text-[10px] text-stone-500 font-medium">
-                {Math.max(0, limit - used)} scan{limit - used !== 1 ? 's' : ''} remaining this period
-            </p>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs';
+import { clerkAppearance } from '@/lib/clerkAppearance';
 import { Providers } from '@/components/Providers';
 import localFont from 'next/font/local';
 
@@ -260,7 +261,7 @@ export default function RootLayout({
   };
 
   return (
-    <ClerkProvider>
+    <ClerkProvider appearance={clerkAppearance}>
       <html lang="en" className={`${singsong.variable}`}>
         <head>
           <script

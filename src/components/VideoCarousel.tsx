@@ -93,12 +93,10 @@ const SOCIAL_PROOF_DATA = [
 
 export default function VideoCarousel() {
     return (
-        <div className="py-12 bg-[#0a0c0b] border-b border-white/5 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 mb-8 flex flex-col md:flex-row items-baseline justify-between gap-4">
-                <div>
-                    <span className="text-[10px] font-black tracking-[0.5em] uppercase text-lime-400 mb-2 block">Ad Intelligence</span>
-                    <h2 className="text-3xl md:text-4xl font-serif italic text-stone-50 tracking-tight">Studio Scan Library</h2>
-                </div>
+        <div className="py-16 sm:py-20 bg-black border-y border-white/[0.06] overflow-hidden">
+            <div className="max-w-6xl mx-auto px-5 sm:px-6 mb-10">
+                <p className="text-[11px] tracking-[0.3em] uppercase text-lime-400 mb-3">In the wild</p>
+                <h2 className="text-3xl md:text-4xl font-serif text-stone-50 tracking-tight">Ads worth stealing from.</h2>
             </div>
 
             <div className="relative">

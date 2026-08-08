@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function BlueprintPreview() {
     return (
-        <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-[#0e1210]">
+        <section className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 bg-black">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-12 sm:mb-16 md:mb-20 max-w-2xl">
                     <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-lime-400 mb-5 block">A New Way to Create</span>

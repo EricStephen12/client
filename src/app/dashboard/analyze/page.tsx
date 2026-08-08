@@ -617,26 +617,35 @@ function AnalyzeContent() {
         }
     };
 
+    const firstName = user?.firstName || user?.fullName?.split(' ')[0] || 'there';
+
     return (
         <>
-            <div className="w-full max-w-2xl mx-auto animate-fade-in-up">
+            <div
+                className={`w-full animate-fade-in-up ${
+                    isChatMode
+                        ? 'flex-1 flex flex-col min-h-0 h-full'
+                        : !result
+                          ? 'flex-1 flex flex-col'
+                          : 'max-w-2xl mx-auto'
+                }`}
+            >
 
-                {/* ── New Scan button (only when result is loaded but not in chat) ── */}
                 {!isChatMode && result && (
-                    <div className="flex justify-end mb-6">
+                    <div className="flex justify-end mb-6 px-4">
                         <button
                             onClick={() => { setIsChatMode(false); setResult(null); setSessionId(null); setUrl(''); setFile(null); }}
-                            className="px-4 py-2 bg-lime-400 text-slate-950 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-lime-300 transition-all"
+                            className="px-4 py-2 rounded-full bg-white/[0.08] text-stone-100 text-sm font-medium hover:bg-white/[0.12] transition-all"
                         >
-                            + New Scan
+                            + New scan
                         </button>
                     </div>
                 )}
 
                 {isCheckingPlan ? (
-                            <div className="max-w-5xl mx-auto pt-24 text-center px-4">
-                                <div className="w-10 h-10 border-4 border-lime-400/20 border-t-lime-400 rounded-full animate-spin mx-auto mb-6"></div>
-                                <p className="font-serif text-lg italic text-stone-500">Checking scans limit...</p>
+                            <div className="flex-1 flex flex-col items-center justify-center px-4">
+                                <div className="w-8 h-8 border-2 border-white/10 border-t-lime-400 rounded-full animate-spin mb-4"></div>
+                                <p className="text-sm text-stone-500">Checking scans…</p>
                             </div>
                         ) : scansUsed >= scanLimit ? (
                             <div className="max-w-4xl mx-auto text-center space-y-8 py-16 bg-white/[0.03] border border-white/10 rounded-[2.5rem] p-8 sm:p-12 relative overflow-hidden group">
@@ -681,111 +690,112 @@ function AnalyzeContent() {
                                 </div>
                             </div>
                         ) : !result ? (
-                            <div className="max-w-2xl mx-auto flex flex-col justify-center min-h-[60vh]">
-                                {!sessionId && (
-                                    <div className="space-y-4">
+                            <div className="flex-1 flex flex-col items-center justify-center px-4 pb-24 min-h-[70vh]">
+                                {!sessionId && !isAnalyzing && (
+                                    <div className="w-full max-w-[720px] flex flex-col items-center gap-8">
+                                        <h1 className="text-[2rem] sm:text-[2.75rem] font-normal tracking-tight text-white text-center leading-tight">
+                                            Let&apos;s jump in, {firstName}.
+                                        </h1>
 
-                                        {/* Mode pills */}
-                                        <div className="flex flex-wrap gap-2">
+                                        {/* Gemini-style pill composer */}
+                                        <div className="w-full rounded-[28px] bg-[#1e1f20] border border-white/[0.06] shadow-[0_0_0_1px_rgba(255,255,255,0.02)] px-3 py-2.5 sm:px-4 sm:py-3">
+                                            {activeTab === 'url' ? (
+                                                <div className="flex items-center gap-2 sm:gap-3">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setActiveTab('upload')}
+                                                        className="w-9 h-9 rounded-full flex items-center justify-center text-[#c4c7c5] hover:bg-white/5 flex-shrink-0"
+                                                        title="Upload a file"
+                                                    >
+                                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
+                                                    </button>
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Paste a TikTok, Reels, or Shorts URL…"
+                                                        value={url}
+                                                        onChange={(e) => setUrl(e.target.value)}
+                                                        onKeyDown={(e) => { if (e.key === 'Enter' && url) handleAnalyze(); }}
+                                                        className="flex-1 bg-transparent border-none text-white placeholder-[#8e918f] text-[15px] focus:outline-none focus:ring-0 py-2"
+                                                    />
+                                                    <div className="hidden sm:flex items-center">
+                                                        <select
+                                                            value={mode}
+                                                            onChange={(e) => setMode(e.target.value as 'ad' | 'content' | 'product-intel')}
+                                                            className="bg-transparent text-[#c4c7c5] text-sm border-none focus:ring-0 cursor-pointer pr-1"
+                                                        >
+                                                            <option value="ad" className="bg-[#1e1f20]">Ad Intel</option>
+                                                            <option value="content" className="bg-[#1e1f20]">Content</option>
+                                                            <option value="product-intel" className="bg-[#1e1f20]">Product</option>
+                                                        </select>
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleAnalyze()}
+                                                        disabled={!url || isAnalyzing}
+                                                        className="w-9 h-9 rounded-full flex items-center justify-center bg-lime-400 text-slate-950 disabled:bg-white/10 disabled:text-[#8e918f] hover:bg-lime-300 transition-colors flex-shrink-0"
+                                                        title="Analyze"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 12h14M12 5l7 7-7 7" /></svg>
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    {...getRootProps()}
+                                                    className={`flex items-center gap-3 px-2 py-3 cursor-pointer rounded-2xl ${isDragActive ? 'bg-lime-400/10' : ''}`}
+                                                >
+                                                    <input {...getInputProps()} />
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => { e.stopPropagation(); setActiveTab('url'); }}
+                                                        className="w-9 h-9 rounded-full flex items-center justify-center text-[#c4c7c5] hover:bg-white/5 flex-shrink-0"
+                                                    >
+                                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                                                    </button>
+                                                    <div className="flex-1 min-w-0 text-left">
+                                                        {file ? (
+                                                            <p className="text-[15px] text-white truncate">{file.name}</p>
+                                                        ) : (
+                                                            <p className="text-[15px] text-[#8e918f]">
+                                                                {isDragActive ? 'Drop video here' : 'Drop an MP4 or click to browse'}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => { e.stopPropagation(); if (file) handleAnalyze(); }}
+                                                        disabled={!file || isAnalyzing}
+                                                        className="w-9 h-9 rounded-full flex items-center justify-center bg-lime-400 text-slate-950 disabled:bg-white/10 disabled:text-[#8e918f] flex-shrink-0"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 12h14M12 5l7 7-7 7" /></svg>
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="flex flex-wrap justify-center gap-2 sm:hidden">
                                             {[
-                                                { id: 'ad', label: 'Ad Intel', icon: '📣' },
-                                                { id: 'content', label: 'Content Intel', icon: '🎬' },
-                                                { id: 'product-intel', label: 'Product Intel', icon: '📦' },
-                                            ].map(m => (
+                                                { id: 'ad', label: 'Ad' },
+                                                { id: 'content', label: 'Content' },
+                                                { id: 'product-intel', label: 'Product' },
+                                            ].map((m) => (
                                                 <button
                                                     key={m.id}
-                                                    onClick={() => setMode(m.id as any)}
-                                                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-150 ${
-                                                        mode === m.id
-                                                            ? 'bg-lime-400 text-slate-950'
-                                                            : 'bg-white/[0.04] text-stone-500 hover:bg-white/[0.08] hover:text-stone-300 border border-white/10'
+                                                    onClick={() => setMode(m.id as 'ad' | 'content' | 'product-intel')}
+                                                    className={`px-3 py-1.5 rounded-full text-xs ${
+                                                        mode === m.id ? 'bg-white/10 text-white' : 'text-[#8e918f]'
                                                     }`}
                                                 >
-                                                    <span>{m.icon}</span>{m.label}
+                                                    {m.label}
                                                 </button>
                                             ))}
                                         </div>
-
-                                        {/* URL input */}
-                                        {activeTab === 'url' && (
-                                            <div className={`flex items-center gap-3 bg-white/[0.04] rounded-2xl px-5 py-4 border transition-all duration-200 ${url ? 'border-lime-400' : 'border-white/10 focus-within:border-lime-400/60'}`}>
-                                                <svg className="w-4 h-4 text-stone-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Paste TikTok, Reels, or Shorts URL…"
-                                                    value={url}
-                                                    onChange={(e) => setUrl(e.target.value)}
-                                                    onKeyDown={(e) => { if (e.key === 'Enter' && url) handleAnalyze(); }}
-                                                    className="flex-1 bg-transparent border-none text-stone-100 placeholder-stone-600 font-medium text-sm focus:outline-none focus:ring-0"
-                                                />
-                                                {url && (
-                                                    <button onClick={() => setUrl('')} className="text-stone-500 hover:text-stone-300 transition-colors">
-                                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                                                    </button>
-                                                )}
-                                            </div>
-                                        )}
-
-                                        {/* Upload dropzone */}
-                                        {activeTab === 'upload' && (
-                                            <div
-                                                {...getRootProps()}
-                                                className={`border-2 border-dashed rounded-2xl px-6 py-8 text-center cursor-pointer transition-all duration-200 ${
-                                                    isDragActive ? 'border-lime-400 bg-lime-400/10' : file ? 'border-lime-400/40 bg-lime-400/5' : 'border-white/10 bg-white/[0.03] hover:border-lime-400/40'
-                                                }`}
-                                            >
-                                                <input {...getInputProps()} />
-                                                {file ? (
-                                                    <div className="flex items-center justify-between gap-4">
-                                                        <div className="flex items-center gap-3 min-w-0">
-                                                            <span className="text-2xl">🎬</span>
-                                                            <div className="min-w-0 text-left">
-                                                                <p className="font-bold text-stone-100 text-sm truncate">{file.name}</p>
-                                                                <p className="text-xs text-stone-500">{(file.size / (1024 * 1024)).toFixed(1)} MB</p>
-                                                            </div>
-                                                        </div>
-                                                        <button onClick={(e) => { e.stopPropagation(); setFile(null); setPreviewUrl(null); }} className="text-stone-500 hover:text-red-400 transition-colors flex-shrink-0">
-                                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <div className="space-y-1">
-                                                        <p className="font-bold text-stone-300 text-sm">{isDragActive ? 'Drop it' : 'Drop MP4 or click to browse'}</p>
-                                                        <p className="text-xs text-stone-500">Max {planTier === 'studio' ? '500MB' : planTier === 'creator' ? '200MB' : '50MB'}</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-
-                                        {/* Switch URL / Upload */}
-                                        <button
-                                            onClick={() => setActiveTab(activeTab === 'url' ? 'upload' : 'url')}
-                                            className="text-[10px] font-bold text-stone-500 hover:text-stone-300 uppercase tracking-widest transition-colors"
-                                        >
-                                            {activeTab === 'url' ? '📁 Upload a file instead' : '🔗 Paste a URL instead'}
-                                        </button>
-
-                                        {/* Analyze */}
-                                        <button
-                                            onClick={() => handleAnalyze()}
-                                            disabled={isAnalyzing || (activeTab === 'url' ? !url : !file)}
-                                            className="w-full py-4 bg-lime-400 text-slate-950 font-black uppercase tracking-[0.3em] text-[11px] rounded-2xl hover:bg-lime-300 transition-all duration-200 disabled:opacity-30 active:scale-95"
-                                        >
-                                            {isAnalyzing ? (
-                                                <span className="flex items-center justify-center gap-3">
-                                                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                                    Analyzing…
-                                                </span>
-                                            ) : 'Analyze →'}
-                                        </button>
                                     </div>
                                 )}
 
-                                        {isAnalyzing && (
-                                    <div className="mt-8 text-center py-16 bg-[#0e1210] border border-white/10 rounded-2xl text-stone-100 relative overflow-hidden">
-                                        <div className="w-8 h-8 border-4 border-lime-400/20 border-t-lime-400 rounded-full animate-spin mx-auto mb-4"></div>
-                                        <p className="text-sm font-medium text-stone-300">Analyzing your video…</p>
-                                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-lime-400 rounded-full blur-[60px] opacity-10"></div>
+                                {isAnalyzing && (
+                                    <div className="text-center py-10">
+                                        <div className="w-8 h-8 border-2 border-white/10 border-t-lime-400 rounded-full animate-spin mx-auto mb-4"></div>
+                                        <p className="text-sm text-[#c4c7c5]">Analyzing your video…</p>
                                     </div>
                                 )}
                             </div>
@@ -794,7 +804,7 @@ function AnalyzeContent() {
                             /* ══════════════════════════════════════════════════
                                STRATEGY LOUNGE — Premium Voice-First Interface
                             ══════════════════════════════════════════════════ */
-                            <div className="w-full">
+                            <div className={`w-full ${isChatMode ? 'flex-1 flex flex-col min-h-0 h-full' : ''}`}>
 
                                 {/* Analysis complete CTA */}
                                 {!isChatMode && (
@@ -836,6 +846,8 @@ function AnalyzeContent() {
                                         onSendMessage={(text) => sendMessage(text)}
                                         isSending={isSending}
                                         onForgeBrief={messages.length > 2 ? forgeDirectorBrief : undefined}
+                                        onEndSession={() => setIsChatMode(false)}
+                                        userName={user?.firstName || user?.fullName || undefined}
                                     />
                                 )}
                             </div>
