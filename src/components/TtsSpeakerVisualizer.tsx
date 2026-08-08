@@ -4,6 +4,12 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import VoiceAgentVisualizer from './VoiceAgentVisualizer';
 
+export type VisualTrigger = {
+  timestamp_seconds: number;
+  label: string;
+  reason_key: string;
+};
+
 interface Props {
   textToSpeak?: string;
   /**
@@ -20,6 +26,22 @@ interface Props {
   /** Exit Live mode (Gemini End button) */
   onEndSession?: () => void;
   userName?: string;
+  /** Timestamp metadata only — frames painted client-side from videoSourceUrl */
+  visualTriggers?: VisualTrigger[];
+  /** Session video URL for ephemeral seek/capture (may fail CORS — label fallback) */
+  videoSourceUrl?: string | null;
+}
+
+function isSeekableVideoUrl(url: string | null | undefined): boolean {
+  if (!url) return false;
+  if (url.startsWith('local:')) return false;
+  if (url === 'Direct Upload' || url === 'Uploaded Video') return false;
+  try {
+    const u = new URL(url);
+    return u.protocol === 'http:' || u.protocol === 'https:';
+  } catch {
+    return false;
+  }
 }
 
 type VoiceError = 'auth' | 'unavailable' | 'blocked-autoplay' | 'mic-unsupported' | null;
@@ -145,6 +167,8 @@ export default function VoiceLounge({
   onForgeBrief,
   onEndSession,
   userName,
+  visualTriggers = [],
+  videoSourceUrl = null,
 }: Props) {
   const { getToken } = useAuth();
   const [isSpeaking, setIsSpeaking]         = useState(false);
@@ -157,8 +181,15 @@ export default function VoiceLounge({
   const [lastSpoken, setLastSpoken]         = useState<string | undefined>(undefined);
   const [voiceError, setVoiceError]         = useState<VoiceError>(null);
   const [micHint, setMicHint]               = useState<string | null>(null);
+  const [activeTrigger, setActiveTrigger]   = useState<VisualTrigger | null>(null);
+  const [frameCaptureOk, setFrameCaptureOk] = useState(false);
 
   const audioRef          = useRef<HTMLAudioElement | null>(null);
+  const videoRef          = useRef<HTMLVideoElement | null>(null);
+  const frameCanvasRef    = useRef<HTMLCanvasElement | null>(null);
+  const frameSyncTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const frameCaptureBusyRef = useRef(false);
+  const corsBlockedRef    = useRef(false);
   const audioContextRef   = useRef<AudioContext | null>(null);
   const analyserRef       = useRef<AnalyserNode | null>(null);
   const transcriptRef     = useRef<HTMLDivElement | null>(null);
@@ -301,6 +332,119 @@ export default function VoiceLounge({
   useEffect(() => {
     isLoadingRef.current = isLoading;
   }, [isLoading]);
+
+  const captureTriggerFrame = useCallback(async (trigger: VisualTrigger) => {
+    if (corsBlockedRef.current || frameCaptureBusyRef.current) return;
+    const video = videoRef.current;
+    const canvas = frameCanvasRef.current;
+    if (!video || !canvas || !isSeekableVideoUrl(videoSourceUrl)) {
+      setFrameCaptureOk(false);
+      return;
+    }
+    if (!video.src && videoSourceUrl) {
+      video.src = videoSourceUrl;
+      video.load();
+    }
+    frameCaptureBusyRef.current = true;
+    try {
+      if (video.readyState < 1) {
+        await new Promise<void>((resolve, reject) => {
+          const onMeta = () => { cleanup(); resolve(); };
+          const onErr = () => { cleanup(); reject(new Error('video metadata failed')); };
+          const cleanup = () => {
+            video.removeEventListener('loadedmetadata', onMeta);
+            video.removeEventListener('error', onErr);
+          };
+          video.addEventListener('loadedmetadata', onMeta, { once: true });
+          video.addEventListener('error', onErr, { once: true });
+        });
+      }
+      await new Promise<void>((resolve, reject) => {
+        const onSeeked = () => { cleanup(); resolve(); };
+        const onErr = () => { cleanup(); reject(new Error('seek failed')); };
+        const cleanup = () => {
+          video.removeEventListener('seeked', onSeeked);
+          video.removeEventListener('error', onErr);
+        };
+        video.addEventListener('seeked', onSeeked, { once: true });
+        video.addEventListener('error', onErr, { once: true });
+        try {
+          video.currentTime = Math.max(0, trigger.timestamp_seconds);
+        } catch (err) {
+          cleanup();
+          reject(err instanceof Error ? err : new Error('seek assign failed'));
+        }
+      });
+      const ctx2d = canvas.getContext('2d');
+      if (!ctx2d || !video.videoWidth) {
+        setFrameCaptureOk(false);
+        return;
+      }
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx2d.drawImage(video, 0, 0, canvas.width, canvas.height);
+      try {
+        canvas.toDataURL('image/jpeg', 0.2);
+        setFrameCaptureOk(true);
+      } catch {
+        corsBlockedRef.current = true;
+        setFrameCaptureOk(false);
+      }
+    } catch (err) {
+      console.warn('[VoiceLounge] ephemeral frame capture failed:', err instanceof Error ? err.message : err);
+      setFrameCaptureOk(false);
+    } finally {
+      frameCaptureBusyRef.current = false;
+    }
+  }, [videoSourceUrl]);
+
+  // Sync Key Director Call-outs to speech timeline (ordered slots, not literal video clock)
+  useEffect(() => {
+    if (frameSyncTimerRef.current) {
+      clearInterval(frameSyncTimerRef.current);
+      frameSyncTimerRef.current = null;
+    }
+    if (!isSpeaking || isHeld || !visualTriggers.length) {
+      if (!isSpeaking || isHeld) setActiveTrigger(null);
+      return;
+    }
+    const sorted = [...visualTriggers]
+      .filter((t) => typeof t.timestamp_seconds === 'number' && Number.isFinite(t.timestamp_seconds))
+      .sort((a, b) => a.timestamp_seconds - b.timestamp_seconds)
+      .slice(0, 6);
+    if (!sorted.length) return;
+
+    const startedAt = performance.now();
+    const SLOT_MS = 3200;
+    let lastIdx = -1;
+
+    const tick = () => {
+      const idx = Math.min(
+        sorted.length - 1,
+        Math.floor((performance.now() - startedAt) / SLOT_MS),
+      );
+      if (idx === lastIdx) return;
+      lastIdx = idx;
+      setActiveTrigger(sorted[idx]);
+    };
+    tick();
+    frameSyncTimerRef.current = setInterval(tick, 400);
+
+    return () => {
+      if (frameSyncTimerRef.current) {
+        clearInterval(frameSyncTimerRef.current);
+        frameSyncTimerRef.current = null;
+      }
+    };
+  }, [isSpeaking, isHeld, visualTriggers]);
+
+  useEffect(() => {
+    if (!activeTrigger) {
+      setFrameCaptureOk(false);
+      return;
+    }
+    void captureTriggerFrame(activeTrigger);
+  }, [activeTrigger, captureTriggerFrame]);
 
   const stopVadWatch = useCallback(() => {
     if (vadRafRef.current) {
@@ -990,6 +1134,7 @@ export default function VoiceLounge({
     isSpeakingRef.current = false;
     setIsLoading(false);
     isLoadingRef.current = false;
+    setActiveTrigger(null);
     onSpeakEnd?.();
   };
 
@@ -1387,6 +1532,20 @@ export default function VoiceLounge({
 
         {/* Stage */}
         <div className="relative flex-1 min-h-0 flex flex-col">
+          {/* Hidden seek source for ephemeral director frames — never uploaded */}
+          {isSeekableVideoUrl(videoSourceUrl) && (
+            <video
+              ref={videoRef}
+              src={videoSourceUrl || undefined}
+              preload="metadata"
+              muted
+              playsInline
+              crossOrigin="anonymous"
+              className="pointer-events-none absolute w-px h-px opacity-0 overflow-hidden"
+              aria-hidden
+            />
+          )}
+
           {!showTranscript ? (
             <button
               type="button"
@@ -1410,6 +1569,48 @@ export default function VoiceLounge({
                   {statusLine}
                 </p>
               </div>
+
+              {visualTriggers.length > 0 && (
+                <div
+                  className={`absolute right-4 top-4 z-20 w-[148px] sm:w-[168px] pointer-events-none text-left transition-opacity duration-300 ${
+                    activeTrigger ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  aria-live="polite"
+                  aria-hidden={!activeTrigger}
+                >
+                  <p className="mb-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/45">
+                    Key Director Call-outs
+                  </p>
+                  <div className="overflow-hidden rounded-xl border border-white/15 bg-black/55 backdrop-blur-sm">
+                    <div className="relative aspect-[9/14] w-full bg-white/5">
+                      <canvas
+                        ref={frameCanvasRef}
+                        className={`absolute inset-0 h-full w-full object-cover ${frameCaptureOk ? 'opacity-100' : 'opacity-0'}`}
+                      />
+                      {activeTrigger && !frameCaptureOk && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-3 text-center">
+                          <span className="text-2xl font-light tabular-nums text-sky-200/90">
+                            {activeTrigger.timestamp_seconds.toFixed(1)}s
+                          </span>
+                          <span className="text-[10px] leading-snug text-white/55">
+                            {activeTrigger.label}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    {activeTrigger && (
+                      <div className="border-t border-white/10 px-2.5 py-2">
+                        <p className="text-[10px] font-medium leading-snug text-white/85">
+                          {activeTrigger.label}
+                        </p>
+                        <p className="mt-0.5 text-[9px] tabular-nums text-white/45">
+                          {activeTrigger.timestamp_seconds.toFixed(1)}s · {activeTrigger.reason_key}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </button>
           ) : (
             <div className="relative z-10 flex-1 overflow-hidden px-4 pb-4">

@@ -77,6 +77,7 @@ function AnalyzeContent() {
     const [chatInput, setChatInput] = useState('');
     const [isSending, setIsSending] = useState(false);
     const [sessionId, setSessionId] = useState<string | null>(null);
+    const [sessionVideoUrl, setSessionVideoUrl] = useState<string | null>(null);
     const [isRoastMode, setIsRoastMode] = useState(false);
     const [benchmarks, setBenchmarks] = useState<any>(null);
     /** Live sentence queue → VoiceLounge TTS while the LLM is still streaming */
@@ -137,6 +138,13 @@ function AnalyzeContent() {
                     thumbnail: sessionThumb,
                     mode: sessionMode
                 });
+                const rawVideoUrl = typeof data.video_url === 'string' ? data.video_url : null;
+                setSessionVideoUrl(
+                  rawVideoUrl && !rawVideoUrl.startsWith('local:') ? rawVideoUrl : null
+                );
+                if (rawVideoUrl && !rawVideoUrl.startsWith('local:') && rawVideoUrl !== 'Direct Upload') {
+                  setUrl(rawVideoUrl);
+                }
                 setMessages(parsedMessages);
                 setSessionId(data.id);
                 setIsAnalyzing(false);
@@ -738,7 +746,7 @@ function AnalyzeContent() {
                 {!isChatMode && result && (
                     <div className="flex justify-end mb-6 px-4">
                         <button
-                            onClick={() => { setIsChatMode(false); setResult(null); setSessionId(null); setUrl(''); setFile(null); }}
+                            onClick={() => { setIsChatMode(false); setResult(null); setSessionId(null); setSessionVideoUrl(null); setUrl(''); setFile(null); }}
                             className="px-4 py-2 rounded-full bg-white/[0.08] text-stone-100 text-sm font-medium hover:bg-white/[0.12] transition-all"
                         >
                             + New scan
@@ -953,6 +961,10 @@ function AnalyzeContent() {
                                         onForgeBrief={messages.length > 2 ? forgeDirectorBrief : undefined}
                                         onEndSession={() => setIsChatMode(false)}
                                         userName={user?.firstName || user?.fullName || undefined}
+                                        visualTriggers={Array.isArray(result?.analysis?.visual_triggers)
+                                          ? result.analysis.visual_triggers
+                                          : []}
+                                        videoSourceUrl={sessionVideoUrl || url || null}
                                     />
                                 )}
                             </div>
