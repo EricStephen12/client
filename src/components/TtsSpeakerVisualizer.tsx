@@ -7,10 +7,10 @@ import VoiceAgentVisualizer from './VoiceAgentVisualizer';
 interface Props {
   textToSpeak?: string;
   /**
-   * Sentence-level speak from LLM stream. Same turnId enqueues onto one timeline;
-   * a new turnId starts a fresh reply.
+   * Sentence queue from LLM stream. Same turnId shares one audio timeline;
+   * `final: true` means the model is done — only then may we re-arm the mic.
    */
-  speakUtterance?: { turnId: number; sentence: string } | null;
+  speakQueue?: { turnId: number; sentences: string[]; final: boolean } | null;
   onSpeakEnd?: () => void;
   messages?: Array<{ role: string; content: string; type?: string }>;
   isThinking?: boolean;
@@ -136,7 +136,7 @@ function prepareSpeakText(raw: string): string {
 
 export default function VoiceLounge({
   textToSpeak,
-  speakUtterance = null,
+  speakQueue = null,
   onSpeakEnd,
   messages = [],
   isThinking = false,
@@ -196,7 +196,8 @@ export default function VoiceLounge({
   const isLoadingRef      = useRef(false);
   const bargeStreamRef    = useRef<MediaStream | null>(null);
   const bargeLoudSinceRef = useRef(0);
-  const lastUtteranceKeyRef = useRef('');
+  const consumedSpeakCountRef = useRef(0);
+  const consumedSpeakTurnRef = useRef(-1);
   const stopSpeakingRef = useRef<() => void>(() => {});
   const startListeningRef = useRef<(opts?: { continuousArm?: boolean }) => Promise<void>>(async () => {});
   /** Shared playback timeline for streamed sentence TTS */
@@ -207,7 +208,18 @@ export default function VoiceLounge({
     sampleRate: number;
     started: boolean;
     endTimer: ReturnType<typeof setTimeout> | null;
-  }>({ turnId: -1, abort: null, nextStart: 0, sampleRate: 24000, started: false, endTimer: null });
+    inflight: number;
+    turnFinal: boolean;
+  }>({
+    turnId: -1,
+    abort: null,
+    nextStart: 0,
+    sampleRate: 24000,
+    started: false,
+    endTimer: null,
+    inflight: 0,
+    turnFinal: false,
+  });
   const insecureContext   = typeof window !== 'undefined' && !window.isSecureContext;
 
   const stopStreamSources = useCallback(() => {
@@ -696,11 +708,53 @@ export default function VoiceLounge({
     }
   };
 
+  const finishTurnIfReady = (turnId: number, ctx: AudioContext) => {
+    const pipe = pipelineRef.current;
+    if (pipe.turnId !== turnId) return;
+    if (pipe.endTimer) {
+      clearTimeout(pipe.endTimer);
+      pipe.endTimer = null;
+    }
+    const remainingMs = Math.max(0, (pipe.nextStart - ctx.currentTime) * 1000) + 150;
+    pipe.endTimer = setTimeout(() => {
+      const live = pipelineRef.current;
+      if (live.turnId !== turnId) return;
+      // Wait until LLM stream is done AND every sentence TTS has finished fetching/scheduling
+      if (!live.turnFinal || live.inflight > 0) {
+        finishTurnIfReady(turnId, ctx);
+        return;
+      }
+      if (live.nextStart - ctx.currentTime > 0.05) {
+        finishTurnIfReady(turnId, ctx);
+        return;
+      }
+      setIsSpeaking(false);
+      isSpeakingRef.current = false;
+      stopBargeWatch();
+      onSpeakEnd?.();
+      if (
+        continuousRef.current &&
+        !isHeldRef.current &&
+        !wantRecordRef.current &&
+        !listenStartingRef.current
+      ) {
+        void startListeningRef.current({ continuousArm: true });
+      }
+    }, remainingMs);
+    streamEndTimerRef.current = pipe.endTimer;
+  };
+
   /** Streamed LLM sentence → TTS onto a shared turn timeline (no mid-reply restart). */
   const speakUtteranceChunk = async (turnId: number, sentence: string) => {
     const cleaned = stripMarkdownForSpeech(sentence);
     if (!cleaned) return;
-    if (wantRecordRef.current || isListeningRef.current || listenStartingRef.current) return;
+    // Only block if the user is mid-utterance on a *different* turn
+    if (
+      (wantRecordRef.current || isListeningRef.current || listenStartingRef.current) &&
+      pipelineRef.current.turnId !== turnId
+    ) {
+      return;
+    }
 
     let pipe = pipelineRef.current;
     if (pipe.turnId !== turnId || !pipe.abort || pipe.abort.signal.aborted) {
@@ -716,6 +770,8 @@ export default function VoiceLounge({
         sampleRate: 24000,
         started: false,
         endTimer: null,
+        inflight: 0,
+        turnFinal: false,
       };
       pipelineRef.current = pipe;
       setVoiceError(null);
@@ -727,6 +783,7 @@ export default function VoiceLounge({
 
     const abort = pipe.abort;
     if (!abort) return;
+    pipe.inflight += 1;
 
     try {
       await resumeAudioContext();
@@ -751,24 +808,7 @@ export default function VoiceLounge({
           isSpeakingRef.current = true;
           void startBargeWatch();
         }
-        if (pipe.endTimer) clearTimeout(pipe.endTimer);
-        const remainingMs = Math.max(0, (pipe.nextStart - ctx.currentTime) * 1000) + 120;
-        pipe.endTimer = setTimeout(() => {
-          if (pipelineRef.current.turnId !== turnId) return;
-          setIsSpeaking(false);
-          isSpeakingRef.current = false;
-          stopBargeWatch();
-          onSpeakEnd?.();
-          if (
-            continuousRef.current &&
-            !isHeldRef.current &&
-            !wantRecordRef.current &&
-            !listenStartingRef.current
-          ) {
-            void startListening({ continuousArm: true });
-          }
-        }, remainingMs);
-        streamEndTimerRef.current = pipe.endTimer;
+        finishTurnIfReady(turnId, ctx);
       };
 
       const token = (await getToken()) || (await getToken({ skipCache: true }));
@@ -857,6 +897,7 @@ export default function VoiceLounge({
         } catch { /* ignore */ }
       }
       if (!pipe.started && pending.length) flushPending();
+      if (ctx) finishTurnIfReady(turnId, ctx);
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
       console.error('[VoiceLounge] utterance TTS failed:', err);
@@ -865,18 +906,46 @@ export default function VoiceLounge({
         setIsLoading(false);
         isLoadingRef.current = false;
       }
+    } finally {
+      if (pipelineRef.current.turnId === turnId) {
+        pipelineRef.current.inflight = Math.max(0, pipelineRef.current.inflight - 1);
+        const ctx = audioContextRef.current;
+        if (ctx) finishTurnIfReady(turnId, ctx);
+      }
     }
   };
 
   useEffect(() => {
-    if (!speakUtterance?.sentence) return;
-    const key = `${speakUtterance.turnId}:${speakUtterance.sentence}`;
-    if (key === lastUtteranceKeyRef.current) return;
-    lastUtteranceKeyRef.current = key;
+    if (!speakQueue) return;
+    const { turnId, sentences, final } = speakQueue;
+    if (consumedSpeakTurnRef.current !== turnId) {
+      consumedSpeakTurnRef.current = turnId;
+      consumedSpeakCountRef.current = 0;
+    }
+    if (pipelineRef.current.turnId === turnId) {
+      pipelineRef.current.turnFinal = final;
+    } else if (final && sentences.length === 0) {
+      // Final with no audio — nothing to do
+      return;
+    }
     userSentRef.current = true;
-    void speakUtteranceChunk(speakUtterance.turnId, speakUtterance.sentence);
+    const unread = sentences.slice(consumedSpeakCountRef.current);
+    consumedSpeakCountRef.current = sentences.length;
+    for (const sentence of unread) {
+      void speakUtteranceChunk(turnId, sentence);
+    }
+    if (final) {
+      if (pipelineRef.current.turnId !== turnId && unread.length === 0) {
+        // ensure pipeline exists so final flag is honored after first chunk creates it
+      }
+      if (pipelineRef.current.turnId === turnId) {
+        pipelineRef.current.turnFinal = true;
+        const ctx = audioContextRef.current;
+        if (ctx) finishTurnIfReady(turnId, ctx);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speakUtterance]);
+  }, [speakQueue]);
 
   /** Handles orb taps while in an error state. Returns true if the tap was consumed. */
   const resumeOrRetryVoice = (): boolean => {
@@ -910,7 +979,11 @@ export default function VoiceLounge({
       sampleRate: 24000,
       started: false,
       endTimer: null,
+      inflight: 0,
+      turnFinal: false,
     };
+    consumedSpeakTurnRef.current = -1;
+    consumedSpeakCountRef.current = 0;
     audioRef.current?.pause();
     if (audioRef.current) audioRef.current.currentTime = 0;
     setIsSpeaking(false);

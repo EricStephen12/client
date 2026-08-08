@@ -79,8 +79,12 @@ function AnalyzeContent() {
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [isRoastMode, setIsRoastMode] = useState(false);
     const [benchmarks, setBenchmarks] = useState<any>(null);
-    /** Live sentence handoff → VoiceLounge TTS while the LLM is still streaming */
-    const [speakUtterance, setSpeakUtterance] = useState<{ turnId: number; sentence: string } | null>(null);
+    /** Live sentence queue → VoiceLounge TTS while the LLM is still streaming */
+    const [speakQueue, setSpeakQueue] = useState<{
+        turnId: number;
+        sentences: string[];
+        final: boolean;
+    } | null>(null);
     const voiceTurnIdRef = useRef(0);
 
     const loadSession = async (id: string) => {
@@ -340,6 +344,9 @@ function AnalyzeContent() {
                 // Voice Live: stream tokens → speak each sentence as it completes
                 if (isChatMode) {
                     const turnId = ++voiceTurnIdRef.current;
+                    const sentences: string[] = [];
+                    setSpeakQueue({ turnId, sentences: [], final: false });
+
                     const res = await fetch(`/api/main/api/creative-director-chat`, {
                         method: 'POST',
                         headers: {
@@ -371,21 +378,24 @@ function AnalyzeContent() {
 
                     setMessages([...newMessages, { role: 'assistant', content: '' }]);
 
-                    const emitSentences = (chunk: string, flushAll = false) => {
+                    const pushSentences = (chunk: string) => {
                         sentenceCarry += chunk;
                         const parts = sentenceCarry.match(/[^.!?]+[.!?]+(?:\s+|$)|[^.!?]+$/g) || [];
                         if (!parts.length) return;
                         let keep = '';
-                        for (let i = 0; i < parts.length; i++) {
-                            const part = parts[i];
-                            const complete = /[.!?]/.test(part) || (flushAll && part.trim());
-                            if (complete && part.trim()) {
-                                setSpeakUtterance({ turnId, sentence: part.trim() });
+                        let changed = false;
+                        for (const part of parts) {
+                            if (/[.!?]/.test(part) && part.trim()) {
+                                sentences.push(part.trim());
+                                changed = true;
                             } else {
                                 keep += part;
                             }
                         }
                         sentenceCarry = keep;
+                        if (changed) {
+                            setSpeakQueue({ turnId, sentences: [...sentences], final: false });
+                        }
                     };
 
                     while (true) {
@@ -405,17 +415,20 @@ function AnalyzeContent() {
                             if (ev.type === 'delta' && ev.text) {
                                 full += ev.text;
                                 setMessages([...newMessages, { role: 'assistant', content: full }]);
-                                emitSentences(ev.text);
+                                pushSentences(ev.text);
                             } else if (ev.type === 'error') {
                                 throw new Error(ev.message || 'Stream error');
                             }
                         }
                     }
                     if (sentenceCarry.trim()) {
-                        setSpeakUtterance({ turnId, sentence: sentenceCarry.trim() });
+                        sentences.push(sentenceCarry.trim());
                         sentenceCarry = '';
                     }
                     if (!full.trim()) throw new Error('Empty response from AI');
+
+                    // Mark turn complete so VoiceLounge waits for the last TTS before re-arming mic
+                    setSpeakQueue({ turnId, sentences: [...sentences], final: true });
 
                     const finalMessages = [...newMessages, { role: 'assistant', content: full }];
                     setMessages(finalMessages);
@@ -932,7 +945,7 @@ function AnalyzeContent() {
                                 {isChatMode && (
                                     <VoiceLounge
                                         textToSpeak={undefined}
-                                        speakUtterance={speakUtterance}
+                                        speakQueue={speakQueue}
                                         messages={messages}
                                         isThinking={isSending}
                                         onSendMessage={(text) => sendMessage(text)}
