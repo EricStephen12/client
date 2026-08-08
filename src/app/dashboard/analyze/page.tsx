@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useEffect, Suspense } from 'react';
+import { useState, useCallback, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useDropzone } from 'react-dropzone';
 import { useUser, useAuth } from '@clerk/nextjs';
@@ -79,6 +79,9 @@ function AnalyzeContent() {
     const [sessionId, setSessionId] = useState<string | null>(null);
     const [isRoastMode, setIsRoastMode] = useState(false);
     const [benchmarks, setBenchmarks] = useState<any>(null);
+    /** Live sentence handoff → VoiceLounge TTS while the LLM is still streaming */
+    const [speakUtterance, setSpeakUtterance] = useState<{ turnId: number; sentence: string } | null>(null);
+    const voiceTurnIdRef = useRef(0);
 
     const loadSession = async (id: string) => {
         setIsSending(true);
@@ -334,6 +337,95 @@ function AnalyzeContent() {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 45000);
 
+                // Voice Live: stream tokens → speak each sentence as it completes
+                if (isChatMode) {
+                    const turnId = ++voiceTurnIdRef.current;
+                    const res = await fetch(`/api/main/api/creative-director-chat`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({
+                            messages: newMessages,
+                            dna: result.analysis,
+                            userId,
+                            userName: user?.firstName || user?.username || 'Creator',
+                            isRoastMode,
+                            voiceMode: true,
+                            stream: true,
+                        }),
+                        signal: controller.signal,
+                    });
+                    clearTimeout(timeoutId);
+                    if (!res.ok || !res.body) {
+                        const errData = await res.json().catch(() => ({}));
+                        throw new Error(errData.details || errData.error || `Server returned ${res.status}`);
+                    }
+
+                    const reader = res.body.getReader();
+                    const decoder = new TextDecoder();
+                    let lineBuf = '';
+                    let full = '';
+                    let sentenceCarry = '';
+
+                    setMessages([...newMessages, { role: 'assistant', content: '' }]);
+
+                    const emitSentences = (chunk: string, flushAll = false) => {
+                        sentenceCarry += chunk;
+                        const parts = sentenceCarry.match(/[^.!?]+[.!?]+(?:\s+|$)|[^.!?]+$/g) || [];
+                        if (!parts.length) return;
+                        let keep = '';
+                        for (let i = 0; i < parts.length; i++) {
+                            const part = parts[i];
+                            const complete = /[.!?]/.test(part) || (flushAll && part.trim());
+                            if (complete && part.trim()) {
+                                setSpeakUtterance({ turnId, sentence: part.trim() });
+                            } else {
+                                keep += part;
+                            }
+                        }
+                        sentenceCarry = keep;
+                    };
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        lineBuf += decoder.decode(value, { stream: true });
+                        const lines = lineBuf.split('\n');
+                        lineBuf = lines.pop() ?? '';
+                        for (const line of lines) {
+                            if (!line.startsWith('data: ')) continue;
+                            let ev: { type: string; text?: string; message?: string };
+                            try {
+                                ev = JSON.parse(line.slice(6)) as typeof ev;
+                            } catch {
+                                continue;
+                            }
+                            if (ev.type === 'delta' && ev.text) {
+                                full += ev.text;
+                                setMessages([...newMessages, { role: 'assistant', content: full }]);
+                                emitSentences(ev.text);
+                            } else if (ev.type === 'error') {
+                                throw new Error(ev.message || 'Stream error');
+                            }
+                        }
+                    }
+                    if (sentenceCarry.trim()) {
+                        setSpeakUtterance({ turnId, sentence: sentenceCarry.trim() });
+                        sentenceCarry = '';
+                    }
+                    if (!full.trim()) throw new Error('Empty response from AI');
+
+                    const finalMessages = [...newMessages, { role: 'assistant', content: full }];
+                    setMessages(finalMessages);
+                    setIsSending(false);
+                    void saveSessionState(finalMessages).then((savedId) => {
+                        if (savedId) setSessionId(savedId);
+                    });
+                    return;
+                }
+
                 const res = await fetch(`/api/main/api/creative-director-chat`, {
                     method: 'POST',
                     headers: {
@@ -346,8 +438,7 @@ function AnalyzeContent() {
                         userId,
                         userName: user?.firstName || user?.username || 'Creator',
                         isRoastMode,
-                        // Voice Lounge: fast Groq instant model + short spoken replies
-                        voiceMode: isChatMode,
+                        voiceMode: false,
                     }),
                     signal: controller.signal
                 });
@@ -840,7 +931,8 @@ function AnalyzeContent() {
                                 {/* ── Voice Lounge ── */}
                                 {isChatMode && (
                                     <VoiceLounge
-                                        textToSpeak={messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content}
+                                        textToSpeak={undefined}
+                                        speakUtterance={speakUtterance}
                                         messages={messages}
                                         isThinking={isSending}
                                         onSendMessage={(text) => sendMessage(text)}
