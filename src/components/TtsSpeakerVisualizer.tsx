@@ -1633,10 +1633,10 @@ export default function VoiceLounge({
                               <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-3 text-center">
                                 <span className="text-2xl font-light tabular-nums text-sky-200/90">
                                   {activeTrigger.timestamp_seconds.toFixed(1)}s
-                                </span>
+                    </span>
                                 <span className="text-[10px] leading-snug text-white/55">
                                   {activeTrigger.label}
-                                </span>
+                  </span>
                               </div>
                             )}
                           </>
