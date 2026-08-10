@@ -20,6 +20,13 @@ function framePreviewToDataUrl(frame: unknown): string | null {
     return null;
 }
 
+/** Strip heavy JPEG blobs — LLM chat only needs text DNA, not frame previews. */
+function dnaForChat(analysis: Record<string, unknown> | null | undefined) {
+    if (!analysis || typeof analysis !== 'object') return analysis;
+    const { frames: _frames, ...rest } = analysis;
+    return rest;
+}
+
 export default function AnalyzePage() {
     return (
         <Suspense fallback={
@@ -397,7 +404,7 @@ function AnalyzeContent() {
                         },
                         body: JSON.stringify({
                             messages: newMessages,
-                            dna: result.analysis,
+                            dna: dnaForChat(result.analysis),
                             userId,
                             userName: user?.firstName || user?.username || 'Creator',
                             isRoastMode,
@@ -489,7 +496,7 @@ function AnalyzeContent() {
                     },
                     body: JSON.stringify({
                         messages: newMessages,
-                        dna: result.analysis,
+                        dna: dnaForChat(result.analysis),
                         userId,
                         userName: user?.firstName || user?.username || 'Creator',
                         isRoastMode,
@@ -552,7 +559,7 @@ function AnalyzeContent() {
                 },
                 body: JSON.stringify({
                     messages,
-                    dna: result.analysis,
+                    dna: dnaForChat(result.analysis),
                     userId
                 })
             });
