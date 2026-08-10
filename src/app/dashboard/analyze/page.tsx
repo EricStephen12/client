@@ -85,6 +85,26 @@ function AnalyzeContent() {
         }
     }, [isLoaded, userId]);
 
+    const refreshScanUsage = useCallback(async () => {
+        if (!userId) return;
+        try {
+            const token = await getToken();
+            const email = user?.primaryEmailAddress?.emailAddress || '';
+            const name = user?.fullName || '';
+            const res = await fetch(`/api/main/api/me?userId=${userId}&email=${encodeURIComponent(email)}&name=${encodeURIComponent(name)}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setScansUsed(data.monthly_usage?.scans ?? 0);
+                setScanLimit(getPlanLimit(data.plan_type || 'free'));
+            }
+        } catch {
+            /* non-fatal */
+        }
+        window.dispatchEvent(new CustomEvent('session-updated'));
+    }, [userId, getToken, user]);
+
     const [isChatMode, setIsChatMode] = useState(false);
     const [messages, setMessages] = useState<any[]>([]);
     const [chatInput, setChatInput] = useState('');
@@ -215,6 +235,7 @@ function AnalyzeContent() {
                         if (data.sessionId) {
                             window.history.pushState({}, '', `?sessionId=${data.sessionId}`);
                             setSessionId(data.sessionId);
+                            void refreshScanUsage();
                             loadSession(data.sessionId);
                         } else {
                             setIsAnalyzing(false);
@@ -645,6 +666,7 @@ function AnalyzeContent() {
                 if (data.sessionId) {
                     window.history.pushState({}, '', `?sessionId=${data.sessionId}`);
                     setSessionId(data.sessionId);
+                    void refreshScanUsage();
                     loadSession(data.sessionId);
                 }
             } catch (err: any) {
@@ -695,6 +717,7 @@ function AnalyzeContent() {
             if (data.sessionId) {
                 window.history.pushState({}, '', `?sessionId=${data.sessionId}`);
                 setSessionId(data.sessionId);
+                void refreshScanUsage();
                 loadSession(data.sessionId);
             }
         } catch (err: any) {
