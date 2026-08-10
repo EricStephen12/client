@@ -7,6 +7,19 @@ import Link from 'next/link';
 import { getPlanLimit } from '@/utils/plan';
 import VoiceLounge from '@/components/TtsSpeakerVisualizer';
 
+function framePreviewToDataUrl(frame: unknown): string | null {
+    if (!frame) return null;
+    if (typeof frame === 'string') {
+        return frame.startsWith('data:') ? frame : `data:image/jpeg;base64,${frame}`;
+    }
+    if (typeof frame === 'object' && frame !== null && 'base64' in frame) {
+        const f = frame as { base64?: string; mimeType?: string };
+        if (!f.base64) return null;
+        return `data:${f.mimeType || 'image/jpeg'};base64,${f.base64}`;
+    }
+    return null;
+}
+
 export default function AnalyzePage() {
     return (
         <Suspense fallback={
@@ -129,7 +142,7 @@ function AnalyzeContent() {
                 }
 
                 const sessionMode = data.mode || parsedDna?.mode || mode || 'ad';
-                const sessionThumb = parsedDna?.frames?.[0] || data.thumbnail || null;
+                const sessionThumb = framePreviewToDataUrl(parsedDna?.frames?.[0]) || data.thumbnail || null;
                 const sessionTitle = data.title || 'Analysis Session';
 
                 setResult({ 
@@ -963,6 +976,9 @@ function AnalyzeContent() {
                                         userName={user?.firstName || user?.fullName || undefined}
                                         visualTriggers={Array.isArray(result?.analysis?.visual_triggers)
                                           ? result.analysis.visual_triggers
+                                          : []}
+                                        framePreviews={Array.isArray(result?.analysis?.frames)
+                                          ? result.analysis.frames
                                           : []}
                                         videoSourceUrl={sessionVideoUrl || url || null}
                                     />

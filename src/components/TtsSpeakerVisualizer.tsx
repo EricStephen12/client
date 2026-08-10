@@ -10,6 +10,24 @@ export type VisualTrigger = {
   reason_key: string;
 };
 
+export type FramePreview = {
+  timestamp: number;
+  base64: string;
+  mimeType?: string;
+  phase?: string;
+};
+
+function frameToDataUrl(frame: FramePreview): string {
+  return `data:${frame.mimeType || 'image/jpeg'};base64,${frame.base64}`;
+}
+
+function nearestFramePreview(frames: FramePreview[], timestampSeconds: number): FramePreview | null {
+  if (!frames.length || !Number.isFinite(timestampSeconds)) return null;
+  return frames.reduce((best, f) =>
+    Math.abs(f.timestamp - timestampSeconds) < Math.abs(best.timestamp - timestampSeconds) ? f : best,
+  );
+}
+
 interface Props {
   textToSpeak?: string;
   /**
@@ -28,6 +46,8 @@ interface Props {
   userName?: string;
   /** Timestamp metadata only — frames painted client-side from videoSourceUrl */
   visualTriggers?: VisualTrigger[];
+  /** Analyze-time JPEG previews (no CORS) — preferred over live video seek */
+  framePreviews?: FramePreview[];
   /** Session video URL for ephemeral seek/capture (may fail CORS — label fallback) */
   videoSourceUrl?: string | null;
 }
@@ -84,9 +104,9 @@ const MIN_SEND_MS = 1000;
 /** Hard cap so a forgotten mic doesn't run forever. */
 const MAX_RECORD_MS = 45000;
 /** Continuous Live: RMS above this counts as speech (0–1 scale). */
-const VAD_SPEECH_RMS = 0.035;
+const VAD_SPEECH_RMS = 0.028;
 /** Continuous Live: silence after speech → auto-send. */
-const VAD_SILENCE_MS = 1100;
+const VAD_SILENCE_MS = 1500;
 /** Barge-in while AI talks — higher than listen VAD to resist speaker echo. */
 const BARGE_SPEECH_RMS = 0.07;
 /** Barge-in requires sustained user speech this long. */
@@ -168,6 +188,7 @@ export default function VoiceLounge({
   onEndSession,
   userName,
   visualTriggers = [],
+  framePreviews = [],
   videoSourceUrl = null,
 }: Props) {
   const { getToken } = useAuth();
@@ -283,8 +304,8 @@ export default function VoiceLounge({
     // Optional <audio> graph for WAV fallback / blocked-autoplay resume
     if (audioRef.current && !mediaWiredRef.current) {
       try {
-        const src = ctx.createMediaElementSource(audioRef.current);
-        src.connect(analyser);
+    const src = ctx.createMediaElementSource(audioRef.current);
+    src.connect(analyser);
         mediaWiredRef.current = true;
       } catch {
         mediaWiredRef.current = false;
@@ -443,8 +464,13 @@ export default function VoiceLounge({
       setFrameCaptureOk(false);
       return;
     }
+    const preview = nearestFramePreview(framePreviews, activeTrigger.timestamp_seconds);
+    if (preview?.base64) {
+      setFrameCaptureOk(true);
+      return;
+    }
     void captureTriggerFrame(activeTrigger);
-  }, [activeTrigger, captureTriggerFrame]);
+  }, [activeTrigger, captureTriggerFrame, framePreviews]);
 
   const stopVadWatch = useCallback(() => {
     if (vadRafRef.current) {
@@ -532,7 +558,7 @@ export default function VoiceLounge({
     // Only speak after the user has sent a question (voice or typed).
     // Never start TTS while the mic is open — that steals the UI into "One moment…".
     if (userSentRef.current && !wantRecordRef.current && !isListeningRef.current) {
-      speakText(textToSpeak);
+    speakText(textToSpeak);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textToSpeak]);
@@ -676,7 +702,7 @@ export default function VoiceLounge({
       const fetchFullWavAndPlay = async (chunkText: string) => {
         const headers = await authHeaders();
         let res = await fetch('/api/tts', {
-          method: 'POST',
+        method: 'POST',
           headers,
           body: JSON.stringify({
             text: chunkText,
@@ -713,7 +739,7 @@ export default function VoiceLounge({
         let ev: { type: string; sample_rate?: number; data?: string; pause_after_ms?: number; message?: string };
         try {
           ev = JSON.parse(line) as typeof ev;
-        } catch {
+    } catch {
           return;
         }
         if (ev.type === 'start' && typeof ev.sample_rate === 'number') {
@@ -846,7 +872,7 @@ export default function VoiceLounge({
       onSpeakEnd?.();
     } finally {
       if (ttsAbortRef.current === abort) {
-        setIsLoading(false);
+      setIsLoading(false);
         isLoadingRef.current = false;
       }
     }
@@ -1157,8 +1183,8 @@ export default function VoiceLounge({
       if (!token) {
         setVoiceError('auth');
         setMicHint('Sign in to use voice.');
-        return;
-      }
+      return;
+    }
       const ext = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('ogg') ? 'ogg' : 'webm';
       const form = new FormData();
       form.append('audio', blob, `voice.${ext}`);
@@ -1178,8 +1204,8 @@ export default function VoiceLounge({
         if (continuousRef.current && !isHeldRef.current) {
           void startListening({ continuousArm: true });
         }
-        return;
-      }
+      return;
+    }
       setMicHint(null);
       userSentRef.current = true;
       setChatInput('');
@@ -1318,7 +1344,9 @@ export default function VoiceLounge({
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
+          autoGainControl: true,
           channelCount: 1,
+          sampleRate: 48000,
         },
       });
       if (!wantRecordRef.current) {
@@ -1345,7 +1373,7 @@ export default function VoiceLounge({
         const recordedMs = performance.now() - listenStartedAtRef.current;
         const heardSpeech = speechHeardRef.current;
         discardRecordRef.current = false;
-        setIsListening(false);
+      setIsListening(false);
         isListeningRef.current = false;
         wantRecordRef.current = false;
         listenStartingRef.current = false;
@@ -1487,7 +1515,7 @@ export default function VoiceLounge({
       >
         {/* Top bar */}
         <div className="relative z-20 flex items-center justify-between px-5 pt-5 pb-3">
-          <button
+                <button
             type="button"
             onClick={() => setShowTranscript((v) => !v)}
             className="w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:bg-white/10 transition-colors"
@@ -1502,7 +1530,7 @@ export default function VoiceLounge({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.75" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
               </svg>
             )}
-          </button>
+                </button>
 
           <div className="inline-flex items-center gap-2 text-white/90">
             <svg className="w-4 h-4 text-white/80" viewBox="0 0 24 24" fill="currentColor">
@@ -1554,7 +1582,7 @@ export default function VoiceLounge({
               aria-label="Voice stage"
             >
               <VoiceAgentVisualizer
-                audioIntensityRef={audioIntensityRef}
+                  audioIntensityRef={audioIntensityRef}
                 isActive={isActive}
                 isListening={isListening}
                 isSpeaking={isSpeaking}
@@ -1583,20 +1611,37 @@ export default function VoiceLounge({
                   </p>
                   <div className="overflow-hidden rounded-xl border border-white/15 bg-black/55 backdrop-blur-sm">
                     <div className="relative aspect-[9/14] w-full bg-white/5">
-                      <canvas
-                        ref={frameCanvasRef}
-                        className={`absolute inset-0 h-full w-full object-cover ${frameCaptureOk ? 'opacity-100' : 'opacity-0'}`}
-                      />
-                      {activeTrigger && !frameCaptureOk && (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-3 text-center">
-                          <span className="text-2xl font-light tabular-nums text-sky-200/90">
-                            {activeTrigger.timestamp_seconds.toFixed(1)}s
-                          </span>
-                          <span className="text-[10px] leading-snug text-white/55">
-                            {activeTrigger.label}
-                          </span>
-                        </div>
-                      )}
+                      {activeTrigger && (() => {
+                        const preview = nearestFramePreview(framePreviews, activeTrigger.timestamp_seconds);
+                        const previewUrl = preview?.base64 ? frameToDataUrl(preview) : null;
+                        if (previewUrl) {
+                          return (
+                            <img
+                              src={previewUrl}
+                              alt=""
+                              className="absolute inset-0 h-full w-full object-cover"
+                            />
+                          );
+                        }
+                        return (
+                          <>
+                            <canvas
+                              ref={frameCanvasRef}
+                              className={`absolute inset-0 h-full w-full object-cover ${frameCaptureOk ? 'opacity-100' : 'opacity-0'}`}
+                            />
+                            {!frameCaptureOk && (
+                              <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 px-3 text-center">
+                                <span className="text-2xl font-light tabular-nums text-sky-200/90">
+                                  {activeTrigger.timestamp_seconds.toFixed(1)}s
+                                </span>
+                                <span className="text-[10px] leading-snug text-white/55">
+                                  {activeTrigger.label}
+                                </span>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
                     </div>
                     {activeTrigger && (
                       <div className="border-t border-white/10 px-2.5 py-2">
@@ -1607,9 +1652,9 @@ export default function VoiceLounge({
                           {activeTrigger.timestamp_seconds.toFixed(1)}s · {activeTrigger.reason_key}
                         </p>
                       </div>
-                    )}
-                  </div>
-                </div>
+                )}
+              </div>
+            </div>
               )}
             </button>
           ) : (
@@ -1671,7 +1716,7 @@ export default function VoiceLounge({
 
           {!showTranscript && (
             <div className="flex items-center justify-center">
-              <button
+            <button
                 type="button"
                 onClick={handleHoldToggle}
                 className="flex flex-col items-center gap-2"
@@ -1684,7 +1729,7 @@ export default function VoiceLounge({
                   {isHeld ? (
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M8 5v14l11-7L8 5z" />
-                    </svg>
+              </svg>
                   ) : (
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                       <rect x="6" y="5" width="4" height="14" rx="1" />
@@ -1693,31 +1738,31 @@ export default function VoiceLounge({
                   )}
                 </span>
                 <span className="text-xs text-white/70">{isHeld ? 'Resume' : 'Hold'}</span>
-              </button>
+            </button>
             </div>
           )}
 
           {showTranscript && (
             <div className="flex items-center gap-2 rounded-full border border-white/10 bg-[#1a1a1a] px-4 py-2.5">
-              <input
-                type="text"
-                value={chatInput}
-                onChange={e => setChatInput(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
+            <input
+              type="text"
+              value={chatInput}
+              onChange={e => setChatInput(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
                 placeholder="Type a message…"
                 disabled={isSending}
                 className="flex-1 bg-transparent border-none outline-none text-sm text-white placeholder-white/35 focus:ring-0"
-              />
-              <button
-                onClick={handleSend}
-                disabled={isSending || !chatInput.trim()}
+            />
+            <button
+              onClick={handleSend}
+              disabled={isSending || !chatInput.trim()}
                 className="p-2 rounded-full bg-white text-black disabled:opacity-25"
-              >
+            >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </button>
-            </div>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </div>
           )}
 
           {onForgeBrief && showTranscript && (
