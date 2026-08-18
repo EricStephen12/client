@@ -40,15 +40,17 @@ function SignupContent() {
                     >
                         EIXORA
                     </Link>
-                    <p className="text-sm text-stone-500 font-light mb-10 text-center max-w-xs">
-                        Start free. Scan ads, content, or products — then talk it through in Voice Lounge.
+                    <p className="text-sm text-stone-500 font-light mb-10 text-center max-w-xs font-sans">
+                        Start free. Scan any video for hook power, virality, and product intelligence.
                     </p>
 
-                    <SignUp
-                        appearance={clerkAppearance}
-                        routing="hash"
-                        forceRedirectUrl={redirectUrl}
-                    />
+                    <div className="w-full flex justify-center">
+                        <SignUp
+                            appearance={clerkAppearance}
+                            routing="hash"
+                            forceRedirectUrl={redirectUrl}
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -64,16 +66,16 @@ function SignupContent() {
                 </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
                 <div className="absolute inset-x-0 bottom-0 z-20 p-12 lg:p-16">
-                    <p className="text-[11px] tracking-[0.3em] uppercase text-lime-400 mb-4">Start free</p>
-                    <p className="font-serif text-3xl lg:text-4xl text-white leading-tight mb-4">
+                    <p className="text-[11px] tracking-[0.3em] uppercase text-lime-400 mb-4 font-mono font-bold">Start free</p>
+                    <p className="font-sans text-3xl lg:text-4xl text-white font-bold leading-tight mb-4">
                         Steal the hook DNA
                         <br />
                         from any viral ad.
                     </p>
-                    <ul className="space-y-2 text-sm text-stone-400 font-light">
-                        <li>Ad Intel · Content · Product Intel</li>
-                        <li>Strategy Brief in about a minute</li>
-                        <li>Voice Lounge to refine out loud</li>
+                    <ul className="space-y-2 text-sm text-stone-400 font-normal font-sans">
+                        <li>• Video Intel & Product Intel</li>
+                        <li>• Score Gauges & Visual Breakdown in seconds</li>
+                        <li>• Saturation Read & Angle-Gap Analysis</li>
                     </ul>
                 </div>
             </div>

@@ -23,25 +23,40 @@ export const clerkAppearance = {
     elements: {
         rootBox: {
             width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: '0 auto',
         },
         cardBox: {
+            width: '100%',
+            maxWidth: '440px',
             boxShadow: 'none',
             background: 'transparent',
+            margin: '0 auto',
         },
         card: {
+            width: '100%',
             background: 'transparent',
             boxShadow: 'none',
             border: 'none',
+            padding: '0',
+            margin: '0 auto',
+        },
+        header: {
+            textAlign: 'center' as const,
         },
         headerTitle: {
             color: '#fafaf9',
             fontSize: '1.25rem',
-            fontWeight: '500',
+            fontWeight: '600',
+            textAlign: 'center' as const,
         },
         headerSubtitle: {
             color: '#a8a29e',
             fontSize: '0.875rem',
-            fontWeight: '300',
+            fontWeight: '400',
+            textAlign: 'center' as const,
         },
         socialButtonsBlockButton: {
             backgroundColor: 'rgba(255,255,255,0.04)',
@@ -88,6 +103,11 @@ export const clerkAppearance = {
         footerActionLink: {
             color: '#a3e635',
             fontWeight: '500',
+        },
+        footer: {
+            background: 'transparent',
+            justifyContent: 'center',
+            textAlign: 'center' as const,
         },
         identityPreviewText: {
             color: '#e7e5e4',

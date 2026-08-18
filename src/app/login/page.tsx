@@ -42,11 +42,13 @@ export default function LoginPage() {
                         Welcome back. Pick up your next scan.
                     </p>
 
-                    <SignIn
-                        appearance={clerkAppearance}
-                        routing="hash"
-                        forceRedirectUrl="/dashboard"
-                    />
+                    <div className="w-full flex justify-center">
+                        <SignIn
+                            appearance={clerkAppearance}
+                            routing="hash"
+                            forceRedirectUrl="/dashboard"
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -62,14 +64,14 @@ export default function LoginPage() {
                 </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
                 <div className="absolute inset-x-0 bottom-0 z-20 p-12 lg:p-16">
-                    <p className="text-[11px] tracking-[0.3em] uppercase text-lime-400 mb-4">Voice + modes</p>
-                    <p className="font-serif text-3xl lg:text-4xl text-white leading-tight mb-4">
-                        Ad. Content. Product.
+                    <p className="text-[11px] tracking-[0.3em] uppercase text-lime-400 mb-4 font-mono font-bold">Video & Product Intel</p>
+                    <p className="font-sans text-3xl lg:text-4xl text-white font-bold leading-tight mb-4">
+                        Video Intel.
                         <br />
-                        Then speak the brief.
+                        Product Intel.
                     </p>
-                    <p className="text-sm text-stone-400 font-light max-w-sm leading-relaxed">
-                        Sign in to scan viral ads and refine scripts out loud in Voice Lounge.
+                    <p className="text-sm text-stone-400 font-normal max-w-sm leading-relaxed font-sans">
+                        Sign in to scan viral ads, evaluate competitive saturation, and extract winning hooks in seconds.
                     </p>
                 </div>
             </div>

@@ -57,9 +57,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                         if (typeof window !== 'undefined') {
                             localStorage.setItem(`eixora_onboarding_done_${userId}`, 'true');
                         }
-                    } else if (data.onboarding_completed === false && !localDone) {
-                        setShowOnboarding(true);
                     }
+                    // Onboarding popup disabled on web until restructured
                 }
             } catch (err) {
                 console.error('Failed to fetch profile', err);
@@ -222,7 +221,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     </aside>
                 </div>
             )}
-<main className={`flex-1 flex flex-col h-screen relative bg-black ${isAnalyzeHome ? 'overflow-hidden' : 'overflow-auto'}`}>
+<main className="flex-1 flex flex-col h-screen overflow-y-auto relative bg-black">
                 {/* Soft center glow — Gemini-style atmosphere */}
                 <div
                     aria-hidden
@@ -468,6 +467,20 @@ function SidebarContent({ pathname, navItems, handleLogout, isLoggingOut, onClos
                     <Plus className="w-4 h-4" />
                     New scan
                 </Link>
+
+                {profileData?.onboarding_completed === false && (
+                    <Link
+                        href="/dashboard/analyze"
+                        onClick={onClose}
+                        className="flex items-center justify-between px-3 py-2 my-1.5 rounded-xl bg-lime-400/10 border border-lime-400/30 text-lime-400 text-xs font-bold transition-all hover:bg-lime-400/20"
+                    >
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
+                            <span>Complete Setup</span>
+                        </div>
+                        <span className="text-[10px] font-mono opacity-80">15s</span>
+                    </Link>
+                )}
             </div>
 
             <div className="flex-1 overflow-y-auto flex flex-col px-2 pb-3 min-h-0">

@@ -104,7 +104,12 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-serif);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-serif,
+.font-singsong {
+  font-family: var(--font-singsong), Georgia, serif !important;
 }
 
 /* Editorial Utilities */

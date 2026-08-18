@@ -244,7 +244,7 @@ export default function RootLayout({
             name: 'Is Eixora free to use?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Yes. Eixora has a free plan with 3 scans per month. Paid plans start at $5/month for 30 scans.',
+              text: 'Yes. Eixora has a free plan with 3 scans per month. Paid plans start at $9/month for 30 scans.',
             },
           },
           {

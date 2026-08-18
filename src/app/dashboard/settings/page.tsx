@@ -16,6 +16,11 @@ function SettingsContent() {
     
     const [name, setName] = useState(user?.fullName || '');
     const [email, setEmail] = useState(user?.primaryEmailAddress?.emailAddress || '');
+    const [brandStage, setBrandStage] = useState('launching');
+    const [brandPositioning, setBrandPositioning] = useState('minimalist_dtc');
+    const [brandNiche, setBrandNiche] = useState('beauty');
+    const [brandStyle, setBrandStyle] = useState('ugc_iphone');
+    const [primaryGoal, setPrimaryGoal] = useState('niche_bending');
     const [isSaving, setIsSaving] = useState(false);
     const [teamEmail, setTeamEmail] = useState('');
     const [isInviting, setIsInviting] = useState(false);
@@ -107,7 +112,15 @@ function SettingsContent() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ name, userId: user?.id }),
+                body: JSON.stringify({
+                    name,
+                    userId: user?.id,
+                    brand_stage: brandStage,
+                    brand_positioning: brandPositioning,
+                    brand_niche: brandNiche,
+                    brand_style: brandStyle,
+                    primary_goal: primaryGoal,
+                }),
             });
 
             if (res.ok) {
@@ -117,7 +130,7 @@ function SettingsContent() {
 
                 const notification = document.createElement('div');
                 notification.className = "fixed bottom-8 right-8 bg-lime-400 text-slate-950 px-8 py-4 rounded-2xl shadow-2xl z-[100] animate-in slide-in-from-right font-bold text-xs uppercase tracking-widest";
-                notification.innerText = "Identity Synchronized";
+                notification.innerText = "Brand DNA Synchronized";
                 document.body.appendChild(notification);
                 setTimeout(() => notification.remove(), 3000);
             }
@@ -147,6 +160,11 @@ function SettingsContent() {
                         setProfile(data);
                         setName(data.name || user?.fullName || '');
                         setEmail(data.email || user?.primaryEmailAddress?.emailAddress || '');
+                        if (data.brand_stage) setBrandStage(data.brand_stage);
+                        if (data.brand_positioning) setBrandPositioning(data.brand_positioning);
+                        if (data.brand_niche) setBrandNiche(data.brand_niche);
+                        if (data.brand_style) setBrandStyle(data.brand_style);
+                        if (data.primary_goal) setPrimaryGoal(data.primary_goal);
                     }
                 } catch (err) {
 
@@ -238,13 +256,82 @@ function SettingsContent() {
                         </div>
                     </div>
 
+                    {/* Brand DNA Section */}
+                    <div className="pt-6 border-t border-white/10 space-y-6">
+                        <div>
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#bdf522] block mb-1">Brand Intelligence Matrix</span>
+                            <h4 className="text-sm font-bold text-white">Brand DNA Configuration</h4>
+                            <p className="text-xs text-stone-400 mt-0.5">Every video scan uses these parameters to tailor hook rewrites and niche-bending blueprints.</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Brand Stage</label>
+                                <select
+                                    value={brandStage}
+                                    onChange={(e) => setBrandStage(e.target.value)}
+                                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-xs text-stone-200 focus:ring-1 focus:ring-[#bdf522] focus:border-[#bdf522]"
+                                >
+                                    <option value="launching" className="bg-[#0e1210]">Launching a New Brand</option>
+                                    <option value="scaling_dtc" className="bg-[#0e1210]">Scaling an Established DTC Brand</option>
+                                    <option value="founder_led" className="bg-[#0e1210]">Founder-Led Brand</option>
+                                    <option value="agency" className="bg-[#0e1210]">Brand Studio / Creative Agency</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Brand Aesthetic & Tone</label>
+                                <select
+                                    value={brandPositioning}
+                                    onChange={(e) => setBrandPositioning(e.target.value)}
+                                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-xs text-stone-200 focus:ring-1 focus:ring-[#bdf522] focus:border-[#bdf522]"
+                                >
+                                    <option value="minimalist_dtc" className="bg-[#0e1210]">Clean Modern DTC (Subtle & Refined)</option>
+                                    <option value="clinical_trust" className="bg-[#0e1210]">Clinical & High-Trust (Proof & Authority)</option>
+                                    <option value="luxury_aspirational" className="bg-[#0e1210]">Elevated & Luxury (Prestige)</option>
+                                    <option value="bold_challenger" className="bg-[#0e1210]">Bold Challenger (Direct & Punchy)</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Primary Vertical</label>
+                                <select
+                                    value={brandNiche}
+                                    onChange={(e) => setBrandNiche(e.target.value)}
+                                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-xs text-stone-200 focus:ring-1 focus:ring-[#bdf522] focus:border-[#bdf522]"
+                                >
+                                    <option value="beauty" className="bg-[#0e1210]">Beauty & Skincare</option>
+                                    <option value="tech" className="bg-[#0e1210]">Tech & Gadgets</option>
+                                    <option value="fashion" className="bg-[#0e1210]">Fashion & Apparel</option>
+                                    <option value="fitness" className="bg-[#0e1210]">Health & Wellness</option>
+                                    <option value="home" className="bg-[#0e1210]">Home & Living</option>
+                                    <option value="multi" className="bg-[#0e1210]">Multi-Brand Studio</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Creative Production Setup</label>
+                                <select
+                                    value={brandStyle}
+                                    onChange={(e) => setBrandStyle(e.target.value)}
+                                    className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3 text-xs text-stone-200 focus:ring-1 focus:ring-[#bdf522] focus:border-[#bdf522]"
+                                >
+                                    <option value="ugc_iphone" className="bg-[#0e1210]">Native UGC & iPhone Content</option>
+                                    <option value="founder_camera" className="bg-[#0e1210]">Founder Talking Head</option>
+                                    <option value="studio_cinema" className="bg-[#0e1210]">Studio Cinema & Macro B-Roll</option>
+                                    <option value="faceless_motion" className="bg-[#0e1210]">Faceless & Motion Design</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="pt-6 sm:pt-8 border-t border-white/10 flex justify-end">
                         <button
                             onClick={handleSave}
                             disabled={isSaving}
                             className="w-full sm:w-auto px-10 py-4 sm:py-5 bg-lime-400 text-slate-950 text-[10px] font-bold uppercase tracking-[0.3em] rounded-xl sm:rounded-2xl hover:bg-lime-300 transition-all disabled:opacity-50 active:scale-95"
                         >
-                            {isSaving ? 'Updating Identity...' : 'Save Configuration'}
+                            {isSaving ? 'Synchronizing...' : 'Save Brand DNA'}
                         </button>
                     </div>
                 </div>
@@ -393,18 +480,17 @@ function SettingsContent() {
                 </div>
 
                 <div className="lg:col-span-8 bg-white/[0.03] rounded-2xl sm:rounded-[2.5rem] border border-white/10 p-6 sm:p-10 md:p-12 space-y-6 sm:space-y-8">
-                    <button
-                        onClick={() => router.push('/about')}
-                        className="w-full text-left flex items-center justify-between p-4 sm:p-6 bg-white/[0.04] rounded-xl sm:rounded-2xl hover:bg-white/[0.06] transition-all border border-transparent hover:border-white/10 group"
-                    >
+                    <div className="flex items-center justify-between p-4 sm:p-6 bg-white/[0.04] rounded-xl sm:rounded-2xl border border-white/5">
                         <div className="space-y-1">
-                            <h4 className="text-sm sm:text-base font-bold text-stone-100">About Eixora</h4>
-                            <p className="text-[10px] sm:text-xs text-stone-500 font-medium">Version 1.0.0</p>
+                            <h4 className="text-sm sm:text-base font-bold text-stone-100">Eixora Brand Intelligence</h4>
+                            <p className="text-[10px] sm:text-xs text-stone-500 font-mono">v1.2.0 · Production</p>
                         </div>
-                        <svg className="w-5 h-5 text-stone-500 group-hover:text-stone-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
+                        <div className="flex items-center gap-3 text-xs text-stone-400">
+                            <a href="/terms" target="_blank" className="hover:text-stone-200 transition-colors">Terms</a>
+                            <span>·</span>
+                            <a href="/privacy" target="_blank" className="hover:text-stone-200 transition-colors">Privacy</a>
+                        </div>
+                    </div>
 
                     <div className="pt-2">
                         <button

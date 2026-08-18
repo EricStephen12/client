@@ -14,20 +14,18 @@ interface PricingSectionProps {
 }
 
 export default function PricingSection({ currentTier, userEmail, showQuotas, usage }: PricingSectionProps) {
-
     const plans = [
         {
             id: 'free',
-            name: 'Free Trial',
+            name: 'Free',
             price: '$0',
             period: '/mo',
-            badge: 'Get Started',
+            badge: 'Basic Access',
             description: 'Test the engine — no card needed',
             features: [
-                '3 Studio Scans / month',
-                'Up to 90 second videos',
-                'Ad, Content & Product Intel',
-                'Voice Lounge',
+                '3 scans / month',
+                'Up to 90s videos',
+                'Video Intel & Product Intel',
             ],
             productId: null,
             buttonText: currentTier === 'free' ? 'Current Plan ✓' : 'Start Free',
@@ -36,54 +34,52 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
         },
         {
             id: 'creator',
-            name: 'The Creator',
-            price: '$5',
+            name: 'Creator',
+            price: '$9',
             period: '/mo',
             badge: 'Most Popular',
-            description: 'For serious creators and dropshippers',
+            description: 'For serious operators and brand builders',
             features: [
-                '30 Studio Scans / month',
-                'Up to 5 minute videos',
-                'All three scan modes',
-                'Voice Lounge',
-                'Niche Benchmark Reports',
+                '30 scans / month',
+                'Up to 5m videos',
+                'Both scan modes',
+                'Priority processing',
             ],
             productId: process.env.NEXT_PUBLIC_POLAR_CREATOR_ID || 'creator_placeholder',
             buttonText: currentTier === 'creator' ? 'Current Plan ✓' : 'Upgrade to Creator',
             buttonHref: null,
-            highlight: false,
+            highlight: true,
         },
         {
             id: 'studio',
-            name: 'The Studio',
-            price: '$10',
+            name: 'Studio',
+            price: '$15',
             period: '/mo',
             badge: 'Best Value',
-            description: 'Full arsenal for high-volume creators',
+            description: 'Full arsenal for high-volume teams',
             features: [
-                '100 Studio Scans / month',
-                'Up to 30 minute videos',
-                'Voice Lounge',
-                'Priority AI Processing',
-                'Niche Benchmark Reports',
+                '100 scans / month',
+                'Up to 30m videos',
+                'Premium deep-dive AI',
+                'Priority processing',
             ],
             productId: process.env.NEXT_PUBLIC_POLAR_STUDIO_ID || 'studio_placeholder',
             buttonText: currentTier === 'studio' || currentTier === 'agency' ? 'Current Plan ✓' : 'Enter The Studio',
             buttonHref: null,
-            highlight: true,
+            highlight: false,
         }
     ];
 
     return (
-        <div className="space-y-16 w-full max-w-5xl mx-auto">
+        <div className="w-full max-w-5xl mx-auto font-sans">
             <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={{
                     hidden: { opacity: 0 },
-                    visible: { opacity: 1, transition: { staggerChildren: 0.12 } }
+                    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
                 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8"
+                className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6"
             >
                 {plans.map((plan) => {
                     const isCurrent = currentTier === plan.id || (plan.id === 'studio' && currentTier === 'agency');
@@ -92,129 +88,101 @@ export default function PricingSection({ currentTier, userEmail, showQuotas, usa
                     return (
                         <motion.div
                             key={plan.id}
-                            variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0 } }}
-                            whileHover={{ y: -4 }}
-                            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                            className={`relative rounded-3xl flex flex-col overflow-hidden transition-shadow duration-300 border ${
+                            variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+                            whileHover={{ y: -3 }}
+                            transition={{ type: 'spring', stiffness: 220, damping: 22 }}
+                            className={`relative rounded-3xl flex flex-col justify-between transition-all duration-300 border ${
                                 isHighlight
-                                    ? 'bg-[#141a16] text-stone-100 border-lime-400/30'
-                                    : 'bg-white/[0.03] border-white/10 hover:border-white/20'
+                                    ? 'bg-[#141a16] text-stone-100 border-[#bdf522]/40 shadow-xl shadow-[#bdf522]/5'
+                                    : 'bg-white/[0.02] border-white/10 hover:border-white/20'
                             }`}
                         >
                             {/* Popular badge */}
                             {isHighlight && (
-                                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-lime-400 via-emerald-400 to-lime-500" />
+                                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-lime-400 via-emerald-400 to-[#bdf522]" />
                             )}
                             {isCurrent && (
-                                <div className="absolute top-5 right-5 bg-lime-400 text-slate-950 text-[9px] font-black px-3 py-1.5 rounded-full tracking-widest uppercase shadow-md">
+                                <div className="absolute top-5 right-5 bg-[#bdf522] text-slate-950 text-[9px] font-mono font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
                                     Active
                                 </div>
                             )}
                             {isHighlight && !isCurrent && (
-                                <div className="absolute top-5 right-5 flex items-center gap-1.5 bg-lime-400/20 text-lime-400 text-[9px] font-black px-3 py-1.5 rounded-full tracking-widest uppercase">
+                                <div className="absolute top-5 right-5 flex items-center gap-1 bg-[#bdf522]/15 text-[#bdf522] text-[9px] font-mono font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-[#bdf522]/30">
                                     <Sparkles className="w-3 h-3" />
                                     Popular
                                 </div>
                             )}
 
-                            <div className="p-8 sm:p-10 flex-1 flex flex-col">
+                            <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-6">
                                 {/* Plan header */}
-                                <div className="mb-8">
-                                    <span className={`text-[10px] font-black tracking-[0.3em] uppercase italic block mb-4 ${isHighlight ? 'text-lime-500' : 'text-stone-500'}`}>
+                                <div>
+                                    <span className={`text-[10px] font-mono font-bold tracking-widest uppercase block mb-2 ${isHighlight ? 'text-[#bdf522]' : 'text-stone-400'}`}>
                                         {plan.badge}
                                     </span>
-                                    <h3 className={`text-2xl font-bold mb-1 ${isHighlight ? 'text-white' : 'text-stone-50'}`}>{plan.name}</h3>
-                                    <p className={`text-sm font-medium ${isHighlight ? 'text-stone-500' : 'text-stone-500'}`}>{plan.description}</p>
+                                    <h3 className="text-2xl font-bold text-white mb-1 font-sans">{plan.name}</h3>
+                                    <p className="text-xs text-stone-400 leading-relaxed">{plan.description}</p>
                                     
-                                    <div className="flex items-baseline gap-1.5 mt-6">
-                                        <span className={`text-5xl sm:text-6xl font-bold ${isHighlight ? 'text-white' : 'text-stone-50'}`}>{plan.price}</span>
-                                        <span className={`text-xl font-light italic ${isHighlight ? 'text-stone-500' : 'text-stone-500'}`}>{plan.period}</span>
+                                    <div className="flex items-baseline gap-1 mt-5">
+                                        <span className="text-4xl sm:text-5xl font-bold text-white font-sans">{plan.price}</span>
+                                        <span className="text-sm text-stone-400 font-mono">{plan.period}</span>
                                     </div>
                                 </div>
 
                                 {/* Features */}
-                                <ul className="space-y-4 mb-10 flex-1">
+                                <ul className="space-y-3 py-2 flex-1 border-t border-white/5">
                                     {plan.features.map((f) => (
-                                        <li key={f} className="flex items-start gap-3">
-                                            <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${isHighlight ? 'bg-lime-400/20 text-lime-400' : 'bg-white/10 text-stone-400'}`}>
-                                                <Check className="w-3 h-3" strokeWidth={3} />
+                                        <li key={f} className="flex items-center gap-2.5 text-xs text-stone-300 font-sans">
+                                            <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${isHighlight ? 'bg-[#bdf522]/20 text-[#bdf522]' : 'bg-white/10 text-stone-400'}`}>
+                                                <Check className="w-2.5 h-2.5" strokeWidth={3} />
                                             </div>
-                                            <span className={`text-sm font-medium leading-snug ${isHighlight ? 'text-stone-400' : 'text-stone-300'}`}>{f}</span>
+                                            <span>{f}</span>
                                         </li>
                                     ))}
                                 </ul>
 
                                 {/* CTA */}
-                                {plan.buttonHref ? (
-                                    <a
-                                        href={plan.buttonHref}
-                                        className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-2xl text-center flex items-center justify-center gap-2 active:scale-95 ${
-                                            isHighlight
-                                                ? 'bg-lime-400 text-slate-950 hover:bg-lime-300 shadow-xl shadow-lime-500/20'
-                                                : 'bg-lime-400 text-slate-950 hover:bg-lime-300 hover:text-slate-950'
-                                        }`}
-                                    >
-                                        {plan.buttonText}
-                                        <ArrowRight className="w-3.5 h-3.5" />
-                                    </a>
-                                ) : plan.productId && !isCurrent ? (
-                                    <CheckoutButton
-                                        productId={plan.productId}
-                                        className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] transition-all rounded-2xl text-center flex items-center justify-center gap-2 active:scale-95 ${
-                                            isHighlight
-                                                ? 'bg-lime-400 text-slate-950 hover:bg-lime-300 shadow-xl shadow-lime-500/20'
-                                                : 'bg-lime-400 text-slate-950 hover:bg-lime-300 hover:text-slate-950'
-                                        }`}
-                                    >
-                                        {plan.buttonText}
-                                        <ArrowRight className="w-3.5 h-3.5" />
-                                    </CheckoutButton>
-                                ) : (
-                                    <button
-                                        disabled
-                                        className={`w-full py-5 text-[10px] font-black uppercase tracking-[0.4em] rounded-2xl cursor-not-allowed flex items-center justify-center gap-2 ${
-                                            isCurrent
-                                                ? isHighlight ? 'bg-lime-400/20 text-lime-400 border border-lime-500/30' : 'bg-lime-400/15 text-lime-300 border border-lime-400/30'
-                                                : 'bg-white/5 text-stone-600 border border-white/10'
-                                        }`}
-                                    >
-                                        {plan.buttonText}
-                                    </button>
-                                )}
+                                <div className="pt-2">
+                                    {plan.buttonHref ? (
+                                        <a
+                                            href={plan.buttonHref}
+                                            className={`w-full py-3.5 text-xs font-bold uppercase tracking-wider transition-all rounded-xl text-center flex items-center justify-center gap-2 font-sans ${
+                                                isHighlight
+                                                    ? 'bg-[#bdf522] text-slate-950 hover:bg-[#aee618]'
+                                                    : 'border border-white/15 text-white hover:bg-white/5'
+                                            }`}
+                                        >
+                                            {plan.buttonText}
+                                        </a>
+                                    ) : plan.productId && !isCurrent ? (
+                                        <CheckoutButton
+                                            productId={plan.productId}
+                                            className={`w-full py-3.5 text-xs font-bold uppercase tracking-wider transition-all rounded-xl text-center flex items-center justify-center gap-2 font-sans ${
+                                                isHighlight
+                                                    ? 'bg-[#bdf522] text-slate-950 hover:bg-[#aee618] shadow-lg shadow-[#bdf522]/20'
+                                                    : 'border border-white/15 text-white hover:bg-white/5'
+                                            }`}
+                                        >
+                                            {plan.buttonText}
+                                            <ArrowRight className="w-3.5 h-3.5" />
+                                        </CheckoutButton>
+                                    ) : (
+                                        <button
+                                            disabled
+                                            className={`w-full py-3.5 text-xs font-bold uppercase tracking-wider rounded-xl cursor-not-allowed flex items-center justify-center gap-2 font-sans ${
+                                                isCurrent
+                                                    ? 'bg-[#bdf522]/15 text-[#bdf522] border border-[#bdf522]/30'
+                                                    : 'bg-white/5 text-stone-600 border border-white/10'
+                                            }`}
+                                        >
+                                            {plan.buttonText}
+                                        </button>
+                                    )}
+                                </div>
                             </div>
                         </motion.div>
                     );
                 })}
             </motion.div>
-
-            {/* Usage quotas */}
-            {showQuotas && currentTier === 'free' && usage && (
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 gap-6"
-                >
-                    {[
-                        { label: 'Studio Scans Remaining', used: usage.scans, max: 3, color: 'lime' },
-                        { label: 'Strategy Briefs Remaining', used: usage.scripts, max: 3, color: 'slate' },
-                    ].map(({ label, used, max, color }) => (
-                        <div key={label} className="bg-white/[0.03] rounded-2xl border border-white/10 p-6 space-y-3">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-stone-500 block">{label}</span>
-                            <div className="flex items-end gap-2">
-                                <span className="text-4xl font-serif text-stone-50">{Math.max(0, max - used)}</span>
-                                <span className="text-stone-500 font-light mb-1 text-xl">/ {max}</span>
-                            </div>
-                            <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
-                                <div
-                                    className={`h-full rounded-full transition-all duration-1000 ${color === 'lime' ? 'bg-lime-400' : 'bg-stone-400'}`}
-                                    style={{ width: `${Math.min(100, (used / max) * 100)}%` }}
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </motion.div>
-            )}
         </div>
     );
 }

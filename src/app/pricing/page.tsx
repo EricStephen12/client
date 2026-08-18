@@ -37,8 +37,8 @@ export default function PricingPage() {
                     <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white tracking-tight mb-4">
                         Simple pricing.
                     </h1>
-                    <p className="text-base sm:text-lg text-stone-500 font-light leading-relaxed">
-                        Start free with Ad, Content, and Product Intel — plus Voice Lounge. Scale when the briefs pay for themselves.
+                    <p className="text-base sm:text-lg text-stone-500 font-light leading-relaxed font-sans">
+                        Start free with Video Intel and Product Intel. Scale when the insights pay for themselves.
                     </p>
                 </div>
 
