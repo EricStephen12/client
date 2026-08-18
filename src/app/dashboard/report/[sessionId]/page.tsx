@@ -1,13 +1,18 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
+import { Download, Loader2 } from 'lucide-react';
+import { exportElementToPdf } from '@/utils/exportPdf';
+
 export default function ReportPage() {
     const { sessionId } = useParams();
     const { getToken } = useAuth();
     const [data, setData] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isExporting, setIsExporting] = useState(false);
+    const reportRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
         const fetchReport = async () => {
@@ -28,12 +33,25 @@ export default function ReportPage() {
             }
         };
         fetchReport();
-    }, [sessionId]);
+    }, [sessionId, getToken]);
+
+    const handleExportPdf = async () => {
+        if (!reportRef.current || isExporting) return;
+        setIsExporting(true);
+        try {
+            const filename = `Eixora-Audit-${displayTitle.toLowerCase().replace(/[^a-z0-9]/gi, '-').slice(0, 40)}.pdf`;
+            await exportElementToPdf(reportRef.current, filename);
+        } catch (err) {
+            console.error('PDF export failed', err);
+        } finally {
+            setIsExporting(false);
+        }
+    };
 
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-[#0a0c0b] px-4">
-                <div className="w-8 h-8 border-2 border-lime-400 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-2 border-[#bdf522] border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -58,25 +76,35 @@ export default function ReportPage() {
         : cleanTitle;
 
     return (
-        <div className="min-h-screen bg-[#0a0c0b] text-stone-100 py-6 sm:py-12 px-4 sm:px-6 md:px-12 print:bg-white/[0.03] print:text-stone-50 print:p-0">
+        <div className="min-h-screen bg-[#0a0c0b] text-stone-100 py-6 sm:py-12 px-4 sm:px-6 md:px-12 print:bg-white/[0.03] print:text-stone-50 print:p-0 font-sans">
 
             <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 print:hidden">
                 <Link
                     href="/dashboard/analyze"
-                    className="text-[10px] font-bold uppercase tracking-widest text-stone-500 hover:text-lime-400 transition-colors flex items-center gap-2 self-start sm:self-auto"
+                    className="text-[10px] font-mono font-bold uppercase tracking-widest text-stone-400 hover:text-[#bdf522] transition-colors flex items-center gap-2 self-start sm:self-auto"
                 >
                     &larr; Back to Studio
                 </Link>
                 <button
-                    onClick={() => window.print()}
-                    className="w-full sm:w-auto px-6 py-3 bg-lime-400 text-slate-950 text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-lime-300 transition-all flex items-center justify-center gap-2"
+                    onClick={handleExportPdf}
+                    disabled={isExporting}
+                    className="w-full sm:w-auto px-6 py-3 bg-[#bdf522] text-slate-950 text-[10px] font-mono font-bold uppercase tracking-widest rounded-xl hover:bg-[#aee618] transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#bdf522]/15 active:scale-95 disabled:opacity-75 cursor-pointer"
                 >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
-                    Print / Save PDF
+                    {isExporting ? (
+                        <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Exporting PDF...
+                        </>
+                    ) : (
+                        <>
+                            <Download className="w-4 h-4" />
+                            Export as PDF
+                        </>
+                    )}
                 </button>
             </div>
 
-            <article className="max-w-4xl mx-auto bg-[#0e1210] rounded-2xl sm:rounded-[3rem] overflow-hidden border border-white/10 print:bg-white/[0.03] print:shadow-none print:border-none print:rounded-none">
+            <article ref={reportRef} className="max-w-4xl mx-auto bg-[#0e1210] rounded-2xl sm:rounded-[3rem] overflow-hidden border border-white/10 print:bg-white/[0.03] print:shadow-none print:border-none print:rounded-none">
 
                 <header className="bg-[#0a0c0b] text-stone-100 p-8 sm:p-12 md:p-16 relative overflow-hidden border-b border-white/10 print:bg-gray-900 print:text-white">
                     <div className="absolute top-0 right-0 p-8 sm:p-12 opacity-10 font-signature text-6xl sm:text-8xl">Eixora.</div>

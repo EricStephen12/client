@@ -206,8 +206,8 @@ export default function IxoraIntelligenceDashboard({
               href={`/dashboard/report/${sessionId}`}
               className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 border border-white/10 text-stone-300 text-xs font-semibold transition-all"
             >
-              <FileText className="w-4 h-4 text-emerald-400" />
-              Full PDF
+              <FileText className="w-4 h-4 text-[#bdf522]" />
+              Export PDF
             </Link>
           )}
 

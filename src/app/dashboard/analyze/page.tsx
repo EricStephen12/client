@@ -119,7 +119,7 @@ function AnalyzeContent() {
         window.dispatchEvent(new CustomEvent('session-updated'));
     }, [userId, getToken, user]);
 
-    const loadSession = async (id: string) => {
+    const loadSession = async (id: string, attempt = 0) => {
         try {
             const token = await getToken();
             const res = await fetch(`/api/main/api/lounge-session/${id}`, {
@@ -133,11 +133,13 @@ function AnalyzeContent() {
                     try { parsedDna = JSON.parse(parsedDna); } catch(e){}
                 }
 
-                // If background processing is active, poll again after delay
+                // If background processing is active, exponential backoff re-poll
+                // Delays: 2s → 4s → 8s → 16s → cap at 30s (industry standard)
                 if (parsedDna && parsedDna.status === 'processing') {
                     setIsAnalyzing(true);
                     setSessionId(data.id);
-                    setTimeout(() => loadSession(id), 2500);
+                    const delay = Math.min(2000 * Math.pow(2, attempt), 30000);
+                    setTimeout(() => loadSession(id, attempt + 1), delay);
                     return;
                 }
 
