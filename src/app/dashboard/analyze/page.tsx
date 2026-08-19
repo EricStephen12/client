@@ -264,7 +264,9 @@ function AnalyzeContent() {
                 const token = await getToken();
                 const formData = new FormData();
                 formData.append('file', file);
-                formData.append('userId', userId || '');
+                formData.append('userId', userId || user?.id || '');
+                formData.append('userEmail', user?.primaryEmailAddress?.emailAddress || '');
+                formData.append('userName', user?.fullName || user?.firstName || '');
                 formData.append('mode', currentMode);
                 formData.append('niche', (user?.unsafeMetadata?.role as string) || '');
 
@@ -314,7 +316,9 @@ function AnalyzeContent() {
                 method: 'POST',
                 body: JSON.stringify({ 
                     sourceUrl: url, 
-                    userId, 
+                    userId: userId || user?.id, 
+                    userEmail: user?.primaryEmailAddress?.emailAddress || '',
+                    userName: user?.fullName || user?.firstName || '',
                     mode: currentMode,
                     niche: user?.unsafeMetadata?.role || ''
                 }),
