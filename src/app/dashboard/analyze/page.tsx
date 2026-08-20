@@ -286,9 +286,9 @@ function AnalyzeContent() {
                         const text = await res.text();
                         try {
                             const errData = JSON.parse(text);
-                            errorMessage = errData.details || errData.error || errorMessage;
+                            errorMessage = errData.details || errData.error || errData.message || (typeof errData === 'string' ? errData : null) || errorMessage;
                         } catch (e) {
-                            errorMessage = `Server Error (${res.status}): ${text.substring(0, 100)}`;
+                            errorMessage = `Server Error (${res.status}): ${text.substring(0, 150)}`;
                         }
                     } catch (e) {}
                     throw new Error(errorMessage);
@@ -338,9 +338,9 @@ function AnalyzeContent() {
                     const text = await res.text();
                     try {
                         const errorData = JSON.parse(text);
-                        errorMessage = errorData.details || errorData.error || errorMessage;
+                        errorMessage = errorData.details || errorData.error || errorData.message || (typeof errorData === 'string' ? errorData : null) || errorMessage;
                     } catch(e) {
-                        errorMessage = `Server Error (${res.status}): ${text.substring(0, 100)}`;
+                        errorMessage = `Server Error (${res.status}): ${text.substring(0, 150)}`;
                     }
                 } catch(e) {}
                 throw new Error(errorMessage);
