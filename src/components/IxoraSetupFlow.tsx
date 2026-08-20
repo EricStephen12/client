@@ -21,6 +21,8 @@ import {
   ShoppingBag,
   ArrowRight,
   CheckCircle2,
+  Sliders,
+  Check,
 } from 'lucide-react';
 
 interface IxoraSetupFlowProps {
@@ -62,80 +64,80 @@ export default function IxoraSetupFlow({
     },
     {
       id: 'founder_led',
-      label: 'Founder-Led Brand',
-      desc: 'Authentic founder storytelling & organic brand growth',
+      label: 'Founder-Led / Personal Brand',
+      desc: 'High-authority founder camera formats and direct connection',
       icon: Video,
     },
     {
       id: 'agency',
       label: 'Brand Studio / Agency',
-      desc: 'Developing high-converting creative briefs for brands',
+      desc: 'High-volume angle testing across multiple client verticals',
       icon: Building2,
     },
   ];
 
-  // Step 2: Brand Positioning & Aesthetic
+  // Step 2: Positioning & Aesthetic
   const positionings = [
     {
       id: 'minimalist_dtc',
       label: 'Clean Modern DTC',
-      desc: 'Apple & Glossier style — subtle, aesthetic, refined',
+      desc: 'High-trust, aesthetic product shots and lifestyle proof',
       icon: Gem,
     },
     {
       id: 'clinical_trust',
-      label: 'Clinical & High-Trust',
-      desc: 'Demonstration, proof, expert authority & zero fluff',
+      label: 'Clinical & Science-Backed',
+      desc: 'Problem-aware breakdown, ingredient focus, and proof tests',
       icon: FlaskConical,
     },
     {
       id: 'luxury_aspirational',
       label: 'Elevated & Luxury',
-      desc: 'Desire-driven, prestige, premium positioning',
+      desc: 'Subtle elegance, premium design, and sensory storytelling',
       icon: Crown,
     },
     {
       id: 'bold_challenger',
-      label: 'Bold Challenger',
-      desc: 'Disrupting legacy brands, punchy & energetic',
+      label: 'Bold & Disruptive',
+      desc: 'Shocking contrasts, aggressive pattern interrupts, high energy',
       icon: Zap,
     },
   ];
 
-  // Step 3: Primary Vertical
+  // Step 3: Vertical / Niche
   const niches = [
-    { id: 'beauty', label: 'Beauty & Skincare', emoji: '💄' },
-    { id: 'tech', label: 'Tech & Gadgets', emoji: '⚡' },
-    { id: 'fashion', label: 'Fashion & Apparel', emoji: '👗' },
-    { id: 'fitness', label: 'Health & Wellness', emoji: '🏋️' },
-    { id: 'home', label: 'Home & Living', emoji: '🏠' },
-    { id: 'multi', label: 'Multi-Brand Studio', emoji: '📦' },
+    { id: 'beauty', label: 'Beauty & Skincare' },
+    { id: 'tech', label: 'Tech & Consumer Electronics' },
+    { id: 'fashion', label: 'Fashion & Apparel' },
+    { id: 'fitness', label: 'Health, Wellness & Fitness' },
+    { id: 'home', label: 'Home, Kitchen & Living' },
+    { id: 'multi', label: 'Multi-Category / Testing' },
   ];
 
-  // Step 4: Creative & Production Setup
+  // Step 4: Production Setup
   const productions = [
     {
       id: 'ugc_iphone',
-      label: 'Native UGC & iPhone',
-      desc: 'Handheld, authentic framing & natural light',
+      label: 'Native iPhone / UGC',
+      desc: 'Raw front-camera hooks, natural light, zero agency gloss',
       icon: Smartphone,
     },
     {
       id: 'founder_camera',
       label: 'Founder Talking Head',
-      desc: 'Direct-to-camera founder insights & podcast setup',
+      desc: 'Direct-to-lens founder authority, mic-in-hand, story hooks',
       icon: Mic,
     },
     {
       id: 'studio_cinema',
-      label: 'Studio & Cinema B-Roll',
-      desc: 'Clean softbox lighting, macro shots & pro editing',
+      label: 'Cinema & Studio B-Roll',
+      desc: 'Macro lens textures, studio lighting, high production value',
       icon: Clapperboard,
     },
     {
       id: 'faceless_motion',
-      label: 'Faceless & Motion Design',
-      desc: 'Sourced clips, sound design & bold text overlays',
+      label: 'Faceless & Motion Graphics',
+      desc: 'Fast cut b-roll, text kinetic overlays, dynamic sound design',
       icon: Layers,
     },
   ];
@@ -145,19 +147,19 @@ export default function IxoraSetupFlow({
     {
       id: 'niche_bending',
       label: 'Niche Bending & Angle Gaps',
-      desc: 'Stand out from copycats with fresh brand positioning',
+      desc: 'Steal winning psychological mechanics from other verticals',
       icon: Shuffle,
     },
     {
       id: 'thumbstop_hook',
-      label: 'First 3s Thumb-Stop Power',
-      desc: 'Fix scroll-past drop-off in high-competition feeds',
+      label: '0–3s Thumb-Stop Power',
+      desc: 'Maximize visual pattern interrupts to halt the scroll',
       icon: Target,
     },
     {
       id: 'retention_pacing',
-      label: 'Watch-Time & Retention Pacing',
-      desc: 'Keep viewers hooked through the entire story arc',
+      label: 'Retention & Watch Pacing',
+      desc: 'Eliminate dead zones to keep viewers through the CTA',
       icon: TrendingUp,
     },
     {
@@ -222,9 +224,16 @@ export default function IxoraSetupFlow({
       console.error('Failed to save brand profile setup:', err);
     } finally {
       setIsSubmitting(false);
-      onComplete();
+      // Transition to beautiful step 6 celebration
+      setStep(6);
     }
   };
+
+  const getStageLabel = () => stages.find((s) => s.id === stage)?.label || stage;
+  const getPositioningLabel = () => positionings.find((p) => p.id === positioning)?.label || positioning;
+  const getNicheLabel = () => niches.find((n) => n.id === niche)?.label || niche;
+  const getProductionLabel = () => productions.find((p) => p.id === production)?.label || production;
+  const getGoalLabel = () => goals.find((g) => g.id === goal)?.label || goal;
 
   return (
     <div className="w-full max-w-xl mx-auto bg-[#0e1210] border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden font-sans">
@@ -235,13 +244,15 @@ export default function IxoraSetupFlow({
       <div className="mb-8 space-y-2">
         <div className="flex justify-between items-center text-xs font-mono font-bold uppercase tracking-widest text-stone-400">
           <span>Brand Intelligence Setup</span>
-          <span className="text-[#bdf522]">Step {step} of 5</span>
+          <span className="text-[#bdf522]">
+            {step === 6 ? 'Setup Complete ✓' : `Step ${step} of 5`}
+          </span>
         </div>
         <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-[#bdf522]"
             initial={{ width: '20%' }}
-            animate={{ width: `${(step / 5) * 100}%` }}
+            animate={{ width: `${Math.min(100, (step / 5) * 100)}%` }}
             transition={{ duration: 0.3 }}
           />
         </div>
@@ -262,7 +273,7 @@ export default function IxoraSetupFlow({
                 Where is your brand right now?
               </h2>
               <p className="text-xs sm:text-sm text-stone-400 font-sans">
-                Eixora calibrates market reads and creative velocity to your stage.
+                Eixora tailors strategic maturity and saturation reads to your phase.
               </p>
             </div>
 
@@ -296,7 +307,7 @@ export default function IxoraSetupFlow({
           </motion.div>
         )}
 
-        {/* Step 2: Brand Positioning */}
+        {/* Step 2: Positioning & Aesthetic */}
         {step === 2 && (
           <motion.div
             key="step2"
@@ -307,33 +318,36 @@ export default function IxoraSetupFlow({
           >
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1 font-sans">
-                What is your brand aesthetic & tone?
+                What is your brand&apos;s aesthetic tone?
               </h2>
               <p className="text-xs sm:text-sm text-stone-400 font-sans">
-                Ensures script rewrites reflect your authentic positioning, not cheap hype.
+                Hook scripts will be written in this exact voice.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="space-y-2.5">
               {positionings.map((item) => {
                 const Icon = item.icon;
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleSelectPositioning(item.id)}
-                    className="p-4 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-[#bdf522]/40 hover:bg-white/[0.04] text-left transition-all group flex flex-col justify-between space-y-3"
+                    className="w-full p-4 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-[#bdf522]/40 hover:bg-white/[0.04] text-left transition-all group flex items-center justify-between gap-4"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-stone-900 border border-white/10 flex items-center justify-center text-[#bdf522] group-hover:scale-105 transition-transform">
-                      <Icon className="w-5 h-5" />
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-stone-900 border border-white/10 flex items-center justify-center text-[#bdf522] flex-shrink-0 group-hover:scale-105 transition-transform">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-white group-hover:text-[#bdf522] transition-colors">
+                          {item.label}
+                        </p>
+                        <p className="text-[11px] text-stone-400 leading-snug">
+                          {item.desc}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-white group-hover:text-[#bdf522] transition-colors">
-                        {item.label}
-                      </p>
-                      <p className="text-[11px] text-stone-400 leading-snug mt-0.5">
-                        {item.desc}
-                      </p>
-                    </div>
+                    <ArrowRight className="w-4 h-4 text-stone-500 group-hover:text-[#bdf522] transition-colors flex-shrink-0" />
                   </button>
                 );
               })}
@@ -341,7 +355,7 @@ export default function IxoraSetupFlow({
           </motion.div>
         )}
 
-        {/* Step 3: Vertical */}
+        {/* Step 3: Vertical / Niche */}
         {step === 3 && (
           <motion.div
             key="step3"
@@ -355,30 +369,28 @@ export default function IxoraSetupFlow({
                 What is your primary vertical?
               </h2>
               <p className="text-xs sm:text-sm text-stone-400 font-sans">
-                Calibrates viral benchmarks and saturation reads to your market.
+                Select your industry focus for tailored angle-gap discoveries.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {niches.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleSelectNiche(item.id)}
-                  className="p-4 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-[#bdf522]/40 hover:bg-white/[0.04] text-center transition-all group flex flex-col items-center justify-center space-y-2"
+                  className="p-4 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-[#bdf522]/40 hover:bg-white/[0.04] text-left transition-all group flex items-center justify-between"
                 >
-                  <span className="text-2xl group-hover:scale-110 transition-transform">
-                    {item.emoji}
-                  </span>
-                  <span className="text-xs font-bold text-stone-200 group-hover:text-white">
+                  <span className="text-sm font-bold text-white group-hover:text-[#bdf522] transition-colors">
                     {item.label}
                   </span>
+                  <ArrowRight className="w-4 h-4 text-stone-500 group-hover:text-[#bdf522] transition-colors" />
                 </button>
               ))}
             </div>
           </motion.div>
         )}
 
-        {/* Step 4: Creative & Production Setup */}
+        {/* Step 4: Camera / Production Setup */}
         {step === 4 && (
           <motion.div
             key="step4"
@@ -389,10 +401,10 @@ export default function IxoraSetupFlow({
           >
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight mb-1 font-sans">
-                How do you produce content?
+                How do you film your content?
               </h2>
               <p className="text-xs sm:text-sm text-stone-400 font-sans">
-                Eixora tailors hook scripts and camera direction to your exact setup.
+                Camera directions and director cues will match your exact setup.
               </p>
             </div>
 
@@ -475,6 +487,70 @@ export default function IxoraSetupFlow({
                 Saving your brand DNA profile…
               </div>
             )}
+          </motion.div>
+        )}
+
+        {/* Step 6: Beautiful Celebration & Confirmation Screen */}
+        {step === 6 && (
+          <motion.div
+            key="step6"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center py-4 space-y-6"
+          >
+            {/* Glowing checkmark badge */}
+            <div className="relative mx-auto w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+              <div className="absolute inset-0 bg-[#bdf522] rounded-full blur-xl opacity-30 animate-pulse" />
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-[#141a16] border-2 border-[#bdf522] rounded-full flex items-center justify-center text-[#bdf522] shadow-2xl">
+                <Check className="w-8 h-8 sm:w-10 sm:h-10" strokeWidth={3} />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#bdf522]">
+                Intelligence Engine Ready
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-sans">
+                Brand DNA Calibrated.
+              </h2>
+              <p className="text-xs sm:text-sm text-stone-400 max-w-sm mx-auto leading-relaxed">
+                Your vision AI model is now calibrated to reject lazy copycats and generate custom hook scripts for your brand.
+              </p>
+            </div>
+
+            {/* Profile summary card */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 text-left space-y-2.5">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-stone-500 font-mono">Brand Stage</span>
+                <span className="text-white font-semibold">{getStageLabel()}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs border-t border-white/5 pt-2">
+                <span className="text-stone-500 font-mono">Aesthetic Tone</span>
+                <span className="text-white font-semibold">{getPositioningLabel()}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs border-t border-white/5 pt-2">
+                <span className="text-stone-500 font-mono">Vertical</span>
+                <span className="text-white font-semibold">{getNicheLabel()}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs border-t border-white/5 pt-2">
+                <span className="text-stone-500 font-mono">Camera Setup</span>
+                <span className="text-white font-semibold">{getProductionLabel()}</span>
+              </div>
+              <div className="flex items-center justify-between text-xs border-t border-white/5 pt-2">
+                <span className="text-stone-500 font-mono">Primary Focus</span>
+                <span className="text-[#bdf522] font-semibold">{getGoalLabel()}</span>
+              </div>
+            </div>
+
+            {/* Launch button */}
+            <button
+              onClick={onComplete}
+              className="w-full py-4 bg-[#bdf522] text-slate-950 rounded-2xl text-xs font-bold uppercase tracking-widest hover:bg-[#aee618] transition-all flex items-center justify-center gap-2 shadow-xl shadow-[#bdf522]/20 active:scale-95 cursor-pointer font-sans"
+            >
+              Enter Studio & Scan Video
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
