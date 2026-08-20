@@ -197,6 +197,9 @@ function AnalyzeContent() {
             const activeMode: 'ad' | 'product-intel' = queryMode === 'product-intel' ? 'product-intel' : 'ad';
             setMode(activeMode);
 
+            // Wait for user to be fully loaded and authenticated before firing scan
+            if (!isLoaded || !userId) return;
+
             const triggerInitialScan = async () => {
                 setIsAnalyzing(true);
                 try {
@@ -207,7 +210,8 @@ function AnalyzeContent() {
                         body: JSON.stringify({ 
                             sourceUrl: queryUrl, 
                             userId, 
-                            userName: user?.firstName || user?.username || 'Creator', 
+                            userEmail: user?.primaryEmailAddress?.emailAddress || '',
+                            userName: user?.fullName || user?.firstName || 'Creator', 
                             mode: activeMode,
                             niche: user?.unsafeMetadata?.role || ''
                         }),
@@ -236,7 +240,7 @@ function AnalyzeContent() {
             };
             triggerInitialScan();
         }
-    }, [searchParams, userId, sessionId]);
+    }, [searchParams, userId, sessionId, isLoaded, user]);
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
         const file = acceptedFiles[0];
