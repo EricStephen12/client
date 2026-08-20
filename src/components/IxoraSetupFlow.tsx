@@ -507,16 +507,13 @@ export default function IxoraSetupFlow({
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-[#bdf522]">
                 Intelligence Engine Ready
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight font-sans">
                 Brand DNA Calibrated.
               </h2>
-              <p className="text-xs sm:text-sm text-stone-400 max-w-sm mx-auto leading-relaxed">
-                Your vision AI model is now calibrated to reject lazy copycats and generate custom hook scripts for your brand.
-              </p>
             </div>
 
             {/* Profile summary card */}
