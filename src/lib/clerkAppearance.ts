@@ -44,19 +44,13 @@ export const clerkAppearance = {
             margin: '0 auto',
         },
         header: {
-            textAlign: 'center' as const,
+            display: 'none',
         },
         headerTitle: {
-            color: '#fafaf9',
-            fontSize: '1.25rem',
-            fontWeight: '600',
-            textAlign: 'center' as const,
+            display: 'none',
         },
         headerSubtitle: {
-            color: '#a8a29e',
-            fontSize: '0.875rem',
-            fontWeight: '400',
-            textAlign: 'center' as const,
+            display: 'none',
         },
         socialButtonsBlockButton: {
             backgroundColor: 'rgba(255,255,255,0.04)',
